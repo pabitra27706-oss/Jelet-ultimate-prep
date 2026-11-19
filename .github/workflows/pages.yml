@@ -13,6 +13,8 @@ on:
       - 'package*.json'
       - 'astro.config.mjs'
       - 'tsconfig.json'
+      # The deploy gate itself must be able to trigger a deploy.
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
