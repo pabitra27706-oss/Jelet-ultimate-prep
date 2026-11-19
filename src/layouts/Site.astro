@@ -7,7 +7,7 @@ const {
   description = 'Free, independent JELET Paper I preparation: previous-year papers with board answer keys, timed practice, marking rules and spaced revision.',
 } = Astro.props as {
   title: string;
-  active?: 'today' | 'learn' | 'practice' | 'library' | 'review' | 'search' | 'workspace' | 'syllabus' | 'offline' | '';
+  active?: 'today' | 'learn' | 'practice' | 'library' | 'review' | 'search' | 'workspace' | 'syllabus' | 'offline' | 'coverage' | '';
   canonical?: string;
   description?: string;
 };
@@ -70,7 +70,8 @@ const tabs = [
           <strong>JELET Ultimate Prep</strong> · Independent study site · Not affiliated with WBJEEB
           <div class="micro">
             <a href={`${base}workspace/`}>Workspace</a> · <a href={`${base}search/`}>Search</a> ·
-            <a href={`${base}syllabus/`}>Syllabus</a> · <a href={`${base}library/`}>Paper library</a>
+            <a href={`${base}syllabus/`}>Syllabus</a> · <a href={`${base}library/`}>Paper library</a> ·
+            <a href={`${base}coverage/`}>Coverage</a>
           </div>
         </div>
         <div class="micro">Your answers, bookmarks and notes stay in this browser. No account, no upload.</div>

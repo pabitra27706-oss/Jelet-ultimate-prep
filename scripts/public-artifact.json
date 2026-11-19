@@ -2,6 +2,7 @@
   "note": "The complete allowlist of public files. Every file in dist/ must be listed here or be a compiled asset under _astro/ or the vendored KaTeX bundle. The browser suite and the Pages workflow both read this file, so a new public route has to be declared in one place.",
   "files": [
     "cards/orig-parallel-independent-v1/index.html",
+    "coverage/index.html",
     "data/keys.json",
     "data/packs.json",
     "icon-maskable.svg",
@@ -50,7 +51,8 @@
     "syllabus/index.html",
     "vendor/katex/MANIFEST.sha256",
     "vendor/katex/katex.min.css",
-    "workspace/index.html"
+    "workspace/index.html",
+    "workspace/topics/index.html"
   ],
   "assetDirectories": [
     "_astro/",

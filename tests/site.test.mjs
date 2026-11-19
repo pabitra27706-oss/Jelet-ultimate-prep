@@ -616,3 +616,138 @@ test('the search index ships the whole corpus in a compact payload', async () =>
   assert.equal(questions.length, 690);
   assert(raw.length < 500 * 1024, `index too large: ${raw.length}`);
 });
+
+/* ------------------------------------------------------------------ *
+ * Phase 07 — the coverage map and the authoring desk
+ * ------------------------------------------------------------------ */
+
+test('the coverage dashboard states the real numbers and the gaps beside them', async (t) => {
+  const page = await context(t);
+  await go(page, 'coverage/');
+
+  const map = JSON.parse(await readFile(resolve('src/data/topics.json'), 'utf8'));
+  const topics = map.topics.length;
+  const covered = map.topics.filter((topic) => topic.coveredQuestions > 0).length;
+
+  // The headline count must be the one the map records.
+  await page.waitForFunction(
+    (expected) => (document.querySelector('.stat-grid .stat b')?.textContent ?? '').trim() === expected,
+    `${covered} of ${topics}`,
+  );
+
+  // The gaps are shown as gaps, not hidden.
+  for (const topic of map.topics.filter((entry) => entry.coveredQuestions === 0)) {
+    const text = await page.locator('[data-topic]').filter({ hasText: topic.name }).first().innerText();
+    assert.match(text, /Not covered/i, `${topic.name} is not shown as uncovered`);
+  }
+
+  // The page must not claim more than it has.
+  const body = await page.locator('main').innerText();
+  assert.match(body, /does not say|not a claim/i, 'the page must state its own limits');
+  // No topic may be described as mastered. The page may *say* it does not
+  // claim mastery, so the check is on the topic cards themselves.
+  const cards = await page.locator('[data-topic]').allInnerTexts();
+  for (const card of cards) {
+    assert.doesNotMatch(card, /mastered|fully covered|complete/i, `a topic card claims more than it has: ${card.slice(0, 60)}`);
+  }
+});
+
+test('every topic on the coverage dashboard shows the evidence for its mapping', async (t) => {
+  const page = await context(t);
+  await go(page, 'coverage/');
+  const details = page.locator('[data-topic]');
+  const count = await details.count();
+  assert.ok(count > 0, 'the dashboard lists no topics');
+
+  // Open a topic that has questions and check the evidence is there.
+  const target = details.filter({ has: page.locator('.details-body ul li') }).first();
+  await target.locator('summary').click();
+  const body = await target.innerText();
+  assert.match(body, /matched on/i, 'the topic does not name the terms that produced its mapping');
+  assert.match(body, /\d{4} Q\d+/, 'the topic does not point at the questions it covers');
+});
+
+test('the review queue lists the ties, the gaps and the unmapped questions', async (t) => {
+  const page = await context(t);
+  await go(page, 'coverage/');
+  const rows = page.locator('[data-review-queue] tbody tr');
+  const kinds = await rows.evaluateAll((items) => items.map((item) => item.getAttribute('data-queue-kind')));
+  assert.ok(kinds.length > 0, 'the queue is empty');
+  for (const kind of kinds) {
+    assert.ok(['conflict', 'unmapped', 'uncovered-topic'].includes(kind), `unexpected queue kind ${kind}`);
+  }
+  // The gaps must be present, because three topics have no markable question.
+  assert.ok(kinds.includes('uncovered-topic'), 'the queue does not list the uncovered topics');
+});
+
+test('the authoring desk shows the generated exercises with their evidence', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/topics/');
+  const variants = JSON.parse(await readFile(resolve('src/data/variants.json'), 'utf8'));
+  assert.ok(variants.items.length > 0, 'the generator produced nothing');
+
+  const blocks = page.locator('[data-variant-id]');
+  assert.equal(await blocks.count(), variants.items.length, 'the desk does not show every exercise');
+
+  // Open a template and check the exercise carries its seed and its answer.
+  await page.locator('[data-template]').first().locator('summary').click();
+  const first = page.locator('[data-variant-id]').first();
+  const text = await first.innerText();
+  assert.match(text, /seed/i, 'the exercise does not show its seed');
+  assert.match(text, /Answer/i, 'the exercise does not show its answer');
+  assert.match(text, /verified/i, 'the exercise does not show that it was checked');
+});
+
+test('the authoring desk and the coverage dashboard agree with each other', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/topics/');
+  const map = JSON.parse(await readFile(resolve('src/data/topics.json'), 'utf8'));
+
+  const rows = page.locator('[data-topic-row]');
+  assert.equal(await rows.count(), map.topics.length, 'the desk and the map disagree on the topic count');
+
+  const shown = await rows.evaluateAll((items) =>
+    items.map((item) => ({
+      id: item.getAttribute('data-topic-row'),
+      questions: Number.parseInt(item.children[3].textContent ?? '0', 10),
+    })),
+  );
+  for (const topic of map.topics) {
+    const row = shown.find((entry) => entry.id === topic.id);
+    assert.ok(row, `${topic.id} is missing from the desk`);
+    assert.equal(row.questions, topic.coveredQuestions, `${topic.id} shows a different question count`);
+  }
+});
+
+test('the coverage pages keep working with the network switched off', async () => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'allow' });
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(15000);
+  try {
+    await page.goto(origin + base + 'coverage/', { waitUntil: 'load' });
+    await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 15000 });
+    // The shell precaches the coverage route, so it must be there already.
+    const cached = await page.evaluate(async (basePath) => {
+      const target = new URL(basePath + 'coverage/', location.origin).href;
+      const names = await caches.keys();
+      for (const name of names) {
+        const cache = await caches.open(name);
+        if (await cache.match(target)) return true;
+      }
+      return false;
+    }, base);
+    assert.ok(cached, 'the coverage route is not in the shell cache');
+
+    await ctx.setOffline(true);
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    const heading = await page.locator('h1').first().innerText();
+    assert.match(heading, /corpus covers/i, 'the coverage page did not survive being offline');
+    // The offline page must still carry real numbers, not an empty shell.
+    const body = await page.locator('main').innerText();
+    assert.match(body, /42 topics across four subjects/i, 'the offline coverage page lost its real content');
+    assert.match(body, /mapped against \d+ corpus questions/i, 'the offline coverage page lost its mapped count');
+  } finally {
+    await ctx.close();
+  }
+});

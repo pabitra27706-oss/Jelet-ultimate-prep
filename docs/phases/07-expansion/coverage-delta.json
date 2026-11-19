@@ -1,0 +1,332 @@
+{
+  "generatedFrom": "src/data/topics.json",
+  "baseline": {
+    "source": "scripts/topic-terms-baseline.json",
+    "note": "The map as it stood at the start of Phase 07, rebuilt from the pre-expansion term lists. Those lists reproduce the recorded starting figures exactly."
+  },
+  "baselineSummary": {
+    "topics": 42,
+    "covered": 34,
+    "broad": 4,
+    "moderate": 7,
+    "thin": 23,
+    "none": 8,
+    "mappedQuestions": 212,
+    "unmappedQuestions": 478,
+    "conflicts": 7,
+    "outsideSyllabusQuestions": 258
+  },
+  "currentSummary": {
+    "topics": 42,
+    "covered": 39,
+    "broad": 5,
+    "moderate": 12,
+    "thin": 22,
+    "none": 3,
+    "mappedQuestions": 286,
+    "unmappedQuestions": 404,
+    "conflicts": 0,
+    "outsideSyllabusQuestions": 258
+  },
+  "delta": {
+    "questionsMapped": 74,
+    "topicsCovered": 5,
+    "broadTopics": 1,
+    "moderateTopics": 5,
+    "thinTopics": -1,
+    "uncoveredTopics": -5,
+    "unmappedQuestions": -74,
+    "conflicts": -7
+  },
+  "moved": [
+    {
+      "topicId": "mathematics-td",
+      "name": "Co‑ordinate Geometry (2D)",
+      "from": 14,
+      "to": 15,
+      "delta": 1
+    },
+    {
+      "topicId": "mathematics-te",
+      "name": "Vector Algebra",
+      "from": 5,
+      "to": 6,
+      "delta": 1
+    },
+    {
+      "topicId": "mathematics-tf",
+      "name": "Differential Calculus",
+      "from": 9,
+      "to": 12,
+      "delta": 3
+    },
+    {
+      "topicId": "mathematics-th",
+      "name": "Partial Differentiation",
+      "from": 0,
+      "to": 5,
+      "delta": 5
+    },
+    {
+      "topicId": "mathematics-tj",
+      "name": "Ordinary Differential Equations",
+      "from": 2,
+      "to": 1,
+      "delta": -1
+    },
+    {
+      "topicId": "mathematics-tk",
+      "name": "Probability",
+      "from": 1,
+      "to": 7,
+      "delta": 6
+    },
+    {
+      "topicId": "physics-t01",
+      "name": "Units & dimensions",
+      "from": 0,
+      "to": 3,
+      "delta": 3
+    },
+    {
+      "topicId": "physics-t02",
+      "name": "Kinematics",
+      "from": 10,
+      "to": 9,
+      "delta": -1
+    },
+    {
+      "topicId": "physics-t03",
+      "name": "Laws of motion",
+      "from": 5,
+      "to": 7,
+      "delta": 2
+    },
+    {
+      "topicId": "physics-t04",
+      "name": "Work, power, energy",
+      "from": 3,
+      "to": 4,
+      "delta": 1
+    },
+    {
+      "topicId": "physics-t05",
+      "name": "Gravitation",
+      "from": 0,
+      "to": 2,
+      "delta": 2
+    },
+    {
+      "topicId": "physics-t11",
+      "name": "Thermodynamics",
+      "from": 2,
+      "to": 4,
+      "delta": 2
+    },
+    {
+      "topicId": "physics-t14",
+      "name": "Lens",
+      "from": 2,
+      "to": 3,
+      "delta": 1
+    },
+    {
+      "topicId": "chemistry-ta",
+      "name": "Atomic Structure",
+      "from": 6,
+      "to": 7,
+      "delta": 1
+    },
+    {
+      "topicId": "chemistry-tc",
+      "name": "Acids, Bases & Salts",
+      "from": 3,
+      "to": 11,
+      "delta": 8
+    },
+    {
+      "topicId": "chemistry-te",
+      "name": "Chemical Equilibrium",
+      "from": 0,
+      "to": 1,
+      "delta": 1
+    },
+    {
+      "topicId": "chemistry-tf",
+      "name": "Metallurgy",
+      "from": 0,
+      "to": 1,
+      "delta": 1
+    },
+    {
+      "topicId": "chemistry-tg",
+      "name": "Water",
+      "from": 0,
+      "to": 2,
+      "delta": 2
+    },
+    {
+      "topicId": "electrical-t02",
+      "name": "Transformers",
+      "from": 3,
+      "to": 4,
+      "delta": 1
+    },
+    {
+      "topicId": "electrical-t05",
+      "name": "AC circuits",
+      "from": 1,
+      "to": 0,
+      "delta": -1
+    },
+    {
+      "topicId": "electrical-t06",
+      "name": "Semiconductor devices",
+      "from": 1,
+      "to": 2,
+      "delta": 1
+    }
+  ],
+  "bandChanged": [
+    {
+      "topicId": "mathematics-th",
+      "name": "Partial Differentiation",
+      "from": "none",
+      "to": "moderate"
+    },
+    {
+      "topicId": "mathematics-tk",
+      "name": "Probability",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "physics-t01",
+      "name": "Units & dimensions",
+      "from": "none",
+      "to": "thin"
+    },
+    {
+      "topicId": "physics-t04",
+      "name": "Work, power, energy",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "physics-t05",
+      "name": "Gravitation",
+      "from": "none",
+      "to": "thin"
+    },
+    {
+      "topicId": "physics-t11",
+      "name": "Thermodynamics",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "chemistry-tc",
+      "name": "Acids, Bases & Salts",
+      "from": "thin",
+      "to": "broad"
+    },
+    {
+      "topicId": "chemistry-te",
+      "name": "Chemical Equilibrium",
+      "from": "none",
+      "to": "thin"
+    },
+    {
+      "topicId": "chemistry-tf",
+      "name": "Metallurgy",
+      "from": "none",
+      "to": "thin"
+    },
+    {
+      "topicId": "chemistry-tg",
+      "name": "Water",
+      "from": "none",
+      "to": "thin"
+    },
+    {
+      "topicId": "electrical-t02",
+      "name": "Transformers",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "electrical-t05",
+      "name": "AC circuits",
+      "from": "thin",
+      "to": "none"
+    }
+  ],
+  "newlyCovered": [
+    {
+      "topicId": "mathematics-th",
+      "name": "Partial Differentiation",
+      "band": "moderate",
+      "questions": 5
+    },
+    {
+      "topicId": "physics-t01",
+      "name": "Units & dimensions",
+      "band": "thin",
+      "questions": 3
+    },
+    {
+      "topicId": "physics-t05",
+      "name": "Gravitation",
+      "band": "thin",
+      "questions": 2
+    },
+    {
+      "topicId": "chemistry-te",
+      "name": "Chemical Equilibrium",
+      "band": "thin",
+      "questions": 1
+    },
+    {
+      "topicId": "chemistry-tf",
+      "name": "Metallurgy",
+      "band": "thin",
+      "questions": 1
+    },
+    {
+      "topicId": "chemistry-tg",
+      "name": "Water",
+      "band": "thin",
+      "questions": 2
+    }
+  ],
+  "stillUncovered": [
+    {
+      "topicId": "electrical-t04",
+      "name": "DC circuits",
+      "questionsHeld": 4,
+      "reason": "every question the corpus holds for this topic depends on a diagram the transcription does not reproduce (4 held)"
+    },
+    {
+      "topicId": "electrical-t05",
+      "name": "AC circuits",
+      "questionsHeld": 13,
+      "reason": "every question the corpus holds for this topic depends on a diagram the transcription does not reproduce (13 held)"
+    },
+    {
+      "topicId": "electrical-t08",
+      "name": "Digital electronics",
+      "questionsHeld": 2,
+      "reason": "every question the corpus holds for this topic depends on a diagram the transcription does not reproduce (2 held)"
+    }
+  ],
+  "totals": {
+    "questionsAddedToTopics": 39,
+    "topicsWithAnyChange": 21
+  },
+  "limits": [
+    "A count of questions and topics. It is not a claim that a learner learned anything.",
+    "A question that is held is not counted as coverage, so a topic can stay uncovered because its only questions depend on a diagram.",
+    "The questions from the section the 2026 syllabus dropped are counted separately and never as coverage.",
+    "Band thresholds are published: broad is 8 or more questions across 3 or more papers, moderate is 4 or more across 2 or more."
+  ]
+}

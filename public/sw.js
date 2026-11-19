@@ -24,6 +24,8 @@ const PRECACHE = [
   './review/',
   './search/',
   './syllabus/',
+  './coverage/',
+  './workspace/topics/',
   './data/keys.json',
   './data/packs.json',
   './search-index.json',

@@ -1,0 +1,228 @@
+---
+/**
+ * The coverage dashboard.
+ *
+ * What the corpus covers today, what it does not, and what a reviewer has to
+ * settle next. Every number here comes from the topic map, and the map
+ * records the terms that produced each link, so any claim on this page can
+ * be checked against the corpus.
+ *
+ * This page is deliberately a map, not a promise. A topic with questions is
+ * not a topic a learner has mastered.
+ */
+import Site from '../../layouts/Site.astro';
+import delta from '../../../docs/phases/07-expansion/coverage-delta.json';
+import {
+  bandLabel,
+  coverage,
+  coverageSummary,
+  reviewQueue,
+  subjectCoverage,
+  topicStatuses,
+  type CoverageBand,
+} from '../../lib/coverage';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const summary = coverageSummary();
+const subjects = subjectCoverage();
+const statuses = topicStatuses();
+const queue = reviewQueue();
+
+const bySubject = new Map<string, typeof statuses>();
+const sign = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
+for (const status of statuses) {
+  const list = bySubject.get(status.topic.subjectId) ?? [];
+  list.push(status);
+  bySubject.set(status.topic.subjectId, list);
+}
+---
+
+<Site
+  title="Coverage"
+  active="coverage"
+  description="Which syllabus topics the JELET corpus covers, which it does not, and what a reviewer should settle next."
+>
+  <div class="page-intro">
+    <p class="eyebrow">SYLLABUS COVERAGE</p>
+    <h1>What the corpus covers.</h1>
+    <p class="lead">
+      {coverage.edition}, bulletin of {coverage.bulletinDate}. {summary.topics} topics across four subjects,
+      mapped against {coverage.mappedQuestions} corpus questions. Every link records the terms that produced
+      it, so any number here can be checked against the corpus.
+    </p>
+  </div>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="headline-heading">
+    <h2 id="headline-heading" style="font-size:1.15rem">The shape of it</h2>
+    <div class="stat-grid">
+      <div class="stat"><b>{summary.covered} of {summary.topics}</b><span>Topics with a markable question</span><em>{summary.topicCoverage}% of the syllabus</em></div>
+      <div class="stat"><b>{summary.broad}</b><span>Broadly covered</span><em>8 or more questions across 3 or more papers</em></div>
+      <div class="stat"><b>{summary.thin + summary.moderate}</b><span>Partly covered</span><em>too few questions, or too few papers</em></div>
+      <div class="stat"><b>{summary.none}</b><span>Not covered</span><em>no markable question at all</em></div>
+    </div>
+    <div class="table" role="table" style="margin-top:1rem">
+      <div role="row"><b role="cell">Questions mapped to a topic</b><span role="cell">{coverage.mappedQuestions}</span></div>
+      <div role="row"><b role="cell">In a syllabus subject but not yet mapped</b><span role="cell">{coverage.unmappedQuestions} — these are in the review queue</span></div>
+      <div role="row"><b role="cell">Matched two topics equally well</b><span role="cell">{coverage.conflictCount} — a reviewer decides these, not the script</span></div>
+      <div role="row"><b role="cell">Outside the 2026 syllabus</b><span role="cell">{coverage.outsideSyllabusQuestions} — the Fundamentals of Computers section the older papers carried and the syllabus no longer lists</span></div>
+    </div>
+    <p class="micro" style="margin-top:.8rem">
+      Coverage is a count of questions and papers. It is not a claim that a learner has mastered a topic,
+      and no number here predicts a score.
+    </p>
+  </section>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="delta-heading">
+    <div class="section-head">
+      <h2 id="delta-heading" style="font-size:1.15rem">What changed in Phase 07</h2>
+      <span class="micro">measured against the map as it stood at the start of the phase</span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat">
+        <b>{delta.currentSummary.covered} of {delta.currentSummary.topics}</b>
+        <span>Topics with a markable question</span>
+        <em>{sign(delta.delta.topicsCovered)} on the {delta.baselineSummary.covered} covered before</em>
+      </div>
+      <div class="stat">
+        <b>{delta.currentSummary.mappedQuestions}</b>
+        <span>Questions mapped to a topic</span>
+        <em>{sign(delta.delta.questionsMapped)} on the {delta.baselineSummary.mappedQuestions} mapped before</em>
+      </div>
+      <div class="stat">
+        <b>{delta.currentSummary.broad + delta.currentSummary.moderate}</b>
+        <span>Topics with real range</span>
+        <em>{sign(delta.delta.broadTopics + delta.delta.moderateTopics)} on the {delta.baselineSummary.broad + delta.baselineSummary.moderate} before</em>
+      </div>
+      <div class="stat">
+        <b>{delta.currentSummary.conflicts}</b>
+        <span>Ties left for a reviewer</span>
+        <em>{delta.baselineSummary.conflicts} before, all of them resolved</em>
+      </div>
+    </div>
+    {delta.newlyCovered.length > 0 && (
+      <>
+        <p class="micro" style="margin-top:1rem">Topics that went from no markable question to some:</p>
+        <ul class="micro" style="margin:.3rem 0 0;padding-left:1.1rem">
+          {delta.newlyCovered.map((topic) => (
+            <li>{topic.name} — {topic.questions} question{topic.questions === 1 ? '' : 's'}, now {bandLabel(topic.band as CoverageBand).toLowerCase()}</li>
+          ))}
+        </ul>
+      </>
+    )}
+    {delta.stillUncovered.length > 0 && (
+      <>
+        <p class="micro" style="margin-top:1rem">Topics still with no markable question, and why:</p>
+        <ul class="micro" style="margin:.3rem 0 0;padding-left:1.1rem">
+          {delta.stillUncovered.map((topic) => (
+            <li><b>{topic.name}</b> — {topic.reason}</li>
+          ))}
+        </ul>
+      </>
+    )}
+    <p class="micro" style="margin-top:.8rem">
+      The baseline is rebuilt from the term lists as they stood at the start of the phase, and those lists
+      reproduce the recorded starting figures exactly, so the comparison is between two real maps rather
+      than between a map and a note.
+    </p>
+  </section>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="subjects-heading">
+    <h2 id="subjects-heading" style="font-size:1.15rem">By subject</h2>
+    <div class="table" role="table">
+      {subjects.map((subject) => (
+        <div role="row">
+          <b role="cell">{subject.name}</b>
+          <span role="cell">
+            {subject.covered} of {subject.topics} topics covered · {subject.broad} broad, {subject.moderate} moderate,
+            {' '}{subject.thin} thin, {subject.none} not covered · {subject.questions} markable questions, {subject.marks} marks
+          </span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {subjects.map((subject) => (
+    <section class="card" style="margin-bottom:1.4rem" aria-labelledby={`subject-${subject.id}`}>
+      <div class="section-head">
+        <h2 id={`subject-${subject.id}`} style="font-size:1.15rem">{subject.name}</h2>
+        <span class="micro">{subject.covered} of {subject.topics} topics covered</span>
+      </div>
+      <div class="stack">
+        {(bySubject.get(subject.id) ?? []).map((status) => (
+          <details class="card-flat coverage-topic" data-topic={status.topic.id} data-band={status.band}>
+            <summary>
+              <span class="coverage-code">{status.topic.code}</span>
+              <span class="coverage-name">{status.topic.name}</span>
+              <span class={`pill coverage-band ${status.band}`}>{bandLabel(status.band)}</span>
+              <span class="micro">{status.topic.coveredQuestions} questions · {status.topic.coveredYears} papers</span>
+            </summary>
+            <div class="details-body">
+              <p class="micro">{status.topic.detail}</p>
+              <p class="micro"><strong>{status.note}</strong></p>
+              {status.topic.questions.length > 0 && (
+                <ul class="micro" style="margin:.4rem 0 0;padding-left:1.1rem">
+                  {status.topic.questions.slice(0, 12).map((question) => (
+                    <li>
+                      <a href={`${base}library/${question.paperId}/#q${question.n}`}>
+                        {question.year} Q{question.n}
+                      </a>
+                      {question.held ? ' · held' : question.voided ? ' · voided by the board' : ''}
+                      {' '}· matched on {question.terms.join(', ')}
+                    </li>
+                  ))}
+                  {status.topic.questions.length > 12 && (
+                    <li class="micro">…and {status.topic.questions.length - 12} more.</li>
+                  )}
+                </ul>
+              )}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="queue-heading">
+    <div class="section-head">
+      <h2 id="queue-heading" style="font-size:1.15rem">What a reviewer settles next</h2>
+      <span class="micro">{queue.length} items</span>
+    </div>
+    <p class="small" style="color:var(--muted)">
+      These are the decisions the script refuses to make on its own: a question that two topics claim, a
+      question no topic claims, and a topic with no markable coverage at all.
+    </p>
+    <div class="table-wrap">
+      <table class="table" data-review-queue>
+        <thead>
+          <tr>
+            <th scope="col">Kind</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Item</th>
+            <th scope="col">What has to be settled</th>
+          </tr>
+        </thead>
+        <tbody>
+          {queue.slice(0, 60).map((item) => (
+            <tr data-queue-kind={item.kind}>
+              <td>{item.kind === 'conflict' ? 'Tie' : item.kind === 'uncovered-topic' ? 'Gap' : 'Unmapped'}</td>
+              <td>{item.subject}</td>
+              <td><a href={item.link}>{item.reference}</a></td>
+              <td class="small">{item.detail}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {queue.length > 60 && <p class="micro" style="margin-top:.6rem">…and {queue.length - 60} more in the queue file.</p>}
+  </section>
+
+  <section class="card" aria-labelledby="limits-heading">
+    <h2 id="limits-heading" style="font-size:1.15rem">What this page does not say</h2>
+    <ul class="small" style="color:var(--muted)">
+      <li>It does not claim a topic is understood because questions exist for it. A learner may have met a topic once.</li>
+      <li>It does not measure difficulty. A question can be mapped and still be the hardest in the paper.</li>
+      <li>It does not claim any learning path works. The mapping says what is in the corpus, not what a learner should do next.</li>
+      <li>It does not extrapolate. The 258 questions in the section the 2026 syllabus dropped are counted separately rather than folded in.</li>
+    </ul>
+  </section>
+</Site>
