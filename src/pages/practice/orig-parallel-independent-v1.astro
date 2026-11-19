@@ -1,0 +1,42 @@
+---
+/**
+ * The original practice card used to live at /practice/orig-parallel-independent-v1/
+ * and was published there in the Phase 03 preview. The PYQ drills now own
+ * /practice/, so the card moved to /cards/orig-parallel-independent-v1/.
+ *
+ * This page keeps the published URL alive with a real redirect, so a link
+ * a student already saved still lands on the card. Astro's static output has
+ * no server-side redirect, so the redirect is done in the page: the canonical
+ * link points at the new address and the browser is sent there immediately.
+ */
+import { base } from '../../lib/site';
+
+const target = `${base}cards/orig-parallel-independent-v1/`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>This practice card moved</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={target} />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <style>
+      body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 0; display: grid; place-items: center; min-height: 100vh; padding: 1.5rem; background: #f6f7f4; color: #14201d; }
+      main { max-width: 32rem; text-align: center; }
+      a { color: #0d6b5c; font-weight: 700; }
+      @media (prefers-color-scheme: dark) { body { background: #0d1412; color: #e8efec; } a { color: #6fd8c4; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>This practice card moved.</h1>
+      <p>The original parallel-circuits check now lives at its own address.</p>
+      <p><a href={target}>Open the practice card</a></p>
+    </main>
+    <script is:inline define:vars={{ target }}>
+      window.location.replace(target);
+    </script>
+  </body>
+</html>

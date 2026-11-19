@@ -1,0 +1,253 @@
+---
+import Site from '../../layouts/Site.astro';
+import { papers, subjectLabels, type SubjectKey } from '../../lib/content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestions, 0);
+const subjectNames = new Map<string, string>();
+for (const paper of papers) {
+  for (const question of paper.questions) subjectNames.set(question.subjectKey, subjectLabels[question.subjectKey as SubjectKey]);
+}
+---
+<Site title="Review" active="review" description="Your JELET review desk: wrong and blank questions, a spaced revision ladder, honest accuracy and coverage from your own attempts.">
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.4rem">
+    <div class="grow">
+      <p class="eyebrow">On this device</p>
+      <h1>Review desk.</h1>
+      <p class="lead">
+        Only questions you actually got wrong or left blank land here. Each one climbs a fixed ladder — one day,
+        three days, a week, a fortnight, then five weeks — and a wrong answer sends it back to the start.
+      </p>
+    </div>
+    <div class="btn-row">
+      <a class="btn ghost" href={`${base}practice/`}>New practice</a>
+      <a class="btn ghost" href={`${base}workspace/`}>Export backup</a>
+    </div>
+  </div>
+
+  <section class="card" aria-labelledby="review-stats">
+    <div class="section-head">
+      <h2 id="review-stats" style="font-size:1.1rem">Your record</h2>
+      <span class="micro" data-review-storage>Loaded from this browser only.</span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableTotal} markable</em></div>
+      <div class="stat"><b data-stat="accuracy">—</b><span>Independent accuracy</span><em data-stat-note="accuracy">first attempts only</em></div>
+      <div class="stat"><b data-stat="coverage">—</b><span>Coverage</span><em data-stat-note="coverage">of the markable corpus</em></div>
+      <div class="stat"><b data-stat="queue">—</b><span>In the queue</span><em data-stat-note="queue">wrong or blank</em></div>
+      <div class="stat"><b data-stat="due">—</b><span>Due now</span><em data-stat-note="due">ready to revise</em></div>
+      <div class="stat"><b data-stat="streak">—</b><span>Day streak</span><em data-stat-note="streak">days with a submitted paper</em></div>
+    </div>
+    <div id="subject-breakdown" style="margin-top:1rem"></div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="queue-heading">
+    <div class="section-head">
+      <h2 id="queue-heading">Due now</h2>
+      <span class="micro" data-queue-count></span>
+    </div>
+    <div id="queue-list"></div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="history-heading">
+    <div class="section-head">
+      <h2 id="history-heading">Your attempts</h2>
+      <span class="micro">Every submitted paper on this device.</span>
+    </div>
+    <div id="history-list"></div>
+  </section>
+
+  <script>
+    import { readAttempts, deleteAttempt } from '../../lib/attempts';
+    import { readQueue, writeQueue, gradeItem, dueItems } from '../../lib/review';
+    import { buildStats } from '../../lib/stats';
+
+    const base = (document.querySelector<HTMLElement>('[data-base]')?.dataset.base) ?? '/';
+    const scorableTotal = Number(document.querySelector<HTMLElement>('[data-scorable-total]')?.dataset.scorableTotal ?? '0');
+    const attempts = readAttempts();
+    const queue = readQueue();
+    const stats = buildStats(attempts, queue, scorableTotal);
+
+    const set = (key: string, value: string) => {
+      const node = document.querySelector(`[data-stat="${key}"]`);
+      if (node) node.textContent = value;
+    };
+    const setNote = (key: string, value: string) => {
+      const node = document.querySelector(`[data-stat-note="${key}"]`);
+      if (node) node.textContent = value;
+    };
+
+    set('attempted', String(stats.questionsAttempted));
+    setNote('attempted', `of ${scorableTotal} markable questions`);
+    set('accuracy', stats.accuracy === null ? '—' : `${Math.round(stats.accuracy * 100)}%`);
+    setNote('accuracy', stats.independentAnswered > 0 ? `${stats.independentCorrect} of ${stats.independentAnswered} first attempts` : 'no submitted attempt yet');
+    set('coverage', `${Math.round(stats.coverage * 100)}%`);
+    setNote('coverage', `${stats.questionsAttempted} of ${scorableTotal} markable questions`);
+    set('queue', String(stats.queueSize));
+    setNote('queue', 'wrong or blank questions');
+    set('due', String(stats.dueNow));
+    setNote('due', 'ready to revise');
+    set('streak', String(stats.streak));
+
+    const breakdown = document.querySelector('#subject-breakdown');
+    if (breakdown) {
+      const entries = Object.entries(stats.bySubject);
+      if (entries.length > 0) {
+        const table = document.createElement('table');
+        table.className = 'table';
+        const head = document.createElement('tr');
+        head.innerHTML = '<th>Subject</th><th>Attempted</th><th>Correct</th><th>Partial</th><th>Wrong or blank</th>';
+        table.append(head);
+        for (const [key, value] of entries) {
+          const row = document.createElement('tr');
+          const cells = [key, String(value.attempted), String(value.correct), String(value.partial), String(value.wrong + value.blank)];
+          for (const cell of cells) {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            row.append(td);
+          }
+          table.append(row);
+        }
+        breakdown.append(table);
+      } else {
+        const note = document.createElement('p');
+        note.className = 'micro';
+        note.textContent = 'No subject breakdown yet — submit a paper and the numbers appear here.';
+        breakdown.append(note);
+      }
+    }
+
+    const queueList = document.querySelector('#queue-list');
+    const queueCount = document.querySelector<HTMLElement>('[data-queue-count]');
+    const due = dueItems(queue);
+    if (queueCount) queueCount.textContent = queue.length === 0 ? '' : `${due.length} of ${queue.length} ready`;
+    if (queueList) {
+      if (queue.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'Nothing to revise. Submit a paper and every wrong or blank question appears here automatically.';
+        queueList.append(empty);
+      } else if (due.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        const next = [...queue].sort((a, b) => a.due - b.due)[0];
+        const when = new Date(next.due).toLocaleDateString();
+        empty.textContent = `Nothing is due right now. The next question in your queue comes back on ${when}.`;
+        queueList.append(empty);
+      } else {
+        const list = document.createElement('ul');
+        list.className = 'linklist';
+        for (const item of due.slice(0, 30)) {
+          const li = document.createElement('li');
+          const row = document.createElement('div');
+          row.className = 'card-flat';
+          const head = document.createElement('div');
+          head.className = 'row-between';
+          const title = document.createElement('div');
+          const strong = document.createElement('strong');
+          strong.textContent = `${item.paperYear} · Q${item.n} · ${item.subjectLabel}`;
+          const small = document.createElement('div');
+          small.className = 'micro';
+          small.textContent = item.stem.slice(0, 160);
+          title.append(strong, small);
+          const chip = document.createElement('span');
+          chip.className = 'chip';
+          chip.textContent = `box ${item.box} · seen ${item.seen} time${item.seen === 1 ? '' : 's'}`;
+          head.append(title, chip);
+          const actions = document.createElement('div');
+          actions.className = 'btn-row';
+          actions.style.marginTop = '.5rem';
+          const link = document.createElement('a');
+          link.className = 'btn small ghost';
+          link.href = `${base}library/jelet-et-p1-${item.paperYear}/#q${item.n}`;
+          link.textContent = 'Open the question';
+          const right = document.createElement('button');
+          right.className = 'btn small';
+          right.type = 'button';
+          right.textContent = 'I got it right';
+          right.addEventListener('click', () => {
+            const next = gradeItem(readQueue(), item.questionId, true);
+            writeQueue(next);
+            window.location.reload();
+          });
+          const wrong = document.createElement('button');
+          wrong.className = 'btn small ghost';
+          wrong.type = 'button';
+          wrong.textContent = 'Still wrong';
+          wrong.addEventListener('click', () => {
+            const next = gradeItem(readQueue(), item.questionId, false);
+            writeQueue(next);
+            window.location.reload();
+          });
+          actions.append(link, right, wrong);
+          row.append(head, actions);
+          li.append(row);
+          list.append(li);
+        }
+        queueList.append(list);
+        if (due.length > 30) {
+          const more = document.createElement('p');
+          more.className = 'micro';
+          more.textContent = `Showing the first 30 of ${due.length} due questions.`;
+          queueList.append(more);
+        }
+      }
+    }
+
+    const history = document.querySelector('#history-list');
+    if (history) {
+      if (attempts.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'No attempts on this device yet.';
+        history.append(empty);
+      } else {
+        const list = document.createElement('ul');
+        list.className = 'linklist';
+        for (const attempt of attempts) {
+          const li = document.createElement('li');
+          const row = document.createElement('div');
+          row.className = 'card-flat';
+          const head = document.createElement('div');
+          head.className = 'row-between';
+          const title = document.createElement('div');
+          const strong = document.createElement('strong');
+          strong.textContent = attempt.title;
+          const small = document.createElement('div');
+          small.className = 'micro';
+          const when = new Date(attempt.submittedAt ?? attempt.updatedAt).toLocaleString();
+          small.textContent = attempt.submittedAt
+            ? `Submitted ${when}`
+            : `In progress since ${when}`;
+          title.append(strong, small);
+          const actions = document.createElement('div');
+          actions.className = 'btn-row';
+          if (attempt.submittedAt) {
+            const open = document.createElement('a');
+            open.className = 'btn small ghost';
+            open.href = `${base}practice/${attempt.paperId}/${attempt.subjectKey ? `${attempt.subjectKey}/` : ''}?retry=${encodeURIComponent(attempt.id)}`;
+            open.textContent = 'Repeat the wrong ones';
+            actions.append(open);
+          }
+          const remove = document.createElement('button');
+          remove.className = 'btn small ghost';
+          remove.type = 'button';
+          remove.textContent = 'Delete';
+          remove.addEventListener('click', () => {
+            if (!window.confirm('Delete this attempt from this device?')) return;
+            deleteAttempt(attempt.id);
+            window.location.reload();
+          });
+          actions.append(remove);
+          head.append(title, actions);
+          row.append(head);
+          li.append(row);
+          list.append(li);
+        }
+        history.append(list);
+      }
+    }
+  </script>
+
+  <span hidden data-base={base} data-scorable-total={scorableTotal}></span>
+</Site>

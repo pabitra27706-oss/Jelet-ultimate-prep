@@ -31,5 +31,5 @@ export function validatePractice(items: readonly PracticeData[]): void {
   }
 }
 
-export const practiceHref = (base: string, id: string) => `${base}practice/${id}/`;
+export const practiceHref = (base: string, id: string) => `${base}cards/${id}/`;
 export const lessonHref = (base: string, anchor: Section) => `${base}learn/parallel-circuits/#${anchor}`;

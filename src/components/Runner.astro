@@ -1,0 +1,133 @@
+---
+import Question from './Question.astro';
+import { type Paper, type Question as QuestionData } from '../lib/content';
+
+const {
+  paper,
+  questions,
+  mode = 'mock',
+  subjectKey = null,
+  subjectLabel = null,
+  limitSeconds = null,
+  scope,
+} = Astro.props as {
+  paper: Paper;
+  questions: QuestionData[];
+  mode?: 'mock' | 'drill';
+  subjectKey?: string | null;
+  subjectLabel?: string | null;
+  limitSeconds?: number | null;
+  scope: string;
+};
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
+---
+<section
+  data-runner
+  data-paper={paper.id}
+  data-paper-year={paper.year}
+  data-paper-label={paper.label}
+  data-title={mode === 'mock' ? `${paper.label} · full paper` : `${paper.label} · ${subjectLabel} drill`}
+  data-mode={mode}
+  data-scope={scope}
+  data-subject-key={subjectKey ?? ''}
+  data-subject-label={subjectLabel ?? ''}
+  data-limit-seconds={limitSeconds === null ? '' : String(limitSeconds)}
+  data-scope-marks={String(scopeMarks)}
+  data-keys-url={`${base}data/keys.json`}
+  data-base={base}
+>
+  <div class="runner-bar no-print">
+    <div class="runner-bar-top">
+      <span class="timer" data-runner-timer>--:--</span>
+      <span class="micro" data-runner-progress-text>0 answered</span>
+      <div class="btn-row" style="margin:0">
+        <button class="btn small ghost" type="button" data-runner-mark>Mark</button>
+        <button class="btn small ghost" type="button" data-runner-clear>Clear</button>
+        <button class="btn small" type="button" data-runner-submit>Submit</button>
+        <button class="btn small ghost" type="button" data-runner-navtoggle aria-expanded="false" aria-controls="runner-nav">Navigator</button>
+      </div>
+    </div>
+    <div class="progress-track" aria-hidden="true"><span data-runner-progress-bar style="width:0%"></span></div>
+  </div>
+
+  <p class="micro no-print" data-runner-storage>Loaded from this browser only.</p>
+  <p class="micro" data-runner-announce role="status" aria-live="polite"></p>
+
+  <div class="runner">
+    <div>
+      <div data-runner-paper>
+        {questions.map((question, index) => (
+          <div class="pane" data-question={question.id} data-n={question.n} data-category={question.category} data-marks={question.marks} data-subject={question.subject} data-subject-key={question.subjectKey}>
+            <Question question={question} mode="runner" headingLevel="h2" anchor={`q-${question.id}`} />
+            <div class="runner-foot no-print">
+              <button class="btn small ghost" type="button" data-jump="prev" disabled={index === 0}>← Previous</button>
+              <span class="micro">Question {index + 1} of {questions.length}</span>
+              {index < questions.length - 1
+                ? <button class="btn small" type="button" data-jump="next">Next →</button>
+                : <button class="btn small" type="button" data-jump="next" disabled>Next →</button>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div data-runner-results hidden></div>
+    </div>
+
+    <aside class="runner-side no-print" data-runner-navpanel>
+      <div class="sheet">
+        <h2 style="font-size:1rem">Navigator</h2>
+        <div class="omr" data-runner-nav>
+          {questions.map((question) => (
+            <button type="button" data-nav={question.id} data-state="unanswered">{question.n}</button>
+          ))}
+        </div>
+        <div class="legend" style="margin-top:.6rem">
+          <span><i class="a"></i> answered</span>
+          <span><i class="m"></i> marked</span>
+          <span><i class="c"></i> correct</span>
+          <span><i class="w"></i> wrong</span>
+        </div>
+        <details style="margin-top:.6rem">
+          <summary>How you are marked</summary>
+          <div class="details-body micro">
+            <p><strong>Category I</strong> — the exact correct option: +1 mark. A wrong option or more than one option:
+            −1/4 mark. Nothing marked: 0.</p>
+            <p><strong>Category II</strong> — all correct options and no wrong option: +2 marks. Any wrong option marked:
+            0. A correct subset: 2 × marked correct ÷ total correct.</p>
+            <p>Questions the board voided award their marks to every candidate.</p>
+          </div>
+        </details>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  import { initRunner } from '../lib/runner';
+  import { attemptId } from '../lib/attempts';
+
+  const root = document.querySelector<HTMLElement>('[data-runner]');
+  if (root) {
+    const questionNodes = [...root.querySelectorAll<HTMLElement>('.pane[data-question]')];
+    const retryAttemptId = new URLSearchParams(window.location.search).get('retry');
+    const scope = root.dataset.scope ?? 'full';
+    initRunner({
+      attemptId: attemptId(root.dataset.paper ?? '', retryAttemptId ? `${scope}::retry-${retryAttemptId}` : scope),
+      paperId: root.dataset.paper ?? '',
+      paperYear: Number(root.dataset.paperYear ?? '0'),
+      paperLabel: root.dataset.paperLabel ?? '',
+      title: root.dataset.title ?? '',
+      mode: (root.dataset.mode as 'mock' | 'drill') ?? 'mock',
+      subjectKey: root.dataset.subjectKey || null,
+      subjectLabel: root.dataset.subjectLabel || null,
+      limitSeconds: root.dataset.limitSeconds ? Number(root.dataset.limitSeconds) : null,
+      questionIds: questionNodes.map((node) => node.dataset.question ?? ''),
+      scopeMarks: Number(root.dataset.scopeMarks ?? '0'),
+      scopeQuestions: questionNodes.length,
+      keysUrl: root.dataset.keysUrl ?? '/data/keys.json',
+      base: root.dataset.base ?? '/',
+      retryAttemptId,
+    });
+  }
+</script>

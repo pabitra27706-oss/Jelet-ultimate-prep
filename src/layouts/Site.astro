@@ -1,30 +1,106 @@
 ---
 import '../styles/site.css';
-const { title, active = '', canonical } = Astro.props as {
+const {
+  title,
+  active = '',
+  canonical,
+  description = 'Free, independent JELET Paper I preparation: previous-year papers with board answer keys, timed practice, marking rules and spaced revision.',
+} = Astro.props as {
   title: string;
-  active?: 'today' | 'learn' | 'practice' | 'search' | 'workspace' | '';
+  active?: 'today' | 'learn' | 'practice' | 'library' | 'review' | 'search' | 'workspace' | 'syllabus' | '';
   canonical?: string;
+  description?: string;
 };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const nav = [
+  { key: 'today', label: 'Today', href: base },
+  { key: 'learn', label: 'Learn', href: `${base}learn/` },
+  { key: 'practice', label: 'Practice', href: `${base}practice/` },
+  { key: 'library', label: 'Papers', href: `${base}library/` },
+  { key: 'review', label: 'Review', href: `${base}review/` },
+];
+const tabs = [
+  { key: 'today', label: 'Today', icon: '◎', href: base },
+  { key: 'learn', label: 'Learn', icon: '◍', href: `${base}learn/` },
+  { key: 'practice', label: 'Practice', icon: '✎', href: `${base}practice/` },
+  { key: 'library', label: 'Papers', icon: '☰', href: `${base}library/` },
+  { key: 'review', label: 'Review', icon: '↻', href: `${base}review/` },
+];
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A free, independent JELET Paper I learning pilot, starting with parallel circuits." />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a5c4c" />
+    <link rel="manifest" href={`${base}manifest.webmanifest`} />
+    <link rel="icon" href={`${base}icon.svg`} type="image/svg+xml" />
+    <link rel="stylesheet" href={`${base}vendor/katex/katex.min.css`} />
     {canonical && <link rel="canonical" href={canonical} />}
     <title>{title} · JELET Ultimate Prep</title>
+    <script is:inline>
+      // Set the theme before first paint so a dark-mode learner never sees a flash.
+      (() => {
+        try {
+          const stored = localStorage.getItem('jelet:theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || stored === 'light') document.documentElement.dataset.theme = stored;
+          else if (prefersDark) document.documentElement.dataset.theme = 'dark';
+        } catch { /* storage blocked: keep the default light theme */ }
+      })();
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <header class="topbar">
-      <div class="wrap topbar-inner">
+    <header class="appbar">
+      <div class="wrap appbar-inner">
         <a href={base} class="brand"><span aria-hidden="true" class="mark">J</span><span>JELET <small>Ultimate Prep</small></span></a>
-        <nav aria-label="Main"><a href={base} aria-current={active === 'today' ? 'page' : undefined}>Today</a><a href={`${base}learn/`} aria-current={active === 'learn' ? 'page' : undefined}>Learn</a><a href={`${base}practice/`} aria-current={active === 'practice' ? 'page' : undefined}>Practice</a><a href={`${base}search/`} aria-current={active === 'search' ? 'page' : undefined}>Search</a><a href={`${base}workspace/`} aria-current={active === 'workspace' ? 'page' : undefined}>Workspace</a></nav>
+        <nav class="appnav" aria-label="Main">
+          {nav.map((item) => <a href={item.href} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
+          <a href={`${base}search/`} aria-current={active === 'search' ? 'page' : undefined}>Search</a>
+        </nav>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark">◐</button>
       </div>
     </header>
-    <main class="wrap main" id="main" tabindex="-1"><slot /></main>
-    <footer><div class="wrap footer-inner"><strong>JELET Ultimate Prep</strong><span>Independent study pilot · Not affiliated with WBJEEB</span></div></footer>
+    <main class:list={['wrap', 'main']} id="main" tabindex="-1"><slot /></main>
+    <footer>
+      <div class="wrap footer-inner">
+        <div>
+          <strong>JELET Ultimate Prep</strong> · Independent study site · Not affiliated with WBJEEB
+          <div class="micro">
+            <a href={`${base}workspace/`}>Workspace</a> · <a href={`${base}search/`}>Search</a> ·
+            <a href={`${base}syllabus/`}>Syllabus</a> · <a href={`${base}library/`}>Paper library</a>
+          </div>
+        </div>
+        <div class="micro">Your answers, bookmarks and notes stay in this browser. No account, no upload.</div>
+      </div>
+    </footer>
+    <nav class="tabbar" aria-label="Main">
+      {tabs.map((tab) => (
+        <a href={tab.href} aria-current={active === tab.key ? 'page' : undefined}>
+          <span aria-hidden="true">{tab.icon}</span><span>{tab.label}</span>
+        </a>
+      ))}
+    </nav>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      toggle?.addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme
+          ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try { localStorage.setItem('jelet:theme', next); } catch { /* storage blocked: the choice lasts this page only */ }
+      });
+
+      // Offline support. The worker only caches this site's own files.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          const base = document.querySelector<HTMLLinkElement>('link[rel="manifest"]')?.href ?? '/';
+          const workerUrl = new URL('sw.js', base).href;
+          navigator.serviceWorker.register(workerUrl, { scope: new URL('./', base).pathname }).catch(() => undefined);
+        });
+      }
+    </script>
   </body>
 </html>

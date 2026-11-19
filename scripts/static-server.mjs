@@ -6,6 +6,8 @@ export const base = '/Jelet-ultimate-prep/';
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json; charset=utf-8',
+  '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json; charset=utf-8',
+  '.png': 'image/png', '.ico': 'image/x-icon', '.txt': 'text/plain; charset=utf-8',
 };
 
 // Local static artifact preview only. Never expose the checkout or serve an index of files.
