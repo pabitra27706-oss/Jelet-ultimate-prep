@@ -1,0 +1,8 @@
+# 04 field guide · explain the score rather than just colouring the option
+
+1. **04.1 Pool selection.** Start from an allowlist of published, scoreable items plus the matching rule edition. Filter by topic/category. Keep generated practice distinct from a previous-year set. When the pool is smaller than requested, tell the student the real size; don't repeat or silently use held items.
+2. **04.2 Scoring fixtures.** Derive expected results independently from the [edition contract](../../CONTENT.md). For 2026 Category I cover correct +1, blank 0, wrong/multiple −¼. Category II, key A,C,D: A alone = 2/3; A,D = 4/3; A,B = 0; all and only correct = 2; blank = 0. Round only for display. Route any withdrawal through the actual notice, not a universal fixture value.
+3. **04.3 Feedback and snapshots.** Show response, source/key, arithmetic and *separate* worked explanation. Snapshot version and hint use. Try one wrong, one partial and one guessed-right response. Retry each with earlier answer hidden; compare the two attempts afterwards without mutating the first.
+4. **04.4 Revision and plan.** Build Review from actual events, not merely page visits. Offer a small session containing one lesson, two independent items and one retry. Show denominator and distinguish assisted success. With no history show choices, not an artificial streak.
+
+**Gate packet:** expected-vs-observed scoring table, rejected item IDs/reasons, blind-retry/resume walkthrough and a storage-denied result. If the rule edition is unclear, downgrade the set to reading; never normalize a short drill to a 120-mark result.

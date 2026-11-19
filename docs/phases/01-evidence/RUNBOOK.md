@@ -1,0 +1,10 @@
+# 01 field guide · establish what can be taught and scored
+
+No app scaffolding. Use the [source register](../../RESEARCH.md), [question worksheet](../../templates/question-audit.md) and [lesson worksheet](../../templates/lesson.md). Keep research outputs beside this runbook; reference, don't import, private originals.
+
+1. **01.1 — Syllabus inventory.** For each of the four Paper I subjects, index Appendix 5 by edition, source page, heading and stable working topic ID. List proposed prerequisites separately from official headings. Crosswalk to legacy files; write `inventory.md` with available lessons, figures, practice and gaps. An empty column is not a verified zero: distinguish not checked from none found.
+2. **01.2 — Ten-item audit.** Pick a varied 2025 sample before assigning verdicts. Log selection reason and printed set; include a withdrawn item, a graph/figure and a multi-select. In `audit-2025.md` identify paper page, key notice/row and mapping for each. Compare option order and every referenced figure. Record reproduction rights separately. If the original isn't accessible, log which claim is blocked; never use a guessed answer to fill the row.
+3. **01.3 — Lesson outline.** Draft `parallel-circuits.md`: predict → solve one example → hint ladder → different independent case → explain a common wrong answer. Point any candidate PYQ to the exact section plus a reason; tag original examples honestly. Sketch entry from Today, a shared PYQ and a resumed lesson.
+4. **01.4 — Review packet.** Summarize publishable, held and scoreable counts and their denominators, reviewer/date and open decisions. Ask for the minimum missing permission or original. Avoid asking for private data in a PR.
+
+**Challenge the result:** Can a second reader trace each mark to the correct edition/series, and identify separately whether it may be republished? Does each mapped PYQ need the idea this lesson teaches? If not, downgrade that claim. Ten audited rows do not certify a paper or release.
