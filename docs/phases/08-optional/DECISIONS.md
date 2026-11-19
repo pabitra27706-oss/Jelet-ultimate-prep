@@ -3,6 +3,7 @@
 **Date:** 2026-11-19
 **Branch:** `arena/1e582bac-jelet-ultimate-prep`
 **Status:** two decisions taken (no-go), one left with the owner (pending).
+**Published:** yes — [Pages run 44632743958](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44632743958) deployed this build at https://pabitra27706-oss.github.io/Jelet-ultimate-prep/ after all six suites passed. The fallback is live at `/workspace/`; the offline packs are live at `/offline/`.
 **Nothing was provisioned.** No account was created, no key was embedded, no
 endpoint was called, no vendor commitment was made.
 
@@ -325,7 +326,10 @@ correction saying what was withdrawn and why.
   and review queue in one file, with the merge rules the app already
   follows, a validation gate, and an import preview.
 - The workspace page's "Your whole study record" panel, which exports the
-  record and imports it with a preview and a merge-or-replace choice.
+  record and imports it with a preview and a merge-or-replace choice. It is
+  live at https://pabitra27706-oss.github.io/Jelet-ultimate-prep/workspace/
+  and states on the page that the site has no server and no account system
+  and that nothing is uploaded.
 - `src/lib/optional-services.ts` — the candidates, their gates, their
   decisions, and the deployment gate that reads the project's own
   configuration.

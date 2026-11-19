@@ -1,22 +1,26 @@
 # Phase 06 · release record · 2026-11-19
 
-- **Phase/task/status:** 06-offline / release hardening. **Agent-verified. Phone release evidence still pending.**
-- **Branch/commit:** `arena/1e582bac-jelet-ultimate-prep`, Phase 06 built in `6e4d6f2` and carried in the branch head. The currently **published** release is still the earlier exam-engine build on `main` at `26ad6b7` — see *Publication state* below.
-- **Public URL:** https://pabitra27706-oss.github.io/Jelet-ultimate-prep/ — project subpath, HTTPS enforced, no custom domain, no spend. The URL was recovered from the GitHub Pages API (`repos/pabitra27706-oss/Jelet-ultimate-prep/pages` → `html_url`, `https_enforced: true`, `build_type: workflow`, source branch `main`); it was not reachable directly from the sandbox network, so no live page fetch is claimed here.
+- **Phase/task/status:** 06-offline / release hardening. **Published and agent-verified. Phone release evidence still pending.**
+- **Branch/commit:** `arena/1e582bac-jelet-ultimate-prep`, Phase 06 built in `6e4d6f2`, carried in the branch head `45be567`.
+- **Public URL:** https://pabitra27706-oss.github.io/Jelet-ultimate-prep/ — project subpath, HTTPS enforced, no custom domain, no spend. Confirmed from the GitHub Pages API (`repos/pabitra27706-oss/Jelet-ultimate-prep/pages` → `html_url`, `https_enforced: true`, `build_type: workflow`, `cname: null`) and by fetching the live pages below.
 
 ## Publication state
 
 | Item | Value |
 |---|---|
-| Latest successful Pages run | [44608640041](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44608640041), 2026-11-19 20:26 UTC, commit `26ad6b7` |
-| Published build | the exam-engine release: 33 pages, 73 files, 7.9 MB |
-| This branch's build | 42 pages, 86 files, 8.7 MB (8,810,834 bytes), of which the public allowlist is 52 files / 8,472,717 bytes (8.08 MB) |
-| Not yet published | Phases 05, 06, 07 and 08 are on this branch and are **not** on the live site |
+| Deployed by | [Pages run 44632743958](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44632743958), commit `45be567`, all six suites green before the artifact was uploaded |
+| Previous published release | [44608640041](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44608640041), commit `26ad6b7` — the exam-engine build, 33 pages, 73 files, 7.9 MB |
+| This build | 42 pages, 86 files, 8.7 MB (8,810,834 bytes), of which the public allowlist is 52 files / 8,472,717 bytes (8.08 MB) |
+| Live routes confirmed by fetch | `/offline/`, `/coverage/`, `/workspace/`, `/practice/jelet-et-p1-2025/reconciliation/` — each returns the real Phase 05–08 content, not a 404 |
 
-This branch is a superset of the published release. The public URL above will
-serve the offline packs, the reconciliation ledger and the coverage dashboard
-only once this branch is merged to `main` and the Pages workflow runs again.
-**No claim is made here that the live site currently has these features.**
+The offline packs, the reconciliation ledger, the printable companion, the
+coverage dashboard and the full study-record backup are **live on the public
+URL**. The deploy job now runs all six suites before it uploads the
+artifact, so a build the suites reject cannot reach the site.
+
+The live site's pack page states the release version as `2026.11.19-phase06`
+and lists the 2025 pack as **53 files · 3.1 MB · works with no connection**,
+which matches the manifest in `public/data/packs.json` byte for byte.
 
 ## The public build size
 
