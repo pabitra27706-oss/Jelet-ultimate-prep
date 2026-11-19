@@ -1,0 +1,9 @@
+# 01 · Evidence and curriculum design (no implementation)
+
+**Input:** [research](../RESEARCH.md) and [editorial contract](../CONTENT.md). Obtain booklet and final key for the same year and series; request missing evidence, not assumptions.
+
+1. Inventory four subjects by syllabus edition and distinguish prerequisites from exam order. Record which lessons, figures, rights and keys are actually available.
+2. Fill ten [question worksheets](../templates/question-audit.md) from 2025 Paper I covering all four subjects where possible; include a formula, figure/graph, multi-select and withdrawn item. Compare the page, options and set mapping, not just a matching question number.
+3. Draft the parallel-circuits [lesson worksheet](../templates/lesson.md), including example, independent task and candidate PYQ mapping. Sketch phone flows for beginner, returning student and shared question.
+
+**Exit evidence:** inventory + ten individual verdicts and rationales + one reviewed outline. Held items are an acceptable audit result, not publishable content. Record what cannot be verified and what usable, permitted pilot material remains. No readiness claim if originals or permission are absent.

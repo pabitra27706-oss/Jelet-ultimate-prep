@@ -1,5 +1,7 @@
 # Static JELET study site · product brief
 
+> Initial discovery note. For the current scope and five destinations including Learn, see the [handbook](README.md).
+
 Research baseline: 19 November 2026. This is a web adaptation of [AppFlow's research, UI-reference, decision, roadmap and phase-record templates](https://github.com/pabi277/AppFlow/tree/1da317a446ffa36d347eba7fb3dd009b0c864bd3/templates/docs-system). Recommendations below are not shipped features.
 
 ## UI reference → student task
@@ -12,7 +14,7 @@ Reviewed the Diploma Study Hub source at [06656a9](https://github.com/pabitra277
 | Search, syllabus coverage and question-level links (`search.html`, `coverage.html`) | Browse by subject, topic, year, category, readiness. Share a specific question; Back restores filters. Show a topic with zero verified questions honestly. |
 | Quiz history, exact retry, local mistake queue and Settings backup | Separate Learn, Rehearse and Review. After submission, show the selected options, key source, marks calculation and explanation; offer “Retry my mistakes”. If storage fails, distinguish “not saved” from “saved”. |
 
-**Visual direction:** paper-like reading surface, dark ink, one blue primary action; restrained subject accents with text labels. Phone: bottom navigation (Today, Library, Practice, Review), full-width equations and tap-to-enlarge figures. Desktop: use the extra width for an optional question navigator alongside a bounded reading column. Keep timer and feedback out of the reading area. Provide visible keyboard focus, large labelled answer targets, non-colour-only correctness states, dark mode and reduced motion. No forced name entry or account. Bengali navigation/glossary is a candidate for student testing; keep official stems in English and label explanatory translations separately.
+**Visual direction:** paper-like reading surface, dark ink, one blue primary action; restrained subject accents with text labels. Phone: bottom navigation (Today, Learn, Practice, Review, Library), full-width equations and tap-to-enlarge figures. Desktop: use the extra width for an optional question navigator alongside a bounded reading column. Keep timer and feedback out of the reading area. Provide visible keyboard focus, large labelled answer targets, non-colour-only correctness states, dark mode and reduced motion. No forced name entry or account. Bengali navigation/glossary is a candidate for student testing; keep official stems in English and label explanatory translations separately.
 
 ## Static technology decision (proposed)
 

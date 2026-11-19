@@ -1,0 +1,9 @@
+# Project rules
+
+1. Read the [roadmap](docs/ROADMAP.md), the target phase and its linked specifications before changing anything. Research and documentation tasks do not authorize scaffolding, installing services or deploying. Work on one approved phase at a time.
+2. Keep `archive/jelet-prep/` immutable. Derive new editorial records with provenance. Never deploy the archive, browser backups, private PDFs or credentials. Check publication rights independently of technical verification.
+3. The public learning path must cost the owner ₹0 to operate: static hosting, no required account, custom domain, paid runner, API key, billing card or always-on phone. A free trial is not a free design. Stop or disable an optional service at quota; never auto-upgrade. Record a decision before introducing any service.
+4. Paper I first. Preserve historical context, booklet order, diagrams and year-specific rules. Do not invent a syllabus match, key, explanation, permission, student result or phase evidence. The board key is not an endorsement of our solution. No AI grading or rank predictions.
+5. Build for a phone on limited data first. Keep the question, correct lesson section, source and return path usable. External videos, AI, third-party sign-in and sync must never gate learning. Separate student-visible content from private device state.
+6. For dependencies: record purpose, licence, maintained alternative, size and cost; use the smallest sufficient option and pin tested versions at implementation. Do not select packages solely because a reference app used them.
+7. Close phases with the [evidence record](docs/templates/phase-record.md), update the roadmap, and list what was not tested. A plan, passing link check or agent assertion alone is not a content review or a device test. Update affected docs in the same change as behaviour changes.
