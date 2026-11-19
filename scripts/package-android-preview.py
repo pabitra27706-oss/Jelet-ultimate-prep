@@ -1,7 +1,7 @@
 """Wrap the built pilot in its Pages subpath for an on-phone static preview.
 
 Regenerate after each build; the tracked device-test snapshot lives under
-docs/phases/03-library/device-test/. This file is also a watched deploy path.
+docs/phases/03-library/device-test/. This file is also a watched rebuild path.
 """
 
 from pathlib import Path
