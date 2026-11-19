@@ -234,10 +234,10 @@ the delta will move when they do.
 | `npm run test:rules` | 19 / 19 |
 | `npm run test:phase05` | 27 / 27 |
 | `npm run test:phase06` | 12 / 12 |
-| `npm run test:phase07` | 20 / 20 |
+| `npm run test:phase07` | 22 / 22 |
 | `npm run test:browser` | 36 / 36 |
 
-**The Phase 07 suite** (`tests/phase07.test.mjs`, 20 tests) asserts the
+**The Phase 07 suite** (`tests/phase07.test.mjs`, 22 tests) asserts the
 properties that matter rather than the numbers:
 
 - every question in the corpus is accounted for exactly once;
@@ -302,5 +302,5 @@ src/data/topics.json                   the map (204 KB)
 src/data/variants.json                 the exercises (15 KB)
 docs/phases/07-expansion/coverage-baseline.json
 docs/phases/07-expansion/coverage-delta.json
-tests/phase07.test.mjs                 20 tests
+tests/phase07.test.mjs                 22 tests
 ```

@@ -69,8 +69,6 @@ const map = JSON.parse(await readFile(mapPath, 'utf8'));
 if (write) {
   // Saving a baseline means saving the term lists that produce it, so the
   // baseline can always be rebuilt rather than trusted.
-  const papers = JSON.parse(await readFile(join(root, 'src/data/papers.json'), 'utf8')).papers;
-  const syllabus = JSON.parse(await readFile(join(root, 'src/data/syllabus.json'), 'utf8')).syllabus;
   const { TERMS } = await import('./topic-terms.mjs');
   await writeFile(baselineTermsPath, `${JSON.stringify(
     Object.fromEntries(Object.entries(TERMS).map(([topic, entry]) => [topic, entry.synonyms])),
@@ -100,6 +98,8 @@ if (write) {
 
 const baselineTerms = JSON.parse(await readFile(baselineTermsPath, 'utf8'));
 
+// The baseline is rebuilt by mapping the corpus with the pre-expansion
+// term lists, so the corpus and the syllabus are needed here.
 const papers = JSON.parse(await readFile(join(root, 'src/data/papers.json'), 'utf8')).papers;
 const syllabus = JSON.parse(await readFile(join(root, 'src/data/syllabus.json'), 'utf8')).syllabus;
 

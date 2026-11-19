@@ -751,3 +751,103 @@ test('the coverage pages keep working with the network switched off', async () =
     await ctx.close();
   }
 });
+
+/* ------------------------------------------------------------------ *
+ * Phase 08 — the full study-record backup
+ * ------------------------------------------------------------------ */
+
+test('the whole study record exports and imports, and a submitted result survives', async (t) => {
+  const page = await context(t);
+
+  // Make a real attempt on the 2025 paper and submit it.
+  await go(page, 'practice/jelet-et-p1-2025/');
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.waitForFunction(() => /1 of \d+ answered/.test(document.querySelector('[data-runner-progress-text]')?.textContent ?? ''));
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  // The workspace must show the attempt in the record counts.
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => {
+    const value = document.querySelector('[data-record-attempts]')?.textContent ?? '';
+    return Number.parseInt(value, 10) >= 1;
+  }, null, { timeout: 15000 });
+
+  const counts = await page.evaluate(() => ({
+    attempts: document.querySelector('[data-record-attempts]')?.textContent,
+    review: document.querySelector('[data-record-review]')?.textContent,
+    notes: document.querySelector('[data-record-notes]')?.textContent,
+  }));
+  assert.equal(Number.parseInt(counts.attempts, 10), 1, 'the attempt is not in the record');
+
+  // Export the record. The download is intercepted so the bytes can be read.
+  const [download] = await Promise.all([
+    page.waitForEvent('download', { timeout: 15000 }),
+    page.locator('#export-record').click(),
+  ]);
+  const stream = await download.createReadStream();
+  const chunks = [];
+  for await (const chunk of stream) chunks.push(chunk);
+  const text = Buffer.concat(chunks).toString('utf8');
+  const backup = JSON.parse(text);
+
+  assert.equal(backup.kind, 'jelet-full-backup');
+  assert.equal(backup.attempts.length, 1, 'the exported file does not carry the attempt');
+  assert.ok(backup.attempts[0].submittedAt, 'the exported attempt is not marked as submitted');
+  assert.ok(backup.attempts[0].results, 'the exported attempt carries no results');
+
+  // Now wipe the device and import the file back.
+  await page.evaluate(() => localStorage.clear());
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => {
+    const value = document.querySelector('[data-record-attempts]')?.textContent ?? '';
+    return value === '0';
+  }, null, { timeout: 15000 });
+
+  await page.locator('#import-record-file').setInputFiles({
+    name: 'backup.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(text, 'utf8'),
+  });
+  await page.waitForSelector('#record-import-preview:not([hidden])', { timeout: 15000 });
+  await page.locator('#record-import-replace').click();
+  await page.waitForFunction(() => {
+    const value = document.querySelector('[data-record-attempts]')?.textContent ?? '';
+    return Number.parseInt(value, 10) >= 1;
+  }, null, { timeout: 15000 });
+
+  const restored = await page.evaluate(() => JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? 'null'));
+  assert.equal(restored.attempts.length, 1, 'the attempt was not restored');
+  assert.equal(restored.attempts[0].submittedAt, backup.attempts[0].submittedAt, 'the submission time was rewritten');
+});
+
+test('a foreign backup file changes nothing on the device', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => document.querySelector('[data-record-attempts]')?.textContent !== null);
+
+  await page.locator('#import-record-file').setInputFiles({
+    name: 'foreign.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ kind: 'something-else', schemaVersion: 1 }), 'utf8'),
+  });
+  await page.waitForFunction(() => {
+    const text = document.querySelector('[data-record-status]')?.textContent ?? '';
+    return /Not a JELET backup|not a backup/i.test(text);
+  }, null, { timeout: 10000 });
+
+  // The preview must stay hidden, so nothing was written.
+  assert.equal(await page.locator('#record-import-preview').isHidden(), true, 'a rejected file opened the preview');
+  const stored = await page.evaluate(() => localStorage.getItem('jelet:attempts:v1'));
+  assert.equal(stored, null, 'a rejected file wrote to storage');
+});
+
+test('the optional-service decisions are published with their fallbacks', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/');
+  const body = await page.locator('main').innerText();
+  // The workspace must say why the record is a file and not an account.
+  assert.match(body, /no server|no account/i, 'the workspace does not explain the no-account position');
+  assert.match(body, /nothing is uploaded/i, 'the workspace does not say that nothing is uploaded');
+});

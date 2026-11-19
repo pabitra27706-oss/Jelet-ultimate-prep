@@ -18,12 +18,14 @@
     "coverage:delta": "node scripts/measure-coverage.mjs",
     "coverage:baseline": "node scripts/find-baseline-split.mjs",
     "preview": "node scripts/preview.mjs",
-    "test": "npm run test:rules && npm run test:phase05 && npm run test:phase06 && npm run test:phase07 && npm run test:browser",
+    "test": "npm run test:rules && npm run test:phase05 && npm run test:phase06 && npm run test:phase07 && npm run test:phase08 && npm run test:browser",
     "test:rules": "node --test tests/rules.test.mjs",
     "test:phase05": "node --test tests/phase05.test.mjs",
     "test:phase06": "node --test tests/phase06.test.mjs",
     "test:phase07": "node --test tests/phase07.test.mjs",
-    "test:browser": "node --test --test-timeout=60000 tests/site.test.mjs"
+    "test:phase08": "node --test tests/phase08.test.mjs",
+    "test:browser": "node --test --test-timeout=60000 tests/site.test.mjs",
+    "rollback:rehearse": "node scripts/rollback-rehearsal.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",

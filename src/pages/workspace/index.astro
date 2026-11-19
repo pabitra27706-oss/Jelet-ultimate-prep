@@ -56,6 +56,41 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
     </label>
     <button class="button secondary" type="button" id="reset-workspace">Clear this workspace</button>
   </section>
+
+  <section class="module workspace-panel" aria-labelledby="record-backup">
+    <h2 id="record-backup">Your whole study record</h2>
+    <p class="lead" style="font-size:1rem">
+      The file above carries bookmarks and notes. This one carries everything: your attempts with
+      their results, your review queue with its spaced-repetition schedule, and the bookmarks and notes.
+    </p>
+    <p class="micro">
+      This is the manual alternative to a cloud account. It exists because the site has no server and
+      no account system, so there is nowhere for your record to live except a file you hold. Nothing
+      is uploaded: the browser writes the file and the browser reads it back.
+    </p>
+    <div class="stat-grid" style="margin:.8rem 0">
+      <div class="stat"><b data-record-attempts>—</b><span>Attempts</span><em>with their scores</em></div>
+      <div class="stat"><b data-record-review>—</b><span>Review items</span><em>with their due dates</em></div>
+      <div class="stat"><b data-record-notes>—</b><span>Notes and bookmarks</span><em>on this device</em></div>
+    </div>
+    <div class="button-row">
+      <button class="button" type="button" id="export-record">Export my whole record</button>
+    </div>
+    <label class="field">Choose a record JSON file
+      <input type="file" id="import-record-file" accept="application/json,.json" />
+    </label>
+    <div class="import-preview" id="record-import-preview" hidden>
+      <h3>What this file holds</h3>
+      <p class="micro" id="record-import-summary"></p>
+      <p class="micro" id="record-import-note"></p>
+      <div class="button-row">
+        <button class="button" type="button" id="record-import-merge">Merge into this device</button>
+        <button class="button secondary" type="button" id="record-import-replace">Replace this device</button>
+        <button class="button secondary" type="button" id="record-import-cancel">Cancel</button>
+      </div>
+    </div>
+    <p class="micro" data-record-status aria-live="polite">Loading your record…</p>
+  </section>
   <script>
     import {
       emptyWorkspace, makeBookmark, makeNote, makeResume, mergeWorkspace, readWorkspace,
@@ -197,5 +232,115 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
       if (resetConfirm) resetConfirm.value = '';
     });
     void refresh();
+  </script>
+
+  <script>
+    import {
+      applyBackup, backupFileName, previewImport, readFullBackup, summarise, validateBackup,
+      type FullBackup,
+    } from '../../lib/backup';
+
+    const recordStatus = document.querySelector<HTMLElement>('[data-record-status]');
+    const recordAttempts = document.querySelector<HTMLElement>('[data-record-attempts]');
+    const recordReview = document.querySelector<HTMLElement>('[data-record-review]');
+    const recordNotes = document.querySelector<HTMLElement>('[data-record-notes]');
+    const recordPreview = document.querySelector<HTMLElement>('#record-import-preview');
+    const recordSummary = document.querySelector<HTMLElement>('#record-import-summary');
+    const recordNote = document.querySelector<HTMLElement>('#record-import-note');
+    const recordFile = document.querySelector<HTMLInputElement>('#import-record-file');
+    let held: FullBackup | undefined;
+    let device: FullBackup | undefined;
+
+    function recordSay(message: string): void {
+      if (recordStatus) recordStatus.textContent = message;
+    }
+
+    async function refreshRecord(): Promise<void> {
+      device = await readFullBackup();
+      const counts = summarise(device);
+      if (recordAttempts) recordAttempts.textContent = String(counts.attempts);
+      if (recordReview) recordReview.textContent = String(counts.reviewItems);
+      if (recordNotes) {
+        recordNotes.textContent = String(counts.workspaceNotes + counts.workspaceBookmarks);
+      }
+    }
+
+    document.querySelector('#export-record')?.addEventListener('click', () => {
+      void (async () => {
+        const backup = await readFullBackup();
+        const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = backupFileName(backup.exportedAt);
+        link.click();
+        URL.revokeObjectURL(url);
+        const counts = summarise(backup);
+        recordSay(`Exported ${counts.attempts} attempt${counts.attempts === 1 ? '' : 's'} and ${counts.reviewItems} review item${counts.reviewItems === 1 ? '' : 's'}. Keep this file private.`);
+      })();
+    });
+
+    recordFile?.addEventListener('change', async () => {
+      const file = recordFile.files?.[0];
+      if (!file) return;
+      const raw = await file.text();
+      let parsed: unknown;
+      try { parsed = JSON.parse(raw) as unknown; }
+      catch { recordSay('That file is not a backup. Nothing changed.'); return; }
+      const result = validateBackup(parsed, raw.length);
+      if (!result.ok) {
+        held = undefined;
+        if (recordPreview) recordPreview.hidden = true;
+        recordSay(result.error);
+        return;
+      }
+      held = result.data;
+      if (!device) await refreshRecord();
+      const preview = previewImport(device!, held!);
+      const incoming = preview.incoming;
+      if (recordSummary) {
+        recordSummary.textContent = `The file holds ${incoming.attempts} attempt${incoming.attempts === 1 ? '' : 's'} (${incoming.submittedAttempts} submitted), ${incoming.reviewItems} review item${incoming.reviewItems === 1 ? '' : 's'} (${incoming.reviewDue} due now), ${incoming.workspaceNotes} note${incoming.workspaceNotes === 1 ? '' : 's'} and ${incoming.workspaceBookmarks} bookmark${incoming.workspaceBookmarks === 1 ? '' : 's'}. This device currently holds ${preview.current.attempts} attempt${preview.current.attempts === 1 ? '' : 's'}.`;
+      }
+      if (recordNote) {
+        recordNote.textContent = preview.mergePreservesSubmitted
+          ? 'Merging adds to what is here. A result you have already submitted stays as it is.'
+          : 'Merging adds to what is here. A submitted result on this device stays as it is.';
+      }
+      if (recordPreview) recordPreview.hidden = false;
+      recordSay('Backup validated. Choose merge or replace, or cancel.');
+    });
+
+    document.querySelector('#record-import-merge')?.addEventListener('click', () => {
+      if (!held) { recordSay('No validated backup to merge.'); return; }
+      void (async () => {
+        if (!device) await refreshRecord();
+        const outcome = await applyBackup(held!, 'merge', device);
+        if (recordPreview) recordPreview.hidden = true;
+        await refreshRecord();
+        recordSay(outcome.applied
+          ? 'Merged. Your submitted results were kept as they were.'
+          : `Merged with problems: ${outcome.errors.join(' ')}`);
+      })();
+    });
+
+    document.querySelector('#record-import-replace')?.addEventListener('click', () => {
+      if (!held) { recordSay('No validated backup to replace with.'); return; }
+      void (async () => {
+        const outcome = await applyBackup(held!, 'replace');
+        if (recordPreview) recordPreview.hidden = true;
+        await refreshRecord();
+        recordSay(outcome.applied
+          ? 'This device now holds exactly what the file holds.'
+          : `Replaced with problems: ${outcome.errors.join(' ')}`);
+      })();
+    });
+
+    document.querySelector('#record-import-cancel')?.addEventListener('click', () => {
+      held = undefined;
+      if (recordFile) recordFile.value = '';
+      if (recordPreview) recordPreview.hidden = true;
+      recordSay('Import cancelled; nothing changed.');
+    });
+
+    void refreshRecord();
   </script>
 </Site>
