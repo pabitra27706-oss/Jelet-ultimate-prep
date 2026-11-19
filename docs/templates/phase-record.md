@@ -2,6 +2,7 @@
 
 - Phase, status, date, branch/commit, owner/reviewer:
 - Inputs and pre-change evidence; reused/adapted/rejected reference and licence:
+- Whole-phase checkpoint ledger: task, state, artifact, dependency/owner decision if blocked. Continue independent tasks before handoff.
 - Approved scope, delivered outputs, deliberate exclusions:
 - Gate-by-gate results: task, expected, observed, evidence URL/file; pass/fail/not tested:
 - Python/build/Chromium: command, suite/count, environment/viewport, expected vs observed, failures/retests or reason not applicable:

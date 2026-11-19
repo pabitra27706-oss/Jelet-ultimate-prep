@@ -1,6 +1,6 @@
 # Static JELET study site · product brief
 
-> Initial discovery note. For the current scope and five destinations including Learn, see the [handbook](README.md).
+> Historical discovery note only. Its Diploma UI recommendation was superseded by the [03R design phase](phases/03R-design-recovery/README.md); do not implement it. For the current scope and five destinations including Learn, see the [handbook](README.md).
 
 Research baseline: 19 November 2026. This is a web adaptation of [AppFlow's research, UI-reference, decision, roadmap and phase-record templates](https://github.com/pabi277/AppFlow/tree/1da317a446ffa36d347eba7fb3dd009b0c864bd3/templates/docs-system). Recommendations below are not shipped features.
 
