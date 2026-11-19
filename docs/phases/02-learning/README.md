@@ -9,3 +9,5 @@
 **Exit:** on a phone, complete the lesson and an unseen variant without the hint. Record student reasoning on a later variant with consent, no identity in Git; if unavailable report the learning claim as untested. Check keyboard, equation overflow and readable no-JS pages. Record what's ready for a public slice; a compiled homepage alone is not a pilot.
 
 **Execute:** [ordered tasks and acceptance checks](RUNBOOK.md). Use the [reusable session prompt](../../../prompt.md) and [roadmap](../../ROADMAP.md) for authorization and status.
+
+**Current evidence:** [2026-11-19 implementation and verification record](2026-11-19-phase-02.md). The one-chapter build is available for preview; a physical Android pass and unaided learning transfer have not been recorded.

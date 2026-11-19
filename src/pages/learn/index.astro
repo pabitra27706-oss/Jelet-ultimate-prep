@@ -1,0 +1,15 @@
+---
+import Site from '../../layouts/Site.astro';
+import { getEntry } from 'astro:content';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const lesson = await getEntry('lessons', 'parallel-circuits');
+if (!lesson) throw new Error('Missing approved pilot lesson');
+---
+<Site title="Learn" active="learn">
+  <div class="page-intro"><p class="eyebrow">PAPER I · LEARN</p><h1>Learn by topic.</h1><p class="lead">One pilot chapter, with a worked example and original notebook practice.</p></div>
+  <section class="module" aria-labelledby="subject">
+    <p class="eyebrow">ELECTRICAL &amp; ELECTRONICS</p><h2 id="subject">DC sources and circuits</h2>
+    <p>Find branch voltages and currents in a passive circuit.</p>
+    <a class="chapter-card" href={`${base}learn/parallel-circuits/`}><span><strong>{lesson.data.title}</strong><small>Same voltage, split current · {lesson.data.minutes} min</small></span><span aria-hidden="true">→</span></a>
+  </section>
+</Site>

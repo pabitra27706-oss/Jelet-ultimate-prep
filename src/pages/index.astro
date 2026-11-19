@@ -1,0 +1,49 @@
+---
+import Site from '../layouts/Site.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const lesson = `${base}learn/parallel-circuits/`;
+---
+<Site title="Today" active="today">
+  <div class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="signal"></span> PAPER I · LEARNING PILOT</p>
+      <h1>Understand the<br class="wide-only" /> circuit first.</h1>
+      <p class="lead">Learn why parallel branches share voltage but carry different currents. Then try a new circuit on your own.</p>
+      <a class="button" href={`${lesson}#predict`} data-resume>Start parallel circuits <span aria-hidden="true">→</span></a>
+      <p class="micro" data-resume-note>About 8 minutes · No account needed</p>
+    </div>
+    <div class="hero-art"><img src={`${base}parallel-circuit.svg`} width="680" height="300" alt="Preview of two parallel resistors between the same two nodes." /><p><span>01 / DC CIRCUITS</span><span>ORIGINAL LESSON</span></p></div>
+  </div>
+  <section class="below" aria-labelledby="study-path">
+    <p class="eyebrow">YOUR STUDY PATH</p><h2 id="study-path">One concept, three steps</h2>
+    <div class="steps">
+      <a href={`${lesson}#predict`}><span class="step-num">01</span><strong>Predict</strong><span>What changes when one branch opens?</span></a>
+      <a href={`${lesson}#guided-practice`}><span class="step-num">02</span><strong>Practise with hints</strong><span>Reveal one hint at a time.</span></a>
+      <a href={`${lesson}#independent-practice`}><span class="step-num">03</span><strong>Try it on your own</strong><span>Use your notebook, then check.</span></a>
+    </div>
+  </section>
+  <script>
+    import { readProgress, isSection } from '../progress';
+    const action = document.querySelector<HTMLAnchorElement>('[data-resume]');
+    const note = document.querySelector<HTMLElement>('[data-resume-note]');
+    const startHref = action?.href;
+    function refresh() {
+      if (!action || !note || !startHref) return;
+      action.href = startHref;
+      action.textContent = 'Start parallel circuits →';
+      note.textContent = 'About 8 minutes · No account needed';
+      const { progress, available } = readProgress();
+      if (!available) note.textContent = 'Progress cannot be saved on this browser. The lesson still works.';
+      if (progress && isSection(progress.section)) {
+        const url = new URL(action.href);
+        url.searchParams.set('resume', '1');
+        url.hash = progress.section;
+        action.href = url.href;
+        action.textContent = 'Resume parallel circuits →';
+        note.textContent = `Last section: ${progress.section.replaceAll('-', ' ')}`;
+      }
+    }
+    refresh();
+    window.addEventListener('pageshow', refresh);
+  </script>
+</Site>

@@ -1,0 +1,22 @@
+{
+  "name": "jelet-ultimate-prep",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "node scripts/preview.mjs",
+    "test:browser": "node --test --test-timeout=15000 tests/pilot.test.mjs"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@sparticuz/chromium": "153.0.0",
+    "astro": "7.4.13",
+    "playwright-core": "1.65.1",
+    "typescript": "5.9.3"
+  }
+}

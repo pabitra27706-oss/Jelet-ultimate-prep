@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" role="img" aria-labelledby="title desc">
+  <title id="title">Two parallel 6-ohm resistors</title>
+  <desc id="desc">Both resistors connect between positive node P at 12 volts and reference node N at zero volts.</desc>
+  <defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#557181" opacity=".28"/></pattern></defs>
+  <rect width="680" height="300" rx="16" fill="#102732"/>
+  <rect width="680" height="300" rx="16" fill="url(#dots)"/>
+  <g fill="none" stroke="#8de1ca" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M108 150h52m0-58h95m170 0h95m0 58h52M160 92v116h95m170 0h95V92"/>
+    <rect x="255" y="69" width="170" height="46" rx="9" fill="#153e47"/>
+    <rect x="255" y="185" width="170" height="46" rx="9" fill="#153e47"/>
+  </g>
+  <g fill="#8de1ca"><circle cx="108" cy="150" r="7"/><circle cx="160" cy="150" r="5"/><circle cx="520" cy="150" r="5"/><circle cx="572" cy="150" r="7"/></g>
+  <g fill="#e7fff8" font-family="system-ui, sans-serif" font-size="22" font-weight="650" text-anchor="middle">
+    <text x="340" y="100">R1 · 6 Ω</text><text x="340" y="216">R2 · 6 Ω</text>
+    <text x="108" y="124">P</text><text x="572" y="124">N</text>
+  </g>
+  <g fill="#a9e5d5" font-family="system-ui, sans-serif" font-size="18" text-anchor="middle"><text x="108" y="182">+12 V</text><text x="572" y="182">0 V</text></g>
+</svg>
