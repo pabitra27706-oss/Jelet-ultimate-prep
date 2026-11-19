@@ -1,0 +1,64 @@
+---
+import Site from '../../../layouts/Site.astro';
+import Runner from '../../../components/Runner.astro';
+import { papers, paperById, subjectLabels, type SubjectKey } from '../../../lib/content';
+
+export function getStaticPaths() {
+  const paths = [];
+  for (const paper of papers) {
+    for (const subject of paper.subjects) {
+      const count = paper.questions.filter((question) => question.subjectKey === subject.subjectKey && question.scorable).length;
+      if (count === 0) continue;
+      paths.push({ params: { paper: paper.id, subject: subject.subjectKey } });
+    }
+  }
+  return paths;
+}
+
+const { paper: paperId, subject: subjectKey } = Astro.params;
+const paper = paperById.get(paperId ?? '');
+if (!paper) throw new Error(`Unknown paper: ${paperId}`);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const questions = paper.questions.filter((question) => question.subjectKey === subjectKey && question.scorable);
+if (questions.length === 0) throw new Error(`No markable ${subjectKey} questions in ${paperId}`);
+const label = subjectLabels[subjectKey as SubjectKey] ?? subjectKey;
+const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
+// One minute per mark, mirroring the paper's own 120 minutes for 120 marks.
+const limitSeconds = Math.max(10, scopeMarks) * 60;
+const categorySummary = [...new Set(questions.map((question) => `Category ${question.category}`))].join(' + ');
+---
+<Site title={`${paper.label} · ${label} drill`} active="practice" description={`A ${label} drill from ${paper.label}: ${questions.length} questions marked with the real JELET rules.`}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">›</span>
+    <a href={`${base}library/${paper.id}/`}>{paper.label}</a> <span aria-hidden="true">›</span>
+    <span>{label}</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1rem">
+    <div class="grow">
+      <p class="eyebrow">Subject drill</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.4rem)">{label} · {paper.year}</h1>
+      <p class="lead">{questions.length} questions · {scopeMarks} marks · {categorySummary} · {Math.round(limitSeconds / 60)} minutes.</p>
+      <div class="chip-row">
+        {paper.keyTier === 'official' && <span class="chip official">Official WBJEEB key</span>}
+        {paper.keyTier === 'derived' && <span class="chip derived">Derived key</span>}
+        <span class="chip">Every question here can be marked</span>
+      </div>
+    </div>
+    <div class="btn-row">
+      <a class="btn ghost" href={`${base}practice/${paper.id}/`}>Full paper</a>
+      <a class="btn ghost" href={`${base}library/${paper.id}/`}>Read the paper</a>
+    </div>
+  </div>
+
+  <Runner
+    paper={paper}
+    questions={questions}
+    mode="drill"
+    scope={subjectKey}
+    subjectKey={subjectKey}
+    subjectLabel={label}
+    limitSeconds={limitSeconds}
+  />
+</Site>

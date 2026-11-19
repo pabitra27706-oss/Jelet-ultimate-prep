@@ -26,3 +26,24 @@ English OMR, 120 minutes. See the [source register](RESEARCH.md). Confirm a diff
 Category I: exactly the correct choice +1; wrong or multiple marked −¼; blank 0. Category II: all correct and no wrong +2; any wrong or blank 0; nonempty correct subset earns `2 × correct selected / total correct`. Keep full precision for totals; distinguish displayed rounding. For key A,C: A = 1; A,C = 2; A,B = 0. Include a three-correct-option fractional case in tests. 2026 Pharmacy Paper II is separate (100 Category I), not a Paper I filter.
 
 **Full-paper gate:** reconcile *every* printed question in the selected series, not just Set A numbering; resolve all missing diagram/key/withdrawal policies, category quotas, duration and total. If one item is held without a documented board disposition, offer a labelled incomplete drill, not an official-style total. On corrections, version the record, preserve old attempt context and disclose changed scoring via the [corrections log](CORRECTIONS.md).
+
+### Published corpus · 2026-11-19
+
+The generator (`scripts/build-content.mjs`) reads the preserved archive and emits three datasets. These are the measured numbers, not a plan.
+
+| Year | Questions | Scoreable | Marks | Key tier | Board reference |
+|---|---:|---:|---:|---|---|
+| 2017 | 100 | 0 | — | read only | no usable key |
+| 2018 | 100 | 0 | — | read only | no usable key |
+| 2019 | 98 | 0 | — | read only | no usable key |
+| 2021 | 100 | 0 | — | read only | no usable key |
+| 2022 | 95 | 87 | 102 | **derived** | independently solved; never labelled official |
+| 2024 | 97 | 78 | 93 | official | WBJEEB notice, Set A, identity-mapped |
+| 2025 | 100 | 82 | 100 | official | WBJEEB notice, Set A, identity-mapped |
+
+- 690 questions in total; **247** carry a published key and may enter a scored pool. The other 443 are readable and searchable but never marked, and they are excluded from the denominator of every total.
+- Board-voided items award their full marks and are labelled in the reader and in the result: 2024 Q49 and Q58; 2025 Q41, Q79 and Q84.
+- Corpus gaps carried openly rather than filled: 2019 Q78–79, 2022 Q86–90, 2024 Q60–62.
+- A question is held when its diagram was never transcribed, its options are malformed, or the transcription note says the item is ambiguous. Held items keep their reason on the page.
+- The 2023 and 2026 keys exist in the key file but no paper was transcribed for them, so nothing is published for those years.
+- Every paper page shows its year, paper, set/booklet, key tier and the board document reference. The key tier is never dropped from a screen that shows a key.

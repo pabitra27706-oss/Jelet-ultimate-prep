@@ -1,0 +1,113 @@
+---
+import Site from '../../layouts/Site.astro';
+import Question from '../../components/Question.astro';
+import { papers, paperById, keyFor, keyTierLabel, answerLetters, subjectLabels, type SubjectKey } from '../../lib/content';
+
+export function getStaticPaths() {
+  return papers.map((paper) => ({ params: { paper: paper.id } }));
+}
+
+const { paper: paperId } = Astro.params;
+const paper = paperById.get(paperId ?? '');
+if (!paper) throw new Error(`Unknown paper: ${paperId}`);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const key = keyFor(paper);
+const tierLabel = keyTierLabel(key);
+
+const grouped = paper.subjects
+  .map((subject) => ({
+    ...subject,
+    questions: paper.questions.filter((question) => question.subjectKey === subject.subjectKey),
+  }))
+  .filter((group) => group.questions.length > 0);
+
+const canPractice = paper.scoreableQuestions > 0;
+---
+<Site title={paper.label} active="library" description={`${paper.label}: ${paper.questionCount} questions with ${tierLabel.toLowerCase()}.`}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}library/`}>Papers</a> <span aria-hidden="true">›</span>
+    <span>{paper.label}</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.2rem">
+    <div class="grow">
+      <p class="eyebrow">{paper.pattern === 'modern' ? 'Paper I · 120-mark pattern' : 'Older 100-mark pattern'}</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.6rem)">{paper.label}</h1>
+      <p class="lead">
+        {paper.questionCount} questions transcribed · {paper.scoreableQuestions} can be marked · {paper.maxMarks} marks ·
+        {' '}{paper.durationMinutes} minutes.
+      </p>
+      <div class="chip-row">
+        {key?.tier === 'official' && <span class="chip official">Official WBJEEB key · {key.documentRef}</span>}
+        {key?.tier === 'derived' && <span class="chip derived">Derived key · no board key exists for {paper.year}</span>}
+        {!key && <span class="chip">Read only · no key published for {paper.year}</span>}
+        {paper.voidedQuestions.length > 0 && <span class="chip info">Board voided Q{paper.voidedQuestions.join(', Q')}</span>}
+        {paper.gaps.length > 0 && <span class="chip held">Not in the transcription: Q{paper.gaps.join(', Q')}</span>}
+      </div>
+    </div>
+    <div class="btn-row">
+      {canPractice && <a class="btn" href={`${base}practice/${paper.id}/`}>Practise this paper</a>}
+      <a class="btn ghost" href={`${base}practice/`}>Other sets</a>
+    </div>
+  </div>
+
+  {paper.notes.length > 0 && (
+    <div class="notice" style="margin-bottom:1.2rem">
+      <strong>About this transcription.</strong>
+      <ul style="margin:.3rem 0 0">
+        {paper.notes.map((note) => <li>{note}</li>)}
+      </ul>
+    </div>
+  )}
+
+  {paper.instructions.length > 0 && (
+    <details style="margin-bottom:1.2rem">
+      <summary>Instructions printed on the paper</summary>
+      <div class="details-body">
+        <ul>{paper.instructions.map((line) => <li>{line}</li>)}</ul>
+      </div>
+    </details>
+  )}
+
+  <nav class="seg" aria-label="Jump to subject" style="margin-bottom:1.2rem">
+    {grouped.map((group) => <a href={`#subject-${group.subjectKey}`}>{subjectLabels[group.subjectKey as SubjectKey]}</a>)}
+  </nav>
+
+  {grouped.map((group) => (
+    <section id={`subject-${group.subjectKey}`} style="margin-bottom:2.2rem;scroll-margin-top:5rem">
+      <div class="section-head">
+        <h2 style="font-size:1.25rem">{subjectLabels[group.subjectKey as SubjectKey]}</h2>
+        <span class="micro">Q{group.from}–Q{group.to} · {group.questions.length} questions</span>
+      </div>
+      <div class="stack">
+        {group.questions.map((question) => (
+          <Question
+            question={question}
+            mode="reader"
+            showKey={Boolean(key)}
+            keyLetters={answerLetters(paper, question)}
+            keyTier={tierLabel}
+            anchor={`q${question.n}`}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <section class="card">
+    <h2 style="font-size:1.1rem">Provenance</h2>
+    <div class="table" role="table">
+      <div role="row"><b role="cell">Source transcription</b><span role="cell"><code>{paper.sourceFile}</code></span></div>
+      <div role="row"><b role="cell">SHA-256</b><span role="cell"><code>{paper.sourceSha256.slice(0, 24)}…</code></span></div>
+      <div role="row"><b role="cell">Answer key</b><span role="cell">
+        {key ? `${key.tier === 'official' ? `WBJEEB notice ${key.documentRef} dated ${key.documentDate}` : 'independently solved, tier: derived'}` : 'none published for this year'}
+      </span></div>
+      {key?.booklet && <div role="row"><b role="cell">Booklet</b><span role="cell">{key.booklet.bookletNumber ?? 'not recorded'} · set {key.booklet.set ?? '—'}</span></div>}
+    </div>
+    <p class="micro">
+      This is an independent transcription of an examination paper. It is not published by, or endorsed by, WBJEEB.
+      Where the answer key is marked “derived”, the answers were solved independently and are not the board's.
+    </p>
+  </section>
+</Site>

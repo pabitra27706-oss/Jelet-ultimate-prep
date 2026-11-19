@@ -1,0 +1,109 @@
+---
+import Site from '../../layouts/Site.astro';
+import { papers, subjectOrder, subjectLabels, type SubjectKey } from '../../lib/content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const subjectCounts = new Map<SubjectKey, number>();
+for (const paper of papers) {
+  for (const question of paper.questions) {
+    subjectCounts.set(question.subjectKey, (subjectCounts.get(question.subjectKey) ?? 0) + 1);
+  }
+}
+---
+<Site title="Paper library" active="library" description="Seven JELET previous-year papers: mathematics, physics, chemistry and electrical questions with board answer keys where they exist.">
+  <div class="page-intro" style="margin-bottom:1.4rem">
+    <p class="eyebrow">Paper I · Previous years</p>
+    <h1>Paper library.</h1>
+    <p class="lead">
+      Every paper below is a preserved transcription with its source file hash. Papers that carry a published
+      answer key can be marked exactly like the real exam; the rest are for reading only, and say so.
+    </p>
+  </div>
+
+  <div class="card" style="margin-bottom:1.4rem">
+    <div class="filters">
+      <label class="field">Year
+        <select id="filter-year">
+          <option value="all">All years</option>
+          {papers.map((paper) => <option value={String(paper.year)}>{paper.year}</option>)}
+        </select>
+      </label>
+      <label class="field">Subject
+        <select id="filter-subject">
+          <option value="all">All subjects</option>
+          {subjectOrder.filter((key) => subjectCounts.has(key)).map((key) => (
+            <option value={key}>{subjectLabels[key]} ({subjectCounts.get(key)})</option>
+          ))}
+        </select>
+      </label>
+      <label class="field">Key
+        <select id="filter-key">
+          <option value="all">Any</option>
+          <option value="official">Official board key</option>
+          <option value="derived">Derived key</option>
+          <option value="none">Read only</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <ul class="linklist" id="paper-list">
+    {papers.map((paper) => (
+      <li data-paper-row data-year={paper.year} data-key={paper.keyTier ?? 'none'}
+          data-subjects={[...new Set(paper.questions.map((question) => question.subjectKey))].join(' ')}>
+        <a href={`${base}library/${paper.id}/`}>
+          <span>
+            <strong>{paper.label}</strong>
+            <small>
+              {paper.questionCount} questions · {paper.maxMarks} marks · {paper.durationMinutes} minutes ·
+              {' '}{paper.pattern === 'modern' ? 'four-subject 120-mark pattern' : 'older 100-mark pattern'}
+            </small>
+            <span class="chip-row" style="margin-top:.4rem">
+              {paper.keyTier === 'official' && <span class="chip official">Official board key</span>}
+              {paper.keyTier === 'derived' && <span class="chip derived">Derived key</span>}
+              {!paper.hasKey && <span class="chip">Read only · no key published</span>}
+              <span class="chip">{paper.scoreableQuestions} markable</span>
+              {paper.heldQuestions > 0 && <span class="chip held">{paper.heldQuestions} not markable</span>}
+              {paper.gaps.length > 0 && <span class="chip held">{paper.gaps.length} missing in transcription</span>}
+            </span>
+          </span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="micro" id="filter-status" aria-live="polite"></p>
+
+  <section class="card" style="margin-top:1.6rem">
+    <h2 style="font-size:1.1rem">Where the numbers come from</h2>
+    <ul class="small" style="color:var(--muted)">
+      <li>Transcriptions and answer keys are preserved from the earlier <code>Jelet-prep</code> project and rebuilt by <code>scripts/build-content.mjs</code> on every build; the archive itself is never published.</li>
+      <li>2024 and 2025 use WBJEEB's own final answer-key notices (tier: official). The 2022 answers were solved independently because the board published no key for that year (tier: derived) and are labelled as such everywhere they appear.</li>
+      <li>"Not markable" means the item depends on a diagram or options that the transcription does not reproduce. Those items are shown for reading and excluded from every total.</li>
+    </ul>
+  </section>
+
+  <script>
+    const year = document.querySelector<HTMLSelectElement>('#filter-year');
+    const subject = document.querySelector<HTMLSelectElement>('#filter-subject');
+    const key = document.querySelector<HTMLSelectElement>('#filter-key');
+    const status = document.querySelector<HTMLElement>('#filter-status');
+    const rows = [...document.querySelectorAll<HTMLElement>('[data-paper-row]')];
+    function apply() {
+      let visible = 0;
+      for (const row of rows) {
+        const yearOk = !year || year.value === 'all' || row.dataset.year === year.value;
+        const subjectOk = !subject || subject.value === 'all' || (row.dataset.subjects ?? '').split(' ').includes(subject.value);
+        const keyOk = !key || key.value === 'all' || row.dataset.key === key.value;
+        const show = yearOk && subjectOk && keyOk;
+        row.hidden = !show;
+        if (show) visible += 1;
+      }
+      if (status) status.textContent = `${visible} of ${rows.length} papers shown.`;
+    }
+    year?.addEventListener('change', apply);
+    subject?.addEventListener('change', apply);
+    key?.addEventListener('change', apply);
+    apply();
+  </script>
+</Site>

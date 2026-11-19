@@ -9,13 +9,17 @@
   "scripts": {
     "build": "astro build",
     "check": "astro check",
+    "content": "node scripts/build-content.mjs",
     "preview": "node scripts/preview.mjs",
-    "test:browser": "node --test --test-timeout=15000 tests/*.test.mjs"
+    "test": "npm run test:rules && npm run test:browser",
+    "test:rules": "node --test tests/rules.test.mjs",
+    "test:browser": "node --test --test-timeout=60000 tests/site.test.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "@sparticuz/chromium": "153.0.0",
     "astro": "7.4.13",
+    "katex": "^0.16.22",
     "playwright-core": "1.65.1",
     "typescript": "5.9.3"
   }

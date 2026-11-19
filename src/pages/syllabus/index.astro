@@ -1,0 +1,103 @@
+---
+import Site from '../../layouts/Site.astro';
+import { syllabus, papers, subjectLabels, type SubjectKey } from '../../lib/content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const counts = new Map<SubjectKey, { questions: number; papers: number }>();
+for (const paper of papers) {
+  const seen = new Set<string>();
+  for (const question of paper.questions) {
+    const entry = counts.get(question.subjectKey) ?? { questions: 0, papers: 0 };
+    entry.questions += 1;
+    if (!seen.has(paper.id)) { entry.papers += 1; seen.add(paper.id); }
+    counts.set(question.subjectKey, entry);
+  }
+}
+const markWeights: Record<string, { categoryI: number; categoryII: number; marks: number }> = {
+  mathematics: { categoryI: 30, categoryII: 10, marks: 50 },
+  physics: { categoryI: 25, categoryII: 5, marks: 35 },
+  chemistry: { categoryI: 15, categoryII: 5, marks: 25 },
+  electrical: { categoryI: 10, categoryII: 0, marks: 10 },
+};
+---
+<Site title="Syllabus" active="syllabus" description="The JELET 2026 Paper I syllabus: every topic group for mathematics, physics, chemistry and electrical & electronics, with the exam pattern and how many past-paper questions sit in each subject.">
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.4rem">
+    <div class="grow">
+      <p class="eyebrow">JELET 2026 · Paper I</p>
+      <h1>Syllabus.</h1>
+      <p class="lead">
+        {syllabus.subjects.reduce((sum, subject) => sum + subject.topics.length, 0)} topic groups across four subjects,
+        taken from the WBJEEB information bulletin of 18 March 2026. Exam day: 13 June 2026, two hours, OMR.
+      </p>
+    </div>
+    <a class="btn ghost" href={`${base}library/`}>Paper library</a>
+  </div>
+
+  <section class="card" aria-labelledby="pattern-heading">
+    <h2 id="pattern-heading" style="font-size:1.1rem">Exam pattern</h2>
+    <table class="table">
+      <thead><tr><th>Subject</th><th>Category I · 1 mark</th><th>Category II · 2 marks</th><th>Marks</th></tr></thead>
+      <tbody>
+        {syllabus.subjects.map((subject) => {
+          const weight = markWeights[subject.id];
+          return (
+            <tr>
+              <td>{subject.name}</td>
+              <td>{weight?.categoryI ?? '—'}</td>
+              <td>{weight?.categoryII ?? '—'}</td>
+              <td>{weight?.marks ?? '—'}</td>
+            </tr>
+          );
+        })}
+        <tr><td><strong>Total</strong></td><td><strong>80</strong></td><td><strong>20</strong></td><td><strong>120</strong></td></tr>
+      </tbody>
+    </table>
+    <ul class="small" style="color:var(--muted);margin-bottom:0">
+      <li><strong>Category I</strong> — one correct option. +1 mark. A wrong option or more than one option marked: −1/4 mark. Blank: 0.</li>
+      <li><strong>Category II</strong> — one or more correct options. +2 marks when every correct option is marked with no wrong option. A wrong option marked: 0. A correct subset earns 2 × marked correct ÷ total correct.</li>
+    </ul>
+  </section>
+
+  {syllabus.subjects.map((subject) => {
+    const count = counts.get(subject.id);
+    const weight = markWeights[subject.id];
+    return (
+      <section style="margin-top:1.8rem" aria-labelledby={`subject-${subject.id}`}>
+        <div class="section-head">
+          <h2 id={`subject-${subject.id}`} style="font-size:1.3rem">{subject.name}</h2>
+          <span class="micro">
+            {subject.topics.length} topic groups{weight ? ` · ${weight.marks} marks in the paper` : ''}
+          </span>
+        </div>
+        {count && (
+          <p class="micro">
+            {count.questions} transcribed questions across {count.papers} papers fall in this subject.
+            Topic-level mapping is not published yet: this site does not guess which topic a question belongs to.
+          </p>
+        )}
+        <ol class="stack" style="list-style:none;padding:0;margin:0">
+          {subject.topics.map((topic) => (
+            <li class="card-flat">
+              <strong>{topic.code}. {topic.name}</strong>
+              {topic.detail && <p class="micro" style="margin:.2rem 0 0">{topic.detail}</p>}
+            </li>
+          ))}
+        </ol>
+        {weight && (
+          <div class="btn-row" style="margin-top:.7rem">
+            <a class="btn small ghost" href={`${base}practice/jelet-et-p1-2025/${subject.id}/`}>Practise {subjectLabels[subject.id as SubjectKey]} · 2025</a>
+          </div>
+        )}
+      </section>
+    );
+  })}
+
+  <section class="card" style="margin-top:2rem">
+    <h2 style="font-size:1.05rem">Provenance and limits</h2>
+    <ul class="small" style="color:var(--muted);margin-bottom:0">
+      <li>Transcribed from the preserved syllabus file, SHA-256 <code>{syllabus.sourceSha256.slice(0, 16)}…</code>, which itself cites the WBJEEB bulletin of 18 March 2026.</li>
+      <li>The paper pattern above is the 2026 pattern. Older papers used a different pattern — {papers.filter((paper) => paper.pattern === 'legacy').map((paper) => paper.year).join(', ')} were 100-mark papers with three subjects — so their structure is never mixed with this one.</li>
+      <li>Only the four-subject Paper I structure is shown. Paper II belongs to the diploma in pharmacy and needs its own curriculum and corpus.</li>
+    </ul>
+  </section>
+</Site>

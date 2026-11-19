@@ -17,7 +17,7 @@ env:
 jobs:
   pilot:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,4 +29,8 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run check
       - run: npm run build
-      - run: npm run test:browser
+      - run: python3 docs/phases/01-evidence/check_inventory.py
+      - name: Run the scoring and review rules
+        run: npm run test:rules
+      - name: Run the browser, offline and accessibility suite
+        run: npm run test:browser

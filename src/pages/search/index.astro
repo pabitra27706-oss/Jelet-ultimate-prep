@@ -22,10 +22,10 @@ const groups = [
       <input name="q" type="search" autocomplete="off" placeholder="e.g. parallel branches, 9 V, 6 ohm" />
     </label>
     <label class="field">Group
-      <select name="type"><option value="all">All groups</option><option value="lesson">Lessons</option><option value="practice">Original practice</option></select>
+      <select name="type"><option value="all">All groups</option><option value="lesson">Lessons</option><option value="practice">Original practice</option><option value="question">Past exam questions</option></select>
     </label>
     <label class="field">Readiness
-      <select name="readiness"><option value="all">All reviewed items</option><option value="original">Original only</option></select>
+      <select name="readiness"><option value="all">All reviewed items</option><option value="original">Original only</option><option value="official">Official board key</option><option value="derived">Derived key</option><option value="read-only">Read only</option></select>
     </label>
   </form>
   <section class="photo-help" id="photo-help" aria-labelledby="photo-title">
@@ -48,12 +48,16 @@ const groups = [
     <h2 id="browse-title">Browse the approved library</h2>
     <p class="micro">Without JavaScript, use this directory. Search needs JavaScript but makes no network request beyond this site's index.</p>
     {groups.map((group) => {
-      const items = entries.filter((entry) => entry.type === group.key);
+      const all = entries.filter((entry) => entry.type === group.key);
+      // The directory is a no-JavaScript fallback. Listing every question would
+      // add a megabyte of markup, so the corpus is represented by its papers.
+      const items = group.key === 'question' ? all.filter((entry) => entry.anchor === 'q1') : all;
       return <div class="result-group">
-        <h3>{group.label} <span class="count">{items.length}</span></h3>
+        <h3>{group.label} <span class="count">{group.key === 'question' ? `${all.length} questions in ${items.length} papers` : items.length}</span></h3>
         {items.length === 0 ? <p class="micro">No public items in this group yet.</p> : <ul class="result-list">
           {items.map((entry) => <li><a href={entry.url}>{entry.title}</a><small>{entry.identity} · {entry.summary}</small></li>)}
         </ul>}
+        {group.key === 'question' && <p class="micro">Every question is searchable above; the directory lists one entry per paper so the page stays light without JavaScript.</p>}
       </div>;
     })}
   </section>
@@ -96,7 +100,7 @@ const groups = [
       if (found.length === 0) {
         const empty = node('div', 'empty-state');
         empty.append(node('h2', '', 'No match yet'));
-        empty.append(node('p', '', 'Try fewer words, remove a filter, or search by topic. Past exam questions are not published yet.'));
+        empty.append(node('p', '', 'Try fewer words, remove a filter, or search by subject, year or question number.'));
         const reset = node('button', 'button', 'Clear search');
         reset.type = 'button';
         reset.addEventListener('click', () => {
@@ -154,9 +158,30 @@ const groups = [
     const indexUrl = form?.dataset.indexUrl;
     if (!indexUrl) { status && (status.textContent = 'Search index is not configured; browse below.'); }
     else {
+      type Compact = { i: string; t: string; s: string; y: string | null; p: string | null; c: string | null; r: string; d: string; f: string; u: string; a: string | null; x: string };
       fetch(indexUrl)
         .then((response) => { if (!response.ok) throw new Error('index unavailable'); return response.json(); })
-        .then((data: { entries?: IndexEntry[] }) => { all = data.entries ?? []; render(); })
+        .then((data: { entries?: Compact[] }) => {
+          all = (data.entries ?? []).map((entry) => ({
+            id: entry.i,
+            type: entry.i.startsWith('question:') ? 'question' : entry.i.startsWith('practice:') ? 'practice' : 'lesson',
+            title: entry.t,
+            summary: entry.s,
+            topic: entry.p ?? '',
+            year: entry.y,
+            paper: entry.p,
+            set: null,
+            category: entry.c,
+            readiness: entry.r,
+            status: entry.d,
+            identity: entry.d,
+            figure: entry.f,
+            url: entry.u,
+            anchor: entry.a,
+            terms: entry.x,
+          } as IndexEntry));
+          render();
+        })
         .catch(() => { if (status) status.textContent = 'Search index could not load; browse the directory below.'; });
     }
   </script>

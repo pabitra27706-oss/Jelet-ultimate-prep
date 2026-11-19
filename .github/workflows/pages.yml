@@ -3,7 +3,8 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-      - arena/4ad06920-jelet-ultimate-prep
+      - main
+      - arena/9166576f-jelet-ultimate-prep
     paths:
       - 'src/**'
       - 'public/**'
@@ -29,7 +30,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,19 +47,14 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import json
           import sys
           root = Path('dist')
-          allowed = {
-              'index.html', 'learn/index.html', 'learn/parallel-circuits/index.html',
-              'parallel-circuit.svg', 'practice/index.html',
-              'practice/orig-parallel-independent-v1/index.html',
-              'search/index.html', 'search-index.json', 'workspace/index.html',
-          }
+          allowlist = json.loads(Path('scripts/public-artifact.json').read_text())
+          allowed = set(allowlist['files'])
+          directories = tuple(allowlist['assetDirectories'])
           files = sorted(p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file())
-          extra = [f for f in files if f not in allowed and not (
-              f.startswith('_astro/') and not Path(f).name.startswith('.')
-              and Path(f).suffix in {'.js', '.css'}
-          )]
+          extra = [f for f in files if f not in allowed and not f.startswith(directories)]
           missing = sorted(allowed - set(files))
           if extra or missing:
               print('Unexpected:', extra, 'Missing:', missing, file=sys.stderr)

@@ -1,67 +1,214 @@
 ---
 import Site from '../layouts/Site.astro';
+import { papers, scorablePapers, mockPaper, subjectLabels, type SubjectKey } from '../lib/content';
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const lesson = `${base}learn/parallel-circuits/`;
+const totalQuestions = papers.reduce((sum, paper) => sum + paper.questionCount, 0);
+const scorableQuestions = papers.reduce((sum, paper) => sum + paper.scoreableQuestions, 0);
+const officialPapers = scorablePapers.filter((paper) => paper.keyTier === 'official');
+const derivedPapers = scorablePapers.filter((paper) => paper.keyTier === 'derived');
+const readOnlyPapers = papers.filter((paper) => !paper.hasKey);
+
+const drills = mockPaper.subjects
+  .map((subject) => {
+    const items = mockPaper.questions.filter((question) => question.subjectKey === subject.subjectKey && question.scorable);
+    return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0) };
+  })
+  .filter((subject) => subject.count > 0);
 ---
-<Site title="Today" active="today">
-  <div class="hero">
-    <div class="hero-copy">
-      <p class="eyebrow"><span class="signal"></span> PAPER I · LEARNING PILOT</p>
-      <h1>Understand the<br class="wide-only" /> circuit first.</h1>
-      <p class="lead">Learn why parallel branches share voltage but carry different currents. Then try a new circuit on your own.</p>
-      <a class="button" href={`${lesson}#predict`} data-resume>Start parallel circuits <span aria-hidden="true">→</span></a>
-      <p class="micro" data-resume-note>About 8 minutes · No account needed</p>
-      <p class="micro" data-workspace-resume hidden><a data-workspace-link href="#">Continue saved item</a></p>
-    </div>
-    <div class="hero-art"><img src={`${base}parallel-circuit.svg`} width="680" height="300" alt="Preview of two parallel resistors between the same two nodes." /><p><span>01 / DC CIRCUITS</span><span>ORIGINAL LESSON</span></p></div>
-  </div>
-  <section class="below" aria-labelledby="study-path">
-    <p class="eyebrow">YOUR STUDY PATH</p><h2 id="study-path">One concept, three steps</h2>
-    <div class="steps">
-      <a href={`${lesson}#predict`}><span class="step-num">01</span><strong>Predict</strong><span>What changes when one branch opens?</span></a>
-      <a href={`${lesson}#guided-practice`}><span class="step-num">02</span><strong>Practise with hints</strong><span>Reveal one hint at a time.</span></a>
-      <a href={`${lesson}#independent-practice`}><span class="step-num">03</span><strong>Try it on your own</strong><span>Use your notebook, then check.</span></a>
+<Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, seven previous-year papers with board answer keys, and spaced revision built from your own attempts.">
+  <section class="hero">
+    <div class="row-between" style="align-items:flex-start">
+      <div class="grow">
+        <p class="eyebrow">Paper I · Mathematics · Physics · Chemistry · Electrical &amp; Electronics</p>
+        <h1>Prepare for JELET on your own.</h1>
+        <p class="lead">
+          {totalQuestions} questions from seven previous-year papers, the board's own answer keys for{' '}
+          {officialPapers.map((paper) => paper.year).join(' and ')}, the real marking rules, timed mocks and a
+          revision queue that follows the questions you actually got wrong.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper <span aria-hidden="true">→</span></a>
+          <a class="btn ghost" href={`${base}practice/`}>Pick a subject drill</a>
+        </div>
+        <p class="micro">No account. Everything is marked on your device. Nothing is uploaded.</p>
+      </div>
+      <div class="hero-panel">
+        <strong>{scorableQuestions}</strong>
+        <span>questions with a published key</span>
+        <div class="micro" style="margin-top:.6rem;opacity:.85">
+          {officialPapers.length} official key{officialPapers.length === 1 ? '' : 's'} · {derivedPapers.length} derived · {readOnlyPapers.length} read-only papers
+        </div>
+      </div>
     </div>
   </section>
+
+  <section class="card" style="margin-top:var(--gap)" aria-labelledby="today-stats">
+    <div class="section-head">
+      <h2 id="today-stats" style="font-size:1.15rem">Your record on this device</h2>
+      <span class="micro" data-storage-note>Loaded from this browser only.</span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableQuestions} with a published key</em></div>
+      <div class="stat"><b data-stat="accuracy">—</b><span>Independent accuracy</span><em data-stat-note="accuracy">correct on a first, unassisted attempt</em></div>
+      <div class="stat"><b data-stat="due">—</b><span>Reviews due</span><em data-stat-note="due">wrong or blank questions, spaced by a fixed ladder</em></div>
+      <div class="stat"><b data-stat="streak">—</b><span>Day streak</span><em data-stat-note="streak">days with at least one submitted paper</em></div>
+    </div>
+    <div class="row-between" style="margin-top:.9rem">
+      <p class="micro" data-today-message>Reading a page never changes these numbers — only a submitted attempt does.</p>
+      <a class="btn ghost small" href={`${base}review/`}>Open the review desk</a>
+    </div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="continue-heading">
+    <div class="section-head">
+      <h2 id="continue-heading">Pick up where you stopped</h2>
+    </div>
+    <div id="continue-slot">
+      <div class="empty">Nothing started yet on this device. Choose a paper below to begin.</div>
+    </div>
+    <div id="lesson-slot" style="margin-top:.6rem"></div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="drills-heading">
+    <div class="section-head">
+      <h2 id="drills-heading">Subject drills · {mockPaper.year}</h2>
+      <a class="micro" href={`${base}library/${mockPaper.id}/`}>Read the whole paper →</a>
+    </div>
+    <p class="micro">
+      Each drill holds only questions that carry a published key and a complete set of options. The count is the
+      real number of questions, not a target.
+    </p>
+    <div class="card-grid">
+      {drills.map((subject) => (
+        <a class="linkrow" href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
+          <span>
+            <strong>{subjectLabels[subject.subjectKey as SubjectKey]}</strong>
+            <small>{subject.count} questions · {subject.marks} marks · {subject.categories.map((category) => `Cat ${category.category}`).join(' + ')}</small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="papers-heading">
+    <div class="section-head">
+      <h2 id="papers-heading">Previous-year papers</h2>
+      <a class="micro" href={`${base}library/`}>All papers and what each one can do →</a>
+    </div>
+    <div class="card-grid">
+      {papers.map((paper) => (
+        <a class="linkrow" href={`${base}library/${paper.id}/`}>
+          <span>
+            <strong>{paper.label}</strong>
+            <small>
+              {paper.questionCount} questions · {paper.hasKey ? `${paper.scoreableQuestions} scoreable` : 'read only (no key published)'} ·
+              {' '}{paper.gaps.length > 0 ? `${paper.gaps.length} missing in transcription` : 'complete numbering'}
+            </small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:2rem" aria-labelledby="honest-heading">
+    <h2 id="honest-heading" style="font-size:1.15rem">What this site does and does not claim</h2>
+    <ul class="small" style="color:var(--muted)">
+      <li>Marks follow the published JELET rules: Category I gives +1, −1/4 for a wrong or multiple answer; Category II gives +2, 0 when a wrong option is marked, and partial credit for a correct subset.</li>
+      <li>Questions that depend on a diagram the transcription does not reproduce are shown for reading but are never marked, and never counted in a total.</li>
+      <li>Accuracy is reported with its denominator, and an assisted answer never counts as an independent one. There is no rank, no predicted score and no streak that survives without a submitted paper.</li>
+      <li>No account, no server and no tracking. Clearing site data loses this record — export it from the <a href={`${base}workspace/`}>workspace</a>.</li>
+    </ul>
+  </section>
+
+  <span hidden data-scorable-total={scorableQuestions} data-base={base}></span>
   <script>
+    import { readAttempts } from '../lib/attempts';
+    import { readQueue } from '../lib/review';
+    import { buildStats } from '../lib/stats';
     import { readProgress, isSection } from '../progress';
-    import { readWorkspaceSafe } from '../workspace';
-    const action = document.querySelector<HTMLAnchorElement>('[data-resume]');
-    const note = document.querySelector<HTMLElement>('[data-resume-note]');
-    const startHref = action?.href;
-    function refresh() {
-      if (!action || !note || !startHref) return;
-      action.href = startHref;
-      action.textContent = 'Start parallel circuits →';
-      note.textContent = 'About 8 minutes · No account needed';
-      const { progress, available } = readProgress();
-      if (!available) note.textContent = 'Progress cannot be saved on this browser. The lesson still works.';
-      if (progress && isSection(progress.section)) {
-        const url = new URL(action.href);
-        url.searchParams.set('resume', '1');
-        url.hash = progress.section;
-        action.href = url.href;
-        action.textContent = 'Resume parallel circuits →';
-        note.textContent = `Last section: ${progress.section.replaceAll('-', ' ')}`;
-      }
+
+    const marker = document.querySelector<HTMLElement>('[data-scorable-total]');
+    const scorableTotal = Number(marker?.dataset.scorableTotal ?? '0');
+    const base = marker?.dataset.base ?? '/';
+    const attempts = readAttempts();
+    const queue = readQueue();
+    const stats = buildStats(attempts, queue, scorableTotal);
+
+    const set = (key: string, value: string) => {
+      const node = document.querySelector(`[data-stat="${key}"]`);
+      if (node) node.textContent = value;
+    };
+    const setNote = (key: string, value: string) => {
+      const node = document.querySelector(`[data-stat-note="${key}"]`);
+      if (node) node.textContent = value;
+    };
+
+    set('attempted', String(stats.questionsAttempted));
+    setNote('attempted', `of ${scorableTotal} questions with a published key`);
+    set('accuracy', stats.accuracy === null ? '—' : `${Math.round(stats.accuracy * 100)}%`);
+    setNote('accuracy', stats.independentAnswered > 0
+      ? `${stats.independentCorrect} of ${stats.independentAnswered} first attempts, without hints`
+      : 'no submitted attempt yet');
+    set('due', String(stats.dueNow));
+    setNote('due', stats.queueSize > 0 ? `${stats.queueSize} questions in the review queue` : 'nothing waiting for review');
+    set('streak', String(stats.streak));
+
+    // The lesson's own reading position, if the learner started the chapter.
+    const lessonSlot = document.querySelector('#lesson-slot');
+    const { progress } = readProgress();
+    if (lessonSlot && progress && isSection(progress.section)) {
+      const row = document.createElement('div');
+      row.className = 'card-flat';
+      const link = document.createElement('a');
+      link.className = 'linkrow';
+      const left = document.createElement('span');
+      const strong = document.createElement('strong');
+      strong.textContent = 'Parallel circuits · the lesson';
+      const small = document.createElement('small');
+      small.textContent = `Last section: ${progress.section.replaceAll('-', ' ')}`;
+      left.append(strong, small);
+      const arrow = document.createElement('span');
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.textContent = '→';
+      link.append(left, arrow);
+      link.href = `${base}learn/parallel-circuits/?resume=1#${progress.section}`;
+      row.append(link);
+      lessonSlot.replaceChildren(row);
     }
-    async function refreshWorkspace() {
-      const row = document.querySelector<HTMLElement>('[data-workspace-resume]');
-      const link = document.querySelector<HTMLAnchorElement>('[data-workspace-link]');
-      if (!row || !link) return;
-      const { data } = await readWorkspaceSafe();
-      const saved = data?.items.resume[0];
-      const origin = new URL(startHref ?? location.href);
-      const projectRoot = `${origin.origin}/${origin.pathname.split('/')[1]}/`;
-      if (!saved) { row.hidden = true; return; }
-      const resolved = new URL(saved.url, projectRoot).href;
-      if (!resolved.startsWith(projectRoot)) { row.hidden = true; return; }
-      link.href = resolved;
-      link.textContent = `Continue saved item: ${saved.title}`;
-      row.hidden = false;
+
+    const slot = document.querySelector('#continue-slot');
+    const resume = attempts.find((attempt) => !attempt.submittedAt)
+      ?? [...attempts].sort((a, b) => (b.submittedAt ?? b.updatedAt) - (a.submittedAt ?? a.updatedAt))[0];
+    if (slot && resume && /^jelet-et-p1-\d{4}$/.test(resume.paperId)) {
+      const answered = Object.keys(resume.responses ?? {}).filter((key) => (resume.responses[key] ?? []).length > 0).length;
+      const total = resume.questionIds?.length ?? 0;
+      const when = new Date(resume.submittedAt ?? resume.updatedAt).toLocaleString();
+      const status = resume.submittedAt
+        ? `Submitted ${when} · ${answered} of ${total} answered`
+        : `In progress · ${answered} of ${total} answered`;
+      const paperSlug = resume.paperId.replace('jelet-et-p1-', '');
+
+      const card = document.createElement('div');
+      card.className = 'card-flat';
+      const info = document.createElement('div');
+      const title = document.createElement('strong');
+      title.textContent = resume.title;
+      const note = document.createElement('div');
+      note.className = 'micro';
+      note.textContent = `${status} · ${resume.paperLabel}`;
+      info.append(title, note);
+      const link = document.createElement('a');
+      link.className = 'btn small';
+      link.href = `${base}practice/${paperSlug}/${resume.subjectKey ? `${resume.subjectKey}/` : ''}`;
+      link.textContent = resume.submittedAt ? 'Review this attempt' : 'Continue';
+      const row = document.createElement('div');
+      row.className = 'row-between';
+      row.append(info, link);
+      card.append(row);
+      slot.replaceChildren(card);
     }
-    refresh();
-    void refreshWorkspace();
-    window.addEventListener('pageshow', () => { refresh(); void refreshWorkspace(); });
   </script>
 </Site>

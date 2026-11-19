@@ -1,30 +1,187 @@
 ---
 import { getCollection } from 'astro:content';
 import Site from '../../layouts/Site.astro';
-import { practiceHref, validatePractice, type PracticeData } from '../../practice';
+import { validatePractice, type PracticeData } from '../../practice';
+import { papers, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const items = (await getCollection('practice')).map((entry) => entry.data) as PracticeData[];
 validatePractice(items);
+const keyed = papers.filter((paper) => paper.scoreableQuestions > 0);
+const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
 ---
-<Site title="Practice" active="practice">
-  <div class="page-intro">
-    <p class="eyebrow">PAPER I · ORIGINAL PRACTICE</p>
-    <h1>Practice cards.</h1>
-    <p class="lead">Original notebook checks linked to the exact lesson section. No past exam question is published here.</p>
+<Site title="Practice" active="practice" description="Timed JELET Paper I practice: full-paper rehearsals, subject drills from real previous-year papers, original checks and a spaced review queue.">
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.4rem">
+    <div class="grow">
+      <p class="eyebrow">Paper I · Practice</p>
+      <h1>Practice with the real marking.</h1>
+      <p class="lead">
+        Every set below is built from a previous-year paper that carries a published answer key. Marks follow the
+        board's own rules, and a question whose diagram was never transcribed is never marked.
+      </p>
+    </div>
+    <a class="btn ghost" href={`${base}review/`}>Review desk</a>
   </div>
-  <section class="module" aria-labelledby="practice-list">
-    <h2 id="practice-list">Available cards</h2>
-    <ul class="practice-list">
+
+  <section aria-labelledby="mocks">
+    <div class="section-head">
+      <h2 id="mocks">Full-paper rehearsal</h2>
+      <span class="micro">Same clock, same marks, same rules.</span>
+    </div>
+    <div class="card-grid">
+      {keyed.map((paper) => (
+        <div class="card-flat">
+          <div class="row-between" style="align-items:flex-start">
+            <div>
+              <strong>{paper.label}</strong>
+              <div class="micro">
+                {paper.scoreableQuestions} questions · {paper.scoreableMarks} marks · {paper.durationMinutes} minutes
+              </div>
+            </div>
+            {paper.keyTier === 'official'
+              ? <span class="chip official">Official</span>
+              : <span class="chip derived">Derived</span>}
+          </div>
+          {paper.heldQuestions > 0 && (
+            <p class="micro">Labelled incomplete: {paper.heldQuestions} questions are readable but not markable.</p>
+          )}
+          <div class="btn-row" style="margin-top:.6rem">
+            <a class="btn small" href={`${base}practice/${paper.id}/`}>Start the full paper</a>
+            <a class="btn small ghost" href={`${base}library/${paper.id}/`}>Read it</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="drills">
+    <div class="section-head">
+      <h2 id="drills">Subject drills</h2>
+      <span class="micro">The real size is shown. Nothing is padded with repeats.</span>
+    </div>
+    {keyed.map((paper) => {
+      const drills = paper.subjects
+        .map((subject) => {
+          const list = paper.questions.filter((question) => question.subjectKey === subject.subjectKey && question.scorable);
+          return { ...subject, count: list.length, marks: list.reduce((sum, question) => sum + question.marks, 0) };
+        })
+        .filter((subject) => subject.count > 0);
+      return (
+        <div style="margin-bottom:1.4rem">
+          <p class="eyebrow">{paper.label}</p>
+          <ul class="linklist">
+            {drills.map((subject) => (
+              <li>
+                <a href={`${base}practice/${paper.id}/${subject.subjectKey}/`}>
+                  <span>
+                    <strong>{subjectLabels[subject.subjectKey as SubjectKey]}</strong>
+                    <small>{subject.count} questions · {subject.marks} marks · {Math.max(10, subject.marks)} minutes</small>
+                  </span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    })}
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="queue-heading">
+    <div class="section-head">
+      <h2 id="queue-heading">Your review queue</h2>
+    </div>
+    <div class="card" id="queue-card">
+      <p class="micro" data-queue-status>Checking this browser…</p>
+    </div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="original-heading">
+    <div class="section-head">
+      <h2 id="original-heading">Original practice cards</h2>
+      <span class="micro">Written for this site. Not past exam questions.</span>
+    </div>
+    <ul class="linklist">
       {items.map((item) => (
         <li>
-          <a class="chapter-card" href={practiceHref(base, item.publicId)}>
-            <span><strong>{item.title}</strong><small>{item.summary}</small></span>
+          <a href={`${base}cards/${item.publicId}/`}>
+            <span>
+              <strong>{item.title}</strong>
+              <small>{item.summary}</small>
+            </span>
             <span aria-hidden="true">→</span>
           </a>
-          <p class="micro">Original · not a past exam question · check after attempt</p>
         </li>
       ))}
     </ul>
   </section>
+
+  {readOnly.length > 0 && (
+    <section class="card" style="margin-top:2rem">
+      <h2 style="font-size:1.05rem">Papers you can read but not mark</h2>
+      <p class="micro">
+        No answer key has been published for these years, and this site does not invent one. They are still worth
+        reading: the questions are the same kind you will face.
+      </p>
+      <ul class="linklist">
+        {readOnly.map((paper) => (
+          <li>
+            <a href={`${base}library/${paper.id}/`}>
+              <span><strong>{paper.label}</strong><small>{paper.questionCount} questions · read only</small></span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <script>
+    import { readQueue, dueItems } from '../../lib/review';
+
+    const base = document.querySelector<HTMLElement>('[data-base]')?.dataset.base ?? '/';
+    const card = document.querySelector('#queue-card');
+    const status = document.querySelector<HTMLElement>('[data-queue-status]');
+    const queue = readQueue();
+    const due = dueItems(queue);
+
+    const drawQueue = () => {
+      if (!card) return;
+      if (queue.length === 0) {
+        if (status) status.textContent = 'Your queue is empty. Questions you get wrong or leave blank land here automatically.';
+        return;
+      }
+      card.replaceChildren();
+      const head = document.createElement('p');
+      head.className = 'micro';
+      head.textContent = `${due.length} of ${queue.length} questions are due now. Each wrong answer sends a question back to the start of the ladder.`;
+      const list = document.createElement('ul');
+      list.className = 'linklist';
+      for (const item of due.slice(0, 6)) {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = `${base}library/jelet-et-p1-${item.paperYear}/#q${item.n}`;
+        const span = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = `${item.paperYear} · Q${item.n}`;
+        const small = document.createElement('small');
+        small.textContent = item.stem.slice(0, 110);
+        span.append(strong, small);
+        link.append(span);
+        const arrow = document.createElement('span');
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '→';
+        link.append(arrow);
+        li.append(link);
+        list.append(li);
+      }
+      const more = document.createElement('p');
+      more.className = 'micro';
+      more.textContent = due.length > 6 ? `…and ${due.length - 6} more.` : '';
+      card.append(head, list, more);
+    };
+
+    drawQueue();
+  </script>
+  <span hidden data-base={base}></span>
 </Site>
