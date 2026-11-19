@@ -1,7 +1,8 @@
 # Phase 04 · exam engine and product upgrade · 2026-11-19
 
-- **Phase/task/status:** 04-practice / 04 plus parts of 05 (full-paper mock) and 06 (offline shell); **implemented and agent-verified**, not yet published to Pages and not independently content-reviewed.
-- **Branch/commit:** `arena/9166576f-jelet-ultimate-prep`, working tree (commit pending at the time of writing).
+- **Phase/task/status:** 04-practice / 04 plus parts of 05 (full-paper mock) and 06 (offline shell); **implemented, agent-verified and published to Pages**; not independently content-reviewed.
+- **Branch/commit:** `arena/9166576f-jelet-ultimate-prep` / `364ba8c`; [PR #4](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/pull/4); [Pages run 44607760937](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44607760937).
+- **Public URL:** https://pabitra27706-oss.github.io/Jelet-ultimate-prep/ — project subpath, HTTPS, no custom domain or spend. Verified live after the deploy: the dashboard, the 2022 reader, the 2025 full-paper runner, the review desk and the tier-labelled `data/keys.json` all serve correctly, and the old `/practice/orig-parallel-independent-v1/` address still redirects to the card.
 - **Owner/reviewer:** owner approved the scope in-session (real exam engine, redesigned shell, publishing the papers and keys with visible provenance labels). No independent content, rights or accessibility reviewer has looked at this build.
 
 ## Inputs and pre-change evidence
@@ -53,10 +54,11 @@
 | 320 px at 200 % text | no page-wide horizontal overflow on any route | measured on 11 routes at 320 px with the root font at 200 %; scroll width equals the viewport width | Pass after fix |
 | Offline | the site still loads and searches with the network off | the service worker precaches the shell, the key file and the search index; a Chromium context switched offline reloads the shell, the syllabus and a live search | Pass |
 | Local search | a question is findable by year and number | "JELET 2025 · Q31" returns that question first; "JELET 2017 · Q45" returns the 2017 item first | Pass after fix |
-| Public artifact | nothing ships that is not declared | `scripts/public-artifact.json` is a single allowlist read by both the browser suite and the Pages workflow; the build publishes 72 files, all on it | Pass |
+| Public artifact | nothing ships that is not declared | `scripts/public-artifact.json` is a single allowlist read by both the browser suite and the Pages workflow; the build publishes 73 files, all on it | Pass |
 | Broken links | every internal link resolves | a link audit over all 32 built pages and all 692 search-index URLs reports 0 broken targets | Pass |
 | Cost, privacy, access | no account, no server, no paid API, nothing uploaded | static build, `localStorage` only, no third-party request; the browser suite fails the build if any request leaves the origin | Pass |
 | Independent content / rights / accessibility review | a reviewer checks the published corpus and the layout | **not done** — still open | Pending |
+| Published build serves correctly | the deployed URL answers with real content | dashboard, 2022 reader, 2025 runner, review desk and `data/keys.json` verified live; the old practice-card address still redirects | Pass |
 
 ## Checks recorded
 
@@ -88,4 +90,4 @@
 
 Revert the branch and redeploy the last published build; `archive/jelet-prep/` was never modified and the older published site is still live. The new artefact is entirely static, so a bad release is a revert plus a Pages run.
 
-**Roadmap updated by/date:** agent, 2026-11-19 — Phase 04 implemented and agent-verified; 05 and 06 partially delivered; publication to Pages is still an owner release decision.
+**Roadmap updated by/date:** agent, 2026-11-19 — Phase 04 implemented, agent-verified and published; 05 and 06 partially delivered; the owner review of PR #4 and the independent content/rights/accessibility reviews remain open.
