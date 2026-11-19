@@ -10,7 +10,7 @@
     "build": "astro build",
     "check": "astro check",
     "preview": "node scripts/preview.mjs",
-    "test:browser": "node --test --test-timeout=15000 tests/pilot.test.mjs"
+    "test:browser": "node --test --test-timeout=15000 tests/*.test.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",

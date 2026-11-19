@@ -11,6 +11,7 @@ const lesson = `${base}learn/parallel-circuits/`;
       <p class="lead">Learn why parallel branches share voltage but carry different currents. Then try a new circuit on your own.</p>
       <a class="button" href={`${lesson}#predict`} data-resume>Start parallel circuits <span aria-hidden="true">→</span></a>
       <p class="micro" data-resume-note>About 8 minutes · No account needed</p>
+      <p class="micro" data-workspace-resume hidden><a data-workspace-link href="#">Continue saved item</a></p>
     </div>
     <div class="hero-art"><img src={`${base}parallel-circuit.svg`} width="680" height="300" alt="Preview of two parallel resistors between the same two nodes." /><p><span>01 / DC CIRCUITS</span><span>ORIGINAL LESSON</span></p></div>
   </div>
@@ -24,6 +25,7 @@ const lesson = `${base}learn/parallel-circuits/`;
   </section>
   <script>
     import { readProgress, isSection } from '../progress';
+    import { readWorkspaceSafe } from '../workspace';
     const action = document.querySelector<HTMLAnchorElement>('[data-resume]');
     const note = document.querySelector<HTMLElement>('[data-resume-note]');
     const startHref = action?.href;
@@ -43,7 +45,23 @@ const lesson = `${base}learn/parallel-circuits/`;
         note.textContent = `Last section: ${progress.section.replaceAll('-', ' ')}`;
       }
     }
+    async function refreshWorkspace() {
+      const row = document.querySelector<HTMLElement>('[data-workspace-resume]');
+      const link = document.querySelector<HTMLAnchorElement>('[data-workspace-link]');
+      if (!row || !link) return;
+      const { data } = await readWorkspaceSafe();
+      const saved = data?.items.resume[0];
+      const origin = new URL(startHref ?? location.href);
+      const projectRoot = `${origin.origin}/${origin.pathname.split('/')[1]}/`;
+      if (!saved) { row.hidden = true; return; }
+      const resolved = new URL(saved.url, projectRoot).href;
+      if (!resolved.startsWith(projectRoot)) { row.hidden = true; return; }
+      link.href = resolved;
+      link.textContent = `Continue saved item: ${saved.title}`;
+      row.hidden = false;
+    }
     refresh();
-    window.addEventListener('pageshow', refresh);
+    void refreshWorkspace();
+    window.addEventListener('pageshow', () => { refresh(); void refreshWorkspace(); });
   </script>
 </Site>

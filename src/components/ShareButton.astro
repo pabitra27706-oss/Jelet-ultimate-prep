@@ -1,0 +1,53 @@
+---
+const { title, url, meta, label = 'Share this card' } = Astro.props as {
+  title: string; url: string; meta: string; label?: string;
+};
+---
+<div class="share" data-share>
+  <button type="button" class="button share-button" data-share-button
+    data-share-title={title} data-share-url={url} data-share-meta={meta}>{label}</button>
+  <p class="micro" data-share-status aria-live="polite">No answer, note or choice is included.</p>
+  <div class="share-fallback" data-share-fallback hidden>
+    <label>Select and copy this text
+      <textarea data-share-text rows="3" readonly></textarea>
+    </label>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-share]').forEach((root) => {
+    const button = root.querySelector<HTMLButtonElement>('[data-share-button]');
+    const status = root.querySelector<HTMLElement>('[data-share-status]');
+    const fallback = root.querySelector<HTMLElement>('[data-share-fallback]');
+    const textarea = root.querySelector<HTMLTextAreaElement>('[data-share-text]');
+    if (!button || !status || !fallback || !textarea) return;
+    const title = button.dataset.shareTitle ?? 'JELET Ultimate Prep';
+    const url = button.dataset.shareUrl ?? location.href;
+    const meta = button.dataset.shareMeta ?? '';
+    const shareUrl = new URL(url, location.href).href;
+    const text = `${meta}\n${title}\n${shareUrl}`;
+
+    button.addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, text, url: shareUrl });
+          status.textContent = 'Shared.';
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+        }
+      }
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = 'Link copied without an answer.';
+          return;
+        } catch { /* Fall through to selectable text. */ }
+      }
+      textarea.value = text;
+      fallback.hidden = false;
+      textarea.focus();
+      textarea.select();
+      status.textContent = 'Select and copy the text below.';
+    });
+  });
+</script>

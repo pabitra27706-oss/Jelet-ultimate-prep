@@ -8,8 +8,9 @@ root = Path(__file__).resolve().parents[1]
 dist = root / 'dist'
 base = 'Jelet-ultimate-prep'
 required = {
-    'index.html', 'learn/index.html', 'learn/parallel-circuits/index.html',
-    'parallel-circuit.svg',
+    'index.html', 'learn/index.html', 'learn/parallel-circuits/index.html', 'parallel-circuit.svg',
+    'practice/index.html', 'practice/orig-parallel-independent-v1/index.html',
+    'search/index.html', 'search-index.json', 'workspace/index.html',
 }
 output = root / 'downloads' / 'jelet-android-preview.zip'
 

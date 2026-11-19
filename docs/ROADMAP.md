@@ -1,13 +1,13 @@
 # Phase roadmap and current handoff
 
-**2026-11-19: original-only pilot in preview.** Archive captured; owner retirement steps unconfirmed. Phase 01 research is recorded; all ten audited 2025 items remain held. The owner reported the Android check passed. Next gate: learner-transfer evidence for Phase 02. No public deployment. Follow gates, not calendar estimates.
+**2026-11-19: original-only pilot in preview.** Archive captured; owner retirement steps unconfirmed. Phase 01 research is recorded; all ten audited 2025 items remain held. The owner reported the Android check passed. Next gate: learner-transfer evidence for Phase 02. Phase 03 has a [planning index](phases/03-library/2026-11-19-phase-03-plan-index.md) and verified 03.1–03.4 preview slices for approved original content; no PYQ reader, release audit or release. No public deployment. The owner recorded on 2026-11-19 that learner transfer may stay untested for labelled preview work ([decision](DECISIONS.md)); that is not a learning claim or a release authorization. Follow gates, not calendar estimates.
 
 | Phase | Scope / release gate | Status |
 |---|---|---|
 | [00 Preservation](phases/00-preservation/README.md) | Recoverable baseline; separate decision before deleting old site | Capture tested; retirement not confirmed |
 | [01 Evidence](phases/01-evidence/README.md) | Syllabus map, ten audited items, permissions, lesson plan | [Research artifacts delivered](phases/01-evidence/2026-11-19-phase-01.md); [owner sign-off for original-only pilot recorded](phases/02-learning/2026-11-19-phase-02.md) |
 | [02 Learning pilot](phases/02-learning/README.md) | Static foundation and one complete chapter; independent transfer check | [Android pass reported; learner transfer pending](phases/02-learning/2026-11-19-phase-02.md) |
-| [03 Library and workspace](phases/03-library/README.md) | First public study release: two-way topic links, sharing, search, notes, backup | Planned |
+| [03 Library and workspace](phases/03-library/README.md) | First public study release: two-way topic links, sharing, search, notes, backup | [03.1–03.4 preview slices implemented](phases/03-library/2026-11-19-phase-03-plan-index.md); 03.5 audit pending; phase gate still open |
 | [04 Practice and review](phases/04-practice/README.md) | Honest scoring, reasoned feedback, local retry and planning | Planned |
 | [05 Exam rehearsal](phases/05-rehearsal/README.md) | Verified full paper, OMR option, printed companion | Blocked until one full paper passes editorial review |
 | [06 Offline and release hardening](phases/06-offline/README.md) | Installable/offline experience, recovery and phone release evidence | Planned |
