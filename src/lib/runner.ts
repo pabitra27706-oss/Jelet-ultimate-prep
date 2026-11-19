@@ -38,7 +38,7 @@ const readKeyFile = async (url: string): Promise<Record<string, KeyEntry>> => {
 };
 
 const readQuestionMeta = (root: ParentNode) => {
-  const meta = new Map<string, { n: number; category: 'I' | 'II'; marks: number; subjectKey: string; subject: string; stem: string }>();
+  const meta = new Map<string, { n: number; category: 'I' | 'II'; marks: number; subjectKey: string; subject: string; stem: string; voided: boolean }>();
   root.querySelectorAll<HTMLElement>('.pane[data-question]').forEach((node) => {
     const id = node.dataset.question;
     if (!id) return;
@@ -49,6 +49,9 @@ const readQuestionMeta = (root: ParentNode) => {
       subjectKey: node.dataset.subjectKey ?? 'other',
       subject: node.dataset.subject ?? '',
       stem: node.querySelector('.qstem')?.textContent?.trim().slice(0, 160) ?? '',
+      // The board voided this item: it awarded the marks to every candidate,
+      // so the runner marks it for the learner and never asks for an answer.
+      voided: node.dataset.voided === 'true',
     });
   });
   return meta;
@@ -121,8 +124,11 @@ export function initRunner(config: RunnerConfig): void {
     startedAt: existing?.startedAt ?? Date.now(),
     updatedAt: Date.now(),
     submittedAt: existing?.submittedAt ?? null,
+    submissionId: existing?.submissionId ?? null,
     timeSpentSeconds: existing?.timeSpentSeconds ?? 0,
+    deadlineAt: existing?.deadlineAt ?? (config.limitSeconds === null ? null : (existing?.startedAt ?? Date.now()) + config.limitSeconds * 1000),
     responses,
+    responseTimes: existing?.responseTimes ?? {},
     marked,
     visited,
     assisted,
@@ -133,11 +139,24 @@ export function initRunner(config: RunnerConfig): void {
 
   const save = () => {
     attempt.responses = responses;
+    attempt.responseTimes = responseTimes;
     attempt.marked = marked;
     attempt.visited = visited;
     attempt.assisted = assisted;
     attempt.updatedAt = Date.now();
-    const { saved } = upsertAttempt(attempt);
+    const { saved, attempts } = upsertAttempt(attempt);
+    // If another tab already submitted this paper, its result is the one that
+    // stands. Reflect that here so this tab stops accepting changes.
+    const stored = attempts.find((entry) => entry.id === attempt.id);
+    if (stored?.submittedAt && stored.submissionId !== attempt.submissionId) {
+      submitted = true;
+      if (tick !== undefined) window.clearInterval(tick);
+      if (announce) announce.textContent = 'This paper was already submitted in another tab. Its result has been kept.';
+      attempt.submittedAt = stored.submittedAt;
+      attempt.submissionId = stored.submissionId;
+      attempt.results = stored.results;
+      paintProgress();
+    }
     if (storageNote) {
       storageNote.textContent = saved
         ? 'Saved on this device.'
@@ -147,7 +166,15 @@ export function initRunner(config: RunnerConfig): void {
 
   /* ---------------- rendering ---------------- */
 
-  const answeredCount = () => panes.filter((id) => (responses[id] ?? []).length > 0).length;
+  /**
+   * The board awarded some items to every candidate. The learner is not asked
+   * for an answer on those, so they are not part of the answering progress
+   * and they never count as blank.
+   */
+  const voidedPanes = new Set(panes.filter((id) => meta.get(id)?.voided));
+  const answerablePanes = panes.filter((id) => !voidedPanes.has(id));
+  const answeredCount = () => answerablePanes.filter((id) => (responses[id] ?? []).length > 0).length;
+  const responseTimes = { ...(existing?.responseTimes ?? {}) };
 
   function paintOptions() {
     container.querySelectorAll<HTMLButtonElement>('.opt[data-option]').forEach((button) => {
@@ -164,17 +191,23 @@ export function initRunner(config: RunnerConfig): void {
       const questionId = button.dataset.nav ?? '';
       const selected = (responses[questionId] ?? []).length > 0;
       const isMarked = marked.includes(questionId);
-      const state = isMarked ? 'marked' : selected ? 'answered' : 'unanswered';
+      const isVoided = voidedPanes.has(questionId);
+      const state = isVoided ? 'voided' : isMarked ? 'marked' : selected ? 'answered' : 'unanswered';
       button.dataset.state = state;
-      button.setAttribute('aria-label', `Question ${button.textContent?.trim()}${selected ? ', answered' : ''}${isMarked ? ', marked for review' : ''}`);
+      button.setAttribute('aria-label', `Question ${button.textContent?.trim()}${isVoided ? ', voided by the board and awarded to every candidate' : selected ? ', answered' : ''}${isMarked ? ', marked for review' : ''}`);
     });
   }
 
   function paintProgress() {
     const answered = answeredCount();
-    if (progressNode) progressNode.textContent = `${answered} of ${panes.length} answered`;
+    const total = answerablePanes.length;
+    if (progressNode) {
+      progressNode.textContent = voidedPanes.size > 0
+        ? `${answered} of ${total} answered · ${voidedPanes.size} voided by the board`
+        : `${answered} of ${total} answered`;
+    }
     if (progressBar) {
-      const ratio = panes.length > 0 ? answered / panes.length : 0;
+      const ratio = total > 0 ? answered / total : 0;
       progressBar.style.width = `${Math.round(ratio * 100)}%`;
     }
     if (submitButton) {
@@ -212,6 +245,9 @@ export function initRunner(config: RunnerConfig): void {
     const option = target.closest<HTMLButtonElement>('.opt[data-option]');
     if (option && !submitted) {
       const questionId = option.dataset.question ?? '';
+      // A voided item was awarded by the board to every candidate, so there is
+      // nothing to mark. The options stay readable; they are just not live.
+      if (voidedPanes.has(questionId)) return;
       const label = option.dataset.option ?? '';
       const category = meta.get(questionId)?.category ?? 'I';
       const current = new Set(responses[questionId] ?? []);
@@ -224,6 +260,7 @@ export function initRunner(config: RunnerConfig): void {
         current.add(label);
       }
       responses[questionId] = [...current].sort();
+      responseTimes[questionId] = Date.now();
       save();
       paintOptions();
       paintNavigator();
@@ -269,6 +306,15 @@ export function initRunner(config: RunnerConfig): void {
     if (submitted) return;
     if (!window.confirm('Clear every answer in this paper?')) return;
     responses = {};
+    for (const key of Object.keys(responseTimes)) delete responseTimes[key];
+    // Clearing starts the paper over, so the clock restarts with it.
+    attempt.startedAt = Date.now();
+    attempt.deadlineAt = config.limitSeconds === null ? null : attempt.startedAt + config.limitSeconds * 1000;
+    if (config.limitSeconds !== null) {
+      const minutes = Math.floor(config.limitSeconds / 60);
+      const seconds = config.limitSeconds % 60;
+      if (timerNode) timerNode.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
     marked = [];
     save();
     paintOptions();
@@ -279,10 +325,19 @@ export function initRunner(config: RunnerConfig): void {
 
   /* ---------------- clock ---------------- */
 
-  let remaining: number = config.limitSeconds ?? 0;
-  if (existing?.submittedAt) remaining = 0;
-  let tick: number | undefined;
+  // The deadline is fixed when the attempt starts and is derived from the
+  // wall clock, never from a counter. A reload, a backgrounded tab or a
+  // throttled render loop therefore cannot hand back time.
   const startedAt = existing?.startedAt ?? Date.now();
+  const deadlineAt = existing?.deadlineAt
+    ?? (config.limitSeconds === null ? null : startedAt + config.limitSeconds * 1000);
+
+  const remainingSeconds = (): number => {
+    if (config.limitSeconds === null || deadlineAt === null) return 0;
+    return Math.max(0, Math.ceil((deadlineAt - Date.now()) / 1000));
+  };
+
+  let tick: number | undefined;
 
   function paintClock() {
     if (!timerNode) return;
@@ -291,6 +346,7 @@ export function initRunner(config: RunnerConfig): void {
       timerNode.classList.remove('warn');
       return;
     }
+    const remaining = remainingSeconds();
     const minutes = Math.floor(remaining / 60);
     const seconds = remaining % 60;
     timerNode.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -300,8 +356,8 @@ export function initRunner(config: RunnerConfig): void {
   function startClock() {
     if (config.limitSeconds === null || submitted) return;
     if (tick !== undefined) window.clearInterval(tick);
-    tick = window.setInterval(() => {
-      remaining = Math.max(0, remaining - 1);
+    const check = () => {
+      const remaining = remainingSeconds();
       attempt.timeSpentSeconds = Math.floor((Date.now() - startedAt) / 1000);
       paintClock();
       if (remaining === 0) {
@@ -309,16 +365,43 @@ export function initRunner(config: RunnerConfig): void {
         if (announce) announce.textContent = 'Time is up. The paper was submitted automatically.';
         void submit('Time expired');
       }
-    }, 1000);
+    };
+    check();
+    tick = window.setInterval(check, 1000);
+    // A tab that was in the background may have missed ticks; re-check when
+    // the learner comes back so the clock never looks frozen.
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
   }
 
   /* ---------------- submit + score ---------------- */
 
   async function submit(reason?: string): Promise<void> {
     if (submitted) return;
+
+    // Another tab may have submitted this paper while this one was open.
+    // The first submission stands; this tab shows that result instead of
+    // replacing it.
+    const storedAttempt = readAttempts().find((entry) => entry.id === config.attemptId);
+    if (storedAttempt?.submittedAt) {
+      submitted = true;
+      if (tick !== undefined) window.clearInterval(tick);
+      attempt.submittedAt = storedAttempt.submittedAt;
+      attempt.results = storedAttempt.results;
+      if (announce) announce.textContent = 'This paper was already submitted in another tab. Its result has been kept.';
+      paintProgress();
+      if (resultsNode && storedAttempt.results) {
+        resultsNode.hidden = false;
+        resultsNode.innerHTML = '<div class="notice">This paper was already submitted in another tab. That result has been kept, and nothing here was changed.</div>';
+        if (paperNode) paperNode.hidden = true;
+      }
+      return;
+    }
+
     submitted = true;
     if (tick !== undefined) window.clearInterval(tick);
     attempt.submittedAt = Date.now();
+    // This token marks this tab's submission as the one that stands.
+    attempt.submissionId = `sub-${attempt.submittedAt}-${Math.random().toString(36).slice(2, 8)}`;
     attempt.timeSpentSeconds = Math.floor((Date.now() - startedAt) / 1000);
     save();
     paintProgress();
@@ -343,9 +426,15 @@ export function initRunner(config: RunnerConfig): void {
       const entry = keys[questionId];
       const keyLetters = entry?.key ?? [];
       const selected = responses[questionId] ?? [];
-      const scored = entry
-        ? scoreItem({ category: info.category, marks: info.marks, key: keyLetters, voided: entry.voided }, selected)
-        : { status: 'unmarked' as const, awarded: { n: 0, d: 1 }, selected, key: keyLetters, explanation: 'No published key for this item.' };
+      // The pane's own disposition is authoritative: the board voided this
+      // item, so it awards its marks to every candidate whatever the answer
+      // key file happens to say.
+      const isVoided = info.voided || Boolean(entry?.voided);
+      const scored = isVoided
+        ? scoreItem({ category: info.category, marks: info.marks, key: keyLetters, voided: true }, selected)
+        : entry
+          ? scoreItem({ category: info.category, marks: info.marks, key: keyLetters, voided: false }, selected)
+          : { status: 'unmarked' as const, awarded: { n: 0, d: 1 }, selected, key: keyLetters, explanation: 'No published key for this item.' };
       items.push({ ...scored, id: questionId, n: info.n, subject: info.subject, subjectKey: info.subjectKey, category: info.category, marks: info.marks });
       results.push({ questionId, subjectKey: info.subjectKey, status: scored.status, awarded: scored.awarded.n / scored.awarded.d, assisted: assisted.includes(questionId) });
     }
@@ -375,9 +464,9 @@ export function initRunner(config: RunnerConfig): void {
   }
 
   submitButton?.addEventListener('click', () => {
-    const unanswered = panes.length - answeredCount();
+    const unanswered = answerablePanes.length - answeredCount();
     const message = unanswered > 0
-      ? `${unanswered} of ${panes.length} questions are still blank. Submit anyway?`
+      ? `${unanswered} of ${answerablePanes.length} questions are still blank. Submit anyway?`
       : 'Submit this paper and see the marks?';
     if (!window.confirm(message)) return;
     void submit();

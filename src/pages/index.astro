@@ -1,17 +1,19 @@
 ---
 import Site from '../layouts/Site.astro';
-import { papers, scorablePapers, mockPaper, subjectLabels, type SubjectKey } from '../lib/content';
+import { papers, scorablePapers, mockPaper, rehearsableQuestions, subjectLabels, type SubjectKey } from '../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const totalQuestions = papers.reduce((sum, paper) => sum + paper.questionCount, 0);
 const scorableQuestions = papers.reduce((sum, paper) => sum + paper.scoreableQuestions, 0);
+const boardAwardedQuestions = papers.reduce((sum, paper) => sum + paper.boardAwardedQuestions, 0);
+const sitTotal = papers.reduce((sum, paper) => sum + paper.rehearsableQuestions, 0);
 const officialPapers = scorablePapers.filter((paper) => paper.keyTier === 'official');
 const derivedPapers = scorablePapers.filter((paper) => paper.keyTier === 'derived');
 const readOnlyPapers = papers.filter((paper) => !paper.hasKey);
 
 const drills = mockPaper.subjects
   .map((subject) => {
-    const items = mockPaper.questions.filter((question) => question.subjectKey === subject.subjectKey && question.scorable);
+    const items = rehearsableQuestions(mockPaper, subject.subjectKey);
     return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0) };
   })
   .filter((subject) => subject.count > 0);
@@ -34,10 +36,10 @@ const drills = mockPaper.subjects
         <p class="micro">No account. Everything is marked on your device. Nothing is uploaded.</p>
       </div>
       <div class="hero-panel">
-        <strong>{scorableQuestions}</strong>
-        <span>questions with a published key</span>
+        <strong>{sitTotal}</strong>
+        <span>questions you can sit</span>
         <div class="micro" style="margin-top:.6rem;opacity:.85">
-          {officialPapers.length} official key{officialPapers.length === 1 ? '' : 's'} · {derivedPapers.length} derived · {readOnlyPapers.length} read-only papers
+          {scorableQuestions} marked against a key · {boardAwardedQuestions} awarded by the board · {officialPapers.length} official key{officialPapers.length === 1 ? '' : 's'} · {derivedPapers.length} derived · {readOnlyPapers.length} read-only papers
         </div>
       </div>
     </div>
@@ -49,7 +51,7 @@ const drills = mockPaper.subjects
       <span class="micro" data-storage-note>Loaded from this browser only.</span>
     </div>
     <div class="stat-grid">
-      <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableQuestions} with a published key</em></div>
+      <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableQuestions} you can answer · {sitTotal} sit-able, {boardAwardedQuestions} awarded by the board</em></div>
       <div class="stat"><b data-stat="accuracy">—</b><span>Independent accuracy</span><em data-stat-note="accuracy">correct on a first, unassisted attempt</em></div>
       <div class="stat"><b data-stat="due">—</b><span>Reviews due</span><em data-stat-note="due">wrong or blank questions, spaced by a fixed ladder</em></div>
       <div class="stat"><b data-stat="streak">—</b><span>Day streak</span><em data-stat-note="streak">days with at least one submitted paper</em></div>
@@ -104,6 +106,7 @@ const drills = mockPaper.subjects
             <strong>{paper.label}</strong>
             <small>
               {paper.questionCount} questions · {paper.hasKey ? `${paper.scoreableQuestions} scoreable` : 'read only (no key published)'} ·
+              {paper.boardAwardedQuestions > 0 && ` ${paper.boardAwardedQuestions} awarded by the board ·`}
               {' '}{paper.gaps.length > 0 ? `${paper.gaps.length} missing in transcription` : 'complete numbering'}
             </small>
           </span>
@@ -118,12 +121,13 @@ const drills = mockPaper.subjects
     <ul class="small" style="color:var(--muted)">
       <li>Marks follow the published JELET rules: Category I gives +1, −1/4 for a wrong or multiple answer; Category II gives +2, 0 when a wrong option is marked, and partial credit for a correct subset.</li>
       <li>Questions that depend on a diagram the transcription does not reproduce are shown for reading but are never marked, and never counted in a total.</li>
+      <li>A question the board voided — published as "W", so no option is keyed — carries its full marks to every candidate. Those marks are in the totals, and the item is labelled wherever it appears.</li>
       <li>Accuracy is reported with its denominator, and an assisted answer never counts as an independent one. There is no rank, no predicted score and no streak that survives without a submitted paper.</li>
       <li>No account, no server and no tracking. Clearing site data loses this record — export it from the <a href={`${base}workspace/`}>workspace</a>.</li>
     </ul>
   </section>
 
-  <span hidden data-scorable-total={scorableQuestions} data-base={base}></span>
+  <span hidden data-scorable-total={scorableQuestions} data-sit-total={sitTotal} data-board-awarded-total={boardAwardedQuestions} data-base={base}></span>
   <script>
     import { readAttempts } from '../lib/attempts';
     import { readQueue } from '../lib/review';
@@ -131,7 +135,12 @@ const drills = mockPaper.subjects
     import { readProgress, isSection } from '../progress';
 
     const marker = document.querySelector<HTMLElement>('[data-scorable-total]');
+    // The coverage denominator is the answerable corpus. A board-voided item
+    // is awarded to everyone and is never answered, so it is not something the
+    // learner can cover.
     const scorableTotal = Number(marker?.dataset.scorableTotal ?? '0');
+    const sitTotal = Number(marker?.dataset.sitTotal ?? String(scorableTotal));
+    const boardAwardedTotal = Number(marker?.dataset.boardAwardedTotal ?? '0');
     const base = marker?.dataset.base ?? '/';
     const attempts = readAttempts();
     const queue = readQueue();
@@ -147,7 +156,7 @@ const drills = mockPaper.subjects
     };
 
     set('attempted', String(stats.questionsAttempted));
-    setNote('attempted', `of ${scorableTotal} questions with a published key`);
+    setNote('attempted', `of ${scorableTotal} you can answer · ${sitTotal} sit-able, ${boardAwardedTotal} awarded by the board`);
     set('accuracy', stats.accuracy === null ? '—' : `${Math.round(stats.accuracy * 100)}%`);
     setNote('accuracy', stats.independentAnswered > 0
       ? `${stats.independentCorrect} of ${stats.independentAnswered} first attempts, without hints`

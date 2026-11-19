@@ -4,6 +4,8 @@ import { papers, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestions, 0);
+const sitTotal = papers.reduce((sum, paper) => sum + paper.rehearsableQuestions, 0);
+const boardAwardedTotal = papers.reduce((sum, paper) => sum + paper.boardAwardedQuestions, 0);
 const subjectNames = new Map<string, string>();
 for (const paper of papers) {
   for (const question of paper.questions) subjectNames.set(question.subjectKey, subjectLabels[question.subjectKey as SubjectKey]);
@@ -31,9 +33,9 @@ for (const paper of papers) {
       <span class="micro" data-review-storage>Loaded from this browser only.</span>
     </div>
     <div class="stat-grid">
-      <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableTotal} markable</em></div>
+      <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableTotal} you can answer · {sitTotal} sit-able</em></div>
       <div class="stat"><b data-stat="accuracy">—</b><span>Independent accuracy</span><em data-stat-note="accuracy">first attempts only</em></div>
-      <div class="stat"><b data-stat="coverage">—</b><span>Coverage</span><em data-stat-note="coverage">of the markable corpus</em></div>
+      <div class="stat"><b data-stat="coverage">—</b><span>Coverage</span><em data-stat-note="coverage">of the {scorableTotal} questions with a published key</em></div>
       <div class="stat"><b data-stat="queue">—</b><span>In the queue</span><em data-stat-note="queue">wrong or blank</em></div>
       <div class="stat"><b data-stat="due">—</b><span>Due now</span><em data-stat-note="due">ready to revise</em></div>
       <div class="stat"><b data-stat="streak">—</b><span>Day streak</span><em data-stat-note="streak">days with a submitted paper</em></div>
@@ -64,6 +66,7 @@ for (const paper of papers) {
 
     const base = (document.querySelector<HTMLElement>('[data-base]')?.dataset.base) ?? '/';
     const scorableTotal = Number(document.querySelector<HTMLElement>('[data-scorable-total]')?.dataset.scorableTotal ?? '0');
+    const sitTotal = Number(document.querySelector<HTMLElement>('[data-sit-total]')?.dataset.sitTotal ?? String(scorableTotal));
     const attempts = readAttempts();
     const queue = readQueue();
     const stats = buildStats(attempts, queue, scorableTotal);
@@ -78,11 +81,11 @@ for (const paper of papers) {
     };
 
     set('attempted', String(stats.questionsAttempted));
-    setNote('attempted', `of ${scorableTotal} markable questions`);
+    setNote('attempted', `of ${scorableTotal} you can answer · ${sitTotal} sit-able`);
     set('accuracy', stats.accuracy === null ? '—' : `${Math.round(stats.accuracy * 100)}%`);
     setNote('accuracy', stats.independentAnswered > 0 ? `${stats.independentCorrect} of ${stats.independentAnswered} first attempts` : 'no submitted attempt yet');
     set('coverage', `${Math.round(stats.coverage * 100)}%`);
-    setNote('coverage', `${stats.questionsAttempted} of ${scorableTotal} markable questions`);
+    setNote('coverage', `${stats.questionsAttempted} of ${scorableTotal} questions with a published key`);
     set('queue', String(stats.queueSize));
     setNote('queue', 'wrong or blank questions');
     set('due', String(stats.dueNow));
@@ -249,5 +252,5 @@ for (const paper of papers) {
     }
   </script>
 
-  <span hidden data-base={base} data-scorable-total={scorableTotal}></span>
+  <span hidden data-base={base} data-scorable-total={scorableTotal} data-sit-total={sitTotal} data-board-awarded-total={boardAwardedTotal}></span>
 </Site>

@@ -71,10 +71,16 @@ export async function buildLibraryIndex(): Promise<IndexEntry[]> {
         paper: `Paper I · ${question.subject}`,
         set: key?.booklet?.set ?? null,
         category: question.category,
-        readiness: question.scorable ? (key?.tier === 'official' ? 'official' : 'derived') : 'read-only',
+        readiness: question.scorable
+          ? (key?.tier === 'official' ? 'official' : 'derived')
+          : question.boardAwarded
+            ? 'board-voided'
+            : 'read-only',
         status: question.scorable
           ? `${question.category === 'II' ? 'Category II' : 'Category I'} · ${question.marks} mark${question.marks === 1 ? '' : 's'}`
-          : 'Read only · not markable',
+          : question.boardAwarded
+            ? `Voided by the board · ${question.marks} mark${question.marks === 1 ? '' : 's'} awarded to every candidate`
+            : 'Read only · not markable',
         identity: `${paper.label} · Q${question.n} · ${question.subject} · ${question.category === 'II' ? 'Category II' : 'Category I'}`,
         figure: question.figure ? 'Diagram not reproduced' : 'No figure',
         url: `${base}library/${paper.id}/#q${question.n}`,

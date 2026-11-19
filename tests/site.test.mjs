@@ -163,16 +163,65 @@ test('the runner answers, saves, resumes and marks a paper with the real rules',
   await page.locator('[data-runner-submit]').click();
   await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
 
+  // 2025 has three board-voided items (Q41, Q79, Q84). The board awarded
+  // them to every candidate, so their three marks are in the total whatever
+  // the learner answered: 1 − 0.25 + 0 + 3 = 3.75.
   const score = await page.locator('[data-runner-results] .score-hero b').textContent();
-  assert.equal(score, '0.75', 'one correct (+1), one wrong (−0.25) and one blank (0)');
+  assert.equal(score, '3.75', 'one correct (+1), one wrong (−0.25), one blank (0) and three board-awarded');
   const summary = page.locator('[data-runner-results] .micro').first();
   assert.match(await summary.textContent(), /1 correct/);
   assert.match(await summary.textContent(), /1 wrong/);
   assert.match(await summary.textContent(), /80 blank/);
+  assert.match(await summary.textContent(), /3 voided by the board/);
 
   // The navigator repaints with the outcome of each item.
   const states = await page.locator('[data-runner-nav] button').evaluateAll((nodes) => nodes.slice(0, 3).map((node) => node.dataset.state));
   assert.deepEqual(states, ['correct', 'wrong', 'wrong']);
+});
+
+test('the clock survives a reload without handing back time', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner-timer]');
+  const read = () => page.locator('[data-runner-timer]').textContent();
+  assert.equal((await read()).trim(), '120:00', 'a fresh paper starts with the full clock');
+  await page.waitForTimeout(3500);
+  const before = (await read()).trim();
+  assert.notEqual(before, '120:00', 'the clock runs down while the learner works');
+  await page.reload();
+  await page.waitForSelector('[data-runner-timer]');
+  const after = (await read()).trim();
+  assert.equal(after, before, 'a reload restores the same remaining time, not a fresh clock');
+});
+
+test('a submitted paper is final: a second tab cannot overwrite the result', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  t.after(() => ctx.close());
+  const first = await ctx.newPage();
+  await first.goto(origin + base + `practice/${paper2025}/`, { waitUntil: 'networkidle' });
+  const second = await ctx.newPage();
+  await second.goto(origin + base + `practice/${paper2025}/`, { waitUntil: 'networkidle' });
+  for (const page of [first, second]) await page.evaluate(() => { window.confirm = () => true; });
+
+  // Two tabs answer the same question differently.
+  await first.locator('.pane.active .opt[data-option="D"]').click();
+  await second.locator('.pane.active .opt[data-option="B"]').click();
+  await second.locator('[data-runner-submit]').click();
+  await second.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  const read = (page) => page.evaluate(() => {
+    const stored = JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? 'null');
+    const attempt = stored?.attempts?.[0];
+    return { submittedAt: attempt?.submittedAt ?? null, q1: attempt?.responses?.['jelet-et-p1-2025:q1'] ?? null };
+  });
+  const firstResult = await read(second);
+
+  // The other tab submits afterwards. Its submission must be refused.
+  await first.locator('[data-runner-submit]').click();
+  await first.waitForTimeout(1200);
+  const secondResult = await read(second);
+  assert.equal(secondResult.submittedAt, firstResult.submittedAt, 'the first submission timestamp stands');
+  assert.deepEqual(secondResult.q1, firstResult.q1, 'the recorded answers are unchanged');
 });
 
 test('a category II item scores partial credit and a wrong option scores zero', async (t) => {
@@ -191,11 +240,66 @@ test('a category II item scores partial credit and a wrong option scores zero', 
   await page.locator('.pane.active .opt[data-option="A"]').click();
   await page.locator('[data-runner-submit]').click();
   await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+  // 0.5 from the partial credit, plus the three marks the board awarded.
   const score = await page.locator('[data-runner-results] .score-hero b').textContent();
-  assert.equal(score, '0.5');
+  assert.equal(score, '3.5');
   const summary = page.locator('[data-runner-results] .micro').first();
   assert.match(await summary.textContent(), /1 partial/);
   assert.match(await summary.textContent(), /1 wrong/);
+});
+
+test('a board-voided question is awarded to everyone and is never asked for', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+
+  // 2025 Q41 is a board-voided item. It is in the paper, labelled, and the
+  // learner is never asked to answer it.
+  const voided = page.locator('.pane[data-voided="true"]');
+  assert.equal(await voided.count(), 3, '2025 has three board-voided items in the paper');
+  const pane = page.locator('.pane[data-n="41"]');
+  assert.equal(await pane.getAttribute('data-voided'), 'true');
+
+  // Open it in the runner so it is on screen.
+  await page.locator('[data-runner-navtoggle]').click();
+  await page.locator('[data-runner-nav] button', { hasText: /^41$/ }).click();
+  await page.waitForFunction(() => document.querySelector('.pane.active')?.dataset.n === '41');
+  assert(await pane.getByText('Voided by the board').first().isVisible(), 'the pane says the board voided it');
+  assert(await pane.locator('[data-void-notice]').isVisible(), 'the pane explains the marks go to every candidate');
+
+  // Its options are not live: clicking one does not record an answer.
+  await pane.locator('.opt[data-option="A"]').click();
+  assert.equal(await pane.locator('.opt[data-option="A"]').getAttribute('aria-pressed'), 'false');
+
+  // It is not reported as unanswered and it does not block submission.
+  const progress = await page.locator('[data-runner-progress-text]').textContent();
+  assert.match(progress, /3 voided by the board/, 'the progress bar reports the board-awarded items');
+  assert.doesNotMatch(progress, /83 of/, 'the voided items are not counted as unanswered');
+
+  // Submitting with nothing answered warns only about the answerable items.
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+  const score = await page.locator('[data-runner-results] .score-hero b').textContent();
+  assert.equal(score, '3', 'the three voided items carry their marks with no answers at all');
+  assert.match(await page.locator('[data-runner-results] .micro').first().textContent(), /3 voided by the board/);
+});
+
+test('a board-voided question never enters the review queue', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="B"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  await go(page, 'review/');
+  await page.waitForFunction(() => (document.querySelector('[data-stat="queue"]')?.textContent ?? '') !== '—');
+  // The paper now holds 85 items: 82 keyed and 3 board-voided. All 82 keyed
+  // items are wrong or blank, so all 82 are queued. The three voided items
+  // were awarded to everyone and are not mistakes, so they are not queued.
+  assert.equal(await page.locator('[data-stat="queue"]').textContent(), '82');
+  const queueText = await page.locator('#queue-list').textContent();
+  assert.doesNotMatch(queueText, /Q41/, 'a voided question is never queued for revision');
 });
 
 test('the subject drill only contains that subject and marks its own scope', async (t) => {
@@ -236,6 +340,63 @@ test('the navigator, mark-for-review and clear all work without a server', async
   await page.waitForFunction(() => document.querySelector('[data-runner-nav] button')?.dataset.state === 'marked');
   await page.locator('[data-runner-clear]').click();
   await page.waitForFunction(() => /0 of 82 answered/.test(document.querySelector('[data-runner-progress-text]')?.textContent ?? ''));
+});
+
+test('the printed companion prints an answer sheet in the booklet order and a ledger', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/print/`);
+  await page.waitForSelector('[data-omr-sheet]');
+
+  // The sheet names the booklet it belongs to, and says how that was known.
+  const body = await page.locator('body').textContent();
+  assert.match(body, /Set A/, 'the sheet names the set');
+  assert.match(body, /booklet/i, 'the sheet names the booklet');
+
+  // One row per printed number, in printed order.
+  const rows = await page.locator('[data-omr-row]').evaluateAll((nodes) => nodes.map((node) => Number(node.dataset.omrRow)));
+  assert.ok(rows.length > 90, `the sheet covers the paper: ${rows.length} rows`);
+  const sorted = [...rows].sort((a, b) => a - b);
+  assert.deepEqual(rows, sorted, 'the sheet is in printed order');
+  assert.equal(new Set(rows).size, rows.length, 'no printed number is duplicated');
+
+  // The ledger covers the same printed numbers.
+  const ledgerRows = await page.locator('[data-ledger-row]').evaluateAll((nodes) => nodes.map((node) => Number(node.dataset.ledgerRow)));
+  assert.deepEqual(ledgerRows, rows, 'the ledger and the sheet cover the same numbers in the same order');
+
+  // A voided row takes no bubble and says so.
+  const voided = page.locator('[data-omr-row][data-omr-status="voided"]');
+  assert.equal(await voided.count(), 3, 'the sheet carries the three board-voided rows');
+  const bubbles = await voided.locator('.omr-bubble').evaluateAll((nodes) => nodes.map((node) => node.className.includes('off')));
+  assert.ok(bubbles.every((off) => off), 'a voided row offers no bubble to fill');
+
+  // A held row is not offered either.
+  const held = page.locator('[data-omr-row][data-omr-status="held"]');
+  assert.ok(await held.count() > 0, 'the sheet carries the held rows');
+  const heldBubbles = await held.locator('.omr-bubble').evaluateAll((nodes) => nodes.map((node) => node.className.includes('off')));
+  assert.ok(heldBubbles.every((off) => off), 'a held row offers no bubble to fill');
+
+  // The sheet must never state an answer.
+  const sheetText = await page.locator('[data-omr-sheet]').textContent();
+  assert.doesNotMatch(sheetText, /Answer: [A-D]/, 'the printed sheet states no answer');
+});
+
+test('the reconciliation page shows the reference sheet and the expected totals', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/reconciliation/`);
+  await page.waitForSelector('[data-reference-sheet]');
+
+  // The reference sheet exercises every scoring path, including the board's.
+  const statuses = await page.locator('[data-reference-status]').evaluateAll((nodes) => [...new Set(nodes.map((node) => node.dataset.referenceStatus))]);
+  for (const status of ['correct', 'wrong', 'blank', 'partial', 'voided']) {
+    assert.ok(statuses.includes(status), `the reference sheet exercises ${status}`);
+  }
+
+  // The credited total is stated, and it includes the board's award.
+  const credited = await page.locator('[data-reference-total]').textContent();
+  assert.ok(credited && credited.trim().length > 0, 'the credited total is stated');
+  const body = await page.locator('body').textContent();
+  assert.match(body, /Awarded to every candidate/, 'the board award is shown separately');
+  assert.match(body, /103 of the paper's 120 printed marks|103 of the paper/, 'the marks a candidate can earn are stated');
 });
 
 /* ------------------------------------------------------------------ *

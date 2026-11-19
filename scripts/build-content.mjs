@@ -242,8 +242,12 @@ async function parsePaper(year) {
     keyTier: null,
     scoreableQuestions: 0,
     scoreableMarks: 0,
+    boardAwardedQuestions: 0,
+    boardAwardedMarks: 0,
     heldQuestions: 0,
     voidedQuestions: [],
+    rehearsableQuestions: 0,
+    rehearsableMarks: 0,
     title: titleLine.replace(/^#\s*/, '').trim(),
     label: `JELET ${year} · Paper I`,
     pattern: layout.pattern,
@@ -432,20 +436,45 @@ for (const paper of papers) {
     question.keyAnswer = answer ?? null;
     question.voided = voided.has(question.n);
     question.hasKey = Boolean(answer);
+    // The transcription reproduces this item's options. A voided item needs
+    // no diagram to be answered — the board keyed nothing — but it does need
+    // its options present so it can be shown as a paper number.
+    const presentable = question.optionsComplete;
     question.scorable = question.scorable && question.hasKey && !question.voided;
+    /**
+     * The board voided this question: it published "W", so no option is keyed
+     * and the marks go to every candidate. It is not a held item — nothing the
+     * learner could do changes the outcome — it is a board-awarded one, and its
+     * marks belong in the rehearsal's total.
+     *
+     * This holds even for an item whose diagram the transcription does not
+     * reproduce: the board voided it precisely so that no answer was needed.
+     * Holding it would understate the paper, because the board awarded the
+     * mark to every candidate who sat it.
+     */
+    question.boardAwarded = question.voided && presentable;
     if (!question.hasKey && key) {
       question.holdReason = question.holdReason ?? 'The preserved key does not cover this item.';
     }
     if (question.voided) {
-      question.holdReason = 'The board voided this question in its final answer-key notice.';
+      question.holdReason = question.boardAwarded
+        ? null
+        : 'The board voided this question in its final answer-key notice, and the preserved transcription does not reproduce the item, so it is held and its marks are not in this rehearsal\'s total.';
+      question.voidNote = question.boardAwarded
+        ? 'The board voided this question in its final answer-key notice: no option was keyed, so the marks go to every candidate.'
+        : null;
     }
   }
   paper.hasKey = Boolean(key);
   paper.keyTier = key?.tier ?? null;
   paper.scoreableQuestions = paper.questions.filter((question) => question.scorable).length;
   paper.scoreableMarks = paper.questions.filter((question) => question.scorable).reduce((sum, question) => sum + question.marks, 0);
-  paper.heldQuestions = paper.questions.filter((question) => !question.scorable).length;
+  paper.boardAwardedQuestions = paper.questions.filter((question) => question.boardAwarded).length;
+  paper.boardAwardedMarks = paper.questions.filter((question) => question.boardAwarded).reduce((sum, question) => sum + question.marks, 0);
+  paper.heldQuestions = paper.questions.filter((question) => !question.scorable && !question.boardAwarded).length;
   paper.voidedQuestions = paper.questions.filter((question) => question.voided).map((question) => question.n);
+  paper.rehearsableQuestions = paper.scoreableQuestions + paper.boardAwardedQuestions;
+  paper.rehearsableMarks = paper.scoreableMarks + paper.boardAwardedMarks;
 }
 
 /* ---- invariants: fail loudly rather than publish a wrong dataset ---- */

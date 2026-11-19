@@ -31,18 +31,20 @@ Category I: exactly the correct choice +1; wrong or multiple marked −¼; blank
 
 The generator (`scripts/build-content.mjs`) reads the preserved archive and emits three datasets. These are the measured numbers, not a plan.
 
-| Year | Questions | Scoreable | Marks | Key tier | Board reference |
-|---|---:|---:|---:|---|---|
-| 2017 | 100 | 0 | — | read only | no usable key |
-| 2018 | 100 | 0 | — | read only | no usable key |
-| 2019 | 98 | 0 | — | read only | no usable key |
-| 2021 | 100 | 0 | — | read only | no usable key |
-| 2022 | 95 | 87 | 102 | **derived** | independently solved; never labelled official |
-| 2024 | 97 | 78 | 93 | official | WBJEEB notice, Set A, identity-mapped |
-| 2025 | 100 | 82 | 100 | official | WBJEEB notice, Set A, identity-mapped |
+| Year | Questions | Keyed | Keyed marks | Board-awarded | Awarded marks | Sit-able | Key tier | Board reference |
+|---|---:|---:|---:|---:|---:|---:|---|---|
+| 2017 | 100 | 0 | — | 0 | — | 0 | read only | no usable key |
+| 2018 | 100 | 0 | — | 0 | — | 0 | read only | no usable key |
+| 2019 | 98 | 0 | — | 0 | — | 0 | read only | no usable key |
+| 2021 | 100 | 0 | — | 0 | — | 0 | read only | no usable key |
+| 2022 | 95 | 87 | 102 | 0 | — | 87 | **derived** | independently solved; never labelled official |
+| 2024 | 97 | 78 | 93 | 2 | 2 | 80 | official | WBJEEB notice, Set A, identity-mapped |
+| 2025 | 100 | 82 | 100 | 3 | 3 | 85 | official | WBJEEB notice, Set A, identity-mapped |
 
-- 690 questions in total; **247** carry a published key and may enter a scored pool. The other 443 are readable and searchable but never marked, and they are excluded from the denominator of every total.
-- Board-voided items award their full marks and are labelled in the reader and in the result: 2024 Q49 and Q58; 2025 Q41, Q79 and Q84.
+- 690 questions in total. **247** carry a published key and are marked against it. **5** more were voided by the board and award their marks to every candidate, so **252** questions can be sat and carry marks in a total. The other 438 are readable and searchable but never marked, and they are excluded from the denominator of every total.
+- A board-voided item is *not* a held item. The board published "W": no option is keyed and the full marks go to every candidate, whatever the candidate answered. These five items are labelled in the reader, in the runner and in the result, they are never asked for, and they never enter the review queue:
+  - 2024 Q49 and Q58 · 2025 Q41, Q79 and Q84.
+  - 2024 Q49 also depends on a diagram the transcription does not reproduce. The board voided it precisely so that no answer was needed, so the board's award governs the credit; ordinary held diagram items stay held and stay out of the totals.
 - Corpus gaps carried openly rather than filled: 2019 Q78–79, 2022 Q86–90, 2024 Q60–62.
 - A question is held when its diagram was never transcribed, its options are malformed, or the transcription note says the item is ambiguous. Held items keep their reason on the page.
 - The 2023 and 2026 keys exist in the key file but no paper was transcribed for them, so nothing is published for those years.

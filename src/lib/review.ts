@@ -90,6 +90,9 @@ export function applyAttemptToQueue(items: ReviewItem[], results: QueueInput[]):
   const now = Date.now();
   const byId = new Map(items.map((item) => [item.questionId, item]));
   for (const result of results) {
+    // A question the board voided was awarded to every candidate, so it is
+    // not something the learner got wrong. It never enters the queue.
+    if (result.status === 'voided') continue;
     const existing = byId.get(result.questionId);
     const passed = result.status === 'correct';
     if (passed && existing && existing.correctStreak >= 1) {

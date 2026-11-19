@@ -59,8 +59,15 @@ const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
     <div>
       <div data-runner-paper>
         {questions.map((question, index) => (
-          <div class="pane" data-question={question.id} data-n={question.n} data-category={question.category} data-marks={question.marks} data-subject={question.subject} data-subject-key={question.subjectKey}>
+          <div class="pane" data-question={question.id} data-n={question.n} data-category={question.category} data-marks={question.marks} data-subject={question.subject} data-subject-key={question.subjectKey} data-voided={question.boardAwarded ? 'true' : 'false'}>
             <Question question={question} mode="runner" headingLevel="h2" anchor={`q-${question.id}`} />
+            {question.boardAwarded && (
+              <p class="notice notice-void" data-void-notice>
+                The board voided this question in its final answer-key notice: no option was keyed, so the
+                {' '}{question.marks} mark{question.marks === 1 ? '' : 's'} go to every candidate. You do not need to
+                answer it.
+              </p>
+            )}
             <div class="runner-foot no-print">
               <button class="btn small ghost" type="button" data-jump="prev" disabled={index === 0}>← Previous</button>
               <span class="micro">Question {index + 1} of {questions.length}</span>
@@ -87,6 +94,7 @@ const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
           <span><i class="m"></i> marked</span>
           <span><i class="c"></i> correct</span>
           <span><i class="w"></i> wrong</span>
+          {questions.some((question) => question.boardAwarded) && <span><i class="v"></i> voided</span>}
         </div>
         <details style="margin-top:.6rem">
           <summary>How you are marked</summary>
