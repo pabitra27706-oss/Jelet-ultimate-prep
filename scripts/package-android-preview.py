@@ -1,4 +1,8 @@
-"""Wrap the built pilot in its Pages subpath for an on-phone static preview."""
+"""Wrap the built pilot in its Pages subpath for an on-phone static preview.
+
+Regenerate after each build; the tracked device-test snapshot lives under
+docs/phases/03-library/device-test/. This file is also a watched deploy path.
+"""
 
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
