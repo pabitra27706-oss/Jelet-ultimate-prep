@@ -3,6 +3,7 @@
   "files": [
     "cards/orig-parallel-independent-v1/index.html",
     "data/keys.json",
+    "data/packs.json",
     "icon-maskable.svg",
     "icon.svg",
     "index.html",
@@ -17,6 +18,7 @@
     "library/jelet-et-p1-2024/index.html",
     "library/jelet-et-p1-2025/index.html",
     "manifest.webmanifest",
+    "offline/index.html",
     "parallel-circuit.svg",
     "practice/index.html",
     "practice/jelet-et-p1-2022/chemistry/index.html",

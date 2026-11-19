@@ -290,7 +290,12 @@ test('phase 05: the reference sheet agrees with the scoring engine item by item'
       const question = paper.questions.find((q) => q.id === item.questionId);
       assert.ok(question, item.questionId);
       const scored = scoreItem(
-        { category: question.category, marks: question.marks, key: answerLetters(paper, question) },
+        {
+          category: question.category,
+          marks: question.marks,
+          key: answerLetters(paper, question),
+          voided: question.voided,
+        },
         item.marked,
       );
       assert.equal(scored.status, item.expectedStatus, `${item.questionId} status agrees`);
@@ -306,18 +311,31 @@ test('phase 05: the reference sheet total equals the sum of the runner scores', 
   const items = sheet.items.map((item) => {
     const question = paper.questions.find((q) => q.id === item.questionId);
     return scoreItem(
-      { category: question.category, marks: question.marks, key: answerLetters(paper, question) },
+      {
+        category: question.category,
+        marks: question.marks,
+        key: answerLetters(paper, question),
+        voided: question.voided,
+      },
       item.marked,
     );
   });
   const summary = summarise(items);
   assert.equal(toNumber(summary.awarded), toNumber(sheet.expectedTotal), 'the expected total is the real total');
+  // The board's award is on top of the responses, and it is stated apart.
+  assert.equal(summary.voided, 3, '2025 has three board-voided items in the sheet');
+  assert.equal(toNumber(sheet.voidedMarks), 3, 'each board-voided item is worth one mark');
+  assert.equal(
+    toNumber(summary.awarded) + toNumber(sheet.voidedMarks),
+    toNumber(sheet.creditedTotal),
+    'the credited total is the responses plus the board award',
+  );
 });
 
 test('phase 05: the reference sheet exercises every scoring path', () => {
   const sheet = referenceSheet('jelet-et-p1-2025');
   assert.ok(sheet);
-  for (const status of ['correct', 'wrong', 'blank']) {
+  for (const status of ['correct', 'wrong', 'blank', 'voided']) {
     assert.ok((sheet.counts[status] ?? 0) > 0, `the sheet contains a ${status} item`);
   }
   const categoryII = sheet.items.filter((item) => item.category === 'II');

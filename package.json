@@ -7,12 +7,14 @@
     "node": ">=22.23.4"
   },
   "scripts": {
-    "build": "astro build",
+    "build": "astro build && npm run packs && astro build",
+    "packs": "node scripts/build-packs.mjs",
     "check": "astro check",
     "content": "node scripts/build-content.mjs",
     "preview": "node scripts/preview.mjs",
-    "test": "npm run test:rules && npm run test:browser",
+    "test": "npm run test:rules && npm run test:phase05 && npm run test:browser",
     "test:rules": "node --test tests/rules.test.mjs",
+    "test:phase05": "node --test tests/phase05.test.mjs",
     "test:browser": "node --test --test-timeout=60000 tests/site.test.mjs"
   },
   "devDependencies": {

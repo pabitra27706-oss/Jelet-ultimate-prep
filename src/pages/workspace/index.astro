@@ -3,12 +3,18 @@ import Site from '../../layouts/Site.astro';
 import { buildLibraryIndex } from '../../library';
 
 const entries = await buildLibraryIndex();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 ---
 <Site title="Workspace" active="">
   <div class="page-intro">
     <p class="eyebrow">ON THIS DEVICE ONLY</p>
     <h1>Your workspace.</h1>
     <p class="lead">Bookmarks and notes stay in this browser. Export a personal file to move them; nothing is uploaded or synced.</p>
+    <p class="micro" style="margin-top:.6rem">
+      To keep a paper on this device so it opens with no connection, use the
+      <a href={`${base}offline/`}>offline packs</a>. A pack is separate from your study state: removing one
+      leaves your notes and attempts alone.
+    </p>
   </div>
   <noscript><p class="micro">Workspace needs JavaScript. Reading, search and practice work without it.</p></noscript>
   <section class="module workspace-panel" aria-labelledby="workspace-save">

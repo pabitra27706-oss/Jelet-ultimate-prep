@@ -1,0 +1,281 @@
+---
+/**
+ * Offline packs.
+ *
+ * A learner chooses what to keep on their device. Nothing is downloaded
+ * until they ask, the size and version of each pack are stated before
+ * anything is fetched, and a failed download leaves an earlier complete
+ * pack exactly as it was.
+ *
+ * The pack list is fetched at runtime from the manifest rather than baked
+ * into this page. That is deliberate: the sizes a learner sees must be the
+ * sizes of the files the browser will actually download, and those are only
+ * known once the site has been built.
+ */
+import Site from '../../layouts/Site.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+---
+
+<Site
+  title="Offline packs"
+  active="offline"
+  description="Choose which JELET papers to keep on your device so they work with no connection."
+>
+  <div class="page-intro">
+    <p class="eyebrow">YOUR DEVICE, YOUR CHOICE</p>
+    <h1>Offline packs.</h1>
+    <p class="lead">
+      A pack is one paper or the lesson, kept on this device so it opens with no connection. Nothing is
+      downloaded until you ask, and the size is shown before anything is fetched. Your attempts, notes and
+      review queue are not part of a pack and are never removed with one.
+    </p>
+  </div>
+
+  <noscript>
+    <p class="micro">
+      Downloading a pack needs JavaScript. Without it you can still read, search and practise with a
+      connection. The exact pack list and its byte sizes are published as a
+      <a href={`${base}data/packs.json`}>manifest file</a>.
+    </p>
+  </noscript>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="packs-heading">
+    <div class="section-head">
+      <h2 id="packs-heading" style="font-size:1.15rem">Available packs</h2>
+      <span class="micro" data-pack-release>release —</span>
+    </div>
+    <div class="stack" data-pack-list>
+      <p class="micro" data-pack-loading>Reading the pack manifest…</p>
+    </div>
+    <p class="micro" style="margin-top:.9rem" data-pack-summary role="status" aria-live="polite">
+      Nothing downloaded yet.
+    </p>
+  </section>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="storage-heading">
+    <h2 id="storage-heading" style="font-size:1.15rem">Storage on this device</h2>
+    <p class="micro">
+      Packs live in the browser's cache storage. Study state lives separately, in this browser's own
+      storage, so removing a pack leaves your attempts and notes alone.
+    </p>
+    <div class="table" role="table">
+      <div role="row"><b role="cell">In use</b><span role="cell" data-storage-used>—</span></div>
+      <div role="row"><b role="cell">Available</b><span role="cell" data-storage-quota>—</span></div>
+      <div role="row"><b role="cell">Kept by the browser</b><span role="cell" data-storage-persisted>—</span></div>
+    </div>
+    <div class="btn-row" style="margin-top:.8rem">
+      <button class="btn small ghost" type="button" data-storage-request>Ask the browser to keep these packs</button>
+    </div>
+    <p class="micro" style="margin-top:.6rem" data-storage-note role="status" aria-live="polite">
+      A browser may evict downloaded packs when storage runs short. Asking it to keep them reduces the chance.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size:1.15rem">What offline does and does not mean</h2>
+    <ul class="small" style="color:var(--muted)">
+      <li>A downloaded pack opens with no connection: its questions, its answer key, the maths fonts and the rehearsal all work.</li>
+      <li>A page that was never downloaded does not open offline. The site says so rather than showing an empty page.</li>
+      <li>Removing a pack removes its files. It does not remove your attempts, your notes or your review queue.</li>
+      <li>A download that fails or is interrupted leaves the earlier complete pack working, and the failed pack is never reported as ready.</li>
+      <li>Nothing is uploaded. The packs and your study state stay on this device.</li>
+    </ul>
+  </section>
+</Site>
+
+<script>
+  import {
+    formatBytes,
+    installPack,
+    isPersisted,
+    readInstalled,
+    readManifest,
+    removePack,
+    requestPersistence,
+    storageEstimate,
+    type Pack,
+  } from '../../lib/offline';
+
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+
+  const say = (selector: string, message?: string) => {
+    const node = document.querySelector<HTMLElement>(selector);
+    if (node && message !== undefined) node.textContent = message;
+    return node;
+  };
+
+  const listNode = document.querySelector<HTMLElement>('[data-pack-list]');
+
+  const render = (packs: Pack[], installed: { id: string; version: string; bytes: number; fileCount: number }[]) => {
+    if (!listNode) return;
+    listNode.textContent = '';
+    for (const pack of packs) {
+      const entry = installed.find((item) => item.id === pack.id);
+      const row = document.createElement('div');
+      row.className = 'card-flat pack-row';
+      row.dataset.pack = pack.id;
+
+      const head = document.createElement('div');
+      head.className = 'row-between';
+      head.style.alignItems = 'flex-start';
+      head.style.gap = '1rem';
+
+      const text = document.createElement('div');
+      text.className = 'grow';
+
+      const title = document.createElement('strong');
+      title.textContent = pack.title;
+      const summary = document.createElement('p');
+      summary.className = 'micro';
+      summary.style.margin = '.2rem 0 0';
+      summary.textContent = pack.summary;
+      const facts = document.createElement('p');
+      facts.className = 'micro';
+      facts.style.margin = '.3rem 0 0';
+      const online = pack.onlineOnly.length > 0
+        ? ` · online-only: ${pack.onlineOnly.join(', ')}`
+        : ' · works with no connection';
+      facts.textContent = `${pack.files.length} files · version ${pack.version} · ${formatBytes(pack.bytes)}${online}`;
+      const state = document.createElement('p');
+      state.className = 'micro';
+      state.dataset.packState = pack.id;
+      state.setAttribute('role', 'status');
+      state.setAttribute('aria-live', 'polite');
+      state.textContent = entry
+        ? `Ready · version ${entry.version} · ${formatBytes(entry.bytes)} stored on this device.`
+        : 'Not downloaded.';
+
+      text.append(title, summary, facts, state);
+
+      const actions = document.createElement('div');
+      actions.className = 'btn-row';
+      actions.style.margin = '0';
+
+      const download = document.createElement('button');
+      download.type = 'button';
+      download.className = 'btn small';
+      download.dataset.packDownload = pack.id;
+      download.textContent = 'Download';
+      download.hidden = Boolean(entry);
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'btn small ghost';
+      remove.dataset.packRemove = pack.id;
+      remove.textContent = 'Remove';
+      remove.hidden = !entry;
+
+      actions.append(download, remove);
+      head.append(text, actions);
+      row.append(head);
+
+      const details = document.createElement('details');
+      details.style.marginTop = '.6rem';
+      const summaryEl = document.createElement('summary');
+      summaryEl.className = 'micro';
+      summaryEl.textContent = 'What is in this pack';
+      const files = document.createElement('ul');
+      files.className = 'micro';
+      files.style.margin = '.4rem 0 0';
+      files.style.paddingLeft = '1.1rem';
+      for (const file of pack.files) {
+        const item = document.createElement('li');
+        item.textContent = `${file.path} (${formatBytes(file.bytes)})`;
+        files.append(item);
+      }
+      details.append(summaryEl, files);
+      row.append(details);
+
+      listNode.append(row);
+    }
+  };
+
+  const refresh = async (packs: Pack[]) => {
+    const installed = readInstalled();
+    render(packs, installed);
+    const total = installed.reduce((sum, entry) => sum + entry.bytes, 0);
+    say(
+      '[data-pack-summary]',
+      installed.length === 0
+        ? 'Nothing downloaded yet.'
+        : `${installed.length} pack${installed.length === 1 ? '' : 's'} ready · ${formatBytes(total)} on this device.`,
+    );
+  };
+
+  const showStorage = async () => {
+    const estimate = await storageEstimate();
+    if (!estimate) {
+      say('[data-storage-used]', 'this browser does not report storage use');
+      say('[data-storage-quota]', '—');
+      say('[data-storage-persisted]', 'unknown');
+      return;
+    }
+    say('[data-storage-used]', formatBytes(estimate.usage));
+    say('[data-storage-quota]', formatBytes(Math.max(0, estimate.quota - estimate.usage)));
+    say(
+      '[data-storage-persisted]',
+      (await isPersisted()) ? 'yes — the browser will not evict these packs' : 'no — the browser may evict these packs',
+    );
+  };
+
+  let packs: Pack[] = [];
+  try {
+    const manifest = await readManifest(base);
+    packs = manifest.packs;
+    say('[data-pack-release]', `release ${manifest.version}`);
+  } catch (error) {
+    say('[data-pack-loading]', `The pack manifest could not be read: ${(error as Error).message}`);
+    say('[data-pack-release]', 'release unknown');
+  }
+
+  await refresh(packs);
+  await showStorage();
+
+  listNode?.addEventListener('click', async (event) => {
+    const target = event.target as HTMLElement;
+    const download = target.closest<HTMLButtonElement>('[data-pack-download]');
+    if (download) {
+      const id = download.dataset.packDownload ?? '';
+      const pack = packs.find((item) => item.id === id);
+      if (!pack) return;
+      download.disabled = true;
+      say(`[data-pack-state="${id}"]`, 'Downloading…');
+      try {
+        await installPack(pack, base, (done, total) => {
+          say(`[data-pack-state="${id}"]`, `Downloading ${done} of ${total} files…`);
+        });
+      } catch (error) {
+        // A failed download must not report itself as ready, and must not
+        // disturb a pack that was already complete.
+        say(`[data-pack-state="${id}"]`, `Not ready: ${(error as Error).message}`);
+      } finally {
+        download.disabled = false;
+        await refresh(packs);
+        await showStorage();
+      }
+      return;
+    }
+
+    const remove = target.closest<HTMLButtonElement>('[data-pack-remove]');
+    if (remove) {
+      const id = remove.dataset.packRemove ?? '';
+      const pack = packs.find((item) => item.id === id);
+      if (!pack) return;
+      await removePack(pack);
+      await refresh(packs);
+      await showStorage();
+    }
+  });
+
+  document.querySelector<HTMLButtonElement>('[data-storage-request]')?.addEventListener('click', async () => {
+    const granted = await requestPersistence();
+    say(
+      '[data-storage-note]',
+      granted
+        ? 'The browser will keep these packs unless you clear site data.'
+        : 'The browser declined. Packs still work, but it may evict them when storage runs short.',
+    );
+    await showStorage();
+  });
+</script>

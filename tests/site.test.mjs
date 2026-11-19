@@ -536,6 +536,69 @@ test('the site keeps working with the network switched off', async () => {
   }
 });
 
+test('the offline pack list states what each pack holds before anything is downloaded', async (t) => {
+  const page = await context(t);
+  await go(page, 'offline/');
+  await page.waitForSelector('[data-pack="paper-2025"]');
+  const rows = await page.locator('[data-pack]').count();
+  assert.ok(rows >= 4, `the packs are listed: ${rows}`);
+  const text = await page.locator('[data-pack="paper-2025"]').textContent();
+  assert.match(text, /version/i, 'the pack states its version');
+  assert.match(text, /KB|MB/, 'the pack states its size');
+  assert.match(text, /works with no connection/, 'the pack says whether it works offline');
+  // Nothing is downloaded until the learner asks.
+  assert.equal(await page.locator('[data-pack-state="paper-2025"]').textContent(), 'Not downloaded.');
+  assert.equal(await page.locator('[data-pack-summary]').textContent(), 'Nothing downloaded yet.');
+});
+
+test('a downloaded pack opens offline, and removing it leaves the study record alone', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'allow' });
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(20000);
+  page.on('dialog', (dialog) => dialog.accept());
+  t.after(() => ctx.close());
+  try {
+    await page.goto(origin + base + 'offline/', { waitUntil: 'load' });
+    await page.waitForSelector('[data-pack="paper-2025"]');
+
+    await page.locator('[data-pack-download="paper-2025"]').click();
+    await page.waitForFunction(() => (document.querySelector('[data-pack-state="paper-2025"]')?.textContent ?? '').startsWith('Ready'), null, { timeout: 90000 });
+    assert.match(await page.locator('[data-pack-summary]').textContent(), /1 pack ready/);
+
+    // The pack's files live in a pack cache, not the shell cache.
+    const caches = await page.evaluate(() => window.caches.keys());
+    assert.ok(caches.some((name) => name.startsWith('jelet-pack-paper-2025-')), 'the pack has its own cache');
+    assert.ok(!caches.some((name) => name.endsWith('.staging')), 'no staging cache is left behind');
+
+    // The whole paper opens with no connection.
+    await ctx.setOffline(true);
+    await page.goto(origin + base + 'practice/jelet-et-p1-2025/', { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('[data-runner]', { timeout: 20000 });
+    assert.equal(await page.locator('.pane').count(), 85, 'the whole paper is available offline');
+    assert((await page.locator('.katex').count()) > 20, 'the maths renders offline from the cached fonts');
+    await ctx.setOffline(false);
+
+    // Remove the pack. The pack files go; the study record stays.
+    await page.goto(origin + base + 'practice/jelet-et-p1-2025/', { waitUntil: 'load' });
+    await page.locator('.pane.active .opt[data-option="D"]').click();
+    await page.locator('[data-runner-submit]').click();
+    await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+    await page.goto(origin + base + 'offline/', { waitUntil: 'load' });
+    await page.waitForSelector('[data-pack="paper-2025"]');
+    await page.locator('[data-pack-remove="paper-2025"]').click();
+    await page.waitForFunction(() => (document.querySelector('[data-pack-summary]')?.textContent ?? '') === 'Nothing downloaded yet.', null, { timeout: 20000 });
+    const after = await page.evaluate(() => window.caches.keys());
+    assert.ok(!after.some((name) => name.startsWith('jelet-pack-paper-2025-')), 'the pack files are gone');
+
+    // The attempt the learner just made is still there.
+    const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? 'null'));
+    assert.ok(stored?.attempts?.length > 0, 'removing a pack does not erase the study record');
+  } finally {
+    await ctx.close();
+  }
+});
+
 test('the site declares a manifest and a service worker that caches only its own files', async () => {
   const manifest = JSON.parse(await readFile(resolve('dist/manifest.webmanifest'), 'utf8'));
   assert.equal(manifest.name, 'JELET Ultimate Prep');
