@@ -4,6 +4,8 @@
 
 ### Release checklist
 
+Apply the [verification contract](TESTING.md) to every increment: exercise the flows in Chromium first; only escalate the residual physical checks. Record both kinds of evidence separately.
+
 - Verify edition, rights, IDs/anchors, backlinks, figures, readiness and score fixtures. Compare sampled pages to originals; manually review explanation and topic relevance. Generated variants must be solvable, units correct, and distractors distinct across reproducible seeds.
 - Walk Today → Learn → PYQ → exact lesson section → Back; test a copied link on a fresh browser, Android share/copy fallback, long equations, a zoomed diagram, Lens paste/no match, and video return. Keyboard-only navigation, visible focus, text resizing, accessible names, contrast and no colour-only information. Record device/browser; emulator evidence isn't a phone pass.
 - Test blank/partial/invalid/withdrawn/old-set scoring, interrupted timer and resume, duplicate submission, private/storage-denied mode, restore preview/cancel and unsupported backups. No notes, choices, tokens or user photos in public links/logs.
