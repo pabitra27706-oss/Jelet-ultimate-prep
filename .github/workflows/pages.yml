@@ -9,11 +9,9 @@ on:
       - 'public/**'
       - 'tests/**'
       - 'scripts/**'
-      - 'docs/**'
       - 'package*.json'
       - 'astro.config.mjs'
       - 'tsconfig.json'
-      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
