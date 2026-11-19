@@ -10,4 +10,4 @@
 
 **Execute:** [ordered tasks and acceptance checks](RUNBOOK.md). Use the [reusable session prompt](../../../prompt.md) and [roadmap](../../ROADMAP.md) for authorization and status.
 
-**Current evidence:** [2026-11-19 implementation and verification record](2026-11-19-phase-02.md). The one-chapter build is available for preview; a physical Android pass and unaided learning transfer have not been recorded.
+**Current evidence:** [2026-11-19 implementation and verification record](2026-11-19-phase-02.md). The one-chapter build is available for preview; the owner reported the physical Android check passed. Unaided learning transfer remains untested.

@@ -2,7 +2,7 @@
 
 An independent JELET learning and exam-practice website, starting with Paper I. Goal: **learn a concept → practise a verified question → understand the marks → retry independently**. Guest first; ₹0 required operating cost; maintainable from Android.
 
-**Current state:** a static parallel-circuits learning pilot is implemented for preview. No public deployment, login, PYQ scoring or live tutor. Physical Android and learner-transfer checks are pending.
+**Current state:** a static parallel-circuits learning pilot is implemented for preview. No public deployment, login, PYQ scoring or live tutor. The owner reported the Android check passed; learner transfer is still untested.
 
 - [Handbook and document map](docs/README.md) · [Phase roadmap and current handoff](docs/ROADMAP.md)
 - [Reusable agent prompt — copy for each new chat](prompt.md)
