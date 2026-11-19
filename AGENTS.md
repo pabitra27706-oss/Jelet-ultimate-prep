@@ -1,6 +1,6 @@
 # Project rules
 
-1. Read the [roadmap](docs/ROADMAP.md), the target phase and its linked specifications before changing anything. Research and documentation tasks do not authorize scaffolding, installing services or deploying. Work on one approved phase at a time.
+1. Use the [reusable prompt](prompt.md) for handoffs. Read the [roadmap](docs/ROADMAP.md), the target phase and its linked specifications before changing anything. Research and documentation tasks do not authorize scaffolding, installing services or deploying. Work on one approved phase at a time.
 2. Keep `archive/jelet-prep/` immutable. Derive new editorial records with provenance. Never deploy the archive, browser backups, private PDFs or credentials. Check publication rights independently of technical verification.
 3. The public learning path must cost the owner ₹0 to operate: static hosting, no required account, custom domain, paid runner, API key, billing card or always-on phone. A free trial is not a free design. Stop or disable an optional service at quota; never auto-upgrade. Record a decision before introducing any service.
 4. Paper I first. Preserve historical context, booklet order, diagrams and year-specific rules. Do not invent a syllabus match, key, explanation, permission, student result or phase evidence. The board key is not an endorsement of our solution. No AI grading or rank predictions.

@@ -9,3 +9,5 @@
 | Pharmacy | Separate owner scope, syllabus, rights-cleared papers/keys and rules; repeat evidence and learning pilots | Would reuse Paper I rules or imply unverified coverage |
 
 **Exit:** dated go/no-go decision, free fallback, quota-change and shutdown procedure, and evidence that all core journeys work with the service off. Copyable AI prompts and manual backup remain alternatives without a live integration.
+
+**Execute:** [ordered tasks and acceptance checks](RUNBOOK.md). Use the [reusable session prompt](../../../prompt.md) and [roadmap](../../ROADMAP.md) for authorization and status.

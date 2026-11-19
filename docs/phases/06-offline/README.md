@@ -6,4 +6,6 @@
 - On Android download one pack, enter airplane mode, reopen the chapter and complete practice with all required diagrams, fonts, hints and saved notes. A failed pack download must not show Ready or erase an earlier complete pack.
 - Test screen resizing, keyboard/focus, reduced motion, diagram descriptions, zoom and screen-reader labels. Verify local state, export and import after an update; test low storage and stale caches.
 
-**Exit:** capture actual phone/browser tasks, Pages URL and public build size in a [release record](../templates/phase-record.md); rehearse rollback on a cached client. Record unsupported browsers/features honestly. Review free quotas before expanding assets.
+**Exit:** capture actual phone/browser tasks, Pages URL and public build size in a [release record](../../templates/phase-record.md); rehearse rollback on a cached client. Record unsupported browsers/features honestly. Review free quotas before expanding assets.
+
+**Execute:** [ordered tasks and acceptance checks](RUNBOOK.md). Use the [reusable session prompt](../../../prompt.md) and [roadmap](../../ROADMAP.md) for authorization and status.

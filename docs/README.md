@@ -4,7 +4,7 @@ Baseline: 2026-11-19. Start with the [roadmap](ROADMAP.md) for status; specifica
 
 | If you are… | Read |
 |---|---|
-| Starting a work session | [Agent rules](../AGENTS.md), [roadmap and phases](ROADMAP.md), [decisions](DECISIONS.md) |
+| Starting a work session | [Copyable session prompt](../prompt.md), [Agent rules](../AGENTS.md), [roadmap and phases](ROADMAP.md), [decisions](DECISIONS.md) |
 | Designing for students | [Product and learning journeys](PRODUCT.md), [UI reference and interaction contract](UI_REFERENCE.md) |
 | Researching or writing | [Research and source register](RESEARCH.md), [editorial and scoring standard](CONTENT.md), [lesson worksheet](templates/lesson.md), [PYQ audit worksheet](templates/question-audit.md) |
 | Planning implementation | [Static architecture, privacy and storage](ARCHITECTURE.md), [operations, testing and maintenance](OPERATIONS.md) |

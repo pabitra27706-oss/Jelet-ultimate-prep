@@ -7,3 +7,5 @@
 - Review a submitted attempt against its original rule/key version and display subject breakdown and targeted revision.
 
 **Exit:** independently reconcile one complete known response sheet, including blank, partial and board-disposed items. Test mismatched booklet refusal, deadline across reload, time expiry, double submit, and fresh retry preserving history. Record booklet mapping and year-specific expected totals, not just UI screenshots.
+
+**Execute:** [ordered tasks and acceptance checks](RUNBOOK.md). Use the [reusable session prompt](../../../prompt.md) and [roadmap](../../ROADMAP.md) for authorization and status.

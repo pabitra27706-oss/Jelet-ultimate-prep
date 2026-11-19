@@ -5,5 +5,6 @@ A planned, independent JELET learning and exam-practice website, starting with P
 **Current state:** documentation and a tested legacy archive only. No new site, CI pipeline, login or live tutor exists. Implementation requires a separate go-ahead.
 
 - [Handbook and document map](docs/README.md) · [Phase roadmap and current handoff](docs/ROADMAP.md)
+- [Reusable agent prompt — copy for each new chat](prompt.md)
 - [Rules for contributors and coding agents](AGENTS.md)
 - [Preserved source and recovery guide](archive/jelet-prep/README.md) — read before retiring the old site.

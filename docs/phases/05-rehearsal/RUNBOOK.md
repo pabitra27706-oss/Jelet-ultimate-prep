@@ -1,0 +1,8 @@
+# 05 field guide · prove the whole paper before enabling Start exam
+
+1. **05.1 Reconcile.** Prepare a ledger with one row per printed question for the selected booklet: section/series → master key row → status → max/awarded marks rule. Check number coverage, category totals, figures, board dispositions and duration. Have a reviewer score a reference response sheet independently. Missing notice, ambiguous series or unresolved item blocks the full-paper offering.
+2. **05.2 Two entry modes.** Digital: declare timing, editable vs inked behaviour and what happens at expiry. Printed: explicitly identify booklet/set and display numbered answer sheet in that order. Do not substitute the master order. Ask confirmation before irreversible inking or intentional early submission; hide hints, source solution links and feedback during rehearsal.
+3. **05.3 Deadline and recovery.** Persist start/deadline and attempt version. Exercise background/foreground, reload before expiry, reopen after expiry and submit from two tabs. One final immutable result; no extra time from a paused render loop. Do not claim cheating prevention.
+4. **05.4 Review.** Compare computed marks item-by-item with the reference sheet, not just a coincidentally correct total. Inspect blank, multi-select and withdrawal rows. A retry creates a new attempt; a future key correction flags the old context rather than rewriting it silently.
+
+**Outputs:** booklet reconciliation and discrepancy list, synthetic reference responses/expected totals, timer and phone results. Publish no private candidate sheet. If blocked, state exactly which item or source is missing; the verified drill path stays available.
