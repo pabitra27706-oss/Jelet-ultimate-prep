@@ -1,0 +1,77 @@
+name: Deploy static site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - arena/4ad06920-jelet-ultimate-prep
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'package*.json'
+      - 'astro.config.mjs'
+      - 'tsconfig.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: jelet-pages
+  cancel-in-progress: false
+
+env:
+  ASTRO_TELEMETRY_DISABLED: '1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run check
+      - run: npm run build
+      - run: python3 docs/phases/01-evidence/check_inventory.py
+      - name: Verify the public artifact allowlist
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+          root = Path('dist')
+          allowed = {
+              'index.html', 'learn/index.html', 'learn/parallel-circuits/index.html',
+              'parallel-circuit.svg', 'practice/index.html',
+              'practice/orig-parallel-independent-v1/index.html',
+              'search/index.html', 'search-index.json', 'workspace/index.html',
+          }
+          files = sorted(p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file())
+          extra = [f for f in files if f not in allowed and not (
+              f.startswith('_astro/') and not Path(f).name.startswith('.')
+              and Path(f).suffix in {'.js', '.css'}
+          )]
+          missing = sorted(allowed - set(files))
+          if extra or missing:
+              print('Unexpected:', extra, 'Missing:', missing, file=sys.stderr)
+              sys.exit(1)
+          print(f'Artifact OK: {len(files)} files, {sum(p.stat().st_size for p in root.rglob("*") if p.is_file())} raw bytes')
+          PY
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

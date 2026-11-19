@@ -1,0 +1,195 @@
+---
+import Site from '../../layouts/Site.astro';
+import { buildLibraryIndex } from '../../library';
+
+const entries = await buildLibraryIndex();
+---
+<Site title="Workspace" active="">
+  <div class="page-intro">
+    <p class="eyebrow">ON THIS DEVICE ONLY</p>
+    <h1>Your workspace.</h1>
+    <p class="lead">Bookmarks and notes stay in this browser. Export a personal file to move them; nothing is uploaded or synced.</p>
+  </div>
+  <noscript><p class="micro">Workspace needs JavaScript. Reading, search and practice work without it.</p></noscript>
+  <section class="module workspace-panel" aria-labelledby="workspace-save">
+    <h2 id="workspace-save">Save a place or note</h2>
+    <label class="field">Approved item
+      <select id="workspace-item">
+        {entries.map((entry) => <option value={entry.id} data-url={entry.url}>{entry.title}</option>)}
+      </select>
+    </label>
+    <label class="field">Note (optional)
+      <textarea id="workspace-note" rows="3" placeholder="A question to retry, not an answer key"></textarea>
+    </label>
+    <div class="button-row">
+      <button class="button" type="button" id="save-bookmark">Bookmark &amp; resume here</button>
+      <button class="button secondary" type="button" id="save-note">Save note</button>
+    </div>
+    <p class="micro" data-workspace-status aria-live="polite">Loading local workspace…</p>
+    <ul class="result-list" id="workspace-list"></ul>
+  </section>
+  <section class="module workspace-panel" aria-labelledby="workspace-backup">
+    <h2 id="workspace-backup">Backup and restore</h2>
+    <p class="micro">Exports are personal files. Keep them off public repositories. Import shows a preview before merge or replace.</p>
+    <div class="button-row"><button class="button secondary" type="button" id="export-workspace">Export JSON</button></div>
+    <label class="field">Choose a workspace JSON file
+      <input type="file" id="import-file" accept="application/json,.json" />
+    </label>
+    <div class="import-preview" id="import-preview" hidden>
+      <h3>Import preview</h3>
+      <p class="micro" id="import-summary"></p>
+      <div class="button-row">
+        <button class="button" type="button" id="import-merge">Merge</button>
+        <button class="button secondary" type="button" id="import-replace">Replace</button>
+        <button class="button secondary" type="button" id="import-cancel">Cancel</button>
+      </div>
+    </div>
+    <h3>Reset</h3>
+    <label class="field">Type RESET to confirm
+      <input type="text" id="reset-confirm" autocomplete="off" />
+    </label>
+    <button class="button secondary" type="button" id="reset-workspace">Clear this workspace</button>
+  </section>
+  <script>
+    import {
+      emptyWorkspace, makeBookmark, makeNote, makeResume, mergeWorkspace, readWorkspace,
+      validateImport, writeWorkspace, type WorkspaceData,
+    } from '../../workspace';
+
+    const status = document.querySelector<HTMLElement>('[data-workspace-status]');
+    const select = document.querySelector<HTMLSelectElement>('#workspace-item');
+    const noteBox = document.querySelector<HTMLTextAreaElement>('#workspace-note');
+    const list = document.querySelector<HTMLElement>('#workspace-list');
+    const preview = document.querySelector<HTMLElement>('#import-preview');
+    const importSummary = document.querySelector<HTMLElement>('#import-summary');
+    const fileInput = document.querySelector<HTMLInputElement>('#import-file');
+    const resetConfirm = document.querySelector<HTMLInputElement>('#reset-confirm');
+    let current: WorkspaceData = emptyWorkspace();
+    let pending: WorkspaceData | undefined;
+
+    function say(message: string) { if (status) status.textContent = message; }
+    function chosen() {
+      const option = select?.selectedOptions[0];
+      return { id: option?.value ?? '', title: option?.textContent?.trim() ?? '', url: option?.dataset.url ?? '' };
+    }
+    function renderList() {
+      if (!list) return;
+      list.replaceChildren();
+      const lines = [
+        ...current.items.bookmarks.map((b) => `Bookmark · ${b.title} · ${b.url}`),
+        ...current.items.notes.map((n) => `Note · ${n.itemId} · ${n.text}`),
+        ...current.items.resume.map((r) => `Resume · ${r.title} · ${r.url}`),
+      ];
+      if (lines.length === 0) { list.textContent = 'Nothing saved yet on this device.'; return; }
+      for (const line of lines) {
+        const li = document.createElement('li');
+        li.textContent = line;
+        list.append(li);
+      }
+    }
+    async function persist(next: WorkspaceData): Promise<boolean> {
+      try {
+        await writeWorkspace(next);
+        current = next;
+        renderList();
+        say('Saved on this device.');
+        return true;
+      } catch {
+        say('Could not save. This browser may block storage; keep this tab open and export if possible.');
+        return false;
+      }
+    }
+
+    async function refresh() {
+      try {
+        current = await readWorkspace();
+        renderList();
+        say('Workspace loaded on this device.');
+      } catch {
+        say('Storage is unavailable. Reading and search still work; changes cannot be saved here.');
+        renderList();
+      }
+    }
+
+    document.querySelector('#save-bookmark')?.addEventListener('click', () => {
+      const item = chosen();
+      if (!item.id) { say('Choose an item first.'); return; }
+      const next: WorkspaceData = {
+        ...current,
+        items: {
+          ...current.items,
+          bookmarks: [makeBookmark(item), ...current.items.bookmarks.filter((b) => b.id !== `bookmark:${item.id}`)],
+          resume: [makeResume(item)],
+        },
+      };
+      void persist(next);
+    });
+    document.querySelector('#save-note')?.addEventListener('click', () => {
+      const item = chosen();
+      const text = noteBox?.value.trim() ?? '';
+      if (!item.id || text === '') { say('Choose an item and write a note first.'); return; }
+      const next: WorkspaceData = {
+        ...current,
+        items: { ...current.items, notes: [makeNote(item, text), ...current.items.notes.filter((n) => n.id !== `note:${item.id}`)] },
+      };
+      void persist(next);
+    });
+    document.querySelector('#export-workspace')?.addEventListener('click', () => {
+      const data: WorkspaceData = { ...current, exportedAt: new Date().toISOString() };
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'jelet-workspace.json';
+      link.click();
+      URL.revokeObjectURL(url);
+      say('Exported. Keep this personal file private.');
+    });
+
+    fileInput?.addEventListener('change', async () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      const raw = await file.text();
+      let parsed: unknown;
+      try { parsed = JSON.parse(raw) as unknown; }
+      catch { say('Not a workspace file. Nothing changed.'); return; }
+      const result = validateImport(parsed, raw.length);
+      if (!result.ok) {
+        pending = undefined;
+        if (preview) preview.hidden = true;
+        say(result.error);
+        return;
+      }
+      pending = result.data;
+      if (importSummary) importSummary.textContent = `Bookmarks: ${result.data.items.bookmarks.length}, notes: ${result.data.items.notes.length}, resume: ${result.data.items.resume.length}. Existing items with the same ID are kept on merge.`;
+      if (preview) preview.hidden = false;
+      say('Import validated. Choose merge or replace, or cancel.');
+    });
+    fileInput?.addEventListener('cancel', () => {
+      pending = undefined;
+      if (preview) preview.hidden = true;
+      say('Import canceled; nothing changed.');
+    });
+    document.querySelector('#import-merge')?.addEventListener('click', () => {
+      if (!pending) { say('No validated import to merge.'); return; }
+      void persist(mergeWorkspace(current, pending)).then((ok) => { if (ok) say('Merged without overwriting existing items.'); });
+      if (preview) preview.hidden = true;
+    });
+    document.querySelector('#import-replace')?.addEventListener('click', () => {
+      if (!pending) { say('No validated import to replace.'); return; }
+      void persist(pending).then((ok) => { if (ok) say('Workspace replaced with the imported file.'); });
+      if (preview) preview.hidden = true;
+    });
+    document.querySelector('#import-cancel')?.addEventListener('click', () => {
+      pending = undefined;
+      if (fileInput) fileInput.value = '';
+      if (preview) preview.hidden = true;
+      say('Import canceled; nothing changed.');
+    });
+    document.querySelector('#reset-workspace')?.addEventListener('click', () => {
+      if (resetConfirm?.value !== 'RESET') { say('Type RESET exactly before clearing.'); return; }
+      void persist(emptyWorkspace()).then((ok) => { if (ok) say('Workspace cleared on this device.'); });
+      if (resetConfirm) resetConfirm.value = '';
+    });
+    void refresh();
+  </script>
+</Site>

@@ -1,0 +1,55 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import ShareButton from '../../components/ShareButton.astro';
+import { lessonHref, practiceHref, validatePractice, type PracticeData } from '../../practice';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('practice');
+  validatePractice(entries.map((entry) => entry.data) as PracticeData[]);
+  return entries.map((entry) => ({
+    params: { id: (entry.data as PracticeData).publicId },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<'practice'> };
+const data = entry.data as PracticeData;
+const { Content } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const path = practiceHref(base, data.publicId);
+const lesson = `${base}learn/parallel-circuits/?from=practice&topic=${encodeURIComponent(data.topic)}#${data.primarySectionAnchor}`;
+---
+<Site title={data.title} active="practice" canonical={path}>
+  <nav class="crumb" aria-label="Breadcrumb"><a href={`${base}learn/`}>Learn</a> <span aria-hidden="true">/</span> <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">/</span> <span>Original card</span></nav>
+  <div class="page-intro">
+    <p class="eyebrow">ORIGINAL PRACTICE · NOT A PAST EXAM QUESTION</p>
+    <h1>{data.title}</h1>
+    <p class="lead">{data.summary}</p>
+    <p class="micro" data-origin hidden>Opened from the lesson · topic filter restored</p>
+  </div>
+  <div class="practice-grid">
+    <article class="lesson-body practice-card">
+      <Content />
+      <p class="source">Source: {data.source}. Stable ID: <code data-public-id>{data.publicId}</code>. {data.answerStatus}.</p>
+      <p><a class="button" href={lesson}>Learn this concept <span aria-hidden="true">↓</span></a></p>
+      <p><a href={lessonHref(base, data.primarySectionAnchor)}>Back to lesson section without filters</a></p>
+      <ShareButton title={data.title} url={path} meta="Original practice · not a past exam question" />
+    </article>
+    <aside class="toc practice-side">
+      <p class="eyebrow">CARD DETAILS</p>
+      <dl class="practice-meta">
+        <dt>Identity</dt><dd>Original practice · revision {data.revision}</dd>
+        <dt>Readiness</dt><dd>Original, independent check</dd>
+        <dt>Topic</dt><dd>Electrical &amp; electronics · DC circuits</dd>
+        <dt>Answer</dt><dd>Not shown here; check in the lesson after your attempt</dd>
+      </dl>
+      <p class="micro">No account, no answer collected, no exam question reproduced.</p>
+    </aside>
+  </div>
+  <script define:vars={{ expectedTopic: data.topic }}>
+    const params = new URL(location.href).searchParams;
+    const note = document.querySelector('[data-origin]');
+    if (note && params.get('from') === 'lesson' && params.get('topic') === expectedTopic) note.hidden = false;
+  </script>
+</Site>

@@ -1,7 +1,8 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Site from '../../../layouts/Site.astro';
 import { sections } from '../../../progress';
+import { practiceHref, validatePractice, type PracticeData } from '../../../practice';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const lesson = await getEntry('lessons', 'parallel-circuits');
 if (!lesson) throw new Error('Missing approved pilot lesson');
@@ -10,6 +11,9 @@ const actual = headings.filter(({ depth }) => depth === 2).map(({ slug }) => slu
 if (actual.join('|') !== sections.join('|') || actual.join('|') !== lesson.data.sections.join('|')) {
   throw new Error('Pilot headings do not match the stable section IDs');
 }
+const practice = (await getCollection('practice')).map((entry) => entry.data) as PracticeData[];
+validatePractice(practice);
+const backlinks = practice.filter((item) => item.primarySectionAnchor === 'independent-practice');
 ---
 <Site title={lesson.data.title} active="learn">
   <nav class="crumb" aria-label="Breadcrumb"><a href={`${base}learn/`}>Learn</a> <span aria-hidden="true">/</span> <span>DC sources and circuits</span></nav>
@@ -17,6 +21,7 @@ if (actual.join('|') !== sections.join('|') || actual.join('|') !== lesson.data.
     <p class="eyebrow">LESSON 01 · {lesson.data.minutes} MIN · ORIGINAL</p>
     <h1>{lesson.data.title}</h1><p class="lead">Same voltage, split current.</p>
     <p>By the end, you’ll be able to find branch currents and explain what changes when one branch opens.</p>
+    <p class="micro" data-origin hidden>From an original practice card · topic filter restored</p>
     <a class="button" href="#predict">Start with a prediction <span aria-hidden="true">↓</span></a>
   </div>
   <div class="lesson-grid">
@@ -28,6 +33,15 @@ if (actual.join('|') !== sections.join('|') || actual.join('|') !== lesson.data.
     </aside>
     <article class="lesson-body" aria-label="Parallel circuits lesson">
       <Content />
+      {backlinks.length > 0 && <section class="related" aria-labelledby="related-practice">
+        <p class="eyebrow">ORIGINAL PRACTICE CARD</p>
+        <h2 id="related-practice">Take the independent check</h2>
+        {backlinks.map((item) => (
+          <a class="chapter-card" href={`${practiceHref(base, item.publicId)}?from=lesson&topic=${encodeURIComponent(item.topic)}`}>
+            <span><strong>{item.title}</strong><small>{item.summary}</small></span><span aria-hidden="true">→</span>
+          </a>
+        ))}
+      </section>}
       <p class="source">Syllabus context: <a href="https://cdnbbsr.s3waas.gov.in/s3d2a27e83d429f0dcae6b937cf440aeb1/uploads/2026/03/20260318287108702.pdf#page=28">WBJEEB JELET 2026 bulletin, Appendix 5, p. 28</a>. Explanations and practice are original, not Board questions.</p>
       <a href={base}>← Back to Today</a>
     </article>
@@ -118,5 +132,12 @@ if (actual.join('|') !== sections.join('|') || actual.join('|') !== lesson.data.
         saveScroll();
       }
     });
+  </script>
+  <script define:vars={{ practiceTopics: practice.map((item) => item.topic) }}>
+    const params = new URL(location.href).searchParams;
+    const originNote = document.querySelector('[data-origin]');
+    if (originNote && params.get('from') === 'practice' && practiceTopics.includes(params.get('topic') ?? '')) {
+      originNote.hidden = false;
+    }
   </script>
 </Site>

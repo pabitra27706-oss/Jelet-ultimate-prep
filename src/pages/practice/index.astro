@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import { practiceHref, validatePractice, type PracticeData } from '../../practice';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const items = (await getCollection('practice')).map((entry) => entry.data) as PracticeData[];
+validatePractice(items);
+---
+<Site title="Practice" active="practice">
+  <div class="page-intro">
+    <p class="eyebrow">PAPER I · ORIGINAL PRACTICE</p>
+    <h1>Practice cards.</h1>
+    <p class="lead">Original notebook checks linked to the exact lesson section. No past exam question is published here.</p>
+  </div>
+  <section class="module" aria-labelledby="practice-list">
+    <h2 id="practice-list">Available cards</h2>
+    <ul class="practice-list">
+      {items.map((item) => (
+        <li>
+          <a class="chapter-card" href={practiceHref(base, item.publicId)}>
+            <span><strong>{item.title}</strong><small>{item.summary}</small></span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <p class="micro">Original · not a past exam question · check after attempt</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Site>

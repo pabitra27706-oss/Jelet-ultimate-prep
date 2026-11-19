@@ -6,4 +6,40 @@
 .brand,.hero-copy,.eyebrow,.hero-art p,.button,.steps a,.page-intro,.module,.toc,.footer-inner{overflow-wrap:anywhere}
 .hero-art p,.topbar-inner,.topbar nav{flex-wrap:wrap}
 .mark{flex-shrink:0}
-@media(max-width:47.99rem){.hero,.steps,.lesson-grid{grid-template-columns:minmax(0,1fr)}}
+.practice-list{list-style:none;padding:0;margin:0;display:grid;gap:.75rem}
+.practice-list li{min-width:0}
+.practice-grid{display:grid;align-items:start;gap:1rem}
+.practice-grid>*{min-width:0}
+.practice-side dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:.35rem .75rem;margin:0}
+.practice-side dt{font-weight:750;color:var(--teal)}
+.practice-side dd{margin:0;color:var(--muted);overflow-wrap:anywhere}
+.related{margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem}
+.related .chapter-card{margin-top:.65rem}
+@media(min-width:48rem){.practice-grid{grid-template-columns:minmax(0,1fr) minmax(14rem,18rem)}}
+.button-row{display:flex;flex-wrap:wrap;gap:.6rem;margin:.8rem 0}
+.button.secondary{background:var(--mint);color:var(--teal)}
+.button.secondary:hover{background:#c8ead9}
+.workspace-panel{max-width:52rem}
+.workspace-panel .field{margin-bottom:.75rem}
+.import-preview{border:1px dashed var(--line);border-radius:10px;padding:1rem;margin-top:1rem}
+.import-preview h3{margin-bottom:.4rem}
+.search-form{display:grid;gap:.75rem;max-width:48rem;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:clamp(1rem,3vw,1.6rem)}
+.photo-help{margin:1.6rem 0;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:clamp(1rem,3vw,1.6rem);max-width:48rem}
+.photo-help ol{padding-left:1.4rem;margin:.6rem 0 1rem}
+.photo-help li{margin-bottom:.5rem}
+.photo-help textarea{width:100%;min-height:80px;padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;resize:vertical}
+.field{display:grid;gap:.35rem;font-weight:750;min-width:0}
+.field input,.field select,.share textarea{width:100%;min-height:46px;padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;overflow-wrap:anywhere}
+.result-group{margin:1.6rem 0 0}
+.result-group h3{margin-bottom:.6rem}
+.count{color:var(--muted);font-size:.8rem;font-weight:600}
+.result-list{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+.result-list li{padding:.75rem 1rem;border:1px solid var(--line);border-radius:10px;background:var(--card);min-width:0}
+.result-list small{display:block;color:var(--muted);margin-top:.2rem;overflow-wrap:anywhere}
+.empty-state{background:var(--card);border:1px dashed var(--line);border-radius:13px;padding:1.2rem;margin-top:1.4rem}
+.share{margin-top:1.4rem;border-top:1px solid var(--line);padding-top:1rem}
+.share-button{width:100%}
+.share-fallback label{display:grid;gap:.35rem;font-weight:700;margin-top:.6rem}
+.share textarea{resize:vertical}
+@media(min-width:48rem){.search-form{grid-template-columns:2fr 1fr 1fr;align-items:end}.share-button{width:auto}}
+@media(max-width:47.99rem){.hero,.steps,.lesson-grid,.practice-grid{grid-template-columns:minmax(0,1fr)}}

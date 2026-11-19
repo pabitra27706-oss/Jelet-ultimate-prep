@@ -1,6 +1,10 @@
 ---
 import '../styles/site.css';
-const { title, active = '' } = Astro.props as { title: string; active?: 'today' | 'learn' | '' };
+const { title, active = '', canonical } = Astro.props as {
+  title: string;
+  active?: 'today' | 'learn' | 'practice' | 'search' | 'workspace' | '';
+  canonical?: string;
+};
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 ---
 <!doctype html>
@@ -9,6 +13,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="A free, independent JELET Paper I learning pilot, starting with parallel circuits." />
+    {canonical && <link rel="canonical" href={canonical} />}
     <title>{title} · JELET Ultimate Prep</title>
   </head>
   <body>
@@ -16,7 +21,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
     <header class="topbar">
       <div class="wrap topbar-inner">
         <a href={base} class="brand"><span aria-hidden="true" class="mark">J</span><span>JELET <small>Ultimate Prep</small></span></a>
-        <nav aria-label="Main"><a href={base} aria-current={active === 'today' ? 'page' : undefined}>Today</a><a href={`${base}learn/`} aria-current={active === 'learn' ? 'page' : undefined}>Learn</a></nav>
+        <nav aria-label="Main"><a href={base} aria-current={active === 'today' ? 'page' : undefined}>Today</a><a href={`${base}learn/`} aria-current={active === 'learn' ? 'page' : undefined}>Learn</a><a href={`${base}practice/`} aria-current={active === 'practice' ? 'page' : undefined}>Practice</a><a href={`${base}search/`} aria-current={active === 'search' ? 'page' : undefined}>Search</a><a href={`${base}workspace/`} aria-current={active === 'workspace' ? 'page' : undefined}>Workspace</a></nav>
       </div>
     </header>
     <main class="wrap main" id="main" tabindex="-1"><slot /></main>

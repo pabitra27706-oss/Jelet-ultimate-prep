@@ -1,4 +1,8 @@
-"""Wrap the built pilot in its Pages subpath for an on-phone static preview."""
+"""Wrap the built pilot in its Pages subpath for an on-phone static preview.
+
+Regenerate after each build; the tracked device-test snapshot lives under
+docs/phases/03-library/device-test/. This file is also a watched rebuild path.
+"""
 
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
@@ -8,8 +12,9 @@ root = Path(__file__).resolve().parents[1]
 dist = root / 'dist'
 base = 'Jelet-ultimate-prep'
 required = {
-    'index.html', 'learn/index.html', 'learn/parallel-circuits/index.html',
-    'parallel-circuit.svg',
+    'index.html', 'learn/index.html', 'learn/parallel-circuits/index.html', 'parallel-circuit.svg',
+    'practice/index.html', 'practice/orig-parallel-independent-v1/index.html',
+    'search/index.html', 'search-index.json', 'workspace/index.html',
 }
 output = root / 'downloads' / 'jelet-android-preview.zip'
 

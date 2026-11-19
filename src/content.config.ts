@@ -15,4 +15,20 @@ const lessons = defineCollection({
   }),
 });
 
-export const collections = { lessons };
+const practice = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/practice' }),
+  schema: z.object({
+    publicId: z.string().regex(/^orig-[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    title: z.string().min(1),
+    topic: z.literal('jelet-syllabus:electrical-and-electronics:t04'),
+    revision: z.literal(1),
+    provenance: z.literal('original'),
+    readiness: z.literal('original-practice'),
+    primarySectionAnchor: z.string().regex(/^[a-z]+(?:-[a-z]+)*$/),
+    source: z.string().min(1),
+    answerStatus: z.string().min(1),
+    summary: z.string().min(1),
+  }),
+});
+
+export const collections = { lessons, practice };

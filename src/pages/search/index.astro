@@ -1,0 +1,163 @@
+---
+import Site from '../../layouts/Site.astro';
+import { buildLibraryIndex } from '../../library';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const entries = await buildLibraryIndex();
+const groups = [
+  { key: 'lesson', label: 'Lessons' },
+  { key: 'practice', label: 'Original practice' },
+  { key: 'question', label: 'Past exam questions' },
+  { key: 'sheet', label: 'Revision sheets' },
+];
+---
+<Site title="Search" active="search">
+  <div class="page-intro">
+    <p class="eyebrow">LOCAL LIBRARY SEARCH</p>
+    <h1>Find it again.</h1>
+    <p class="lead">Search lessons and original practice cards on this device. Nothing is uploaded and no account is needed.</p>
+  </div>
+  <form class="search-form" id="library-search" data-index-url={`${base}search-index.json`}>
+    <label class="field">Search words or pasted text
+      <input name="q" type="search" autocomplete="off" placeholder="e.g. parallel branches, 9 V, 6 ohm" />
+    </label>
+    <label class="field">Group
+      <select name="type"><option value="all">All groups</option><option value="lesson">Lessons</option><option value="practice">Original practice</option></select>
+    </label>
+    <label class="field">Readiness
+      <select name="readiness"><option value="all">All reviewed items</option><option value="original">Original only</option></select>
+    </label>
+  </form>
+  <section class="photo-help" id="photo-help" aria-labelledby="photo-title">
+    <p class="eyebrow">FOUND A QUESTION IN A PHOTO?</p>
+    <h2 id="photo-title">Copy text, paste here, confirm the item.</h2>
+    <ol>
+      <li>Open Google Lens or your camera app <strong>outside this site</strong>, select the printed text and copy a distinctive line.</li>
+      <li>Paste it below. We never receive the photo, run a camera or call an AI service.</li>
+      <li>Confirm the result by identity: for a past paper, year / paper / set / printed number; for our original cards, the labelled ID. Use the filters above if OCR changed an exponent or the question is mostly a graph.</li>
+    </ol>
+    <label class="field">Pasted text
+      <textarea id="photo-paste" rows="3" placeholder="Paste copied words or type a year and number"></textarea>
+    </label>
+    <p class="micro">No upload, no answer certification. If nothing reliable matches, you will get alternatives or “No match yet”.</p>
+    <button class="button" type="button" id="photo-search">Search pasted text</button>
+  </section>
+  <p class="micro" data-search-status aria-live="polite">Search runs locally after the small index loads.</p>
+  <section id="search-results" aria-live="polite" hidden></section>
+  <section id="browse-all" aria-labelledby="browse-title">
+    <h2 id="browse-title">Browse the approved library</h2>
+    <p class="micro">Without JavaScript, use this directory. Search needs JavaScript but makes no network request beyond this site's index.</p>
+    {groups.map((group) => {
+      const items = entries.filter((entry) => entry.type === group.key);
+      return <div class="result-group">
+        <h3>{group.label} <span class="count">{items.length}</span></h3>
+        {items.length === 0 ? <p class="micro">No public items in this group yet.</p> : <ul class="result-list">
+          {items.map((entry) => <li><a href={entry.url}>{entry.title}</a><small>{entry.identity} · {entry.summary}</small></li>)}
+        </ul>}
+      </div>;
+    })}
+  </section>
+  <script>
+    import { matches, type IndexEntry } from '../../search';
+
+    const form = document.querySelector<HTMLFormElement>('#library-search');
+    const input = form?.querySelector<HTMLInputElement>('input[name="q"]');
+    const typeSelect = form?.querySelector<HTMLSelectElement>('select[name="type"]');
+    const readySelect = form?.querySelector<HTMLSelectElement>('select[name="readiness"]');
+    const results = document.querySelector<HTMLElement>('#search-results');
+    const browse = document.querySelector<HTMLElement>('#browse-all');
+    const status = document.querySelector<HTMLElement>('[data-search-status]');
+    const groupLabels: Record<string, string> = { lesson: 'Lessons', practice: 'Original practice', question: 'Past exam questions', sheet: 'Revision sheets' };
+    let all: IndexEntry[] = [];
+
+    function node<K extends keyof HTMLElementTagNameMap>(tag: K, className: string, text?: string): HTMLElementTagNameMap[K] {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text !== undefined) element.textContent = text;
+      return element;
+    }
+
+    function render() {
+      if (!input || !typeSelect || !readySelect || !results || !browse || !status) return;
+      const query = input.value;
+      const found = all.filter((entry) => matches(entry, query, typeSelect.value, readySelect.value));
+      results.replaceChildren();
+      results.hidden = false;
+      browse.hidden = true;
+      status.textContent = `${found.length} result${found.length === 1 ? '' : 's'} on this device.`;
+
+      const params = new URL(location.href).searchParams;
+      for (const [key, value] of [['q', query], ['type', typeSelect.value], ['readiness', readySelect.value]] as const) {
+        if (value.trim() === '' || value === 'all') params.delete(key);
+        else params.set(key, value);
+      }
+      history.replaceState(history.state, '', `${location.pathname}?${params.toString()}${location.hash}`);
+
+      if (found.length === 0) {
+        const empty = node('div', 'empty-state');
+        empty.append(node('h2', '', 'No match yet'));
+        empty.append(node('p', '', 'Try fewer words, remove a filter, or search by topic. Past exam questions are not published yet.'));
+        const reset = node('button', 'button', 'Clear search');
+        reset.type = 'button';
+        reset.addEventListener('click', () => {
+          input.value = '';
+          typeSelect.value = 'all';
+          readySelect.value = 'all';
+          render();
+        });
+        empty.append(reset);
+        results.append(empty);
+        return;
+      }
+
+      for (const [key, label] of Object.entries(groupLabels)) {
+        const items = found.filter((entry) => entry.type === key);
+        if (items.length === 0) continue;
+        const section = node('section', 'result-group');
+        const heading = node('h3', '', label);
+        heading.append(node('span', 'count', ` ${items.length}`));
+        section.append(heading);
+        const list = node('ul', 'result-list');
+        for (const entry of items) {
+          const li = node('li', '');
+          const link = node('a', '', entry.title);
+          link.href = entry.url;
+          li.append(link);
+          li.append(node('small', '', `${entry.identity} · ${entry.summary}`));
+          list.append(li);
+        }
+        section.append(list);
+        results.append(section);
+      }
+    }
+
+    const params = new URL(location.href).searchParams;
+    if (input) input.value = params.get('q') ?? '';
+    if (typeSelect && ['lesson', 'practice'].includes(params.get('type') ?? '')) typeSelect.value = params.get('type') ?? 'all';
+    if (readySelect && params.get('readiness') === 'original') readySelect.value = 'original';
+
+    form?.addEventListener('submit', (event) => { event.preventDefault(); render(); });
+    input?.addEventListener('input', render);
+    typeSelect?.addEventListener('change', render);
+    readySelect?.addEventListener('change', render);
+
+    const paste = document.querySelector<HTMLTextAreaElement>('#photo-paste');
+    const pasteButton = document.querySelector<HTMLButtonElement>('#photo-search');
+    pasteButton?.addEventListener('click', () => {
+      if (!input || !paste || !results) return;
+      if (all.length === 0) { if (status) status.textContent = 'Index still loading; try again in a moment.'; return; }
+      input.value = paste.value;
+      render();
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    const indexUrl = form?.dataset.indexUrl;
+    if (!indexUrl) { status && (status.textContent = 'Search index is not configured; browse below.'); }
+    else {
+      fetch(indexUrl)
+        .then((response) => { if (!response.ok) throw new Error('index unavailable'); return response.json(); })
+        .then((data: { entries?: IndexEntry[] }) => { all = data.entries ?? []; render(); })
+        .catch(() => { if (status) status.textContent = 'Search index could not load; browse the directory below.'; });
+    }
+  </script>
+</Site>
