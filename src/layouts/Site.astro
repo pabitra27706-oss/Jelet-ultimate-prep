@@ -1,0 +1,25 @@
+---
+import '../styles/site.css';
+const { title, active = '' } = Astro.props as { title: string; active?: 'today' | 'learn' | '' };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A free, independent JELET Paper I learning pilot, starting with parallel circuits." />
+    <title>{title} · JELET Ultimate Prep</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a href={base} class="brand"><span aria-hidden="true" class="mark">J</span><span>JELET <small>Ultimate Prep</small></span></a>
+        <nav aria-label="Main"><a href={base} aria-current={active === 'today' ? 'page' : undefined}>Today</a><a href={`${base}learn/`} aria-current={active === 'learn' ? 'page' : undefined}>Learn</a></nav>
+      </div>
+    </header>
+    <main class="wrap main" id="main" tabindex="-1"><slot /></main>
+    <footer><div class="wrap footer-inner"><strong>JELET Ultimate Prep</strong><span>Independent study pilot · Not affiliated with WBJEEB</span></div></footer>
+  </body>
+</html>

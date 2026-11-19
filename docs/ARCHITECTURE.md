@@ -1,6 +1,8 @@
-# Architecture and study data (planned)
+# Architecture and study data
 
 **Build:** Markdown lessons + schema-checked question records → link/rights/readiness checks → Astro prebuilt routes with TypeScript strict and Tailwind CSS → static assets on GitHub Pages. Optional build-time Python for corpus audits, deterministic numeric variants and search indexes. No student request runs Python. Self-host required maths/fonts and load search by demand. Ship readable pages and links without JS; attach JS for practice, local storage and interactive labs. Generate only approved public assets; check output for archives, private source files and backups.
+
+**Pilot implementation (Phase 02):** Astro static output, a validated original Markdown lesson, strict TypeScript, and shared CSS tokens without Tailwind to keep this slice smaller. Native disclosure controls need no JS. The only local data is one versioned `localStorage` lesson record (section and hint/reveal flags); the IndexedDB contract below still applies to later workspace phases. The Pages project subpath is `/Jelet-ultimate-prep/`. PR checks build and inspect the artifact; they do not publish.
 
 **Stable addressing:** create one static page per public question and lesson with immutable section anchors. Build forward and reverse topic links from the same reviewed mapping. Base-aware URLs must work on a project subpath, including pasted links and refresh. No server rewrites required. Answer keys delivered to clients cannot be secret: this is preparation, not proctoring.
 

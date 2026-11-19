@@ -1,10 +1,26 @@
 # JELET Ultimate Prep
 
-A planned, independent JELET learning and exam-practice website, starting with Paper I. Goal: **learn a concept → practise a verified question → understand the marks → retry independently**. Guest first; ₹0 required operating cost; maintainable from Android.
+An independent JELET learning and exam-practice website, starting with Paper I. Goal: **learn a concept → practise a verified question → understand the marks → retry independently**. Guest first; ₹0 required operating cost; maintainable from Android.
 
-**Current state:** documentation and a tested legacy archive only. No new site, CI pipeline, login or live tutor exists. Implementation requires a separate go-ahead.
+**Current state:** a static parallel-circuits learning pilot is implemented for preview. No public deployment, login, PYQ scoring or live tutor. The owner reported the Android check passed; learner transfer is still untested.
 
 - [Handbook and document map](docs/README.md) · [Phase roadmap and current handoff](docs/ROADMAP.md)
 - [Reusable agent prompt — copy for each new chat](prompt.md)
 - [Rules for contributors and coding agents](AGENTS.md)
 - [Preserved source and recovery guide](archive/jelet-prep/README.md) — read before retiring the old site.
+
+## Run the learning pilot
+
+Use Node 22.23.4 (see `.nvmrc`) and the lockfile. From the repository root:
+
+```sh
+export ASTRO_TELEMETRY_DISABLED=1
+npm ci
+npm run check
+npm run build
+npm run preview
+```
+
+Open `/Jelet-ultimate-prep/` on the preview server. `npm run test:browser` checks the built artifact on x64 Linux (see the [pilot record](docs/phases/02-learning/2026-11-19-phase-02.md) if the system lacks Chromium libraries). Only `dist/` is intended for eventual publication after release approval; never serve or publish the legacy archive with it. This repository has no deployment workflow.
+
+If the Arena preview link expires, use the [on-phone Termux preview instructions](docs/phases/02-learning/ANDROID-PREVIEW.md).

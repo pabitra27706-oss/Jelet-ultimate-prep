@@ -1,12 +1,12 @@
 # Phase roadmap and current handoff
 
-**2026-11-19: docs only.** Archive captured; owner retirement steps unconfirmed. No application phase started. Next authorized *research* candidate: the 2025 Paper I audit plus one lesson outline. Get owner approval before implementation. Follow gates, not calendar estimates.
+**2026-11-19: original-only pilot in preview.** Archive captured; owner retirement steps unconfirmed. Phase 01 research is recorded; all ten audited 2025 items remain held. The owner reported the Android check passed. Next gate: learner-transfer evidence for Phase 02. No public deployment. Follow gates, not calendar estimates.
 
 | Phase | Scope / release gate | Status |
 |---|---|---|
 | [00 Preservation](phases/00-preservation/README.md) | Recoverable baseline; separate decision before deleting old site | Capture tested; retirement not confirmed |
-| [01 Evidence](phases/01-evidence/README.md) | Syllabus map, ten audited items, permissions, lesson plan | Planned |
-| [02 Learning pilot](phases/02-learning/README.md) | Static foundation and one complete chapter; independent transfer check | Planned |
+| [01 Evidence](phases/01-evidence/README.md) | Syllabus map, ten audited items, permissions, lesson plan | [Research artifacts delivered](phases/01-evidence/2026-11-19-phase-01.md); [owner sign-off for original-only pilot recorded](phases/02-learning/2026-11-19-phase-02.md) |
+| [02 Learning pilot](phases/02-learning/README.md) | Static foundation and one complete chapter; independent transfer check | [Android pass reported; learner transfer pending](phases/02-learning/2026-11-19-phase-02.md) |
 | [03 Library and workspace](phases/03-library/README.md) | First public study release: two-way topic links, sharing, search, notes, backup | Planned |
 | [04 Practice and review](phases/04-practice/README.md) | Honest scoring, reasoned feedback, local retry and planning | Planned |
 | [05 Exam rehearsal](phases/05-rehearsal/README.md) | Verified full paper, OMR option, printed companion | Blocked until one full paper passes editorial review |

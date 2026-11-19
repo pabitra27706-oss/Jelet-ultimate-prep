@@ -1,0 +1,122 @@
+---
+import { getEntry, render } from 'astro:content';
+import Site from '../../../layouts/Site.astro';
+import { sections } from '../../../progress';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const lesson = await getEntry('lessons', 'parallel-circuits');
+if (!lesson) throw new Error('Missing approved pilot lesson');
+const { Content, headings } = await render(lesson);
+const actual = headings.filter(({ depth }) => depth === 2).map(({ slug }) => slug);
+if (actual.join('|') !== sections.join('|') || actual.join('|') !== lesson.data.sections.join('|')) {
+  throw new Error('Pilot headings do not match the stable section IDs');
+}
+---
+<Site title={lesson.data.title} active="learn">
+  <nav class="crumb" aria-label="Breadcrumb"><a href={`${base}learn/`}>Learn</a> <span aria-hidden="true">/</span> <span>DC sources and circuits</span></nav>
+  <div class="page-intro lesson-intro">
+    <p class="eyebrow">LESSON 01 · {lesson.data.minutes} MIN · ORIGINAL</p>
+    <h1>{lesson.data.title}</h1><p class="lead">Same voltage, split current.</p>
+    <p>By the end, you’ll be able to find branch currents and explain what changes when one branch opens.</p>
+    <a class="button" href="#predict">Start with a prediction <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="lesson-grid">
+    <aside class="toc">
+      <nav aria-label="Lesson sections"><p class="eyebrow">IN THIS LESSON</p><ul>{headings.map(({ slug, text }) => <li><a href={`#${slug}`}>{text}</a></li>)}</ul></nav>
+      <p class="micro" data-save-note aria-live="polite">No account or answers collected.</p>
+      <p class="micro" data-hint-note hidden>Guided hint opened on this browser.</p>
+      <p class="micro" data-attempt-note hidden>The independent check has been opened on this browser.</p>
+    </aside>
+    <article class="lesson-body" aria-label="Parallel circuits lesson">
+      <Content />
+      <p class="source">Syllabus context: <a href="https://cdnbbsr.s3waas.gov.in/s3d2a27e83d429f0dcae6b937cf440aeb1/uploads/2026/03/20260318287108702.pdf#page=28">WBJEEB JELET 2026 bulletin, Appendix 5, p. 28</a>. Explanations and practice are original, not Board questions.</p>
+      <a href={base}>← Back to Today</a>
+    </article>
+  </div>
+  <script>
+    import { isSection, readProgress, saveProgress, sections, validHints, type Progress } from '../../../progress';
+    const { progress: previous, available } = readProgress();
+    const currentHash = () => location.hash.slice(1);
+    const initial = currentHash();
+    let progress: Progress = { ...(previous ?? { guidedHints: [], independentRevealed: false }), section: isSection(initial) ? initial : 'predict' };
+    const note = document.querySelector<HTMLElement>('[data-save-note]');
+    const assisted = document.querySelector<HTMLElement>('[data-attempt-note]');
+    const hints = document.querySelector<HTMLElement>('[data-hint-note]');
+    function indicators() {
+      if (assisted) assisted.hidden = !progress.independentRevealed;
+      if (hints) hints.hidden = progress.guidedHints.length === 0;
+    }
+    function persisted() {
+      if (note) {
+        const message = saveProgress(progress) ? 'Place saved on this browser.' : 'Could not save progress. Keep this tab open to preserve your place.';
+        if (note.textContent !== message) note.textContent = message;
+      }
+      indicators();
+    }
+    if (!available && note) note.textContent = 'Progress cannot be saved on this browser.';
+    indicators();
+    function saveHash() {
+      const hash = currentHash();
+      if (isSection(hash)) {
+        progress.section = hash;
+        persisted();
+      }
+    }
+    const url = new URL(location.href);
+    if (url.searchParams.get('resume') === '1') {
+      url.searchParams.delete('resume');
+      history.replaceState(history.state, '', url.href);
+      if (previous?.section === 'guided-practice' && initial === 'guided-practice') {
+        const lastHint = previous.guidedHints.at(-1);
+        if (lastHint && validHints.includes(lastHint)) {
+          const hint = document.querySelector<HTMLDetailsElement>(`details[data-reveal="${lastHint}"]`);
+          if (hint) hint.open = true;
+        }
+      }
+    }
+    saveHash();
+    window.addEventListener('hashchange', saveHash);
+    for (const details of document.querySelectorAll<HTMLDetailsElement>('details[data-reveal]')) {
+      details.addEventListener('toggle', () => {
+        if (!details.open) return;
+        const key = details.dataset.reveal ?? '';
+        if (validHints.includes(key)) {
+          progress.guidedHints = [...new Set([...progress.guidedHints, key])];
+          progress.section = 'guided-practice';
+        } else if (key === 'independent-check') {
+          progress.independentRevealed = true;
+          progress.section = 'independent-practice';
+        } else {
+          progress.section = key === 'worked' ? 'worked-example' : 'guided-practice';
+        }
+        persisted();
+      });
+    }
+    const headings = sections.map((id) => document.getElementById(id));
+    let interacted = false;
+    const markInteraction = () => { interacted = true; };
+    window.addEventListener('wheel', markInteraction, { passive: true });
+    window.addEventListener('touchmove', markInteraction, { passive: true });
+    window.addEventListener('keydown', (event) => {
+      if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) markInteraction();
+    });
+    function saveScroll() {
+      if (!interacted) return;
+      let last = progress.section;
+      headings.forEach((heading, i) => { if (heading && heading.getBoundingClientRect().top <= 145) last = sections[i]; });
+      progress.section = last;
+      persisted();
+    }
+    let timer: number | undefined;
+    window.addEventListener('scroll', () => {
+      if (!interacted) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(saveScroll, 150);
+    }, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && timer !== undefined) {
+        window.clearTimeout(timer);
+        saveScroll();
+      }
+    });
+  </script>
+</Site>
