@@ -75,12 +75,13 @@ clear are listed per year in [years/](years/) §10 and enforced by the
 | The `disputed → voided → boardAwarded` loader defect | **Owner decision + application work.** Not fixed here. It blocks integration of every target-year key |
 | One paper and one key per year | **Owner decision** if the alternate stream sets are ever wanted |
 | Publication rights for the four booklets | **Open**, and separate from technical verification. The [content standard](../../CONTENT.md) governs |
-| Page images for the booklets | **Not yet captured.** They are the phase's most important input; without them no entry may be written |
+| Page images for the booklets | **Still not captured (2026-11-20).** The 2017 booklet's text layer is retrievable and its section map is now established, but the sandbox cannot render a page image; without one no entry may be written |
 
-**Next action:** the owner runs one year package in a fresh chat. Start with
-[years/2017.md](years/2017.md) — it is the cleanest of the four — or with
-[years/2019.md](years/2019.md) if the goal is to find out how the worst case behaves
-first.
+**Next action:** the owner supplies page images for booklet 80116361 (2017), then
+step 09.2 resumes from the [pre-flight record](../../../editorial/derived-keys/2017/2017-preflight.md).
+If images cannot be produced for any of the four booklets, the alternative is an
+explicit owner decision on a text-layer-only subset — a decision the runbook does not
+take on its own. Until then no year package can produce a key.
 
 ---
 
@@ -88,7 +89,60 @@ first.
 
 One record per solving session, appended below. Use the phase-record template.
 
-### 09-2017 · _not run_
+### 09-2017 · pre-flight only, 2026-11-20 — solving blocked
+
+- **Phase:** 09-derived-keys · **Task:** `09-2017` · **Step reached:** 09.1 (complete)
+- **Mode:** RESEARCH · **Date:** 2026-11-20
+- **Branch:** `arena/f4180f76-jelet-ultimate-prep`, from `b546c8b`
+- **Owner / reviewer:** owner · solver not yet named, because no solving pass ran
+- **Artifact:** [editorial/derived-keys/2017/2017-preflight.md](../../../editorial/derived-keys/2017/2017-preflight.md)
+
+**Inputs used.** The board's booklet `2023111594.pdf` (booklet 80116361,
+`JELET-2017/DIP. ENGG.&TECH.`), retrieved 2026-11-20 through `fetch_page`. Read-only
+comparison against `src/data/papers.json`. The archive, the corpus and the
+application were not modified.
+
+**What was delivered.** A retrieval record; the booklet's identity and printed
+marking rule; the corrected six-row section map with printed page starts; a 30-slot
+page map; both alternate stream sets listed and marked out of scope; an inventory of
+text-layer defects; a 14-item structural spot-check against the corpus; and the
+documentation corrections listed below.
+
+**Findings that changed the documentation.**
+
+| Finding | Effect |
+|---|---|
+| The booklet's Q1–20 is **Mathematics**; Electrical Technology begins at Q21 | The phase README, the 2017 year package and the schema example all claimed Q1–35 Electrical. All three corrected; the other three years' rows are now marked *unverified* |
+| The paper prints one marking rule and no Category-II rule | The 2017 package's Category-II expectation removed; every item is Category-I |
+| 45 subject-label conflicts, not 64 (2019: 43) | Corrected in the README and the 2017 package |
+| Corpus Q18 carries a different distribution stem under the booklet's options; Q73 option B and Q63's symbol differ | Recorded as candidate reconciliation differences for 09.3; the page decides |
+| Corpus Q83 is a transcriber placeholder; the booklet prints four distinct exponents | Confirmed |
+| Ten stems name a figure; Q97 and Q100 have diagram options | Confirmed; both are held candidates |
+
+**Checks.**
+
+| Check | Result |
+|---|---|
+| Booklet retrievable by the documented route | pass (text layer, 4 chunks, pages 1–30) |
+| Direct PDF download | **fail** — `SSL_ERROR_SYSCALL`; no checksum obtainable |
+| Section map against printed headings | pass — corrected |
+| Corpus label and figure counts | pass (Python count over `papers.json`) |
+| Markdown links in touched files | pass (local resolver) |
+| Key-file schema validation | **not applicable** — no key file exists |
+| Page capture, solving, attack, cross-check, machine checks, tiers | **not run** |
+
+**Stop and blocker.** [RUNBOOK 09.2](RUNBOOK.md) needs one
+image per printed page. The sandbox cannot render the booklet, so under
+[S1](STOP-CONDITIONS.md) the year stops there and **no key
+entry may be written**. Two items of information would unblock it, in order of
+preference: the owner supplies 30 legible page images; or the owner decides, on the
+record, that a named text-layer-only subset may be solved as `derived-provisional`.
+
+**Scope.** Only documentation and the pre-flight record changed. No file under `src/`,
+`scripts/`, `tests/`, `public/`, `src/data/` or `archive/` was touched, and no PDF,
+page image or personal data entered Git.
+
+### 09-2017 · _solving not run_
 
 ### 09-2018 · _not run_
 

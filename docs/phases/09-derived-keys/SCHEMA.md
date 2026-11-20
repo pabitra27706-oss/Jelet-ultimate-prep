@@ -66,7 +66,8 @@ per-item record of how faithfully the options were transcribed.
   },
 
   "sectionMap": [
-    { "from": 1,  "to": 35,  "subject": "Electrical Technology",     "streamSet": "main" },
+    { "from": 1,  "to": 20,  "subject": "Mathematics",               "streamSet": "main" },
+    { "from": 21, "to": 35,  "subject": "Electrical Technology",     "streamSet": "main" },
     { "from": 36, "to": 55,  "subject": "Computer Application",     "streamSet": "main" },
     { "from": 56, "to": 70,  "subject": "Environmental Engineering","streamSet": "main" },
     { "from": 71, "to": 85,  "subject": "Engineering Mechanics",    "streamSet": "main" },
@@ -75,6 +76,8 @@ per-item record of how faithfully the options were transcribed.
 
   "outOfScopeSets": [
     { "label": "Question Nos. 71-100 for Printing Technology Candidates - Basic Engineering",
+      "reason": "A different paper for a different stream. Not carried in the corpus; not keyed here." },
+    { "label": "Question Nos. 71-100 for Agricultural Engineering Candidates - Farm Machinery & Power onwards",
       "reason": "A different paper for a different stream. Not carried in the corpus; not keyed here." }
   ],
 
@@ -95,6 +98,9 @@ per-item record of how faithfully the options were transcribed.
   filled in later — it is the proof that no board key exists.
 - `booklet.checksum` is the SHA-256 of the downloaded PDF, or `null` if the file
   could not be hashed in the session. Record it when you can.
+- `sectionMap` is transcribed from the booklet's own printed headings, one row per
+  heading, including a Mathematics row where the booklet has one. It is never copied
+  from another year or from the corpus: every year's map is read at pre-flight.
 - `booklet.streamSet` names **the set this key covers**, in the booklet's own words.
   It is the field that stops a reader assuming the alternate stream sections were
   also keyed.
