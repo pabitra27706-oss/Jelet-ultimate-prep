@@ -9,12 +9,14 @@ collection, with a per-item tier, a machine-check record, an independent cross-c
 record, an explicit list of what was held and why, and an owner practice-verification
 loop that can trace every published answer back to the page it came from.
 
-**Status · 2026-11-20:** phase designed; **pre-flight has run for 2017 and only
-2017**. The booklet was read through and its section map corrected, but no page image
-could be captured in this sandbox, so the year stops at step 09.2 and **no key entry
-exists** for any year. ADR-0003 remains `PROPOSED` and the owner decision it requires
-is still open. See the [2017 pre-flight record](../../../editorial/derived-keys/2017/2017-preflight.md)
-for what was established and what the owner must supply.
+**Status · 2026-11-20:** phase designed; **pre-flight has run for 2017 and 2018, and
+only those two**. Both booklets were read through and both section maps corrected, but
+no page image could be captured in this sandbox, so both years stop at step 09.2 and
+**no key entry exists** for any year. ADR-0003 remains `PROPOSED` and the owner
+decision it requires is still open. See the pre-flight records for
+[2017](../../../editorial/derived-keys/2017/2017-preflight.md) and
+[2018](../../../editorial/derived-keys/2018/2018-preflight.md) for what was
+established and what the owner must supply.
 
 ---
 
@@ -68,20 +70,20 @@ as a coverage claim.
 
 | Range | 2017 | 2018 | 2019 | 2021 |
 |---|---|---|---|---|
-| Q1–20 | Mathematics | *unverified* | *unverified* | *unverified* |
-| Q21–35 | Electrical Technology | *unverified* | *unverified* | *unverified* |
-| Q36–55 | Computer Application | *unverified* | *unverified* | *unverified* |
-| Q56–70 | Environmental Engineering | *unverified* | *unverified* | *unverified* |
-| Q71–85 | Engineering Mechanics | *unverified* | *unverified* | *unverified* |
-| Q86–100 | Strength of Materials | *unverified* | *unverified* | *unverified* |
+| Q1–20 | Mathematics | Mathematics | *unverified* | *unverified* |
+| Q21–35 | Electrical Technology | Electrical Technology | *unverified* | *unverified* |
+| Q36–55 | Computer Application | Computer Application | *unverified* | *unverified* |
+| Q56–70 | Environmental Engineering | Environmental Engineering | *unverified* | *unverified* |
+| Q71–85 | Engineering Mechanics | Engineering Mechanics | *unverified* | *unverified* |
+| Q86–100 | Strength of Materials | Strength of Materials | *unverified* | *unverified* |
 
-**The 2017 row was corrected on 2026-11-20** from the booklet itself: Q1–20 is
-Mathematics, and the Electrical Technology heading sits at Q21. This table previously
-claimed Q1–35 Electrical for every year, which contradicts the corpus and omitted a
-whole section. The other three rows are now marked *unverified* and must not be
-reused: each year's pre-flight reads its own booklet's printed headings, and the
-corpus splits Q1–20/Q21–35 for all four years. See the
-[2017 pre-flight record](../../../editorial/derived-keys/2017/2017-preflight.md).
+**The 2017 and 2018 rows were corrected on 2026-11-20** from each booklet's own
+headings: Q1–20 is Mathematics and the Electrical Technology heading sits at Q21. This
+table previously claimed Q1–35 Electrical for every year, which contradicted the
+corpus and omitted a whole section. 2019 and 2021 stay marked *unverified* and must
+not be reused until their own pre-flight reads their booklets. See the pre-flight
+records for [2017](../../../editorial/derived-keys/2017/2017-preflight.md) and
+[2018](../../../editorial/derived-keys/2018/2018-preflight.md).
 
 **The corpus disagrees with this map.** `scripts/build-content.mjs` labels Q36–100 of
 every target year as `Computer & IT` / `Computer Application`. That label is wrong for

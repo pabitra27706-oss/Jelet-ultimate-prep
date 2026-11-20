@@ -75,10 +75,11 @@ clear are listed per year in [years/](years/) §10 and enforced by the
 | The `disputed → voided → boardAwarded` loader defect | **Owner decision + application work.** Not fixed here. It blocks integration of every target-year key |
 | One paper and one key per year | **Owner decision** if the alternate stream sets are ever wanted |
 | Publication rights for the four booklets | **Open**, and separate from technical verification. The [content standard](../../CONTENT.md) governs |
-| Page images for the booklets | **Still not captured (2026-11-20).** The 2017 booklet's text layer is retrievable and its section map is now established, but the sandbox cannot render a page image; without one no entry may be written |
+| Page images for the booklets | **Still not captured (2026-11-20).** The 2017 and 2018 booklets' text layers are retrievable and their section maps are established, but the sandbox cannot render a page image; without one no entry may be written |
 
-**Next action:** the owner supplies page images for booklet 80116361 (2017), then
-step 09.2 resumes from the [pre-flight record](../../../editorial/derived-keys/2017/2017-preflight.md).
+**Next action:** the owner supplies page images for the 2017 booklet (80116361) or the
+2018 booklet (`Engg & Tech/JT3`), then step 09.2 resumes from that year's
+[pre-flight record](../../../editorial/derived-keys/2017/2017-preflight.md).
 If images cannot be produced for any of the four booklets, the alternative is an
 explicit owner decision on a text-layer-only subset — a decision the runbook does not
 take on its own. Until then no year package can produce a key.
@@ -142,9 +143,51 @@ record, that a named text-layer-only subset may be solved as `derived-provisiona
 `scripts/`, `tests/`, `public/`, `src/data/` or `archive/` was touched, and no PDF,
 page image or personal data entered Git.
 
+### 09-2018 · pre-flight only, 2026-11-20 — solving blocked
+
+- **Phase:** 09-derived-keys · **Task:** `09-2018` · **Step reached:** 09.1 (complete)
+- **Mode:** RESEARCH · **Date:** 2026-11-20
+- **Branch:** `arena/f4180f76-jelet-ultimate-prep`
+- **Owner / reviewer:** owner · solver not yet named, because no solving pass ran
+- **Artifact:** [editorial/derived-keys/2018/2018-preflight.md](../../../editorial/derived-keys/2018/2018-preflight.md)
+
+**Inputs used.** The board's booklet `2023111538-1.pdf` (`Engg & Tech/JT3`),
+retrieved 2026-11-20 through `fetch_page`, plus a read-only comparison against
+`src/data/papers.json`. Nothing under `archive/` or the application was modified.
+
+**What was delivered.** Retrieval record; booklet identity and printed marking rule;
+the corrected six-row section map with page starts; a 31-slot page map anchored on the
+five page numbers that survive extraction; both alternate stream sets listed and out
+of scope; the text-layer defect inventory; and a **stem-level comparison of all 100
+items** against the corpus.
+
+**Findings that changed the documentation.**
+
+| Finding | Effect |
+|---|---|
+| Q1–20 is **Mathematics**; Electrical Technology starts at Q21 | Phase README and the year package corrected; the package's `Q1–35` row removed |
+| The paper prints one marking rule and no Category-II rule | Category-II expectations removed; every item is Category-I |
+| 45 subject-label conflicts, not 64 | Corrected in the package |
+| **Q2, Q13 and Q19 keep the booklet's options but carry a different stem** — the 2017 Q18 defect repeats three times | Recorded as known defects with the instruction to solve from the page |
+| The corpus's Q2 matrix is internally impossible — its determinant vanishes only at x = 10, not among the options | Machine-checked and recorded; independent proof the stem does not belong to those options |
+| Q55, Q70 and Q85 option D absorb the next printed section heading | Recorded as transcription defects |
+| Q74, Q79 and Q85 carry no textual figure pointer, though the corpus flags them | Figure status deferred to the page image |
+| The booklet prints no booklet number anywhere in the capture | `bookletNumber` stays `null`, with the reason recorded |
+
+**Checks.** Booklet retrieval **pass**; direct download **fail** (`SSL_ERROR_SYSCALL`);
+section map **pass after correction**; 100-item stem comparison **pass**; the Q2
+determinant check **pass**; corpus label count **pass**; markdown links **pass**;
+key-file schema **not applicable**; page capture, solving, attack, cross-check, machine
+checks on answers and tiers **not run**.
+
+**Stop and blocker.** As 2017: no page image can be produced, so 09.2 cannot start and
+no entry may be written. The 2018 pre-flight makes the case sharper — three
+Mathematics stems in the corpus belong to different questions, so a text-only session
+would be at its least safe exactly where the corpus looks most complete.
+
 ### 09-2017 · _solving not run_
 
-### 09-2018 · _not run_
+### 09-2018 · _solving not run_
 
 ### 09-2019 · _not run_
 
