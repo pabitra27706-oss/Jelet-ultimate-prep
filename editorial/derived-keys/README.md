@@ -61,7 +61,17 @@ They are the [editorial collection rules](../README.md), restated for the key wo
 
 ## Status
 
-No key exists yet, for any of the four years. Phase 09 has run its **pre-flight for all
+**One batch exists (2026-11-20).** Under the owner's authorisation of a text-layer-only
+slice, [`2017/2017-keys.json`](2017/2017-keys.json) holds Mathematics Q1–Q20: 17
+`derived-provisional` answers, 11 machine-checked, 2 items held for transcription doubt,
+and 81 `unsolved` entries with named reasons. It is **not a key**: nothing is
+`derived-verified` and nothing may be scored. Record:
+[2017/2017-slice-record.md](2017/2017-slice-record.md). No key exists yet for 2018,
+2019 or 2021.
+
+The pre-flights that precede it are
+[2017](2017/2017-preflight.md), [2018](2018/2018-preflight.md),
+[2019](2019/2019-preflight.md) and [2021](2021/2021-preflight.md). Phase 09 has run its **pre-flight for all
 four**: each booklet was read through, its section map corrected and its text-layer
 defects catalogued — [2017](2017/2017-preflight.md), [2018](2018/2018-preflight.md),
 [2019](2019/2019-preflight.md) and [2021](2021/2021-preflight.md). Solving stopped at

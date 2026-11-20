@@ -187,14 +187,14 @@ document.
 | Field | Allowed values |
 |---|---|
 | `category` | `"I"`, `"II"`, `null` (not determinable from the booklet). **`"II"` is unreachable for these four years**: each booklet prints one marking rule (+1 / −¼) and 100 questions totalling Full Marks 100, so a two-mark rule would break the paper's own arithmetic. The value is kept for any future year that prints one |
-| `optionFidelity` | `"verbatim"` — read straight off the page image; `"text-layer"` — taken from the PDF text layer and confirmed against the image; `"figure-based"` — the options are images (a real option set, but figure-dependent); `"unreproduced"` — the options could not be read; `"transcription-conflict"` — the corpus copy and the booklet disagree and the entry follows the booklet |
-| `figure` | `"none"`, `"read-from-image"`, `"unreadable"`, `"not-present"` |
+| `optionFidelity` | `"verbatim"` — read straight off the page image; `"text-layer"` — taken from the PDF text layer and confirmed against the image; `"corpus-text-unverified"` — taken from the corpus copy and **not** checked against any page image (the only fidelity available to a text-layer session); `"figure-based"` — the options are images (a real option set, but figure-dependent); `"unreproduced"` — the options could not be read; `"transcription-conflict"` — the corpus copy and the booklet disagree and the entry follows the booklet |
+| `figure` | `"none"`, `"unverified"`, `"read-from-image"`, `"unreadable"`, `"not-present"` — `"unverified"` means the corpus says figure-free but no page image has confirmed it |
 | `answer` | an array of option letters (`["A"]`, `["A","C"]`), or `[]` when no answer was determined, or `null` when the item was refused |
-| `tier` | `"official"`, `"derived-verified"`, `"derived-provisional"`, `"disputed"` — `official` is unavailable for these four years |
+| `tier` | `"official"`, `"derived-verified"`, `"derived-provisional"`, `"disputed"`, `"unsolved"` — `official` is unavailable for these four years; `unsolved` means no answer was attempted (see Amendment 1.1.0) |
 | `confidence` | `"high"`, `"medium"`, `"low"` |
 | `crossCheck.verdict` | `"agree"`, `"disagree"`, `"undetermined"` |
 | `scoringEligibility` | `"eligible"`, `"held"` |
-| `holdReason` | `null`, `"figure-not-reproduced"`, `"options-not-reproduced"`, `"input-unreadable"`, `"ambiguous-input"`, `"no-approved-tier"`, `"category-undetermined"` |
+| `holdReason` | `null`, `"figure-not-reproduced"`, `"options-not-reproduced"`, `"input-unreadable"`, `"ambiguous-input"`, `"no-approved-tier"`, `"category-undetermined"`, `"corpus-defect"`, `"not-yet-solved"`, `"absent-from-corpus"`, `"outside-authorized-subset"` |
 | `machineCheck` | an object, or `null` |
 
 ### Rules
@@ -395,7 +395,7 @@ report traceable back to the evidence that justified the answer it disputes.
 Three invariants a `Status` block must satisfy, and the ones the earlier example broke:
 
 ```
-official + derived-verified + derived-provisional + disputed = questionCount
+official + derived-verified + derived-provisional + disputed + unsolved = questionCount
 eligibleCount + heldCount                                    = questionCount
 eligibleCount <= derived-verified      (only verified may ever be eligible)
 sum(heldReasons) = heldCount
@@ -434,3 +434,43 @@ The key file must satisfy, at minimum:
 
 Write this as a throwaway script inside the year's own folder when you produce the
 key. It is evidence, not application code, and it does not belong in `scripts/`.
+
+---
+
+## Amendment 1.1.0 — 2026-11-20 · the authorised text-layer slice
+
+**Why.** No page image can be produced in this sandbox: the Board's CDN refuses a direct
+download and the reader returns text only. On 2026-11-20 the owner authorised a
+**text-layer-only subset, solved as `derived-provisional`, for all four years** — the same
+decision the phase had been waiting for since its first pre-flight. This amendment records
+what that authorisation needed from the schema, and nothing else.
+
+**Added values, each with its meaning pinned down:**
+
+| Field | New value | Means | Does **not** mean |
+|---|---|---|---|
+| `tier` | `"unsolved"` | no answer attempted in this session: outside the slice, figure-dependent, or a documented corpus defect | "the answer is unknowable" |
+| `optionFidelity` | `"corpus-text-unverified"` | the text came from `src/data/papers.json` and was not checked against a page | that the corpus is right |
+| `figure` | `"unverified"` | the corpus says figure-free; no page has confirmed it | that the printed item has no figure |
+| `holdReason` | `"corpus-defect"` | the corpus copy is known or suspected to be wrong for this item | that the printed item is defective |
+| `holdReason` | `"not-yet-solved"` | inside the authorised slice, batch not yet run | that it will be solved |
+| `holdReason` | `"absent-from-corpus"` | the booklet prints it; the corpus has no record (2019 Q78, Q79) | that it cannot be solved |
+| `holdReason` | `"outside-authorized-subset"` | excluded by `scripts/derived-key-subset.mjs` for a reason given in the entry's `note` | a blanket excuse |
+
+**Hard limits that the authorisation does not lift:**
+
+1. **`derived-verified` remains impossible without a page image.** A text-layer session
+   cannot produce it, and no entry may be promoted by asserting that the corpus "looks
+   right".
+2. **`scoringEligibility` stays `held` for every entry**, because the scoring policy still
+   requires owner approval of a verified tier. `eligibleCount` is therefore 0.
+3. **The subset is computed, not chosen.** `scripts/derived-key-subset.mjs` derives it from
+   the corpus plus each year's documented defect list; an item cannot be added to the slice
+   by argument at solve time, only by changing the script in a reviewable commit.
+4. **The validator is the gate.** `node scripts/validate-keys.mjs` must pass; it enforces
+   the enums above, the tier↔answer and eligibility couplings, the two reconciliation
+   equations, and the `Status` invariants.
+
+With `unsolved` added, the tier identity becomes
+`official + derived-verified + derived-provisional + disputed + unsolved = questionCount`,
+and `eligibleCount + heldCount = questionCount` is unaffected.

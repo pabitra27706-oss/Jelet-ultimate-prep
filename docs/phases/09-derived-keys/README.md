@@ -9,14 +9,29 @@ collection, with a per-item tier, a machine-check record, an independent cross-c
 record, an explicit list of what was held and why, and an owner practice-verification
 loop that can trace every published answer back to the page it came from.
 
-**Status · 2026-11-20:** phase designed; **pre-flight has run for 2017 and 2018, and
-only those two**. Both booklets were read through and both section maps corrected, but
-no page image could be captured in this sandbox, so both years stop at step 09.2 and
-**no key entry exists** for any year. ADR-0003 remains `PROPOSED` and the owner
-decision it requires is still open. See the pre-flight records for
-[2017](../../../editorial/derived-keys/2017/2017-preflight.md) and
-[2018](../../../editorial/derived-keys/2018/2018-preflight.md) for what was
-established and what the owner must supply.
+**Status · 2026-11-20, second entry — the phase is unblocked, in part.** The owner
+**authorised a text-layer-only subset to be solved as `derived-provisional`, for all four
+years**, because no page image can be produced in this sandbox. Batch 1 is delivered for
+2017 — Mathematics Q1–Q20, **17 solved and 11 of them machine-checked, 2 held for
+transcription doubt, 81 `unsolved` with named reasons** — and with it the machinery the
+phase was missing: a computed subset definition (`scripts/derived-key-subset.mjs`), a
+schema validator (`scripts/validate-keys.mjs`), an 11-test suite
+(`tests/derived-keys.test.mjs`) and a re-runnable numeric check script per batch. Record:
+[2017/2017-slice-record.md](../../../editorial/derived-keys/2017/2017-slice-record.md).
+**Still zero `derived-verified` entries and nothing scoreable**; ADR-0003 stays `PROPOSED`.
+
+**Status · 2026-11-20, first entry:** phase designed; **pre-flight has run for all four
+years**. Every booklet was read through and every section map corrected, but no page image
+could be captured, so page-based solving stops at step 09.2 for every year. See the
+pre-flight records for
+[2017](../../../editorial/derived-keys/2017/2017-preflight.md),
+[2018](../../../editorial/derived-keys/2018/2018-preflight.md),
+[2019](../../../editorial/derived-keys/2019/2019-preflight.md) and
+[2021](../../../editorial/derived-keys/2021/2021-preflight.md).
+
+> **Correction, 2026-11-20.** The previous version of this status block still said
+> "pre-flight has run for 2017 and 2018, and only those two". That was true when it was
+> written and false when it was left standing; it is corrected here.
 
 ---
 
@@ -59,31 +74,33 @@ and is labelled as such everywhere it appears.
 | Alternate stream sets present | Yes | Yes | to confirm at pre-flight | Yes |
 | Year package | [years/2017.md](years/2017.md) | [years/2018.md](years/2018.md) | [years/2019.md](years/2019.md) | [years/2021.md](years/2021.md) |
 
-**Ceiling, not a promise.** 354 is the sum of the four ceilings — the number of items
+**Ceiling, not a promise.** 354 is the sum of the four *corpus-filter* ceilings — the number of items
 that *could* score if every one of them were solved and cross-checked. The real number
 will be lower: an item is scored only if it is also complete and figure-free, and a
 complete, readable, independently cross-checked item is rare in the Strength of
 Materials and Engineering Mechanics sections where most figures sit. Do not quote 354
-as a coverage claim.
+as a coverage claim, and it is a property of the corpus flags, not a measurement of the
+printed papers — the page images could move every one of these numbers in either direction.
 
 ### The official section map (main stream set)
 
 | Range | 2017 | 2018 | 2019 | 2021 |
 |---|---|---|---|---|
-| Q1–20 | Mathematics | Mathematics | *unverified* | *unverified* |
-| Q21–35 | Electrical Technology | Electrical Technology | *unverified* | *unverified* |
-| Q36–55 | Computer Application | Computer Application | *unverified* | *unverified* |
-| Q56–70 | Environmental Engineering | Environmental Engineering | *unverified* | *unverified* |
-| Q71–85 | Engineering Mechanics | Engineering Mechanics | *unverified* | *unverified* |
-| Q86–100 | Strength of Materials | Strength of Materials | *unverified* | *unverified* |
+| Q1–20 | Mathematics | Mathematics | Mathematics | Mathematics |
+| Q21–35 | Electrical Technology | Electrical Technology | Electrical Technology | Electrical Technology |
+| Q36–55 | Computer Application | Computer Application | Computer Application | Computer Application |
+| Q56–70 | Environmental Engineering | Environmental Engineering | Environmental Engineering | Environmental Engineering |
+| Q71–85 | Engineering Mechanics | Engineering Mechanics | Engineering Mechanics | Engineering Mechanics |
+| Q86–100 | Strength of Materials | Strength of Materials | Strength of Materials | Strength of Materials |
 
-**The 2017 and 2018 rows were corrected on 2026-11-20** from each booklet's own
-headings: Q1–20 is Mathematics and the Electrical Technology heading sits at Q21. This
-table previously claimed Q1–35 Electrical for every year, which contradicted the
-corpus and omitted a whole section. 2019 and 2021 stay marked *unverified* and must
-not be reused until their own pre-flight reads their booklets. See the pre-flight
-records for [2017](../../../editorial/derived-keys/2017/2017-preflight.md) and
-[2018](../../../editorial/derived-keys/2018/2018-preflight.md).
+**All four rows were verified on 2026-11-20** from each booklet's own printed headings.
+This table previously claimed Q1–35 Electrical for every year, which contradicted the
+corpus and omitted the whole Mathematics section; 2019 additionally called its Electrical
+section "Electrical & Electronics", which the booklet does not. Sources:
+[2017](../../../editorial/derived-keys/2017/2017-preflight.md),
+[2018](../../../editorial/derived-keys/2018/2018-preflight.md),
+[2019](../../../editorial/derived-keys/2019/2019-preflight.md),
+[2021](../../../editorial/derived-keys/2021/2021-preflight.md).
 
 **The corpus disagrees with this map.** `scripts/build-content.mjs` labels Q36–100 of
 every target year as `Computer & IT` / `Computer Application`. That label is wrong for

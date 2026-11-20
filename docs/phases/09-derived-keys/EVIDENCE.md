@@ -297,3 +297,52 @@ why that one is withdrawn above.
 ADR-0003 status and the `build-content.mjs` behaviour the reviewer confirmed were already
 accurate. No key entry, tier or answer was created or altered by this round: the phase is
 still stopped at 09.2.
+
+---
+
+## Owner decision — 2026-11-20 · the authorised text-layer slice
+
+| | |
+|---|---|
+| **Decision** | A text-layer-only subset may be solved as `derived-provisional`, for **all four years** |
+| **Granted by** | Owner, in session, 2026-11-20 |
+| **Why it was needed** | No page image can be produced in this sandbox: the Board's CDN refuses a direct download (`SSL_ERROR_SYSCALL`) and `fetch_page` returns text only. Every year had stopped at step 09.2 |
+| **Scope** | Items that are complete text in the corpus, figure-free by the corpus flag, and free of the documented defects. Computed by `scripts/derived-key-subset.mjs`, not chosen item by item |
+| **What it does not lift** | No entry may be `derived-verified`; nothing may be scored (`ownerApprovedForScoring` stays `false`, `eligibleCount` stays 0); every excluded item keeps a specific reason |
+| **Schema change it required** | Amendment 1.1.0 in [SCHEMA.md](SCHEMA.md): tier `unsolved`, fidelity `corpus-text-unverified`, figure `unverified`, and four new hold reasons |
+
+## Session record — 09-2017 batch 1 · 2026-11-20
+
+- **Phase:** 09-derived-keys · **Task:** `09-2017` · **Step:** 09.4 partial (authorised provisional pass)
+- **Mode:** RESEARCH · **Date:** 2026-11-20
+- **Artifacts:** [`2017-keys.json`](../../../editorial/derived-keys/2017/2017-keys.json),
+  [`2017-slice-record.md`](../../../editorial/derived-keys/2017/2017-slice-record.md),
+  [`checks/math-q01-20.py`](../../../editorial/derived-keys/2017/checks/math-q01-20.py)
+
+**Delivered.** 100 entries for 2017, of which 17 are solved (`derived-provisional`), 11 of
+those machine-checked by a re-runnable script, 2 held for transcription doubt, and 81
+`unsolved` with a named reason each. Plus the machinery the phase lacked:
+
+| Artifact | What it does |
+|---|---|
+| `scripts/derived-key-subset.mjs` | Turns "the authorised slice" into a pure function of the corpus plus the documented defect lists — 85/84/80/80 items for 2017/2018/2019/2021 |
+| `scripts/validate-keys.mjs` | Enforces the schema in code: enums, tier↔answer and fidelity↔evidence couplings, both reconciliation equations, and every `Status` invariant |
+| `tests/derived-keys.test.mjs` | 11 tests, including seven seeded violations that must be rejected — each one a defect the external review found in the documentation |
+| `checks/math-q01-20.py` | 11 numeric verifications, each reproducing the exact value the key file claims |
+
+**Findings.** Two items passed the slice filter and still could not be answered: **Q2**
+(no transcribed option is correct for general n) and **Q17** (the series is malformed and
+the correct option is absent) — both recorded as `corpus-defect`, not guessed. This is the
+first evidence that the mechanical filter is necessary but not sufficient, and it is now
+part of the record rather than a surprise.
+
+**Checks.** `node scripts/validate-keys.mjs` **PASS** (0 errors, 0 warnings);
+`npm run test:keys` **PASS** 11/11; `npm run keys:subset` **PASS** (deterministic);
+checks script **PASS** 11/11; `npm run test:rules` **PASS** (no `src/` change); link
+resolver and fence balance **PASS**.
+
+**Also corrected in this session.** The phase README's status block and section-map table
+still said "pre-flight has run for 2017 and 2018, and only those two" and marked 2019 and
+2021 `*unverified*`, although both had been pre-flighted. That was an overstatement in the
+previous session's report, not in the work: the pre-flight records existed, the summary was
+stale. Fixed here, with the correction noted in the file itself.
