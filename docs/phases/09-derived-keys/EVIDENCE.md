@@ -346,3 +346,34 @@ still said "pre-flight has run for 2017 and 2018, and only those two" and marked
 2021 `*unverified*`, although both had been pre-flighted. That was an overstatement in the
 previous session's report, not in the work: the pre-flight records existed, the summary was
 stale. Fixed here, with the correction noted in the file itself.
+
+### 09-slice · authorised text-layer slice, 2026-11-20 — delivered for all four years
+
+- **Phase:** 09-derived-keys · **Steps:** 09.2 substitute, 09.3 substitute, 09.4 · **Outcome:** complete for the authorised scope
+- **Authorisation:** owner, 2026-11-20 — text layer only, `derived-provisional` only, all four years
+- **Deliverables:** `editorial/derived-keys/<year>/<year>-keys.json`, `<year>/checks/*.py`, `<year>/<year>-slice-record.md` (generated)
+- **Machinery:** `scripts/derived-key-subset.mjs` (slice is code, booklet-bounded), `scripts/validate-keys.mjs`,
+  `scripts/render-slice-record.py`, `tests/derived-keys.test.mjs` (14 tests, every year on disk)
+
+| Year | Solved | Machine-checked | Unsolved | Unsolved reasons |
+|---|---:|---:|---:|---|
+| 2017 | 83 | 23 | 17 | 8 figure not reproduced, 6 options not reproduced, 3 corpus defect |
+| 2018 | 83 | 19 | 17 | 9 figure not reproduced, 4 corpus defect, 4 options not reproduced |
+| 2019 | 79 | 19 | 21 | 10 corpus defect, 6 options not reproduced, 3 figure not reproduced, 2 absent from corpus |
+| 2021 | 76 | 25 | 24 | 14 figure not reproduced, 5 options not reproduced, 3 corpus defect, 2 ambiguous input |
+
+**What is proven.** Every count above is recomputed from the entries by the validator, and the
+test suite fails if a key file and the slice definition disagree item by item. 86
+answers are re-derived by a committed script whose command is recorded on the entry.
+
+**What is not proven.** No page was seen for any year. `sourceImage` is null throughout,
+no entry is `derived-verified`, `eligibleCount` is 0, and scoring remains blocked.
+
+**Corrections made while working, recorded rather than hidden:**
+- the slice loop was bounded by `paper.questionCount`, which for 2019 is 98, so Q99 and Q100 had
+  silently fallen outside the slice; it is bounded by the booklet count now.
+- three first-draft checks were wrong (2019 Q2, Q20, Q100) and the checks caught them; the
+  Q100 error would have turned the right answer 16/15 into 4/3.
+- ten items are held *inside* the slice rather than forced onto the nearest option
+  (2017 Q2/Q17, 2018 Q31, 2019 Q19/Q81/Q92, 2021 Q2/Q21/Q78/Q80); each carries the
+  arithmetic or the missing input in its `note`.

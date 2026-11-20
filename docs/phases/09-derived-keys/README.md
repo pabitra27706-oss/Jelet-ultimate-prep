@@ -9,16 +9,27 @@ collection, with a per-item tier, a machine-check record, an independent cross-c
 record, an explicit list of what was held and why, and an owner practice-verification
 loop that can trace every published answer back to the page it came from.
 
-**Status · 2026-11-20, second entry — the phase is unblocked, in part.** The owner
-**authorised a text-layer-only subset to be solved as `derived-provisional`, for all four
-years**, because no page image can be produced in this sandbox. 2017 is **delivered end-to-end** —
-**83 of 100 solved, 23 machine-checked, 2 held for transcription doubt, 15 outside the
-subset with named reasons** — and with it the machinery the
-phase was missing: a computed subset definition (`scripts/derived-key-subset.mjs`), a
-schema validator (`scripts/validate-keys.mjs`), an 11-test suite
-(`tests/derived-keys.test.mjs`) and a re-runnable numeric check script per batch. Record:
-[2017/2017-slice-record.md](../../../editorial/derived-keys/2017/2017-slice-record.md).
-**Still zero `derived-verified` entries and nothing scoreable**; ADR-0003 stays `PROPOSED`.
+**Status · 2026-11-20, third entry — the authorised slice is complete for all four
+years.** The owner authorised a text-layer-only subset, to be solved as
+`derived-provisional`, for every year. That work is **done and committed**:
+
+| Year | Solved (`derived-provisional`) | Machine-checked | Unsolved, with a reason | Slice size |
+|---|---:|---:|---:|---:|
+| 2017 | 83 | 23 | 17 | 85 |
+| 2018 | 83 | 19 | 17 | 84 |
+| 2019 | 79 | 19 | 21 | 82 |
+| 2021 | 76 | 25 | 24 | 80 |
+| **Total** | **321 of 400** | **86** | **79** | **331** |
+
+Each year has a key file (`<year>/<year>-keys.json`), a re-runnable check script under
+`<year>/checks/`, and a generated record `<year>/<year>-slice-record.md`. The record is
+produced from the key file by `scripts/render-slice-record.py`, so the prose and the
+JSON cannot drift apart.
+
+**Nothing here is a key.** There are **zero `derived-verified` entries**, `eligibleCount`
+is 0 in all four files, and nothing may be scored: ADR-0003 stays `PROPOSED`. The slice
+is a labelled substitute for a page-based adjudication, not a replacement for it. Every
+excluded item names its own reason, in the `note` field and in the year record.
 
 **Status · 2026-11-20, first entry:** phase designed; **pre-flight has run for all four
 years**. Every booklet was read through and every section map corrected, but no page image
@@ -71,7 +82,7 @@ and is labelled as such everywhere it appears.
 | Items carrying a figure | 10 | 11 | 6 | 15 |
 | Items with incomplete options | 3 | 2 | 4 | 2 |
 | Complete-option, figure-free ceiling | 89 | 89 | 91 | 85 |
-| Alternate stream sets present | Yes | Yes | to confirm at pre-flight | Yes |
+| Alternate stream sets present | Yes | Yes | **No** (pre-flight) | Yes |
 | Year package | [years/2017.md](years/2017.md) | [years/2018.md](years/2018.md) | [years/2019.md](years/2019.md) | [years/2021.md](years/2021.md) |
 
 **Ceiling, not a promise.** 354 is the sum of the four *corpus-filter* ceilings — the number of items

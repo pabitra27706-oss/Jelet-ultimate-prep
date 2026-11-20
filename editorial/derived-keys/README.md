@@ -61,13 +61,24 @@ They are the [editorial collection rules](../README.md), restated for the key wo
 
 ## Status
 
-**One batch exists (2026-11-20).** Under the owner's authorisation of a text-layer-only
-slice, [`2017/2017-keys.json`](2017/2017-keys.json) covers the whole paper: **83
-`derived-provisional` answers, 23 machine-checked, 2 items held for transcription doubt,
-and 15 items outside the authorised subset with named reasons.** It is **not a key**: nothing is
-`derived-verified` and nothing may be scored. Record:
-[2017/2017-slice-record.md](2017/2017-slice-record.md). No key exists yet for 2018,
-2019 or 2021.
+**Four batches exist (2026-11-20).** Under the owner's authorisation of a text-layer-only
+slice, every year now has a key file covering the whole paper:
+
+| Year | Key file | Solved | Machine-checked | Unsolved with a reason | Record |
+|---|---|---:|---:|---:|---|
+| 2017 | [`2017-keys.json`](2017/2017-keys.json) | 83 | 23 | 17 | [record](2017/2017-slice-record.md) |
+| 2018 | [`2018-keys.json`](2018/2018-keys.json) | 83 | 19 | 17 | [record](2018/2018-slice-record.md) |
+| 2019 | [`2019-keys.json`](2019/2019-keys.json) | 79 | 19 | 21 | [record](2019/2019-slice-record.md) |
+| 2021 | [`2021-keys.json`](2021/2021-keys.json) | 76 | 25 | 24 | [record](2021/2021-slice-record.md) |
+
+**321 of 400 questions carry a `derived-provisional` answer and 86 of those
+are machine-checked.** This is **not a key**: nothing is `derived-verified`,
+`eligibleCount` is 0 in every file, and nothing may be scored.
+
+Every unsolved item states why it is unsolved: a figure that exists only as an image, an
+option set the corpus does not reproduce, a stem the transcription damaged, or a puzzle
+whose own options contradict the arithmetic. Items held *inside* the slice are held for
+that last reason rather than forced onto the nearest option.
 
 The pre-flights that precede it are
 [2017](2017/2017-preflight.md), [2018](2018/2018-preflight.md),
