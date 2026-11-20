@@ -61,10 +61,11 @@ They are the [editorial collection rules](../README.md), restated for the key wo
 
 ## Status
 
-No key exists yet, for any of the four years. Phase 09 has run its **pre-flight for
-2017 and 2018 only**: each booklet was read through, its section map corrected and its
-text-layer defects catalogued — [2017/2017-preflight.md](2017/2017-preflight.md),
-[2018/2018-preflight.md](2018/2018-preflight.md). Solving stopped at step 09.2 both
-times because no page image of the booklet could be produced, and the phase allows no
-entry without one. See the [phase folder](../../docs/phases/09-derived-keys/) for the
-procedure and the per-year packages.
+No key exists yet, for any of the four years. Phase 09 has run its **pre-flight for all
+four**: each booklet was read through, its section map corrected and its text-layer
+defects catalogued — [2017](2017/2017-preflight.md), [2018](2018/2018-preflight.md),
+[2019](2019/2019-preflight.md) and [2021](2021/2021-preflight.md). Solving stopped at
+step 09.2 every time because no page image of the booklet could be produced, and the
+phase allows no entry without one. See the
+[phase folder](../../docs/phases/09-derived-keys/) for the procedure and the per-year
+packages.

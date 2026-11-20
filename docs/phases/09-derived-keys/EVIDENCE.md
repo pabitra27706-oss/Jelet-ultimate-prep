@@ -53,8 +53,8 @@ packages in [years/](years/).
 |---|---|
 | WBJEEB publishes key notices for JELET 2023–2026 and **none** for 2017, 2018, 2019 or 2021 | All four years are derived-key work; `official` is unavailable as an item tier |
 | The corpus labels Q36–100 of every target year as Computer; the official booklets divide those ranges among five subjects and print extra stream-specific sets | A mandatory reconciliation step, and a hard rule that the corpus subject must not drive filtering |
-| The 2021 text layer drops visible question labels around Q74, Q76 and Q81 | Numbering must come from the page images |
-| Official 2019 Q78–79 are absent from the corpus and official 2019 Q77's stem is blank | Stop conditions S5 and S6; the highest-risk year package |
+| Text-layer labels are dropped for eight 2021 items (Q74, Q75, Q77, Q81, Q84, Q87, Q93, Q94) and four 2019 items (Q75, Q76, Q84, Q90) | Numbering must come from the page images |
+| 2019 Q78–79 are absent from the corpus and the corpus's Q77 record is empty — **all three are printed on page 16** (the blank-stem claim was refuted at pre-flight) | Stop condition S5; a page-shaped corpus gap; the highest-risk year package |
 | The corpus's 2017 Q83 option text is a transcriber's placeholder, not the booklet's four distinct exponents | Stop condition S3; the strongest argument for reading page images only |
 | `scripts/build-content.mjs` maps a derived `disputed` tier into the voided path, where a presentable item becomes `boardAwarded` | Integration Gate A: no target-year key may be integrated until this is fixed |
 | The application holds one paper and one key per year; the booklets print several Q71–100 sets | Integration Gate B: the solved set must be named in the paper's metadata |
@@ -75,11 +75,13 @@ clear are listed per year in [years/](years/) §10 and enforced by the
 | The `disputed → voided → boardAwarded` loader defect | **Owner decision + application work.** Not fixed here. It blocks integration of every target-year key |
 | One paper and one key per year | **Owner decision** if the alternate stream sets are ever wanted |
 | Publication rights for the four booklets | **Open**, and separate from technical verification. The [content standard](../../CONTENT.md) governs |
-| Page images for the booklets | **Still not captured (2026-11-20).** The 2017 and 2018 booklets' text layers are retrievable and their section maps are established, but the sandbox cannot render a page image; without one no entry may be written |
+| Page images for the booklets | **Still not captured (2026-11-20).** All four booklets' text layers are retrievable and all four section maps are established, but the sandbox cannot render a page image; without one no entry may be written |
 
-**Next action:** the owner supplies page images for the 2017 booklet (80116361) or the
-2018 booklet (`Engg & Tech/JT3`), then step 09.2 resumes from that year's
-[pre-flight record](../../../editorial/derived-keys/2017/2017-preflight.md).
+**Next action:** all four pre-flights are done, so the next move is the owner's. Supply
+page images for any one booklet — 2017 `80116361`, 2018 `Engg & Tech/JT3`, 2019 Set A
+(page 16 first) or 2021 `1091007537` (Q74–Q94 first) — and step 09.2 resumes from that
+year's pre-flight record. Alternatively record an explicit decision that a named
+text-layer-only subset may be solved as `derived-provisional`.
 If images cannot be produced for any of the four booklets, the alternative is an
 explicit owner decision on a text-layer-only subset — a decision the runbook does not
 take on its own. Until then no year package can produce a key.
@@ -185,10 +187,65 @@ no entry may be written. The 2018 pre-flight makes the case sharper — three
 Mathematics stems in the corpus belong to different questions, so a text-only session
 would be at its least safe exactly where the corpus looks most complete.
 
+### 09-2019 · pre-flight only, 2026-11-20 — solving blocked
+
+- **Phase:** 09-derived-keys · **Task:** `09-2019` · **Step reached:** 09.1 (complete)
+- **Mode:** RESEARCH · **Date:** 2026-11-20
+- **Artifact:** [editorial/derived-keys/2019/2019-preflight.md](../../../editorial/derived-keys/2019/2019-preflight.md)
+
+**Delivered.** Retrieval record; booklet identity (Set A, booklet number not printed);
+printed marking rule; corrected six-row section map; a **fully anchored page map**; the
+alternate-set question answered; the label-drop inventory; and a stem-level comparison
+of all 100 printed items against the corpus's 98 records.
+
+**Findings.**
+
+| Finding | Effect |
+|---|---|
+| **Q77 is printed in full** — numbered, with a stem about a block toppling on an inclined plane and four μ-relations | The phase's "blank printed stem" claim is **refuted**; the blank record is a corpus loss. README, year package, runbook and S6 corrected |
+| Q78 and Q79 are printed and complete | Confirmed as `missingInCorpus` cases |
+| **Q77, Q78, Q79 all sit on printed page 16** | The corpus's gap is page-shaped: one page lost, three questions |
+| **No alternate Q71–100 sets inside this booklet**; the other 2019 papers are separate files | `outOfScopeSets` is empty for 2019 |
+| Corpus keeps options but swaps stems at **Q41**; corrupts options at **Q13, Q49, Q73, Q87**; rewrites the C program at **Q47**; loses Q94's text options | Five new known defects in the year package |
+| 43 subject-label conflicts, not 63 | Corrected |
+| No 2018 question transposed in by the mislabelled legacy file | Checked with a stem-similarity pass against the 2018 corpus, ratio ≥ 0.75 — two low-similarity pairs, both different questions |
+
+**Checks.** Whole-booklet retrieval **pass** (no truncation); direct download **fail**;
+section map and alternate sets **pass**; page arithmetic **pass**; 100-item comparison
+**pass**; corpus counts **pass**; transposition check **pass**; links **pass**; schema
+**not applicable**; solving, cross-check, machine checks, tiers **not run**.
+
+### 09-2021 · pre-flight only, 2026-11-20 — solving blocked
+
+- **Phase:** 09-derived-keys · **Task:** `09-2021` · **Step reached:** 09.1 (complete)
+- **Mode:** RESEARCH · **Date:** 2026-11-20
+- **Artifact:** [editorial/derived-keys/2021/2021-preflight.md](../../../editorial/derived-keys/2021/2021-preflight.md)
+
+**Delivered.** Retrieval record; booklet identity (booklet number **1091007537**
+confirmed); printed marking rule; corrected six-row section map; a provisional page map
+with three anchors; both alternate sets confirmed; the label-drop inventory; and a
+stem-level comparison of all 100 items against the corpus.
+
+**Findings.**
+
+| Finding | Effect |
+|---|---|
+| The text layer drops labels from **eight** items (Q74, Q75, Q77, Q81, Q84, Q87, Q93, Q94); **Q76 is labelled** | Runbook and year package corrected |
+| Page numbers 8, 10 and 18 survive, but the capture's page breaks are **one short** between 10 and 18 | Page map is provisional; a page image is required — the only year where the map does not close |
+| Corrupted options at **Q16, Q72, Q73, Q74**; reordered determinant at **Q3**; ambiguous `∼` glyph at **Q77** | New known defects for the year package |
+| **Five figure flags (Q74, Q75, Q77, Q81, Q84) have no textual pointer** | Figure dependence must be confirmed from the page |
+| Both alternate sets are printed inside the booklet | Confirmed, out of scope |
+| 45 subject-label conflicts, not 64 | Corrected |
+
+**Checks.** Whole-booklet retrieval **pass**; direct download **fail**; section map
+**pass after correction**; page map **fail, recorded** (arithmetic short by one page);
+100-item comparison **pass**; corpus counts **pass**; links **pass**; schema **not
+applicable**; solving, cross-check, machine checks, tiers **not run**.
+
 ### 09-2017 · _solving not run_
 
 ### 09-2018 · _solving not run_
 
-### 09-2019 · _not run_
+### 09-2019 · _solving not run_
 
-### 09-2021 · _not run_
+### 09-2021 · _solving not run_
