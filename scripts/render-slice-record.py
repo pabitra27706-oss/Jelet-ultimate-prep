@@ -31,7 +31,11 @@ WEAK = {
            "**Q56** (scope of an environmental audit, answered by elimination)",
            "**Q58** (stability expressed as 'dry adiabatic > ambient', which is one of two equivalent phrasings)",
            "**Q66** (composting and 'stable organic matter', where the option wording is doing the work)"],
-    2021: ["**Q45**, **Q47** (protocol classification)", "**Q62** (organomercury)", "**Q63** (aircraft noise)"],
+    2021: ["**Q41** (infix to postfix: one operator stack is the standard answer, but option A's two-stack reading is defensible)",
+           "**Q50** (printing a pointer through %d is undefined behaviour; 'address' is the expected output, not a guaranteed one)",
+           "**Q63** (the 5000 mg/L threshold for saline water is a convention, not a sharp boundary)",
+           "**Q66** ('all of these' for radioactive-waste disposal, where each listed method is used at some stage)",
+           "**Q69** (100 dBA as the damage threshold, where the physiological limit is nearer 85-90 dBA)"],
 }
 
 
