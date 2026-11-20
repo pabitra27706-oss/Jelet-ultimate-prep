@@ -28,6 +28,14 @@ import { dirname, resolve } from 'node:path';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, '..');
 
+/**
+ * Questions printed in each booklet, as established by the year's pre-flight record.
+ * The corpus count is NOT a safe loop bound: the 2019 corpus holds 98 records because
+ * a whole printed page (Q77-Q79) was lost, so looping to `paper.questionCount` silently
+ * dropped Q99 and Q100 from the slice.
+ */
+export const BOOKLET_COUNT = { 2017: 100, 2018: 100, 2019: 100, 2021: 100 };
+
 /** Printed section headings, used to detect bleed into an option. */
 const HEADINGS = [
   'MATHEMATICS',
@@ -96,8 +104,9 @@ export function subsetFor(year, corpus = loadCorpus()) {
   const defects = DEFECTS[year] || {};
   const candidates = [];
   const excluded = [];
+  const bookletCount = BOOKLET_COUNT[year] ?? paper.questionCount;
 
-  for (let q = 1; q <= paper.questionCount; q += 1) {
+  for (let q = 1; q <= bookletCount; q += 1) {
     const rec = paper.questions.find((r) => r.n === q);
     if (!rec) { excluded.push({ q, reason: 'absent from the corpus' }); continue; }
     if (!(rec.stem || '').trim()) { excluded.push({ q, reason: 'empty stem in the corpus' }); continue; }
@@ -115,7 +124,7 @@ export function subsetFor(year, corpus = loadCorpus()) {
     candidates.push(q);
   }
 
-  return { year, questionCount: paper.questionCount, candidates, excluded };
+  return { year, questionCount: bookletCount, candidates, excluded };
 }
 
 /** Convenience: the subset for every year the phase covers. */

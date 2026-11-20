@@ -26,8 +26,11 @@ WEAK = {
     2018: ["**Q60** (MIC as contaminant and pollutant)", "**Q64** (Indore is the aerobic method)",
            "**Q37** (which diskette/hard-disk claim is true)", "**Q77** (lift reading)",
            "**Q92** (isotropic plane stress)", "**Q97** (ordering of yield criteria)"],
-    2019: ["**Q37**, **Q44**, **Q52** (classification items)", "**Q59**, **Q66** (recall)",
-           "**Q78**, **Q79** (printed on the missing page, not in the corpus)"],
+    2019: ["**Q36** (first partition mapped to the local descriptor table, a textbook convention rather than a law)",
+           "**Q44** (true-statement item: C is the only defensible option, but the wording of the others is loose)",
+           "**Q56** (scope of an environmental audit, answered by elimination)",
+           "**Q58** (stability expressed as 'dry adiabatic > ambient', which is one of two equivalent phrasings)",
+           "**Q66** (composting and 'stable organic matter', where the option wording is doing the work)"],
     2021: ["**Q45**, **Q47** (protocol classification)", "**Q62** (organomercury)", "**Q63** (aircraft noise)"],
 }
 
