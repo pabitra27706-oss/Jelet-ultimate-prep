@@ -72,7 +72,7 @@ test('no entry in any covered year carries the official tier', () => {
 
 test('every solved 2017 entry carries reasoning, a verification note and a hold reason', () => {
   const solved = KEY_2017.entries.filter((e) => e.tier === 'derived-provisional');
-  assert.equal(solved.length, 17);
+  assert.equal(solved.length, 83, '2017 is solved end-to-end in the authorised slice');
   for (const e of solved) {
     assert.ok(e.answer.length === 1, `q=${e.q}: expected a single letter`);
     assert.ok(e.reasoning.length > 40, `q=${e.q}: reasoning is too thin to audit`);
@@ -93,7 +93,9 @@ test('the validator rejects the failures the external review found in the docs',
   assert.ok(validateKeyFile(k, { corpus }).errors.some((e) => e.includes('ownerApprovedForScoring')));
 
   // 3. unsolved carrying an answer
-  k = clone(KEY_2017); k.entries[20].answer = ['A'];
+  k = clone(KEY_2017);
+  const unsolved = k.entries.find((e) => e.tier === 'unsolved');
+  unsolved.answer = ['A'];
   assert.ok(validateKeyFile(k, { corpus }).errors.some((e) => e.includes("'unsolved' must carry answer null")));
 
   // 4. verbatim fidelity with no page image
@@ -114,17 +116,29 @@ test('the validator rejects the failures the external review found in the docs',
 });
 
 test('the 2017 numeric checks re-run green', () => {
-  const r = spawnSync('python3', ['editorial/derived-keys/2017/checks/math-q01-20.py'], { cwd: REPO, encoding: 'utf8' });
-  assert.equal(r.status, 0, `check script failed:\n${r.stdout}\n${r.stderr}`);
-  assert.match(r.stdout, /Q16: PASS/);
-  assert.doesNotMatch(r.stdout, /FAIL/);
+  for (const script of ['math-q01-20.py', 'engg-q21-100.py']) {
+    const r = spawnSync('python3', [`editorial/derived-keys/2017/checks/${script}`], { cwd: REPO, encoding: 'utf8' });
+    assert.equal(r.status, 0, `${script} failed:\n${r.stdout}\n${r.stderr}`);
+    assert.match(r.stdout, /PASS/);
+    assert.doesNotMatch(r.stdout, /FAIL/);
+  }
+});
+
+test('every check script command named in the key file actually passes', () => {
+  const cmds = [...new Set(KEY_2017.entries.filter((e) => e.machineCheck).map((e) => e.machineCheck.command))];
+  assert.ok(cmds.length >= 23, 'each machine-checked item should name a concrete command');
+  for (const cmd of cmds) {
+    const r = spawnSync('bash', ['-lc', cmd], { cwd: REPO, encoding: 'utf8' });
+    assert.equal(r.status, 0, `${cmd} failed:\n${r.stdout}${r.stderr}`);
+    assert.match(r.stdout, /PASS/, `${cmd} did not report PASS`);
+  }
 });
 
 test('every machine check in the key file names the command that reproduces it', () => {
   const checked = KEY_2017.entries.filter((e) => e.machineCheck);
-  assert.equal(checked.length, 11);
+  assert.equal(checked.length, 23);
   for (const e of checked) {
-    assert.match(e.machineCheck.command, /^python3 editorial\/derived-keys\/2017\/checks\/math-q01-20\.py -q \d+$/);
+    assert.match(e.machineCheck.command, /^python3 editorial\/derived-keys\/2017\/checks\/(math-q01-20|engg-q21-100)\.py -q \d+$/);
     assert.equal(e.machineCheck.pass, true);
     assert.ok(e.machineCheck.observed.length > 0);
   }

@@ -62,9 +62,9 @@ They are the [editorial collection rules](../README.md), restated for the key wo
 ## Status
 
 **One batch exists (2026-11-20).** Under the owner's authorisation of a text-layer-only
-slice, [`2017/2017-keys.json`](2017/2017-keys.json) holds Mathematics Q1–Q20: 17
-`derived-provisional` answers, 11 machine-checked, 2 items held for transcription doubt,
-and 81 `unsolved` entries with named reasons. It is **not a key**: nothing is
+slice, [`2017/2017-keys.json`](2017/2017-keys.json) covers the whole paper: **83
+`derived-provisional` answers, 23 machine-checked, 2 items held for transcription doubt,
+and 15 items outside the authorised subset with named reasons.** It is **not a key**: nothing is
 `derived-verified` and nothing may be scored. Record:
 [2017/2017-slice-record.md](2017/2017-slice-record.md). No key exists yet for 2018,
 2019 or 2021.

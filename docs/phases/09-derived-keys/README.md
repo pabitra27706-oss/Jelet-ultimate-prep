@@ -11,9 +11,9 @@ loop that can trace every published answer back to the page it came from.
 
 **Status · 2026-11-20, second entry — the phase is unblocked, in part.** The owner
 **authorised a text-layer-only subset to be solved as `derived-provisional`, for all four
-years**, because no page image can be produced in this sandbox. Batch 1 is delivered for
-2017 — Mathematics Q1–Q20, **17 solved and 11 of them machine-checked, 2 held for
-transcription doubt, 81 `unsolved` with named reasons** — and with it the machinery the
+years**, because no page image can be produced in this sandbox. 2017 is **delivered end-to-end** —
+**83 of 100 solved, 23 machine-checked, 2 held for transcription doubt, 15 outside the
+subset with named reasons** — and with it the machinery the
 phase was missing: a computed subset definition (`scripts/derived-key-subset.mjs`), a
 schema validator (`scripts/validate-keys.mjs`), an 11-test suite
 (`tests/derived-keys.test.mjs`) and a re-runnable numeric check script per batch. Record:
