@@ -1,13 +1,13 @@
 ---
 import Site from '../../../layouts/Site.astro';
 import Runner from '../../../components/Runner.astro';
-import { papers, paperById, subjectLabels, type SubjectKey } from '../../../lib/content';
+import { papers, paperById, rehearsableQuestions, subjectLabels, type SubjectKey } from '../../../lib/content';
 
 export function getStaticPaths() {
   const paths = [];
   for (const paper of papers) {
     for (const subject of paper.subjects) {
-      const count = paper.questions.filter((question) => question.subjectKey === subject.subjectKey && question.scorable).length;
+      const count = rehearsableQuestions(paper, subject.subjectKey).length;
       if (count === 0) continue;
       paths.push({ params: { paper: paper.id, subject: subject.subjectKey } });
     }
@@ -19,7 +19,7 @@ const { paper: paperId, subject: subjectKey } = Astro.params;
 const paper = paperById.get(paperId ?? '');
 if (!paper) throw new Error(`Unknown paper: ${paperId}`);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const questions = paper.questions.filter((question) => question.subjectKey === subjectKey && question.scorable);
+const questions = rehearsableQuestions(paper, subjectKey as SubjectKey);
 if (questions.length === 0) throw new Error(`No markable ${subjectKey} questions in ${paperId}`);
 const label = subjectLabels[subjectKey as SubjectKey] ?? subjectKey;
 const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
@@ -44,6 +44,7 @@ const categorySummary = [...new Set(questions.map((question) => `Category ${ques
         {paper.keyTier === 'official' && <span class="chip official">Official WBJEEB key</span>}
         {paper.keyTier === 'derived' && <span class="chip derived">Derived key</span>}
         <span class="chip">Every question here can be marked</span>
+        {paper.boardAwardedQuestions > 0 && <span class="chip info">{paper.boardAwardedQuestions} awarded by the board</span>}
       </div>
     </div>
     <div class="btn-row">

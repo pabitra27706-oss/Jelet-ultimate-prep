@@ -69,6 +69,9 @@ export function buildStats(attempts: Attempt[], queue: ReviewItem[], questionsAv
   const ordered = [...attempts].sort((a, b) => (a.submittedAt ?? a.updatedAt) - (b.submittedAt ?? b.updatedAt));
   for (const attempt of ordered) {
     for (const result of attempt.results ?? []) {
+      // A board-voided item is awarded to everyone and is not a mark the
+      // learner earned or lost, so it is not counted as an attempt.
+      if (result.status === 'voided') continue;
       if (!firstOutcome.has(result.questionId)) {
         firstOutcome.set(result.questionId, { status: result.status, assisted: result.assisted });
       }

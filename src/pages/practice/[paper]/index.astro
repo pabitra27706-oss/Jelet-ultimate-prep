@@ -1,7 +1,7 @@
 ---
 import Site from '../../../layouts/Site.astro';
 import Runner from '../../../components/Runner.astro';
-import { papers, paperById, keyFor, keyTierLabel } from '../../../lib/content';
+import { papers, paperById, keyFor, keyTierLabel, rehearsableQuestions } from '../../../lib/content';
 
 export function getStaticPaths() {
   return papers
@@ -15,7 +15,7 @@ if (!paper) throw new Error(`Unknown paper: ${paperId}`);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const key = keyFor(paper);
 const tierLabel = keyTierLabel(key);
-const questions = paper.questions.filter((question) => question.scorable);
+const questions = rehearsableQuestions(paper);
 const limitSeconds = paper.durationMinutes * 60;
 const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
 ---
@@ -38,10 +38,12 @@ const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
         {key?.tier === 'official' && <span class="chip official">Official WBJEEB key · {key.documentRef}</span>}
         {key?.tier === 'derived' && <span class="chip derived">Derived key · the board published none for {paper.year}</span>}
         <span class="chip">{tierLabel}</span>
-        <span class="chip">{paper.voidedQuestions.length} voided by the board</span>
+        {paper.boardAwardedQuestions > 0 && <span class="chip info">{paper.boardAwardedQuestions} voided by the board · awarded to everyone</span>}
       </div>
     </div>
     <div class="btn-row">
+      <a class="btn ghost" href={`${base}practice/${paper.id}/print/`}>Printed companion</a>
+      <a class="btn ghost" href={`${base}practice/${paper.id}/reconciliation/`}>Reconciliation</a>
       <a class="btn ghost" href={`${base}library/${paper.id}/`}>Read the paper</a>
       <a class="btn ghost" href={`${base}practice/`}>Other sets</a>
     </div>
@@ -52,8 +54,9 @@ const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
       <strong>This is a labelled incomplete paper.</strong> {paper.heldQuestions} of the {paper.questionCount}
       questions in {paper.year} depend on a diagram or options that the preserved transcription does not reproduce, so
       they cannot be marked. They are excluded from the paper above and from the total — the maximum you can score here
-      is {scopeMarks} of the paper's {paper.maxMarks} marks. Read the held items in the
-      <a href={`${base}library/${paper.id}/`}>full paper view</a>.
+      is {scopeMarks} of the paper's {paper.maxMarks} marks.
+      {paper.boardAwardedQuestions > 0 && ` ${paper.boardAwardedQuestions} more question${paper.boardAwardedQuestions === 1 ? ' was' : 's were'} voided by the board, so its marks go to every candidate; ${paper.boardAwardedMarks} of the {scopeMarks} marks above come from the board's award rather than from your answers.`}
+      Read the held items in the <a href={`${base}library/${paper.id}/`}>full paper view</a>.
     </div>
   )}
 

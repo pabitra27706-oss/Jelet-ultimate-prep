@@ -1,6 +1,16 @@
-# 08 · Optional services and separate tracks (deferred)
+# 08 · Optional services and separate tracks
 
 **Entry:** explicit owner decision and evidence of unmet need. A well-functioning site can finish with none of these services.
+
+**Status · 2026-11-19:** the three decisions have been taken and recorded in
+[DECISIONS.md](DECISIONS.md), and the build that carries them is live at
+https://pabitra27706-oss.github.io/Jelet-ultimate-prep/. **Login/private sync: no-go. Live AI tutor:
+no-go. Pharmacy: pending owner.** The two no-go decisions rest on the
+provider's own terms and on the site's static deployment, and each stands on
+a fallback that was built and tested. Nothing was provisioned: no account,
+no key, no endpoint, no vendor commitment. **Pharmacy needs owner-held
+material** — the Paper II syllabus, the booklets, the rights and the edition
+rules — none of which is in this repository.
 
 | Candidate | Gate before pilot | Reject or disable if… |
 |---|---|---|

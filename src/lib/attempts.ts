@@ -29,9 +29,33 @@ export type Attempt = {
   startedAt: number;
   updatedAt: number;
   submittedAt: number | null;
+  /**
+   * Identifies one submission.
+   *
+   * The first submission of a paper is the one that stands. A second tab that
+   * submits later must not replace it. This token says which submission the
+   * stored attempt holds, so the tab that owns it can still finish writing
+   * its results while everyone else is locked out.
+   */
+  submissionId: string | null;
   timeSpentSeconds: number;
+  /**
+   * The moment the paper expires, fixed when the attempt starts.
+   *
+   * The remaining time is derived from this value and the wall clock, never
+   * from a counter, so a reload, a backgrounded tab or a paused render loop
+   * cannot hand the learner extra time.
+   */
+  deadlineAt: number | null;
   /** questionId → selected option letters */
   responses: Record<string, string[]>;
+  /**
+   * questionId → when that answer was last changed.
+   *
+   * Two tabs on the same paper must not silently overwrite each other, so
+   * every answer carries its own timestamp and the newest one wins.
+   */
+  responseTimes: Record<string, number>;
   /** questionIds flagged for review */
   marked: string[];
   /** questionIds the learner opened */
@@ -91,11 +115,86 @@ export function writeAttempts(attempts: Attempt[]): boolean {
   }
 }
 
+/**
+ * Merge an incoming attempt into the stored one.
+ *
+ * Two rules matter for an exam rehearsal:
+ *
+ * 1. **A submitted result is final.** Once an attempt has `submittedAt`, its
+ *    responses and results are never rewritten. A second tab that submits
+ *    later cannot overwrite the first submission, and the first submission
+ *    is the one that stands.
+ * 2. **Two live tabs must not erase each other.** Each answer carries the
+ *    time it was last changed, so the newest answer for a question wins and
+ *    an answer only the other tab has typed survives.
+ */
+export function mergeAttempt(stored: Attempt | undefined, incoming: Attempt): Attempt {
+  if (!stored) return incoming;
+
+  // The earliest start wins so the deadline cannot be pushed back by a tab
+  // that was opened later.
+  const startedAt = Math.min(stored.startedAt, incoming.startedAt);
+  const deadlineAt = stored.deadlineAt ?? incoming.deadlineAt;
+
+  // A paper that has already been submitted is settled. The only writer
+  // allowed to continue is the tab that owns that submission, so it can
+  // finish saving the results it computed.
+  if (stored.submittedAt) {
+    const ownsSubmission = stored.submissionId !== null && stored.submissionId === incoming.submissionId;
+    if (!ownsSubmission) {
+      return { ...stored, updatedAt: Math.max(stored.updatedAt, incoming.updatedAt) };
+    }
+    return {
+      ...stored,
+      ...incoming,
+      startedAt,
+      deadlineAt,
+      submittedAt: stored.submittedAt,
+      submissionId: stored.submissionId,
+      results: incoming.results ?? stored.results,
+      updatedAt: Math.max(stored.updatedAt, incoming.updatedAt),
+    };
+  }
+
+  const responses: Record<string, string[]> = {};
+  const responseTimes: Record<string, number> = {};
+  const questions = new Set([...Object.keys(stored.responses ?? {}), ...Object.keys(incoming.responses ?? {})]);
+  for (const questionId of questions) {
+    const storedTime = stored.responseTimes?.[questionId] ?? 0;
+    const incomingTime = incoming.responseTimes?.[questionId] ?? 0;
+    if (incomingTime >= storedTime && incoming.responses?.[questionId]) {
+      responses[questionId] = incoming.responses[questionId];
+      responseTimes[questionId] = incomingTime;
+    } else {
+      responses[questionId] = stored.responses?.[questionId] ?? [];
+      responseTimes[questionId] = storedTime;
+    }
+  }
+
+  const union = (a: string[] = [], b: string[] = []) => [...new Set([...a, ...b])];
+
+  return {
+    ...stored,
+    ...incoming,
+    startedAt,
+    deadlineAt,
+    responses,
+    responseTimes,
+    marked: union(stored.marked, incoming.marked),
+    visited: union(stored.visited, incoming.visited),
+    assisted: union(stored.assisted, incoming.assisted),
+    // A submission is only accepted if nobody had already submitted.
+    submittedAt: incoming.submittedAt ?? stored.submittedAt,
+    submissionId: incoming.submissionId ?? stored.submissionId,
+    results: incoming.submittedAt ? incoming.results ?? stored.results : stored.results,
+  };
+}
+
 export function upsertAttempt(attempt: Attempt): { saved: boolean; attempts: Attempt[] } {
   const attempts = readAttempts();
   const index = attempts.findIndex((entry) => entry.id === attempt.id);
   if (index === -1) attempts.unshift(attempt);
-  else attempts[index] = attempt;
+  else attempts[index] = mergeAttempt(attempts[index], attempt);
   const saved = writeAttempts(attempts);
   return { saved, attempts };
 }

@@ -5,9 +5,9 @@
  * preserved archive. Nothing here invents content: every field traces to a
  * transcription, a board answer-key notice or the archived derived key.
  */
-import papersData from '../data/papers.json';
-import keysData from '../data/keys.json';
-import syllabusData from '../data/syllabus.json';
+import papersData from '../data/papers.json' with { type: 'json' };
+import keysData from '../data/keys.json' with { type: 'json' };
+import syllabusData from '../data/syllabus.json' with { type: 'json' };
 
 export type SubjectKey = 'mathematics' | 'physics' | 'chemistry' | 'electrical' | 'computer' | 'other';
 export type Category = 'I' | 'II';
@@ -27,6 +27,11 @@ export type Question = {
   transcriptionNote: string | null;
   optionsComplete: boolean;
   scorable: boolean;
+  /**
+   * The board voided this question and the transcription reproduces it
+   * completely, so the board's award of the marks to every candidate applies.
+   */
+  boardAwarded: boolean;
   holdReason: string | null;
   sourceLine: number;
   keyAnswer: string | null;
@@ -60,8 +65,14 @@ export type Paper = {
   keyTier: 'official' | 'derived' | null;
   scoreableQuestions: number;
   scoreableMarks: number;
+  /** Questions the board voided that the transcription reproduces fully. */
+  boardAwardedQuestions: number;
+  boardAwardedMarks: number;
   heldQuestions: number;
   voidedQuestions: number[];
+  /** Everything the learner can sit: keyed questions plus board-awarded ones. */
+  rehearsableQuestions: number;
+  rehearsableMarks: number;
 };
 
 export type AnswerKey = {
@@ -140,6 +151,21 @@ export function questionsOf(paper: Paper, filter?: { subjectKey?: SubjectKey; sc
     if (filter?.subjectKey && question.subjectKey !== filter.subjectKey) return false;
     if (filter?.scorableOnly && !question.scorable) return false;
     return true;
+  });
+}
+
+/**
+ * The questions a learner can actually sit in this paper.
+ *
+ * A keyed question is marked against the answer key. A question the board
+ * voided is not held: the board published "W", so no option is keyed and the
+ * marks go to every candidate. Both belong in a rehearsal of the paper, and
+ * both carry marks into the total.
+ */
+export function rehearsableQuestions(paper: Paper, subjectKey?: SubjectKey): Question[] {
+  return paper.questions.filter((question) => {
+    if (subjectKey && question.subjectKey !== subjectKey) return false;
+    return question.scorable || question.boardAwarded;
   });
 }
 

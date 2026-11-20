@@ -32,5 +32,13 @@ jobs:
       - run: python3 docs/phases/01-evidence/check_inventory.py
       - name: Run the scoring and review rules
         run: npm run test:rules
+      - name: Run the exam rehearsal suite
+        run: npm run test:phase05
+      - name: Run the offline and release suite
+        run: npm run test:phase06
+      - name: Run the curriculum coverage suite
+        run: npm run test:phase07
+      - name: Run the optional-service decision suite
+        run: npm run test:phase08
       - name: Run the browser, offline and accessibility suite
         run: npm run test:browser

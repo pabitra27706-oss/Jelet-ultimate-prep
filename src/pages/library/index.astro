@@ -63,6 +63,7 @@ for (const paper of papers) {
               {paper.keyTier === 'derived' && <span class="chip derived">Derived key</span>}
               {!paper.hasKey && <span class="chip">Read only · no key published</span>}
               <span class="chip">{paper.scoreableQuestions} markable</span>
+              {paper.boardAwardedQuestions > 0 && <span class="chip info">{paper.boardAwardedQuestions} voided by the board · awarded to everyone</span>}
               {paper.heldQuestions > 0 && <span class="chip held">{paper.heldQuestions} not markable</span>}
               {paper.gaps.length > 0 && <span class="chip held">{paper.gaps.length} missing in transcription</span>}
             </span>

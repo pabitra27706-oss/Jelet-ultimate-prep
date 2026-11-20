@@ -1,0 +1,607 @@
+{
+  "schema": 1,
+  "version": "2026.11.19-phase07",
+  "provenance": "Original exercises generated at build time from declared templates. Each one is checked against an independent re-solve before it is written.",
+  "templates": [
+    {
+      "id": "parallel-resistance",
+      "topicId": "electrical-t01",
+      "title": "Two resistors in parallel",
+      "equation": "R = (R1 × R2) / (R1 + R2)",
+      "ranges": {
+        "r1": [
+          10,
+          90
+        ],
+        "r2": [
+          10,
+          90
+        ]
+      },
+      "exclusions": [
+        "R1 === R2",
+        "the equivalent resistance rounds to the same value as a distractor"
+      ],
+      "units": "ohm"
+    },
+    {
+      "id": "series-voltage-divider",
+      "topicId": "electrical-t01",
+      "title": "A resistor and a potential divider",
+      "equation": "Vout = Vin × R2 / (R1 + R2)",
+      "ranges": {
+        "r1": [
+          10,
+          90
+        ],
+        "r2": [
+          10,
+          90
+        ],
+        "vin": [
+          12,
+          24
+        ]
+      },
+      "exclusions": [
+        "R1 === R2",
+        "the rounded output is 0 V"
+      ],
+      "units": "V"
+    },
+    {
+      "id": "kinetic-energy",
+      "topicId": "physics-t04",
+      "title": "Kinetic energy from speed",
+      "equation": "KE = ½ m v²",
+      "ranges": {
+        "mass": [
+          1,
+          20
+        ],
+        "speed": [
+          2,
+          20
+        ]
+      },
+      "exclusions": [
+        "the kinetic energy is not a whole number of joules"
+      ],
+      "units": "J"
+    },
+    {
+      "id": "ohm-law",
+      "topicId": "electrical-t04",
+      "title": "Current through a resistor",
+      "equation": "I = V / R",
+      "ranges": {
+        "volts": [
+          2,
+          24
+        ],
+        "ohms": [
+          2,
+          40
+        ]
+      },
+      "exclusions": [
+        "the current does not round to 2 decimal places exactly"
+      ],
+      "units": "A"
+    }
+  ],
+  "items": [
+    {
+      "id": "original:parallel-resistance:1783",
+      "templateId": "parallel-resistance",
+      "topicId": "electrical-t01",
+      "title": "Two resistors in parallel",
+      "equation": "R = (R1 × R2) / (R1 + R2)",
+      "units": "ohm",
+      "seed": 1783,
+      "values": {
+        "r1": 12,
+        "r2": 60
+      },
+      "stem": "Two resistors of 12 ohm and 60 ohm are connected in parallel. The equivalent resistance is",
+      "options": [
+        {
+          "label": "A",
+          "text": "20 ohm"
+        },
+        {
+          "label": "B",
+          "text": "5 ohm"
+        },
+        {
+          "label": "C",
+          "text": "15 ohm"
+        },
+        {
+          "label": "D",
+          "text": "10 ohm"
+        }
+      ],
+      "answer": "D",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:parallel-resistance:1880",
+      "templateId": "parallel-resistance",
+      "topicId": "electrical-t01",
+      "title": "Two resistors in parallel",
+      "equation": "R = (R1 × R2) / (R1 + R2)",
+      "units": "ohm",
+      "seed": 1880,
+      "values": {
+        "r1": 90,
+        "r2": 10
+      },
+      "stem": "Two resistors of 90 ohm and 10 ohm are connected in parallel. The equivalent resistance is",
+      "options": [
+        {
+          "label": "A",
+          "text": "9 ohm"
+        },
+        {
+          "label": "B",
+          "text": "18 ohm"
+        },
+        {
+          "label": "C",
+          "text": "5 ohm"
+        },
+        {
+          "label": "D",
+          "text": "19 ohm"
+        }
+      ],
+      "answer": "A",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:series-voltage-divider:1682",
+      "templateId": "series-voltage-divider",
+      "topicId": "electrical-t01",
+      "title": "A resistor and a potential divider",
+      "equation": "Vout = Vin × R2 / (R1 + R2)",
+      "units": "V",
+      "seed": 1682,
+      "values": {
+        "r1": 48,
+        "r2": 58,
+        "vin": 19
+      },
+      "stem": "A 48 ohm resistor and a 58 ohm resistor form a potential divider across 19 V. The voltage across the 58 ohm resistor is",
+      "options": [
+        {
+          "label": "A",
+          "text": "20.8 V"
+        },
+        {
+          "label": "B",
+          "text": "10.4 V"
+        },
+        {
+          "label": "C",
+          "text": "5.2 V"
+        },
+        {
+          "label": "D",
+          "text": "12.4 V"
+        }
+      ],
+      "answer": "B",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:series-voltage-divider:1779",
+      "templateId": "series-voltage-divider",
+      "topicId": "electrical-t01",
+      "title": "A resistor and a potential divider",
+      "equation": "Vout = Vin × R2 / (R1 + R2)",
+      "units": "V",
+      "seed": 1779,
+      "values": {
+        "r1": 77,
+        "r2": 14,
+        "vin": 15
+      },
+      "stem": "A 77 ohm resistor and a 14 ohm resistor form a potential divider across 15 V. The voltage across the 14 ohm resistor is",
+      "options": [
+        {
+          "label": "A",
+          "text": "4.6 V"
+        },
+        {
+          "label": "B",
+          "text": "1.2 V"
+        },
+        {
+          "label": "C",
+          "text": "4.3 V"
+        },
+        {
+          "label": "D",
+          "text": "2.3 V"
+        }
+      ],
+      "answer": "D",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:series-voltage-divider:1876",
+      "templateId": "series-voltage-divider",
+      "topicId": "electrical-t01",
+      "title": "A resistor and a potential divider",
+      "equation": "Vout = Vin × R2 / (R1 + R2)",
+      "units": "V",
+      "seed": 1876,
+      "values": {
+        "r1": 58,
+        "r2": 33,
+        "vin": 20
+      },
+      "stem": "A 58 ohm resistor and a 33 ohm resistor form a potential divider across 20 V. The voltage across the 33 ohm resistor is",
+      "options": [
+        {
+          "label": "A",
+          "text": "14.6 V"
+        },
+        {
+          "label": "B",
+          "text": "7.3 V"
+        },
+        {
+          "label": "C",
+          "text": "3.7 V"
+        },
+        {
+          "label": "D",
+          "text": "9.3 V"
+        }
+      ],
+      "answer": "B",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:series-voltage-divider:1973",
+      "templateId": "series-voltage-divider",
+      "topicId": "electrical-t01",
+      "title": "A resistor and a potential divider",
+      "equation": "Vout = Vin × R2 / (R1 + R2)",
+      "units": "V",
+      "seed": 1973,
+      "values": {
+        "r1": 70,
+        "r2": 43,
+        "vin": 14
+      },
+      "stem": "A 70 ohm resistor and a 43 ohm resistor form a potential divider across 14 V. The voltage across the 43 ohm resistor is",
+      "options": [
+        {
+          "label": "A",
+          "text": "10.6 V"
+        },
+        {
+          "label": "B",
+          "text": "2.7 V"
+        },
+        {
+          "label": "C",
+          "text": "7.3 V"
+        },
+        {
+          "label": "D",
+          "text": "5.3 V"
+        }
+      ],
+      "answer": "D",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:kinetic-energy:1434",
+      "templateId": "kinetic-energy",
+      "topicId": "physics-t04",
+      "title": "Kinetic energy from speed",
+      "equation": "KE = ½ m v²",
+      "units": "J",
+      "seed": 1434,
+      "values": {
+        "mass": 19,
+        "speed": 6
+      },
+      "stem": "A body of mass 19 kg moves with a speed of 6 m/s. Its kinetic energy is",
+      "options": [
+        {
+          "label": "A",
+          "text": "684 J"
+        },
+        {
+          "label": "B",
+          "text": "342 J"
+        },
+        {
+          "label": "C",
+          "text": "171 J"
+        },
+        {
+          "label": "D",
+          "text": "347 J"
+        }
+      ],
+      "answer": "B",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:kinetic-energy:1531",
+      "templateId": "kinetic-energy",
+      "topicId": "physics-t04",
+      "title": "Kinetic energy from speed",
+      "equation": "KE = ½ m v²",
+      "units": "J",
+      "seed": 1531,
+      "values": {
+        "mass": 15,
+        "speed": 20
+      },
+      "stem": "A body of mass 15 kg moves with a speed of 20 m/s. Its kinetic energy is",
+      "options": [
+        {
+          "label": "A",
+          "text": "3000 J"
+        },
+        {
+          "label": "B",
+          "text": "6000 J"
+        },
+        {
+          "label": "C",
+          "text": "1500 J"
+        },
+        {
+          "label": "D",
+          "text": "3005 J"
+        }
+      ],
+      "answer": "A",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:kinetic-energy:1628",
+      "templateId": "kinetic-energy",
+      "topicId": "physics-t04",
+      "title": "Kinetic energy from speed",
+      "equation": "KE = ½ m v²",
+      "units": "J",
+      "seed": 1628,
+      "values": {
+        "mass": 19,
+        "speed": 20
+      },
+      "stem": "A body of mass 19 kg moves with a speed of 20 m/s. Its kinetic energy is",
+      "options": [
+        {
+          "label": "A",
+          "text": "7600 J"
+        },
+        {
+          "label": "B",
+          "text": "3800 J"
+        },
+        {
+          "label": "C",
+          "text": "1900 J"
+        },
+        {
+          "label": "D",
+          "text": "3805 J"
+        }
+      ],
+      "answer": "B",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:kinetic-energy:1725",
+      "templateId": "kinetic-energy",
+      "topicId": "physics-t04",
+      "title": "Kinetic energy from speed",
+      "equation": "KE = ½ m v²",
+      "units": "J",
+      "seed": 1725,
+      "values": {
+        "mass": 18,
+        "speed": 12
+      },
+      "stem": "A body of mass 18 kg moves with a speed of 12 m/s. Its kinetic energy is",
+      "options": [
+        {
+          "label": "A",
+          "text": "2592 J"
+        },
+        {
+          "label": "B",
+          "text": "1296 J"
+        },
+        {
+          "label": "C",
+          "text": "648 J"
+        },
+        {
+          "label": "D",
+          "text": "1301 J"
+        }
+      ],
+      "answer": "B",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:ohm-law:1217",
+      "templateId": "ohm-law",
+      "topicId": "electrical-t04",
+      "title": "Current through a resistor",
+      "equation": "I = V / R",
+      "units": "A",
+      "seed": 1217,
+      "values": {
+        "volts": 13,
+        "ohms": 38
+      },
+      "stem": "A 38 ohm resistor is connected across a 13 V supply. The current through it is",
+      "options": [
+        {
+          "label": "A",
+          "text": "0.34 A"
+        },
+        {
+          "label": "B",
+          "text": "0.68 A"
+        },
+        {
+          "label": "C",
+          "text": "0.17 A"
+        },
+        {
+          "label": "D",
+          "text": "0.84 A"
+        }
+      ],
+      "answer": "A",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:ohm-law:1314",
+      "templateId": "ohm-law",
+      "topicId": "electrical-t04",
+      "title": "Current through a resistor",
+      "equation": "I = V / R",
+      "units": "A",
+      "seed": 1314,
+      "values": {
+        "volts": 11,
+        "ohms": 16
+      },
+      "stem": "A 16 ohm resistor is connected across a 11 V supply. The current through it is",
+      "options": [
+        {
+          "label": "A",
+          "text": "1.38 A"
+        },
+        {
+          "label": "B",
+          "text": "0.35 A"
+        },
+        {
+          "label": "C",
+          "text": "0.69 A"
+        },
+        {
+          "label": "D",
+          "text": "1.19 A"
+        }
+      ],
+      "answer": "C",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:ohm-law:1411",
+      "templateId": "ohm-law",
+      "topicId": "electrical-t04",
+      "title": "Current through a resistor",
+      "equation": "I = V / R",
+      "units": "A",
+      "seed": 1411,
+      "values": {
+        "volts": 17,
+        "ohms": 27
+      },
+      "stem": "A 27 ohm resistor is connected across a 17 V supply. The current through it is",
+      "options": [
+        {
+          "label": "A",
+          "text": "1.26 A"
+        },
+        {
+          "label": "B",
+          "text": "0.32 A"
+        },
+        {
+          "label": "C",
+          "text": "1.13 A"
+        },
+        {
+          "label": "D",
+          "text": "0.63 A"
+        }
+      ],
+      "answer": "D",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    },
+    {
+      "id": "original:ohm-law:1508",
+      "templateId": "ohm-law",
+      "topicId": "electrical-t04",
+      "title": "Current through a resistor",
+      "equation": "I = V / R",
+      "units": "A",
+      "seed": 1508,
+      "values": {
+        "volts": 21,
+        "ohms": 38
+      },
+      "stem": "A 38 ohm resistor is connected across a 21 V supply. The current through it is",
+      "options": [
+        {
+          "label": "A",
+          "text": "1.1 A"
+        },
+        {
+          "label": "B",
+          "text": "0.55 A"
+        },
+        {
+          "label": "C",
+          "text": "0.28 A"
+        },
+        {
+          "label": "D",
+          "text": "1.05 A"
+        }
+      ],
+      "answer": "B",
+      "verified": true,
+      "provenance": "Original exercise generated at build time from a declared template. Not a past-year question."
+    }
+  ],
+  "rejected": [
+    {
+      "templateId": "parallel-resistance",
+      "seed": 1589,
+      "reason": "the generated values broke a declared exclusion"
+    },
+    {
+      "templateId": "parallel-resistance",
+      "seed": 1686,
+      "reason": "the generated values broke a declared exclusion"
+    }
+  ],
+  "checks": {
+    "independentResolves": 14,
+    "uniqueOptions": 14,
+    "singleAnswer": 14,
+    "failed": 0
+  }
+}

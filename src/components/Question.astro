@@ -22,7 +22,12 @@ const {
 const Heading = headingLevel;
 const stemHtml = renderMath(question.stem);
 const optionHtml = question.options.map((option) => ({ ...option, html: renderMath(option.text) }));
-const held = !question.scorable;
+/**
+ * An item is held when it cannot be marked at all. A question the board
+ * voided is not held: the board awarded it to every candidate, so it carries
+ * marks and it is marked — with the board's award rather than a key.
+ */
+const held = !question.scorable && !question.boardAwarded;
 ---
 <section
   class="qcard"
@@ -41,7 +46,7 @@ const held = !question.scorable;
     <span class="chip">Category {question.category === 'II' ? 'II' : 'I'}</span>
     <span class="chip">{question.marks} mark{question.marks === 1 ? '' : 's'}</span>
     {held && <span class="chip held">Not marked</span>}
-    {question.voided && <span class="chip info">Voided by the board</span>}
+    {question.boardAwarded && <span class="chip info">Voided by the board · awarded to everyone</span>}
   </div>
   <div class="qstem" set:html={stemHtml}></div>
   {question.transcriptionNote && <p class="micro"><strong>Transcription note:</strong> {question.transcriptionNote}</p>}

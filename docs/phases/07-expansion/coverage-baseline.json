@@ -1,0 +1,396 @@
+{
+  "savedFrom": "scripts/topic-terms-baseline.json",
+  "note": "The map as it stood at the start of Phase 07, rebuilt from the pre-expansion term lists. Those lists reproduce the recorded starting figures exactly.",
+  "summary": {
+    "topics": 42,
+    "covered": 34,
+    "broad": 4,
+    "moderate": 7,
+    "thin": 23,
+    "none": 8,
+    "mappedQuestions": 212,
+    "unmappedQuestions": 478,
+    "conflicts": 7,
+    "outsideSyllabusQuestions": 258
+  },
+  "topics": [
+    {
+      "id": "mathematics-ta",
+      "name": "Matrices (up to order 3)",
+      "subjectId": "mathematics",
+      "questions": 10,
+      "marks": 13,
+      "papers": 3,
+      "band": "broad"
+    },
+    {
+      "id": "mathematics-tb",
+      "name": "Determinants (up to order 3)",
+      "subjectId": "mathematics",
+      "questions": 1,
+      "marks": 1,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "mathematics-tc",
+      "name": "Complex Numbers",
+      "subjectId": "mathematics",
+      "questions": 3,
+      "marks": 4,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "mathematics-td",
+      "name": "Co‑ordinate Geometry (2D)",
+      "subjectId": "mathematics",
+      "questions": 14,
+      "marks": 17,
+      "papers": 3,
+      "band": "broad"
+    },
+    {
+      "id": "mathematics-te",
+      "name": "Vector Algebra",
+      "subjectId": "mathematics",
+      "questions": 5,
+      "marks": 6,
+      "papers": 3,
+      "band": "moderate"
+    },
+    {
+      "id": "mathematics-tf",
+      "name": "Differential Calculus",
+      "subjectId": "mathematics",
+      "questions": 9,
+      "marks": 13,
+      "papers": 3,
+      "band": "broad"
+    },
+    {
+      "id": "mathematics-tg",
+      "name": "Application of Derivative",
+      "subjectId": "mathematics",
+      "questions": 4,
+      "marks": 6,
+      "papers": 3,
+      "band": "moderate"
+    },
+    {
+      "id": "mathematics-th",
+      "name": "Partial Differentiation",
+      "subjectId": "mathematics",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "mathematics-ti",
+      "name": "Integral Calculus",
+      "subjectId": "mathematics",
+      "questions": 1,
+      "marks": 1,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "mathematics-tj",
+      "name": "Ordinary Differential Equations",
+      "subjectId": "mathematics",
+      "questions": 2,
+      "marks": 2,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "mathematics-tk",
+      "name": "Probability",
+      "subjectId": "mathematics",
+      "questions": 1,
+      "marks": 2,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t01",
+      "name": "Units & dimensions",
+      "subjectId": "physics",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "physics-t02",
+      "name": "Kinematics",
+      "subjectId": "physics",
+      "questions": 10,
+      "marks": 13,
+      "papers": 3,
+      "band": "broad"
+    },
+    {
+      "id": "physics-t03",
+      "name": "Laws of motion",
+      "subjectId": "physics",
+      "questions": 5,
+      "marks": 6,
+      "papers": 3,
+      "band": "moderate"
+    },
+    {
+      "id": "physics-t04",
+      "name": "Work, power, energy",
+      "subjectId": "physics",
+      "questions": 3,
+      "marks": 3,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t05",
+      "name": "Gravitation",
+      "subjectId": "physics",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "physics-t06",
+      "name": "Elasticity",
+      "subjectId": "physics",
+      "questions": 3,
+      "marks": 3,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t07",
+      "name": "Surface tension",
+      "subjectId": "physics",
+      "questions": 1,
+      "marks": 2,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t08",
+      "name": "Fluid mechanics",
+      "subjectId": "physics",
+      "questions": 3,
+      "marks": 3,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t09",
+      "name": "Thermal expansion",
+      "subjectId": "physics",
+      "questions": 2,
+      "marks": 2,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t10",
+      "name": "Heat transfer",
+      "subjectId": "physics",
+      "questions": 3,
+      "marks": 3,
+      "papers": 3,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t11",
+      "name": "Thermodynamics",
+      "subjectId": "physics",
+      "questions": 2,
+      "marks": 2,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t12",
+      "name": "Reflection of light",
+      "subjectId": "physics",
+      "questions": 1,
+      "marks": 2,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t13",
+      "name": "Refraction of light",
+      "subjectId": "physics",
+      "questions": 3,
+      "marks": 3,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t14",
+      "name": "Lens",
+      "subjectId": "physics",
+      "questions": 2,
+      "marks": 2,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "physics-t15",
+      "name": "Photoelectricity",
+      "subjectId": "physics",
+      "questions": 3,
+      "marks": 4,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "chemistry-ta",
+      "name": "Atomic Structure",
+      "subjectId": "chemistry",
+      "questions": 6,
+      "marks": 6,
+      "papers": 3,
+      "band": "moderate"
+    },
+    {
+      "id": "chemistry-tb",
+      "name": "Chemical Bonding",
+      "subjectId": "chemistry",
+      "questions": 4,
+      "marks": 5,
+      "papers": 2,
+      "band": "moderate"
+    },
+    {
+      "id": "chemistry-tc",
+      "name": "Acids, Bases & Salts",
+      "subjectId": "chemistry",
+      "questions": 3,
+      "marks": 3,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "chemistry-td",
+      "name": "Oxidation, Reduction, Electrochemistry",
+      "subjectId": "chemistry",
+      "questions": 3,
+      "marks": 3,
+      "papers": 3,
+      "band": "thin"
+    },
+    {
+      "id": "chemistry-te",
+      "name": "Chemical Equilibrium",
+      "subjectId": "chemistry",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "chemistry-tf",
+      "name": "Metallurgy",
+      "subjectId": "chemistry",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "chemistry-tg",
+      "name": "Water",
+      "subjectId": "chemistry",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "chemistry-th",
+      "name": "Organic Chemistry",
+      "subjectId": "chemistry",
+      "questions": 4,
+      "marks": 5,
+      "papers": 2,
+      "band": "moderate"
+    },
+    {
+      "id": "electrical-t01",
+      "name": "Components & instruments",
+      "subjectId": "electrical",
+      "questions": 5,
+      "marks": 5,
+      "papers": 3,
+      "band": "moderate"
+    },
+    {
+      "id": "electrical-t02",
+      "name": "Transformers",
+      "subjectId": "electrical",
+      "questions": 3,
+      "marks": 3,
+      "papers": 2,
+      "band": "thin"
+    },
+    {
+      "id": "electrical-t03",
+      "name": "Electrical machines",
+      "subjectId": "electrical",
+      "questions": 3,
+      "marks": 3,
+      "papers": 3,
+      "band": "thin"
+    },
+    {
+      "id": "electrical-t04",
+      "name": "DC circuits",
+      "subjectId": "electrical",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    },
+    {
+      "id": "electrical-t05",
+      "name": "AC circuits",
+      "subjectId": "electrical",
+      "questions": 1,
+      "marks": 1,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "electrical-t06",
+      "name": "Semiconductor devices",
+      "subjectId": "electrical",
+      "questions": 1,
+      "marks": 1,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "electrical-t07",
+      "name": "Analog circuits",
+      "subjectId": "electrical",
+      "questions": 1,
+      "marks": 1,
+      "papers": 1,
+      "band": "thin"
+    },
+    {
+      "id": "electrical-t08",
+      "name": "Digital electronics",
+      "subjectId": "electrical",
+      "questions": 0,
+      "marks": 0,
+      "papers": 0,
+      "band": "none"
+    }
+  ]
+}

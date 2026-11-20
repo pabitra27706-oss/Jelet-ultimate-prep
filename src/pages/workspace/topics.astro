@@ -1,0 +1,164 @@
+---
+/**
+ * The authoring desk.
+ *
+ * Where a reviewer checks the topic map, sees the original exercises the
+ * generator produced, and works through the queue the mapper refused to
+ * guess at.
+ *
+ * There is no lesson prose here on purpose. The exercises are bare
+ * calculations with a marked answer; what they are for is to let a reviewer
+ * verify that the toolchain produces what it says it produces.
+ */
+import Site from '../../layouts/Site.astro';
+import {
+  bandLabel,
+  coverageSummary,
+  queueByKind,
+  toolchainSummary,
+  variantsByTemplate,
+  topicStatuses,
+} from '../../lib/authoring';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const summary = coverageSummary();
+const toolchain = toolchainSummary();
+const queue = queueByKind();
+const grouped = variantsByTemplate();
+const statuses = topicStatuses();
+---
+
+<Site
+  title="Authoring desk"
+  active="workspace"
+  description="The topic map, the generated original exercises, and the review queue."
+>
+  <div class="page-intro">
+    <p class="eyebrow">AUTHORING DESK</p>
+    <h1>The map, the exercises, and the queue.</h1>
+    <p class="lead">
+      Everything here is generated from the corpus and the declared templates, so it can be rebuilt and
+      checked. {summary.covered} of {summary.topics} topics have a markable question;
+      {' '}{toolchain.items} original exercises reach {toolchain.topicsReached} of them.
+    </p>
+    <p class="micro">
+      No lesson prose is written here. The exercises exist so the toolchain can be verified, and the
+      coverage map says what a learner can meet — not what they have learned.
+    </p>
+  </div>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="toolchain-heading">
+    <h2 id="toolchain-heading" style="font-size:1.15rem">The generating toolchain</h2>
+    <div class="stat-grid">
+      <div class="stat"><b>{toolchain.templates}</b><span>Declared templates</span><em>each with an equation, ranges and exclusions</em></div>
+      <div class="stat"><b>{toolchain.items}</b><span>Generated exercises</span><em>all checked against an independent re-solve</em></div>
+      <div class="stat"><b>{toolchain.checksPassed}</b><span>Independent checks passed</span><em>the generator is compared with a second implementation</em></div>
+      <div class="stat"><b>{toolchain.rejected}</b><span>Draws rejected</span><em>a draw that broke a declared exclusion was discarded</em></div>
+    </div>
+    {toolchain.topicsOnlyHere.length > 0 && (
+      <p class="micro" style="margin-top:.8rem">
+        These exercises reach topics the corpus does not cover: {toolchain.topicsOnlyHere.join(', ')}.
+        That is a fact about the toolchain, not a fix for the coverage gap.
+      </p>
+    )}
+    <p class="micro" style="margin-top:.8rem">
+      The generator writes <code>src/data/variants.json</code>; <code>npm run variants:check</code> rebuilds
+      it in memory and fails if the committed file differs.
+    </p>
+  </section>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="templates-heading">
+    <h2 id="templates-heading" style="font-size:1.15rem">Templates and what they produced</h2>
+    <div class="stack">
+      {grouped.map(({ template, items }) => (
+        <details class="card-flat" data-template={template.id}>
+          <summary>
+            <b>{template.title}</b>
+            <span class="micro">{items.length} exercise{items.length === 1 ? '' : 's'} · {template.equation} · {template.units}</span>
+          </summary>
+          <div class="details-body">
+            <p class="micro">
+              Ranges: {Object.entries(template.ranges).map(([name, [min, max]]) => `${name} ${min}–${max}`).join(', ')}.
+              {' '}Excluded: {template.exclusions.join('; ')}.
+            </p>
+            {items.map((item) => (
+              <div class="variant" data-variant-id={item.id}>
+                <p class="variant-stem">{item.stem}</p>
+                <ol class="variant-options" type="A">
+                  {item.options.map((option) => (
+                    <li class:list={{ correct: option.label === item.answer }}>{option.text}</li>
+                  ))}
+                </ol>
+                <p class="micro">
+                  Answer <b>{item.answer}</b> · seed <code>{item.seed}</code> · values
+                  {' '}{Object.entries(item.values).map(([name, value]) => `${name}=${value}`).join(', ')} ·
+                  verified against an independent solve
+                </p>
+              </div>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="queue-heading">
+    <h2 id="queue-heading" style="font-size:1.15rem">The review queue</h2>
+    <div class="stat-grid" style="margin-bottom:1rem">
+      <div class="stat"><b>{queue.conflicts.length}</b><span>Ties</span><em>two topics claimed the question equally well</em></div>
+      <div class="stat"><b>{queue.unmapped.length}</b><span>Unmapped</span><em>in a syllabus subject, no term matched</em></div>
+      <div class="stat"><b>{queue.gaps.length}</b><span>Gaps</span><em>a topic with no markable question</em></div>
+    </div>
+    <div class="table-wrap">
+      <table class="table" data-review-queue>
+        <thead>
+          <tr>
+            <th scope="col">Kind</th>
+            <th scope="col">Item</th>
+            <th scope="col">What has to be settled</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[...queue.conflicts, ...queue.gaps, ...queue.unmapped].slice(0, 80).map((item) => (
+            <tr data-queue-kind={item.kind}>
+              <td>{item.kind === 'conflict' ? 'Tie' : item.kind === 'uncovered-topic' ? 'Gap' : 'Unmapped'}</td>
+              <td><a href={item.link}>{item.reference}</a></td>
+              <td class="small">{item.detail}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="map-heading">
+    <div class="section-head">
+      <h2 id="map-heading" style="font-size:1.15rem">The topic map</h2>
+      <a class="btn btn-ghost btn-sm" href={`${base}coverage/`}>Full dashboard</a>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Topic</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Band</th>
+            <th scope="col">Questions</th>
+            <th scope="col">Papers</th>
+          </tr>
+        </thead>
+        <tbody>
+          {statuses.map((status) => (
+            <tr data-topic-row={status.topic.id}>
+              <td><b>{status.topic.code}</b> {status.topic.name}</td>
+              <td class="small">{status.topic.subjectName}</td>
+              <td><span class={`pill ${status.band}`}>{bandLabel(status.band)}</span></td>
+              <td>{status.topic.coveredQuestions}</td>
+              <td>{status.topic.coveredYears}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Site>

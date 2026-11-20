@@ -163,16 +163,65 @@ test('the runner answers, saves, resumes and marks a paper with the real rules',
   await page.locator('[data-runner-submit]').click();
   await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
 
+  // 2025 has three board-voided items (Q41, Q79, Q84). The board awarded
+  // them to every candidate, so their three marks are in the total whatever
+  // the learner answered: 1 − 0.25 + 0 + 3 = 3.75.
   const score = await page.locator('[data-runner-results] .score-hero b').textContent();
-  assert.equal(score, '0.75', 'one correct (+1), one wrong (−0.25) and one blank (0)');
+  assert.equal(score, '3.75', 'one correct (+1), one wrong (−0.25), one blank (0) and three board-awarded');
   const summary = page.locator('[data-runner-results] .micro').first();
   assert.match(await summary.textContent(), /1 correct/);
   assert.match(await summary.textContent(), /1 wrong/);
   assert.match(await summary.textContent(), /80 blank/);
+  assert.match(await summary.textContent(), /3 voided by the board/);
 
   // The navigator repaints with the outcome of each item.
   const states = await page.locator('[data-runner-nav] button').evaluateAll((nodes) => nodes.slice(0, 3).map((node) => node.dataset.state));
   assert.deepEqual(states, ['correct', 'wrong', 'wrong']);
+});
+
+test('the clock survives a reload without handing back time', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner-timer]');
+  const read = () => page.locator('[data-runner-timer]').textContent();
+  assert.equal((await read()).trim(), '120:00', 'a fresh paper starts with the full clock');
+  await page.waitForTimeout(3500);
+  const before = (await read()).trim();
+  assert.notEqual(before, '120:00', 'the clock runs down while the learner works');
+  await page.reload();
+  await page.waitForSelector('[data-runner-timer]');
+  const after = (await read()).trim();
+  assert.equal(after, before, 'a reload restores the same remaining time, not a fresh clock');
+});
+
+test('a submitted paper is final: a second tab cannot overwrite the result', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  t.after(() => ctx.close());
+  const first = await ctx.newPage();
+  await first.goto(origin + base + `practice/${paper2025}/`, { waitUntil: 'networkidle' });
+  const second = await ctx.newPage();
+  await second.goto(origin + base + `practice/${paper2025}/`, { waitUntil: 'networkidle' });
+  for (const page of [first, second]) await page.evaluate(() => { window.confirm = () => true; });
+
+  // Two tabs answer the same question differently.
+  await first.locator('.pane.active .opt[data-option="D"]').click();
+  await second.locator('.pane.active .opt[data-option="B"]').click();
+  await second.locator('[data-runner-submit]').click();
+  await second.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  const read = (page) => page.evaluate(() => {
+    const stored = JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? 'null');
+    const attempt = stored?.attempts?.[0];
+    return { submittedAt: attempt?.submittedAt ?? null, q1: attempt?.responses?.['jelet-et-p1-2025:q1'] ?? null };
+  });
+  const firstResult = await read(second);
+
+  // The other tab submits afterwards. Its submission must be refused.
+  await first.locator('[data-runner-submit]').click();
+  await first.waitForTimeout(1200);
+  const secondResult = await read(second);
+  assert.equal(secondResult.submittedAt, firstResult.submittedAt, 'the first submission timestamp stands');
+  assert.deepEqual(secondResult.q1, firstResult.q1, 'the recorded answers are unchanged');
 });
 
 test('a category II item scores partial credit and a wrong option scores zero', async (t) => {
@@ -191,11 +240,66 @@ test('a category II item scores partial credit and a wrong option scores zero', 
   await page.locator('.pane.active .opt[data-option="A"]').click();
   await page.locator('[data-runner-submit]').click();
   await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+  // 0.5 from the partial credit, plus the three marks the board awarded.
   const score = await page.locator('[data-runner-results] .score-hero b').textContent();
-  assert.equal(score, '0.5');
+  assert.equal(score, '3.5');
   const summary = page.locator('[data-runner-results] .micro').first();
   assert.match(await summary.textContent(), /1 partial/);
   assert.match(await summary.textContent(), /1 wrong/);
+});
+
+test('a board-voided question is awarded to everyone and is never asked for', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+
+  // 2025 Q41 is a board-voided item. It is in the paper, labelled, and the
+  // learner is never asked to answer it.
+  const voided = page.locator('.pane[data-voided="true"]');
+  assert.equal(await voided.count(), 3, '2025 has three board-voided items in the paper');
+  const pane = page.locator('.pane[data-n="41"]');
+  assert.equal(await pane.getAttribute('data-voided'), 'true');
+
+  // Open it in the runner so it is on screen.
+  await page.locator('[data-runner-navtoggle]').click();
+  await page.locator('[data-runner-nav] button', { hasText: /^41$/ }).click();
+  await page.waitForFunction(() => document.querySelector('.pane.active')?.dataset.n === '41');
+  assert(await pane.getByText('Voided by the board').first().isVisible(), 'the pane says the board voided it');
+  assert(await pane.locator('[data-void-notice]').isVisible(), 'the pane explains the marks go to every candidate');
+
+  // Its options are not live: clicking one does not record an answer.
+  await pane.locator('.opt[data-option="A"]').click();
+  assert.equal(await pane.locator('.opt[data-option="A"]').getAttribute('aria-pressed'), 'false');
+
+  // It is not reported as unanswered and it does not block submission.
+  const progress = await page.locator('[data-runner-progress-text]').textContent();
+  assert.match(progress, /3 voided by the board/, 'the progress bar reports the board-awarded items');
+  assert.doesNotMatch(progress, /83 of/, 'the voided items are not counted as unanswered');
+
+  // Submitting with nothing answered warns only about the answerable items.
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+  const score = await page.locator('[data-runner-results] .score-hero b').textContent();
+  assert.equal(score, '3', 'the three voided items carry their marks with no answers at all');
+  assert.match(await page.locator('[data-runner-results] .micro').first().textContent(), /3 voided by the board/);
+});
+
+test('a board-voided question never enters the review queue', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="B"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  await go(page, 'review/');
+  await page.waitForFunction(() => (document.querySelector('[data-stat="queue"]')?.textContent ?? '') !== '—');
+  // The paper now holds 85 items: 82 keyed and 3 board-voided. All 82 keyed
+  // items are wrong or blank, so all 82 are queued. The three voided items
+  // were awarded to everyone and are not mistakes, so they are not queued.
+  assert.equal(await page.locator('[data-stat="queue"]').textContent(), '82');
+  const queueText = await page.locator('#queue-list').textContent();
+  assert.doesNotMatch(queueText, /Q41/, 'a voided question is never queued for revision');
 });
 
 test('the subject drill only contains that subject and marks its own scope', async (t) => {
@@ -236,6 +340,63 @@ test('the navigator, mark-for-review and clear all work without a server', async
   await page.waitForFunction(() => document.querySelector('[data-runner-nav] button')?.dataset.state === 'marked');
   await page.locator('[data-runner-clear]').click();
   await page.waitForFunction(() => /0 of 82 answered/.test(document.querySelector('[data-runner-progress-text]')?.textContent ?? ''));
+});
+
+test('the printed companion prints an answer sheet in the booklet order and a ledger', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/print/`);
+  await page.waitForSelector('[data-omr-sheet]');
+
+  // The sheet names the booklet it belongs to, and says how that was known.
+  const body = await page.locator('body').textContent();
+  assert.match(body, /Set A/, 'the sheet names the set');
+  assert.match(body, /booklet/i, 'the sheet names the booklet');
+
+  // One row per printed number, in printed order.
+  const rows = await page.locator('[data-omr-row]').evaluateAll((nodes) => nodes.map((node) => Number(node.dataset.omrRow)));
+  assert.ok(rows.length > 90, `the sheet covers the paper: ${rows.length} rows`);
+  const sorted = [...rows].sort((a, b) => a - b);
+  assert.deepEqual(rows, sorted, 'the sheet is in printed order');
+  assert.equal(new Set(rows).size, rows.length, 'no printed number is duplicated');
+
+  // The ledger covers the same printed numbers.
+  const ledgerRows = await page.locator('[data-ledger-row]').evaluateAll((nodes) => nodes.map((node) => Number(node.dataset.ledgerRow)));
+  assert.deepEqual(ledgerRows, rows, 'the ledger and the sheet cover the same numbers in the same order');
+
+  // A voided row takes no bubble and says so.
+  const voided = page.locator('[data-omr-row][data-omr-status="voided"]');
+  assert.equal(await voided.count(), 3, 'the sheet carries the three board-voided rows');
+  const bubbles = await voided.locator('.omr-bubble').evaluateAll((nodes) => nodes.map((node) => node.className.includes('off')));
+  assert.ok(bubbles.every((off) => off), 'a voided row offers no bubble to fill');
+
+  // A held row is not offered either.
+  const held = page.locator('[data-omr-row][data-omr-status="held"]');
+  assert.ok(await held.count() > 0, 'the sheet carries the held rows');
+  const heldBubbles = await held.locator('.omr-bubble').evaluateAll((nodes) => nodes.map((node) => node.className.includes('off')));
+  assert.ok(heldBubbles.every((off) => off), 'a held row offers no bubble to fill');
+
+  // The sheet must never state an answer.
+  const sheetText = await page.locator('[data-omr-sheet]').textContent();
+  assert.doesNotMatch(sheetText, /Answer: [A-D]/, 'the printed sheet states no answer');
+});
+
+test('the reconciliation page shows the reference sheet and the expected totals', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/reconciliation/`);
+  await page.waitForSelector('[data-reference-sheet]');
+
+  // The reference sheet exercises every scoring path, including the board's.
+  const statuses = await page.locator('[data-reference-status]').evaluateAll((nodes) => [...new Set(nodes.map((node) => node.dataset.referenceStatus))]);
+  for (const status of ['correct', 'wrong', 'blank', 'partial', 'voided']) {
+    assert.ok(statuses.includes(status), `the reference sheet exercises ${status}`);
+  }
+
+  // The credited total is stated, and it includes the board's award.
+  const credited = await page.locator('[data-reference-total]').textContent();
+  assert.ok(credited && credited.trim().length > 0, 'the credited total is stated');
+  const body = await page.locator('body').textContent();
+  assert.match(body, /Awarded to every candidate/, 'the board award is shown separately');
+  assert.match(body, /103 of the paper's 120 printed marks|103 of the paper/, 'the marks a candidate can earn are stated');
 });
 
 /* ------------------------------------------------------------------ *
@@ -375,6 +536,69 @@ test('the site keeps working with the network switched off', async () => {
   }
 });
 
+test('the offline pack list states what each pack holds before anything is downloaded', async (t) => {
+  const page = await context(t);
+  await go(page, 'offline/');
+  await page.waitForSelector('[data-pack="paper-2025"]');
+  const rows = await page.locator('[data-pack]').count();
+  assert.ok(rows >= 4, `the packs are listed: ${rows}`);
+  const text = await page.locator('[data-pack="paper-2025"]').textContent();
+  assert.match(text, /version/i, 'the pack states its version');
+  assert.match(text, /KB|MB/, 'the pack states its size');
+  assert.match(text, /works with no connection/, 'the pack says whether it works offline');
+  // Nothing is downloaded until the learner asks.
+  assert.equal(await page.locator('[data-pack-state="paper-2025"]').textContent(), 'Not downloaded.');
+  assert.equal(await page.locator('[data-pack-summary]').textContent(), 'Nothing downloaded yet.');
+});
+
+test('a downloaded pack opens offline, and removing it leaves the study record alone', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'allow' });
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(20000);
+  page.on('dialog', (dialog) => dialog.accept());
+  t.after(() => ctx.close());
+  try {
+    await page.goto(origin + base + 'offline/', { waitUntil: 'load' });
+    await page.waitForSelector('[data-pack="paper-2025"]');
+
+    await page.locator('[data-pack-download="paper-2025"]').click();
+    await page.waitForFunction(() => (document.querySelector('[data-pack-state="paper-2025"]')?.textContent ?? '').startsWith('Ready'), null, { timeout: 90000 });
+    assert.match(await page.locator('[data-pack-summary]').textContent(), /1 pack ready/);
+
+    // The pack's files live in a pack cache, not the shell cache.
+    const caches = await page.evaluate(() => window.caches.keys());
+    assert.ok(caches.some((name) => name.startsWith('jelet-pack-paper-2025-')), 'the pack has its own cache');
+    assert.ok(!caches.some((name) => name.endsWith('.staging')), 'no staging cache is left behind');
+
+    // The whole paper opens with no connection.
+    await ctx.setOffline(true);
+    await page.goto(origin + base + 'practice/jelet-et-p1-2025/', { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('[data-runner]', { timeout: 20000 });
+    assert.equal(await page.locator('.pane').count(), 85, 'the whole paper is available offline');
+    assert((await page.locator('.katex').count()) > 20, 'the maths renders offline from the cached fonts');
+    await ctx.setOffline(false);
+
+    // Remove the pack. The pack files go; the study record stays.
+    await page.goto(origin + base + 'practice/jelet-et-p1-2025/', { waitUntil: 'load' });
+    await page.locator('.pane.active .opt[data-option="D"]').click();
+    await page.locator('[data-runner-submit]').click();
+    await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+    await page.goto(origin + base + 'offline/', { waitUntil: 'load' });
+    await page.waitForSelector('[data-pack="paper-2025"]');
+    await page.locator('[data-pack-remove="paper-2025"]').click();
+    await page.waitForFunction(() => (document.querySelector('[data-pack-summary]')?.textContent ?? '') === 'Nothing downloaded yet.', null, { timeout: 20000 });
+    const after = await page.evaluate(() => window.caches.keys());
+    assert.ok(!after.some((name) => name.startsWith('jelet-pack-paper-2025-')), 'the pack files are gone');
+
+    // The attempt the learner just made is still there.
+    const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? 'null'));
+    assert.ok(stored?.attempts?.length > 0, 'removing a pack does not erase the study record');
+  } finally {
+    await ctx.close();
+  }
+});
+
 test('the site declares a manifest and a service worker that caches only its own files', async () => {
   const manifest = JSON.parse(await readFile(resolve('dist/manifest.webmanifest'), 'utf8'));
   assert.equal(manifest.name, 'JELET Ultimate Prep');
@@ -391,4 +615,239 @@ test('the search index ships the whole corpus in a compact payload', async () =>
   const questions = data.entries.filter((entry) => entry.i.startsWith('question:'));
   assert.equal(questions.length, 690);
   assert(raw.length < 500 * 1024, `index too large: ${raw.length}`);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 07 — the coverage map and the authoring desk
+ * ------------------------------------------------------------------ */
+
+test('the coverage dashboard states the real numbers and the gaps beside them', async (t) => {
+  const page = await context(t);
+  await go(page, 'coverage/');
+
+  const map = JSON.parse(await readFile(resolve('src/data/topics.json'), 'utf8'));
+  const topics = map.topics.length;
+  const covered = map.topics.filter((topic) => topic.coveredQuestions > 0).length;
+
+  // The headline count must be the one the map records.
+  await page.waitForFunction(
+    (expected) => (document.querySelector('.stat-grid .stat b')?.textContent ?? '').trim() === expected,
+    `${covered} of ${topics}`,
+  );
+
+  // The gaps are shown as gaps, not hidden.
+  for (const topic of map.topics.filter((entry) => entry.coveredQuestions === 0)) {
+    const text = await page.locator('[data-topic]').filter({ hasText: topic.name }).first().innerText();
+    assert.match(text, /Not covered/i, `${topic.name} is not shown as uncovered`);
+  }
+
+  // The page must not claim more than it has.
+  const body = await page.locator('main').innerText();
+  assert.match(body, /does not say|not a claim/i, 'the page must state its own limits');
+  // No topic may be described as mastered. The page may *say* it does not
+  // claim mastery, so the check is on the topic cards themselves.
+  const cards = await page.locator('[data-topic]').allInnerTexts();
+  for (const card of cards) {
+    assert.doesNotMatch(card, /mastered|fully covered|complete/i, `a topic card claims more than it has: ${card.slice(0, 60)}`);
+  }
+});
+
+test('every topic on the coverage dashboard shows the evidence for its mapping', async (t) => {
+  const page = await context(t);
+  await go(page, 'coverage/');
+  const details = page.locator('[data-topic]');
+  const count = await details.count();
+  assert.ok(count > 0, 'the dashboard lists no topics');
+
+  // Open a topic that has questions and check the evidence is there.
+  const target = details.filter({ has: page.locator('.details-body ul li') }).first();
+  await target.locator('summary').click();
+  const body = await target.innerText();
+  assert.match(body, /matched on/i, 'the topic does not name the terms that produced its mapping');
+  assert.match(body, /\d{4} Q\d+/, 'the topic does not point at the questions it covers');
+});
+
+test('the review queue lists the ties, the gaps and the unmapped questions', async (t) => {
+  const page = await context(t);
+  await go(page, 'coverage/');
+  const rows = page.locator('[data-review-queue] tbody tr');
+  const kinds = await rows.evaluateAll((items) => items.map((item) => item.getAttribute('data-queue-kind')));
+  assert.ok(kinds.length > 0, 'the queue is empty');
+  for (const kind of kinds) {
+    assert.ok(['conflict', 'unmapped', 'uncovered-topic'].includes(kind), `unexpected queue kind ${kind}`);
+  }
+  // The gaps must be present, because three topics have no markable question.
+  assert.ok(kinds.includes('uncovered-topic'), 'the queue does not list the uncovered topics');
+});
+
+test('the authoring desk shows the generated exercises with their evidence', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/topics/');
+  const variants = JSON.parse(await readFile(resolve('src/data/variants.json'), 'utf8'));
+  assert.ok(variants.items.length > 0, 'the generator produced nothing');
+
+  const blocks = page.locator('[data-variant-id]');
+  assert.equal(await blocks.count(), variants.items.length, 'the desk does not show every exercise');
+
+  // Open a template and check the exercise carries its seed and its answer.
+  await page.locator('[data-template]').first().locator('summary').click();
+  const first = page.locator('[data-variant-id]').first();
+  const text = await first.innerText();
+  assert.match(text, /seed/i, 'the exercise does not show its seed');
+  assert.match(text, /Answer/i, 'the exercise does not show its answer');
+  assert.match(text, /verified/i, 'the exercise does not show that it was checked');
+});
+
+test('the authoring desk and the coverage dashboard agree with each other', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/topics/');
+  const map = JSON.parse(await readFile(resolve('src/data/topics.json'), 'utf8'));
+
+  const rows = page.locator('[data-topic-row]');
+  assert.equal(await rows.count(), map.topics.length, 'the desk and the map disagree on the topic count');
+
+  const shown = await rows.evaluateAll((items) =>
+    items.map((item) => ({
+      id: item.getAttribute('data-topic-row'),
+      questions: Number.parseInt(item.children[3].textContent ?? '0', 10),
+    })),
+  );
+  for (const topic of map.topics) {
+    const row = shown.find((entry) => entry.id === topic.id);
+    assert.ok(row, `${topic.id} is missing from the desk`);
+    assert.equal(row.questions, topic.coveredQuestions, `${topic.id} shows a different question count`);
+  }
+});
+
+test('the coverage pages keep working with the network switched off', async () => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'allow' });
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(15000);
+  try {
+    await page.goto(origin + base + 'coverage/', { waitUntil: 'load' });
+    await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 15000 });
+    // The shell precaches the coverage route, so it must be there already.
+    const cached = await page.evaluate(async (basePath) => {
+      const target = new URL(basePath + 'coverage/', location.origin).href;
+      const names = await caches.keys();
+      for (const name of names) {
+        const cache = await caches.open(name);
+        if (await cache.match(target)) return true;
+      }
+      return false;
+    }, base);
+    assert.ok(cached, 'the coverage route is not in the shell cache');
+
+    await ctx.setOffline(true);
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    const heading = await page.locator('h1').first().innerText();
+    assert.match(heading, /corpus covers/i, 'the coverage page did not survive being offline');
+    // The offline page must still carry real numbers, not an empty shell.
+    const body = await page.locator('main').innerText();
+    assert.match(body, /42 topics across four subjects/i, 'the offline coverage page lost its real content');
+    assert.match(body, /mapped against \d+ corpus questions/i, 'the offline coverage page lost its mapped count');
+  } finally {
+    await ctx.close();
+  }
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 08 — the full study-record backup
+ * ------------------------------------------------------------------ */
+
+test('the whole study record exports and imports, and a submitted result survives', async (t) => {
+  const page = await context(t);
+
+  // Make a real attempt on the 2025 paper and submit it.
+  await go(page, 'practice/jelet-et-p1-2025/');
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.waitForFunction(() => /1 of \d+ answered/.test(document.querySelector('[data-runner-progress-text]')?.textContent ?? ''));
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  // The workspace must show the attempt in the record counts.
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => {
+    const value = document.querySelector('[data-record-attempts]')?.textContent ?? '';
+    return Number.parseInt(value, 10) >= 1;
+  }, null, { timeout: 15000 });
+
+  const counts = await page.evaluate(() => ({
+    attempts: document.querySelector('[data-record-attempts]')?.textContent,
+    review: document.querySelector('[data-record-review]')?.textContent,
+    notes: document.querySelector('[data-record-notes]')?.textContent,
+  }));
+  assert.equal(Number.parseInt(counts.attempts, 10), 1, 'the attempt is not in the record');
+
+  // Export the record. The download is intercepted so the bytes can be read.
+  const [download] = await Promise.all([
+    page.waitForEvent('download', { timeout: 15000 }),
+    page.locator('#export-record').click(),
+  ]);
+  const stream = await download.createReadStream();
+  const chunks = [];
+  for await (const chunk of stream) chunks.push(chunk);
+  const text = Buffer.concat(chunks).toString('utf8');
+  const backup = JSON.parse(text);
+
+  assert.equal(backup.kind, 'jelet-full-backup');
+  assert.equal(backup.attempts.length, 1, 'the exported file does not carry the attempt');
+  assert.ok(backup.attempts[0].submittedAt, 'the exported attempt is not marked as submitted');
+  assert.ok(backup.attempts[0].results, 'the exported attempt carries no results');
+
+  // Now wipe the device and import the file back.
+  await page.evaluate(() => localStorage.clear());
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => {
+    const value = document.querySelector('[data-record-attempts]')?.textContent ?? '';
+    return value === '0';
+  }, null, { timeout: 15000 });
+
+  await page.locator('#import-record-file').setInputFiles({
+    name: 'backup.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(text, 'utf8'),
+  });
+  await page.waitForSelector('#record-import-preview:not([hidden])', { timeout: 15000 });
+  await page.locator('#record-import-replace').click();
+  await page.waitForFunction(() => {
+    const value = document.querySelector('[data-record-attempts]')?.textContent ?? '';
+    return Number.parseInt(value, 10) >= 1;
+  }, null, { timeout: 15000 });
+
+  const restored = await page.evaluate(() => JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? 'null'));
+  assert.equal(restored.attempts.length, 1, 'the attempt was not restored');
+  assert.equal(restored.attempts[0].submittedAt, backup.attempts[0].submittedAt, 'the submission time was rewritten');
+});
+
+test('a foreign backup file changes nothing on the device', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => document.querySelector('[data-record-attempts]')?.textContent !== null);
+
+  await page.locator('#import-record-file').setInputFiles({
+    name: 'foreign.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ kind: 'something-else', schemaVersion: 1 }), 'utf8'),
+  });
+  await page.waitForFunction(() => {
+    const text = document.querySelector('[data-record-status]')?.textContent ?? '';
+    return /Not a JELET backup|not a backup/i.test(text);
+  }, null, { timeout: 10000 });
+
+  // The preview must stay hidden, so nothing was written.
+  assert.equal(await page.locator('#record-import-preview').isHidden(), true, 'a rejected file opened the preview');
+  const stored = await page.evaluate(() => localStorage.getItem('jelet:attempts:v1'));
+  assert.equal(stored, null, 'a rejected file wrote to storage');
+});
+
+test('the optional-service decisions are published with their fallbacks', async (t) => {
+  const page = await context(t);
+  await go(page, 'workspace/');
+  const body = await page.locator('main').innerText();
+  // The workspace must say why the record is a file and not an account.
+  assert.match(body, /no server|no account/i, 'the workspace does not explain the no-account position');
+  assert.match(body, /nothing is uploaded/i, 'the workspace does not say that nothing is uploaded');
 });

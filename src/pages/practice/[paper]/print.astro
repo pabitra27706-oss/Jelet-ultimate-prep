@@ -1,0 +1,219 @@
+---
+/**
+ * The printed companion for a full-paper rehearsal.
+ *
+ * This is the paper a candidate would sit with a pen: the booklet identity,
+ * the instructions, an OMR answer sheet in the booklet's printed order, and
+ * the reconciliation ledger that says exactly what can be marked and why.
+ *
+ * Two rules shape the page:
+ *
+ * 1. The answer sheet follows the *booklet's* printed order, never the
+ *    master's. If the key's booklet mapping is not the identity mapping,
+ *    the companion refuses to print rather than silently substituting the
+ *    master's order.
+ * 2. Nothing on this page leaks a key, a hint or a worked solution. The
+ *    ledger states the rule that applies to each row and whether the item
+ *    can be marked, never the answer.
+ */
+import Site from '../../../layouts/Site.astro';
+import { papers, paperById, keyFor } from '../../../lib/content';
+import { ledgerFor, omrSheetFor } from '../../../lib/rehearsal';
+
+export function getStaticPaths() {
+  return papers
+    .filter((paper) => paper.scoreableQuestions > 0)
+    .map((paper) => ({ params: { paper: paper.id } }));
+}
+
+const { paper: paperId } = Astro.params;
+const paper = paperById.get(paperId ?? '');
+if (!paper) throw new Error(`Unknown paper: ${paperId}`);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const key = keyFor(paper);
+const ledger = ledgerFor(paper);
+const sheet = omrSheetFor(paper);
+
+// A candidate whose booklet is a different series cannot be reconciled with
+// the master ordering this transcription holds, so the sheet is not offered.
+const refused = sheet ? !sheet.identityOrder : true;
+
+const bySubject = new Map<string, typeof ledger.rows>();
+for (const row of ledger.rows) {
+  const list = bySubject.get(row.subjectKey) ?? [];
+  list.push(row);
+  bySubject.set(row.subjectKey, list);
+}
+---
+
+<Site
+  title={`${paper.label} · printed companion`}
+  active="practice"
+  description={`The printed companion for ${paper.label}: booklet identity, an OMR answer sheet and the reconciliation ledger.`}
+>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">›</span>
+    <a href={`${base}practice/${paper.id}/`}>{paper.label}</a> <span aria-hidden="true">›</span>
+    <span>Printed companion</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1rem">
+    <div class="grow">
+      <p class="eyebrow">Printed companion</p>
+      <h1 style="font-size:clamp(1.6rem,4.6vw,2.4rem)">{paper.label} · answer sheet</h1>
+      <p class="lead">
+        Print this, fill the bubbles, then enter the same sheet on screen. The sheet below follows the
+        booklet's printed order, and the reconciliation ledger says exactly which rows can be marked.
+      </p>
+    </div>
+    <div class="btn-row no-print">
+      <a class="btn ghost" href={`${base}practice/${paper.id}/`}>Sit it on screen</a>
+      <a class="btn ghost" href={`${base}library/${paper.id}/`}>Read the paper</a>
+    </div>
+  </div>
+
+  {refused ? (
+    <div class="notice" style="margin-bottom:1rem" data-print-refused>
+      <strong>This paper has no mapped booklet, so no answer sheet is printed.</strong>
+      {sheet?.booklet.determination
+        ? ` The preserved key records: ${sheet.booklet.determination}`
+        : ' The preserved key does not record how the board’s booklet ordering maps onto the master ordering.'}
+      {' '}Printing a sheet in the master order would not be the candidate’s booklet, so the companion
+      refuses rather than print something misleading. Sit the paper on screen instead.
+    </div>
+  ) : (
+    <>
+      <section class="card" style="margin-bottom:1.4rem" aria-labelledby="booklet-heading">
+        <h2 id="booklet-heading" style="font-size:1.1rem">Which booklet this sheet belongs to</h2>
+        <div class="table" role="table">
+          <div role="row"><b role="cell">Paper</b><span role="cell">{paper.label} · {paper.subjects.length} sections · {paper.questionCount} printed numbers</span></div>
+          <div role="row"><b role="cell">Set</b><span role="cell">Set {sheet?.booklet.set ?? '—'}{sheet?.booklet.setSymbol ? ` · ${sheet.booklet.setSymbol}` : ''}</span></div>
+          <div role="row"><b role="cell">Booklet number</b><span role="cell">{sheet?.booklet.bookletNumber ?? 'not recorded on the preserved key'}</span></div>
+          <div role="row"><b role="cell">Ordering</b><span role="cell">The booklet carries the master ordering, so this sheet's printed numbers are the paper's own numbers.</span></div>
+          <div role="row"><b role="cell">How that was determined</b><span role="cell">{sheet?.booklet.determination ?? 'not recorded'}</span></div>
+          <div role="row"><b role="cell">Answer key</b><span role="cell">{key?.tier === 'official' ? `WBJEEB notice ${key.documentRef} dated ${key.documentDate}` : key ? 'derived, not published by the board' : 'none published for this year'}</span></div>
+          <div role="row"><b role="cell">Time</b><span role="cell">{paper.durationMinutes} minutes · {paper.maxMarks} marks on the printed paper</span></div>
+        </div>
+        <p class="micro" style="margin-top:.7rem">
+          This is a rehearsal companion, not a proctoring tool. It cannot detect who filled the sheet and
+          makes no claim about how the paper was sat.
+        </p>
+      </section>
+
+      <section class="card" style="margin-bottom:1.4rem" aria-labelledby="howto-heading">
+        <h2 id="howto-heading" style="font-size:1.1rem">How to fill this sheet</h2>
+        <ol class="small" style="color:var(--muted);padding-left:1.1rem">
+          <li>Fill <strong>one bubble</strong> for a Category I row. Fill <strong>every correct bubble</strong> for a Category II row and no others.</li>
+          <li>Leave a row completely empty if you have no answer. A blank row scores nothing; it is not a penalty.</li>
+          <li>Do not mark a row the board voided. Its marks go to every candidate, so the row is already decided.</li>
+          <li>Do not mark a held row. The transcription does not reproduce it, so it cannot be scored either way.</li>
+          <li>Enter the same sheet on screen before the clock runs out. The on-screen sheet is marked against the same rules in the same order.</li>
+        </ol>
+      </section>
+
+      <section class="card" style="margin-bottom:1.4rem" aria-labelledby="sheet-heading">
+        <div class="section-head">
+          <h2 id="sheet-heading" style="font-size:1.1rem">Answer sheet · Set {sheet?.booklet.set ?? '—'}</h2>
+          <span class="micro">{sheet?.markedRows} rows to mark · {sheet?.totalMarks} marks · {sheet?.voidedRows} voided by the board · {sheet?.heldRows} held</span>
+        </div>
+        <div class="omr-sheet" data-omr-sheet>
+          <table class="table omr-table">
+            <thead>
+              <tr>
+                <th scope="col">Q</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Cat.</th>
+                <th scope="col">Marks</th>
+                <th scope="col" class="omr-bubbles">A</th>
+                <th scope="col" class="omr-bubbles">B</th>
+                <th scope="col" class="omr-bubbles">C</th>
+                <th scope="col" class="omr-bubbles">D</th>
+                <th scope="col">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sheet?.rows.map((row) => (
+                <tr data-omr-row={row.printedNumber} data-omr-status={row.status}>
+                  <th scope="row">{row.printedNumber}</th>
+                  <td>{row.subject}</td>
+                  <td>{row.category}</td>
+                  <td>{row.marks}</td>
+                  {row.bubbles.map((bubble) => (
+                    <td class="omr-bubbles">
+                      <span
+                        class={`omr-bubble${bubble.selectable ? '' : ' off'}`}
+                        data-omr-bubble={`${bubble.printedNumber}${bubble.letter}`}
+                        aria-hidden="true"
+                      >{bubble.selectable ? '' : '×'}</span>
+                    </td>
+                  ))}
+                  <td class="micro">
+                    {row.status === 'voided' ? 'Voided by the board' : row.status === 'held' ? 'Held — not markable' : ''}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="micro" style="margin-top:.7rem">
+          Printed numbers not on this sheet: {sheet?.missing.length ? sheet.missing.join(', ') : 'none — the sheet is complete'}.
+        </p>
+      </section>
+
+      <section class="card" style="margin-bottom:1.4rem" aria-labelledby="ledger-heading">
+        <div class="section-head">
+          <h2 id="ledger-heading" style="font-size:1.1rem">Reconciliation ledger</h2>
+          <span class="micro">One row per printed number · {ledger.totals.printed} rows</span>
+        </div>
+        <p class="small" style="color:var(--muted)">
+          Every printed number is accounted for: what it is, whether it can be marked, which rule applies to
+          it and how many marks it carries. No row here states the answer — that stays behind the mark.
+        </p>
+        <div class="table-wrap">
+          <table class="table" data-ledger>
+            <thead>
+              <tr>
+                <th scope="col">Q</th>
+                <th scope="col">Section</th>
+                <th scope="col">Cat.</th>
+                <th scope="col">Marks</th>
+                <th scope="col">Status</th>
+                <th scope="col">Rule that applies</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ledger.rows.map((row) => (
+                <tr data-ledger-row={row.printedNumber} data-ledger-status={row.status}>
+                  <th scope="row">{row.printedNumber}</th>
+                  <td>{row.subject}</td>
+                  <td>{row.category}</td>
+                  <td>{row.marks}</td>
+                  <td>
+                    <span class={`pill ${row.status === 'scoreable' ? 'correct' : row.status === 'voided' ? 'voided' : 'held'}`}>
+                      {row.status === 'scoreable' ? 'Markable' : row.status === 'voided' ? 'Voided' : 'Held'}
+                    </span>
+                  </td>
+                  <td class="small">
+                    {row.rule}
+                    {row.holdReason && <span class="micro"> {row.holdReason}</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row" colspan="3">Totals</th>
+                <td>{ledger.totals.marks}</td>
+                <td colspan="2" class="small">
+                  {ledger.totals.scoreable} markable · {ledger.totals.voided} voided · {ledger.totals.held} held
+                  {ledger.totals.held > 0 && ` · ${ledger.totals.heldMarks} marks no candidate can earn from this transcript`}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+    </>
+  )}
+</Site>

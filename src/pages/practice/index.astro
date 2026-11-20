@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Site from '../../layouts/Site.astro';
 import { validatePractice, type PracticeData } from '../../practice';
-import { papers, subjectLabels, type SubjectKey } from '../../lib/content';
+import { papers, rehearsableQuestions, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const items = (await getCollection('practice')).map((entry) => entry.data) as PracticeData[];
@@ -45,6 +45,9 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
           {paper.heldQuestions > 0 && (
             <p class="micro">Labelled incomplete: {paper.heldQuestions} questions are readable but not markable.</p>
           )}
+          {paper.boardAwardedQuestions > 0 && (
+            <p class="micro">{paper.boardAwardedQuestions} voided by the board — awarded to every candidate.</p>
+          )}
           <div class="btn-row" style="margin-top:.6rem">
             <a class="btn small" href={`${base}practice/${paper.id}/`}>Start the full paper</a>
             <a class="btn small ghost" href={`${base}library/${paper.id}/`}>Read it</a>
@@ -62,7 +65,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
     {keyed.map((paper) => {
       const drills = paper.subjects
         .map((subject) => {
-          const list = paper.questions.filter((question) => question.subjectKey === subject.subjectKey && question.scorable);
+          const list = rehearsableQuestions(paper, subject.subjectKey);
           return { ...subject, count: list.length, marks: list.reduce((sum, question) => sum + question.marks, 0) };
         })
         .filter((subject) => subject.count > 0);
