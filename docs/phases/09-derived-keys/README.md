@@ -1,7 +1,7 @@
 # 09 · Derived answer keys for the four unkeyed Paper-I years
 
 **Entry:** the official WBJEEB booklets for 2017, 2018, 2019 and 2021 are retrieved and
-readable, and the owner has accepted that these four years have **no board key** and must
+readable, and the owner has accepted that these four years have **no board key we can locate** and must
 be solved from the paper itself.
 
 **Exit:** each year has a published, evidence-backed derived key in the editorial
@@ -9,9 +9,52 @@ collection, with a per-item tier, a machine-check record, an independent cross-c
 record, an explicit list of what was held and why, and an owner practice-verification
 loop that can trace every published answer back to the page it came from.
 
-**Status · 2026-11-19:** phase designed, not started. No solving session has run. No
-application code has been written or changed. ADR-0003 remains `PROPOSED` and the
-owner decision it requires is still open.
+**Status · 2026-11-20, third entry — the authorised slice is complete for all four
+years.** The owner authorised a text-layer-only subset, to be solved as
+`derived-provisional`, for every year. That work is **done and committed**:
+
+| Year | Solved (`derived-provisional`) | Machine-checked | Unsolved, with a reason | Slice size |
+|---|---:|---:|---:|---:|
+| 2017 | 83 | 23 | 17 | 85 |
+| 2018 | 83 | 19 | 17 | 84 |
+| 2019 | 79 | 19 | 21 | 82 |
+| 2021 | 76 | 25 | 24 | 80 |
+| **Total** | **321 of 400** | **86** | **79** | **331** |
+
+Each year has a key file (`<year>/<year>-keys.json`), a re-runnable check script under
+`<year>/checks/`, and a generated record `<year>/<year>-slice-record.md`. The record is
+produced from the key file by `scripts/render-slice-record.py`, so the prose and the
+JSON cannot drift apart.
+
+**Nothing here is a key.** There are **zero `derived-verified` entries**, `eligibleCount`
+is 0 in all four files, and nothing may be scored. The slice is a labelled substitute for a
+page-based adjudication, not a replacement for it. Every excluded item names its own reason,
+in the `note` field and in the year record.
+
+**Policy is decided; evidence is not.** On 2026-11-20 the owner accepted ADR-0003's tiered
+model — see [DECISION-adr-0003-accepted.md](DECISION-adr-0003-accepted.md). The archive's
+ADR-0003 file still reads `PROPOSED` because `archive/` is immutable; the acceptance record
+is the operative decision. It changes **nothing** about these four years, because acceptance
+of a policy does not verify an answer: the tier that may score is still empty.
+
+**Every doubt in this phase is kept in one place:** [OPEN-DOUBTS.md](OPEN-DOUBTS.md) — the
+ten items held inside the slice, the pattern doubts that a page image would *not* fix, the
+corpus defects shared by all four years, and the results of the 2026-11-20 second pass
+(321 items re-derived, 48 disagreements, **all 48 resolved in favour of the recorded
+answer** — so no key changed).
+
+**Status · 2026-11-20, first entry:** phase designed; **pre-flight has run for all four
+years**. Every booklet was read through and every section map corrected, but no page image
+could be captured, so page-based solving stops at step 09.2 for every year. See the
+pre-flight records for
+[2017](../../../editorial/derived-keys/2017/2017-preflight.md),
+[2018](../../../editorial/derived-keys/2018/2018-preflight.md),
+[2019](../../../editorial/derived-keys/2019/2019-preflight.md) and
+[2021](../../../editorial/derived-keys/2021/2021-preflight.md).
+
+> **Correction, 2026-11-20.** The previous version of this status block still said
+> "pre-flight has run for 2017 and 2018, and only those two". That was true when it was
+> written and false when it was left standing; it is corrected here.
 
 ---
 
@@ -51,31 +94,43 @@ and is labelled as such everywhere it appears.
 | Items carrying a figure | 10 | 11 | 6 | 15 |
 | Items with incomplete options | 3 | 2 | 4 | 2 |
 | Complete-option, figure-free ceiling | 89 | 89 | 91 | 85 |
-| Alternate stream sets present | Yes | Yes | to confirm at pre-flight | Yes |
+| Alternate stream sets present | Yes | Yes | **No** (pre-flight) | Yes |
 | Year package | [years/2017.md](years/2017.md) | [years/2018.md](years/2018.md) | [years/2019.md](years/2019.md) | [years/2021.md](years/2021.md) |
 
-**Ceiling, not a promise.** 354 is the sum of the four ceilings — the number of items
+**Ceiling, not a promise.** 354 is the sum of the four *corpus-filter* ceilings — the number of items
 that *could* score if every one of them were solved and cross-checked. The real number
 will be lower: an item is scored only if it is also complete and figure-free, and a
 complete, readable, independently cross-checked item is rare in the Strength of
 Materials and Engineering Mechanics sections where most figures sit. Do not quote 354
-as a coverage claim.
+as a coverage claim, and it is a property of the corpus flags, not a measurement of the
+printed papers — the page images could move every one of these numbers in either direction.
 
 ### The official section map (main stream set)
 
 | Range | 2017 | 2018 | 2019 | 2021 |
 |---|---|---|---|---|
-| Q1–35 | Electrical Technology | Electrical Technology | Electrical & Electronics | Electrical Technology |
+| Q1–20 | Mathematics | Mathematics | Mathematics | Mathematics |
+| Q21–35 | Electrical Technology | Electrical Technology | Electrical Technology | Electrical Technology |
 | Q36–55 | Computer Application | Computer Application | Computer Application | Computer Application |
 | Q56–70 | Environmental Engineering | Environmental Engineering | Environmental Engineering | Environmental Engineering |
 | Q71–85 | Engineering Mechanics | Engineering Mechanics | Engineering Mechanics | Engineering Mechanics |
 | Q86–100 | Strength of Materials | Strength of Materials | Strength of Materials | Strength of Materials |
 
+**All four rows were verified on 2026-11-20** from each booklet's own printed headings.
+This table previously claimed Q1–35 Electrical for every year, which contradicted the
+corpus and omitted the whole Mathematics section; 2019 additionally called its Electrical
+section "Electrical & Electronics", which the booklet does not. Sources:
+[2017](../../../editorial/derived-keys/2017/2017-preflight.md),
+[2018](../../../editorial/derived-keys/2018/2018-preflight.md),
+[2019](../../../editorial/derived-keys/2019/2019-preflight.md),
+[2021](../../../editorial/derived-keys/2021/2021-preflight.md).
+
 **The corpus disagrees with this map.** `scripts/build-content.mjs` labels Q36–100 of
 every target year as `Computer & IT` / `Computer Application`. That label is wrong for
-64 questions in each of the three full years. Filtering, topic mapping and search must
-not use the corpus subject for these years until the corpus is rebuilt from the
-official booklets. This is a fact the phase must carry, not fix.
+**45** questions in 2017, 2018 and 2021, and for **43** in 2019, whose corpus holds 98
+questions. Filtering, topic mapping and search must not use the corpus subject for
+these years until the corpus is rebuilt from the official booklets. This is a fact the
+phase must carry, not fix.
 
 **Alternate stream sets are out of scope.** The 2017, 2018 and 2021 booklets print a
 second and sometimes third Q71–100 section for other streams — Printing Technology
@@ -164,12 +219,13 @@ integration must state, in the paper's own metadata, which set was solved, or a
 reader will assume the booklet's other sections were also keyed. If the owner later
 wants the alternate sets, that is a model extension and a separate decision.
 
-**Gate C — ADR-0003 is still `PROPOSED`.** It requires that provisional answers do
-not score. The 2022 generator does not enforce this: 13 of 2022's 87 scoreable
-questions are `derived-provisional`. That is an open governance decision, and this
-phase does **not** resolve it by copying either behaviour. A target-year key produced
-under this phase will be written so that it *can* enforce the rule (provisional items
-carry a tier, never a bare answer), and the owner decides whether they do.
+**Gate C — ADR-0003 is accepted (2026-11-20), and still unenforced outside this phase.**
+The tiered model is now adopted ([decision record](DECISION-adr-0003-accepted.md)), and it
+requires that provisional answers do not score. Phase 09's four files enforce that in the
+validator. The 2022 generator does not: 13 of 2022's 87 scoreable questions are
+`derived-provisional`. Accepting the policy therefore creates a **concrete, dated defect in
+2022** that this phase does not fix, because 2022 is outside its scope. It is recorded here
+rather than repaired silently, and the repair belongs to whichever phase owns 2022.
 
 ---
 

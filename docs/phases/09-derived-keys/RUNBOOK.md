@@ -51,9 +51,11 @@ file is the **printed** page number, not the PDF sheet index.
 captured page is accounted for.
 
 **Note on the text layer.** The text layer is a convenience, never the authority. It
-drops artwork, interleaves two-column option blocks with their own stems, and in the
-2021 booklet it **omits visible question labels** around Q74, Q76 and Q81 even
-though the questions are present. Never conclude that a question is missing because
+drops artwork, interleaves two-column option blocks with their own stems, and it
+**omits printed question labels** in places: eight items in 2021 (Q74, Q75, Q77, Q81,
+Q84, Q87, Q93, Q94) and four in 2019 (Q75, Q76, Q84, Q90), even though every one of
+those questions is present. Note that Q76 *is* labelled in 2021; the earlier version of
+this paragraph said otherwise and was corrected by the 2021 pre-flight. Never conclude that a question is missing because
 its label is missing. Never conclude that a question has no options because the
 options are images — graphical option sets are real options and they make the item
 figure-dependent, not option-less.
@@ -74,8 +76,15 @@ block:
 - items whose corpus subject label contradicts the printed section.
 
 **Acceptance check:** the reconciliation block accounts for every question in both
-directions. `matched + missingInCorpus + extraInCorpus = 100` (or the booklet's real
-count).
+directions, which is two equations, not one:
+
+```
+matched + |missingInCorpus| = booklet question count
+matched + |extraInCorpus|   = corpus question count
+```
+
+`extraInCorpus` questions are not in the booklet, so they cannot be counted towards the
+booklet's total — the single-equation form that used to stand here could never balance.
 
 **The official page always wins.** Where they differ, the booklet is correct and the
 corpus is wrong. Record the difference; **do not edit the corpus in this phase** and
@@ -92,10 +101,12 @@ the future integration phase.
 > and cannot be scored; the corpus copy is unusable and the booklet copy is the
 > real item.
 
-> **Known trap — 2019 Q77 and Q78–79.** Official Q77's stem is blank in the
-> booklet, and official Q78 and Q79 are **absent from the corpus**. A blank stem is
-> not a solvable item; missing corpus records are not evidence that the booklet
-> lacks the questions.
+> **Known trap — 2019 Q77 and Q78–79.** The corpus's Q77 record is **empty** and Q78
+> and Q79 are **absent from the corpus** — but all three are printed in the booklet, on
+> page 16, and Q77 prints in full. (An earlier version of this note said Q77's *printed*
+> stem was blank; the 2026-11-20 pre-flight refuted that.) A blank *corpus* record is
+> not a blank question, and a missing corpus record is not evidence that the booklet
+> lacks the question. Read page 16.
 
 ---
 
@@ -154,9 +165,11 @@ items in 2022 undetermined and one item wrong.
 and the outcome, and every item has a second opinion recorded even when the two
 solvers agreed.
 
-**Stop if:** the two solvers disagree on more than about a third of the items. That
-is not disagreement about physics — it means the input was not the page image, or
-the booklet is not the one you think it is.
+**Stop if:** the two solvers disagree on more than about a third of the items. Treat it
+as a **trigger to investigate**, not as a diagnosis. The likely causes, in order: the
+input was not the page image; the booklet is not the one you think it is; one solver made
+a systematic error; or the questions are genuinely ambiguous. Only the page tells you
+which, and a high disagreement rate by itself proves none of them.
 
 ---
 
