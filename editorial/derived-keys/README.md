@@ -59,6 +59,21 @@ They are the [editorial collection rules](../README.md), restated for the key wo
    clear rights. A record may exist here while the paper it describes stays
    unpublished.
 
+## Records
+
+| File | What it is |
+|---|---|
+| `<year>/<year>-keys.json` | The year's derived key: 100 entries, every one with a tier and a reason |
+| `<year>/<year>-slice-record.md` | Generated from the key file by `scripts/render-slice-record.py`; never hand-edited |
+| `<year>/checks/computable-<year>.py` | The numbers behind every machine check, re-runnable per question |
+| [`second-pass-2026-11-20.json`](second-pass-2026-11-20.json) | The blind second pass: 321 items re-answered, 48 disagreements, every one adjudicated. **Not independent** — see below |
+
+The second pass is a consistency check, not corroboration: the same solver and the same
+corpus produced both answers, so agreement proves only that the reasoning was reproducible.
+It moved no entry out of `derived-provisional`. Its purpose is that a disagreement is a
+genuine signal, and all 48 were resolved in favour of the recorded answer, one of them after
+an incorrect claim of a key error that had to be retracted.
+
 ## Status
 
 **Four batches exist (2026-11-20).** Under the owner's authorisation of a text-layer-only

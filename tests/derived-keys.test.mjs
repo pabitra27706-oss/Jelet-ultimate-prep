@@ -239,3 +239,46 @@ test('no check script can pass vacuously', () => {
     }
   }
 });
+
+test('the second-pass record matches the key files it claims to have re-derived', () => {
+  const p = resolve(REPO, 'editorial/derived-keys/second-pass-2026-11-20.json');
+  const rec = JSON.parse(readFileSync(p, 'utf8'));
+  assert.equal(rec.pass, 'second-pass');
+  assert.match(rec.independence, /NOT independent/, 'the record must not claim independence it does not have');
+
+  let total = 0;
+  for (const y of YEARS) {
+    const yrs = rec.years[String(y)];
+    assert.ok(yrs, `${y}: missing from the second-pass record`);
+    const solved = KEYS[y].entries.filter((e) => e.tier === 'derived-provisional');
+    assert.equal(yrs.solved, solved.length, `${y}: solved count drifted`);
+    assert.equal(yrs.reAnswered, solved.length, `${y}: every solved item must have been re-answered`);
+    assert.equal(yrs.disagreements, Object.keys(yrs.adjudication).length, `${y}: disagreement count drifted`);
+
+    // every adjudication must point at a real item, and the recorded answer must still be the key's
+    for (const [q, a] of Object.entries(yrs.adjudication)) {
+      const e = solved.find((x) => x.q === Number(q));
+      assert.ok(e, `${y} Q${q}: adjudication names an item that is not provisionally solved`);
+      assert.equal((e.answer || []).join(''), a.recorded, `${y} Q${q}: recorded answer changed since adjudication`);
+      assert.notEqual(a.secondPass, a.recorded, `${y} Q${q}: a non-disagreement is recorded as a disagreement`);
+      assert.ok(a.note.length > 40, `${y} Q${q}: adjudication needs a real reason`);
+      assert.equal(a.verdict, 'recorded-stands');
+    }
+    total += yrs.disagreements;
+  }
+  assert.equal(total, 48, 'the second pass found 48 disagreements; changing that claim needs new evidence');
+});
+
+test('no entry claims a verification tier without the evidence that tier requires', () => {
+  for (const y of YEARS) {
+    for (const e of KEYS[y].entries) {
+      if (e.tier !== 'derived-verified') continue;
+      const machineVerified = e.machineCheck && e.machineCheck.pass === true && e.machineCheck.command;
+      const crossVerified = e.crossCheck && e.crossCheck.verdict === 'agree' && e.crossCheck.independent === true;
+      assert.ok(
+        machineVerified || crossVerified,
+        `${y} Q${e.q}: derived-verified needs a passing machine check or an independent cross-check`,
+      );
+    }
+  }
+});

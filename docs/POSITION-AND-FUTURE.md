@@ -89,11 +89,13 @@ board key, so a marked paper would be a claim the site cannot support. They are
 published read-only: readable, searchable, and honestly labelled. The learning value
 is real, but it is smaller than it would be with a key.
 
-**2. ADR-0003 is still `PROPOSED`.** It says provisional answers must not score. The
-2022 generator does not enforce it: 13 of 2022's 87 scoreable questions rest on a
-provisional answer. Either the rule or the generator is wrong, and the owner has to
-decide which. The rule is the safer one; the current 2022 behaviour is the more
-convenient one; neither has been chosen on the record.
+**2. ADR-0003 was accepted on 2026-11-20, which turns 2022 into a defect.** The tiered
+model is adopted ([decision record](phases/09-derived-keys/DECISION-adr-0003-accepted.md)),
+and it says provisional answers must not score. Phase 09's four files enforce that; the
+2022 generator does not, so **13 of 2022's 87 scoreable questions rest on a
+`derived-provisional` answer and are now non-compliant on the record**. Making them
+compliant is a 2022 change, not a 09 change, and it removes or re-tiers 13 items from that
+paper's scoreable pool — so it needs its own reviewed step rather than a silent edit here.
 
 **3. The corpus's own subject labels are wrong for the four target years.**
 `scripts/build-content.mjs` assigns Q36–100 of every target year to Computer, while
@@ -160,8 +162,9 @@ the site is complete without any of them.
   the same rule: original primitives, no official pixels, a text equivalent, a
   statement of how the redraw differs, and **no effect on scoring**. A redraw shows
   the printed values; it does not verify an item.
-- **Decide ADR-0003.** One line of governance that decides whether 2022's 13
-  provisional answers keep scoring, and whether the four new papers start that way.
+- **Make 2022 comply with the now-accepted ADR-0003.** The decision is made; the defect it
+  exposes is not fixed. 13 of 2022's 87 scoreable questions are `derived-provisional` and
+  must stop scoring, which shrinks that paper's scoreable pool and needs a reviewed step.
 - **Close the syllabus gap honestly.** 258 of the questions sit outside the 2026
   syllabus, most of them in the four legacy sections that no longer exist in the
   bulletin. Keying those papers does not close that gap and must not be presented as

@@ -353,7 +353,7 @@ stale. Fixed here, with the correction noted in the file itself.
 - **Authorisation:** owner, 2026-11-20 — text layer only, `derived-provisional` only, all four years
 - **Deliverables:** `editorial/derived-keys/<year>/<year>-keys.json`, `<year>/checks/*.py`, `<year>/<year>-slice-record.md` (generated)
 - **Machinery:** `scripts/derived-key-subset.mjs` (slice is code, booklet-bounded), `scripts/validate-keys.mjs`,
-  `scripts/render-slice-record.py`, `tests/derived-keys.test.mjs` (14 tests, every year on disk)
+  `scripts/render-slice-record.py`, `tests/derived-keys.test.mjs` (16 tests, every year on disk)
 
 | Year | Solved | Machine-checked | Unsolved | Unsolved reasons |
 |---|---:|---:|---:|---|
@@ -377,3 +377,55 @@ no entry is `derived-verified`, `eligibleCount` is 0, and scoring remains blocke
 - ten items are held *inside* the slice rather than forced onto the nearest option
   (2017 Q2/Q17, 2018 Q31, 2019 Q19/Q81/Q92, 2021 Q2/Q21/Q78/Q80); each carries the
   arithmetic or the missing input in its `note`.
+
+### 09-second-pass · consistency pass, ADR acceptance, and the doubt register — 2026-11-20
+
+- **Phase:** 09-derived-keys · **Steps:** 09.5 (cross-check, substitute form), 09.6 (records) · **Outcome:** no key changed
+- **Owner instruction:** continue through all batches; keep every doubt in a document; run the
+  second pass; accept ADR-0003; verify the built-site suites.
+
+**1. Second pass over all 321 provisional answers.** Stems and options were printed with the
+recorded answer stripped, and all 321 were re-answered blind.
+
+| Year | Solved | Re-answered | Raw disagreements | Second pass wrong | Recorded key wrong |
+|---|---:|---:|---:|---:|---:|
+| 2017 | 83 | 83 | 3 | 3 | 0 |
+| 2018 | 83 | 83 | 19 | 19 | 0 |
+| 2019 | 79 | 79 | 16 | 16 | 0 |
+| 2021 | 76 | 76 | 10 | 10 | 0 |
+| **Total** | **321** | **321** | **48** | **48** | **0** |
+
+The record is machine-checkable, not prose: `editorial/derived-keys/second-pass-2026-11-20.json`
+holds the second answer, the recorded answer and the adjudication for all 48, and two tests
+fail if the counts drift, if an adjudication names an item that is not provisionally solved, or
+if a recorded answer changes after the fact.
+
+Every disagreement was adjudicated by re-derivation, not by preference. **Zero entries changed
+tier or answer.** The pass is *not* independent — same solver, same corpus — so it promotes
+nothing and the phase still has no `derived-verified` entry.
+
+**The one that mattered.** On 2018 Q7 the second pass said B (`fg = 2ch`), the key said C
+(`2fg = ch`), and I asserted in prose that the key was wrong. Expanding
+`(m₁y + n₁)(l₂x + n₂)` gives `2fg = ch`; 2,000 random factorisations produced zero violations
+of C and zero cases where B held. **C is correct and my drawn conclusion was the error.** The
+retraction is kept in [OPEN-DOUBTS.md](OPEN-DOUBTS.md) because a doubt that was wrong is as
+informative as one that was right.
+
+**2. Doubt register.** [OPEN-DOUBTS.md](OPEN-DOUBTS.md) — 10 held items with the arithmetic
+and the evidence that would close each; 5 pattern doubts that a page image would *not* fix
+(elimination-based answers, conventions presented as fact, C undefined behaviour, superlative
+items, memory-based data items); 8 corpus-level defects including the Q55/Q70 heading bleed
+that repeats identically in all four years; and the machinery doubts, including D4
+(`machineCheck.pass` is reported by a builder, not re-derived by the validator).
+
+**3. ADR-0003 accepted** — [DECISION-adr-0003-accepted.md](DECISION-adr-0003-accepted.md),
+plus a dated row in `docs/DECISIONS.md`. The archive file is untouched. Acceptance created no
+verified entry and exposed a real 2022 defect (13 of 87 scoreable questions provisional),
+recorded rather than repaired because 2022 is outside this phase.
+
+**4. Built-site suites now verified.** The four suites that had only ever failed on
+`ENOENT …/dist` were re-run against a real build (Node 22.23.4 via a local install, since the
+sandbox ships 22.22.3 and Astro requires ≥22.23.4): `test:figures` 18/18, `test:phase06`
+12/12, `test:phase08` 22/22, `test:mock` 36/36. **Full suite: 234 tests, 0 failures.** The
+earlier "pre-existing ENOENT" explanation was correct, and is now demonstrated rather than
+asserted.

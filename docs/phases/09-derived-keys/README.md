@@ -27,9 +27,21 @@ produced from the key file by `scripts/render-slice-record.py`, so the prose and
 JSON cannot drift apart.
 
 **Nothing here is a key.** There are **zero `derived-verified` entries**, `eligibleCount`
-is 0 in all four files, and nothing may be scored: ADR-0003 stays `PROPOSED`. The slice
-is a labelled substitute for a page-based adjudication, not a replacement for it. Every
-excluded item names its own reason, in the `note` field and in the year record.
+is 0 in all four files, and nothing may be scored. The slice is a labelled substitute for a
+page-based adjudication, not a replacement for it. Every excluded item names its own reason,
+in the `note` field and in the year record.
+
+**Policy is decided; evidence is not.** On 2026-11-20 the owner accepted ADR-0003's tiered
+model — see [DECISION-adr-0003-accepted.md](DECISION-adr-0003-accepted.md). The archive's
+ADR-0003 file still reads `PROPOSED` because `archive/` is immutable; the acceptance record
+is the operative decision. It changes **nothing** about these four years, because acceptance
+of a policy does not verify an answer: the tier that may score is still empty.
+
+**Every doubt in this phase is kept in one place:** [OPEN-DOUBTS.md](OPEN-DOUBTS.md) — the
+ten items held inside the slice, the pattern doubts that a page image would *not* fix, the
+corpus defects shared by all four years, and the results of the 2026-11-20 second pass
+(321 items re-derived, 48 disagreements, **all 48 resolved in favour of the recorded
+answer** — so no key changed).
 
 **Status · 2026-11-20, first entry:** phase designed; **pre-flight has run for all four
 years**. Every booklet was read through and every section map corrected, but no page image
@@ -207,12 +219,13 @@ integration must state, in the paper's own metadata, which set was solved, or a
 reader will assume the booklet's other sections were also keyed. If the owner later
 wants the alternate sets, that is a model extension and a separate decision.
 
-**Gate C — ADR-0003 is still `PROPOSED`.** It requires that provisional answers do
-not score. The 2022 generator does not enforce this: 13 of 2022's 87 scoreable
-questions are `derived-provisional`. That is an open governance decision, and this
-phase does **not** resolve it by copying either behaviour. A target-year key produced
-under this phase will be written so that it *can* enforce the rule (provisional items
-carry a tier, never a bare answer), and the owner decides whether they do.
+**Gate C — ADR-0003 is accepted (2026-11-20), and still unenforced outside this phase.**
+The tiered model is now adopted ([decision record](DECISION-adr-0003-accepted.md)), and it
+requires that provisional answers do not score. Phase 09's four files enforce that in the
+validator. The 2022 generator does not: 13 of 2022's 87 scoreable questions are
+`derived-provisional`. Accepting the policy therefore creates a **concrete, dated defect in
+2022** that this phase does not fix, because 2022 is outside its scope. It is recorded here
+rather than repaired silently, and the repair belongs to whichever phase owns 2022.
 
 ---
 
