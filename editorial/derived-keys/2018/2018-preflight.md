@@ -39,7 +39,7 @@ Q95–Q100 and any rough-work pages beyond page 30 were **not read**.
 | Maximum marks | 100 |
 | Questions | 100 objective items, four options each — 100 recorded in the corpus, 100 read in the capture |
 | Set symbol | **None printed**; the footer's `JT3` is the stream label, not a set letter |
-| Board key | None exists; the [JELET archive](https://wbjeeb.nic.in/archive-jelet/) carries key notices for 2023–2026 only |
+| Board key | **None located** (absence from the archive is not proof the Board never published one); the [JELET archive](https://wbjeeb.nic.in/archive-jelet/) carries key notices for 2023–2026 only |
 
 **The marking rule, as printed (instruction 1):** "Only one option is correct.
 Correct answer will carry full mark 1. In case of incorrect answer or any combination
@@ -211,7 +211,7 @@ never set.
 
 | Item | Observation |
 |---|---|
-| **Q72** | Confirmed: the corpus stem stops at "Where the weight must"; the booklet continues "be placed (distance from the man end) so that the man may bear twice of that the boy has to carry?" The options match exactly, as the package said |
+| **Q72** | ~~Confirmed: the corpus stem stops at "Where the weight must"…~~ **Withdrawn 2026-11-20.** The claim was wrong: the corpus stem is **complete** (`src/data/papers.json`, 2018 Q72) and carries the full sentence through "…so that the man may bear twice of that the boy has to carry?". Printed wording of the four options also stands unverified — the "match exactly" line came from the year package, not from a comparison I made. No stem repair is needed; see the review note in [EVIDENCE](../../../docs/phases/09-derived-keys/EVIDENCE.md) |
 | **Q55, Q70, Q85** | The option **D** text absorbs the next printed section heading — `"Segmentation ENVIRONMENTAL E…"`, `"antibiotic ENGINEERING MECHA…"`, `"0.204r STRENGTH OF MATERIA…"`. The capture keeps them separate, so this is a transcription defect, not a printing one |
 | **Q89, Q91** | The corpus stems carry editorial notes — "(Options not reproduced in text)", "(diagram based)" — that are not printed text. Q91's stem is intact otherwise; Q89's is intact |
 | **Q27, 73, 74, 78, 79, 80, 82, 85, 90** | The corpus prefixes `[Diagram]`. Only Q73, Q78, Q80, Q82 and Q90 name a figure in the printed stem; **Q74, Q79 and Q85 have no textual pointer to artwork at all**, so their figure status cannot be confirmed from the capture and must come from the page |

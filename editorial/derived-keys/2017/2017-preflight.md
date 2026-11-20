@@ -43,7 +43,7 @@ Engineering alternate set (its Q93). Whether the booklet continues past page 30
 | Maximum marks | 100 |
 | Questions | "This question paper contains 100 MCQ type objective questions. Each question has four answer options given, viz. A, B, C and D." |
 | Set symbol | **None printed.** No `Set A/B/C` marking appears on the cover or footers |
-| Board key | None exists. The [JELET archive](https://wbjeeb.nic.in/archive-jelet/) carries key notices for 2023–2026 only |
+| Board key | **None located** (absence from the archive is not proof the Board never published one). The [JELET archive](https://wbjeeb.nic.in/archive-jelet/) carries key notices for 2023–2026 only |
 
 **The marking rule, as printed (instruction 2):** "Only one answer is correct.
 Correct answer will fetch full marks 1. Incorrect answer or any combination of more

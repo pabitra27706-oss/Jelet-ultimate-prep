@@ -76,8 +76,15 @@ block:
 - items whose corpus subject label contradicts the printed section.
 
 **Acceptance check:** the reconciliation block accounts for every question in both
-directions. `matched + missingInCorpus + extraInCorpus = 100` (or the booklet's real
-count).
+directions, which is two equations, not one:
+
+```
+matched + |missingInCorpus| = booklet question count
+matched + |extraInCorpus|   = corpus question count
+```
+
+`extraInCorpus` questions are not in the booklet, so they cannot be counted towards the
+booklet's total — the single-equation form that used to stand here could never balance.
 
 **The official page always wins.** Where they differ, the booklet is correct and the
 corpus is wrong. Record the difference; **do not edit the corpus in this phase** and
@@ -158,9 +165,11 @@ items in 2022 undetermined and one item wrong.
 and the outcome, and every item has a second opinion recorded even when the two
 solvers agreed.
 
-**Stop if:** the two solvers disagree on more than about a third of the items. That
-is not disagreement about physics — it means the input was not the page image, or
-the booklet is not the one you think it is.
+**Stop if:** the two solvers disagree on more than about a third of the items. Treat it
+as a **trigger to investigate**, not as a diagnosis. The likely causes, in order: the
+input was not the page image; the booklet is not the one you think it is; one solver made
+a systematic error; or the questions are genuinely ambiguous. Only the page tells you
+which, and a high disagreement rate by itself proves none of them.
 
 ---
 

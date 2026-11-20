@@ -37,7 +37,7 @@ The reader reported no further pages, so unlike 2017 and 2018 nothing is cut off
 | Set | **A**, printed with the page number in every footer (`… 5 A`, `… 8 A`) |
 | Time / marks | 2 Hours / Full Marks 100 |
 | Questions | 100 numbered items, four options each |
-| Board key | None exists; the [JELET archive](https://wbjeeb.nic.in/archive-jelet/) lists key notices for 2023–2026 only |
+| Board key | **None located** (absence from the archive is not proof the Board never published one); the [JELET archive](https://wbjeeb.nic.in/archive-jelet/) lists key notices for 2023–2026 only |
 
 **The marking rule, as printed (instruction 1):** "Only one option is correct…
 In case of incorrect answer or any combination of more than one answer, ¼ marks will
@@ -191,7 +191,7 @@ three questions, all readable in the capture.
 | **Q87** | (A) 1:2, (B) **2:3**, (C) 5:8, (D) 7:12 | 1:2, 5:8, 7:12, **3:4** — a printed option dropped and an unprinted one invented |
 | **Q94** | Four printed formula options: `M`, `√M`, `M^{3/2}`, `M^{5/2}` | **No options**, and flagged as a figure item. The options are text, not drawings — the corpus lost them, and the figure flag is unsupported |
 | **Q55, Q70, Q85** | Section heading printed below the last option | Option D swallows it: `"80 ENVIRONMENTAL ENGINEERING (Q56–…"`, `"Decibel ENGINEERING MECHANICS (Q71…"`, `"constant STRENGTH OF MATERIALS"` |
-| **Q100** | (D) `16/15` | (D) `16/15 ``` ` — a stray Markdown fence |
+| **Q100** | (D) `16/15` | (D) `16/15` followed by a stray Markdown code fence (three backticks) |
 
 **The "91 ceiling" trap, resolved in principle.** 91 was 98 − 6 figure items − the one
 blank record. If the capture is right, Q78 and Q79 are complete and figure-free, and

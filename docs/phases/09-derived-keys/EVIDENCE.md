@@ -249,3 +249,51 @@ applicable**; solving, cross-check, machine checks, tiers **not run**.
 ### 09-2019 · _solving not run_
 
 ### 09-2021 · _solving not run_
+
+---
+
+## External review round — 2026-11-20
+
+An independent reviewer was pointed at this phase with a prompt forbidding any file change,
+any git write and any re-fetch or re-render of a question paper, and was asked to verify
+every claim. Its report is reproduced in the conversation, not in this repository.
+
+**One thing to know before reading its verdicts:** it ran against a *different checkout*
+(`arena/a05b85e3-…` at `b546c8b`, the branch point) and therefore never saw the four
+pre-flight records, which landed in `82aee49`, `78a8ac5` and `a225b56` on
+`arena/f4180f76-…`. Every finding of the form "the requested pre-flight records are
+absent", "the section map says Q1–35 Electrical" and "the counts say 64 wrong labels" is
+that mismatch, not a defect: those were corrected in this branch before the review ran.
+The reviewer said so itself, and explicitly declined to certify the review as complete.
+
+**Accepted and fixed** — each one was real, and each is now corrected in the files:
+
+| Finding | Where it was | What was wrong | Fix |
+|---|---|---|---|
+| Q72 stem "truncated" | `years/2018.md` §2, §4, prompt; `2018-preflight.md` §"other defects" | The corpus stem is **complete**. My own 2018 record asserted a truncation that was never there, and repeated the year package's "options match exactly" without comparing | Withdrawn in both files, with the date and the reason |
+| Worked example Q72 | `SCHEMA.md` §2 | Answer A from reactions of 200/100 N — the pole's own 100 N was ignored; the "verification" equation `300x + 100 = 200·2` gives 1 m, not the 0·6667 it printed; "0·456 from the man is 0·544 from the boy" on a 2 m pole; `machineCheck.pass: true` on a false expected value | Re-solved: boy 400/3 N, man 800/3 N, moments about the boy's end give **x = 5/9 = 0·5556 m → C**, cross-checked against the pole length; expected and observed now agree |
+| `officialText` "verbatim" | `SCHEMA.md` §2 | An ellipsized string was labelled verbatim | Full printed stem written out |
+| Eligibility vs approval | `SCHEMA.md` §2, §7 | Example was `eligible` while `ownerApprovedForScoring` is `false`; the Status summary showed 79 eligible from 78 verified and 21 holds against 22 ineligible items | Example now `held` + `no-approved-tier`; Status block rewritten with the four invariants stated and satisfied |
+| `documentRef: null` "is the proof that no board key exists" | `SCHEMA.md` §2 field rules | A locally assigned null proves nothing about the Board | Reworded: it records absence of a located reference, and may never be cited as proof |
+| Reconciliation identity | `SCHEMA.md` §5, `RUNBOOK.md` 09.3 | `matched + missing + extra = booklet count` cannot balance, since extras are not booklet items; the 2019 example gave 94+1+0 = 95 ≠ 100 and 94 ≠ 98 corpus records | Two equations, one per set; example rebuilt from 2019's real defects (Q41 stem, Q77 empty record, Q73/Q87 options) with 98+2 = 100 and 98+0 = 98 |
+| Dispute example | `SCHEMA.md` §4 | `D-2019-077` was raised on "the printed stem is blank", a claim this phase itself refuted | Replaced with a real held item (Q90, options printed as drawings) and the correction noted in place |
+| Report count | `SCHEMA.md` §6 | `observationCount: 2` above an array of one observation | Corrected to 1 |
+| "not physics" | `RUNBOOK.md` 09.6, `STOP-CONDITIONS.md` S8 | A >⅓ disagreement rate was treated as proof of a bad input | Reworded as a trigger to investigate, with the four candidate causes |
+| "board published no key" | Phase README, four year packages, four pre-flights | Absence from the archive is not proof of non-publication | "None located", with the limit of the evidence stated |
+| "will produce the most held items" | `years/2021.md` | A prediction stated as a property | Softened to "probably", with the count following from the pages |
+| Category-II | `SCHEMA.md` §2 | A two-mark rule was carried in the marking string while 100 questions × 1 mark = Full Marks 100 | Marking rule corrected to the single printed rule; `"II"` kept but marked unreachable for these years |
+
+**Rejected, with reasons.** Findings that the booklet prints Q78/Q79, that Q77 prints in
+full, that 2021's alternate sets sit inside the booklet, that 2019's booklet number is
+unprinted, and that the section maps are Mathematics-first were all marked
+`UNVERIFIABLE-NEEDS-PAGE-IMAGE` by the reviewer because it had no booklet access. They are
+not unverified here: each is recorded against a specific printed page in the year's
+pre-flight record, including the page number and the printed heading. A reviewer without
+the source cannot downgrade a claim that the source settles — but it also flagged, correctly,
+that **my 2018 record contained one claim that did not survive exactly that test**, which is
+why that one is withdrawn above.
+
+**Not changed, and why.** The 2022 precedent figures (87 scoreable, 13 provisional), the
+ADR-0003 status and the `build-content.mjs` behaviour the reviewer confirmed were already
+accurate. No key entry, tier or answer was created or altered by this round: the phase is
+still stopped at 09.2.

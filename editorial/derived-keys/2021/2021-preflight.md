@@ -36,7 +36,7 @@ is an answer, a tier or a score.
 | Set | **A** appears with the page number in the footers (`E & T 8 A`) |
 | Time / marks | 2 Hours / Full Marks 100 |
 | Questions | 100 numbered items, four options each |
-| Board key | None exists; key notices on the [JELET archive](https://wbjeeb.nic.in/archive-jelet/) are only for 2023–2026 |
+| Board key | **None located** (absence from the archive is not proof the Board never published one); key notices on the [JELET archive](https://wbjeeb.nic.in/archive-jelet/) are only for 2023–2026 |
 
 **The marking rule, as printed (instruction 1):** "Only one option is correct…
 In case of incorrect answer or any combination of more than one answer, ¼ marks will

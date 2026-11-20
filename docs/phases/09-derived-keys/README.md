@@ -1,7 +1,7 @@
 # 09 · Derived answer keys for the four unkeyed Paper-I years
 
 **Entry:** the official WBJEEB booklets for 2017, 2018, 2019 and 2021 are retrieved and
-readable, and the owner has accepted that these four years have **no board key** and must
+readable, and the owner has accepted that these four years have **no board key we can locate** and must
 be solved from the paper itself.
 
 **Exit:** each year has a published, evidence-backed derived key in the editorial

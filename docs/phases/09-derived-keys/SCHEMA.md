@@ -44,7 +44,7 @@ per-item record of how faithfully the options were transcribed.
     "protocol": "docs/phases/09-derived-keys/RUNBOOK.md",
     "decision": "archive/jelet-prep/data/docs/decisions/ADR-0003-derived-answer-keys.md",
     "precedent": "archive/jelet-prep/data/docs/derived-keys/2022-keys.json",
-    "markingRule": "Category-I: +1 correct, -1/4 wrong or multi-marked. Category-II: 2 x marked-correct / actual-correct, subset only, no negative.",
+    "markingRule": "Category-I only: +1 correct; -1/4 for a wrong answer or more than one marked. As printed in all four booklets. 100 questions x 1 mark = Full Marks 100, so no two-mark category can exist in these papers.",
     "questionCount": 100,
     "marks": 100
   },
@@ -94,8 +94,11 @@ per-item record of how faithfully the options were transcribed.
 
 - `paper.id` matches the corpus paper id for that year. The corpus ids are
   `jelet-et-p1-<year>`; check `src/data/papers.json` rather than assuming.
-- `booklet.documentRef` is `null` for these four years. It is not a placeholder to be
-  filled in later — it is the proof that no board key exists.
+- `booklet.documentRef` is `null` for these four years: no answer-key notice for them
+  was found in the Board's key archive. `null` records that **absence of a located
+  reference**, and nothing more — it is not proof that the Board never published a key,
+  and it must never be cited as such. If a notice is later found, the field takes its
+  document reference and the tier question reopens.
 - `booklet.checksum` is the SHA-256 of the downloaded PDF, or `null` if the file
   could not be hashed in the session. Record it when you can.
 - `sectionMap` is transcribed from the booklet's own printed headings, one row per
@@ -129,24 +132,24 @@ entry; a missing entry is not.
   "streamSet": "Engg & Tech/JT3",
   "sourcePage": 15,
   "sourceImage": "pages/p15.png",
-  "officialText": "A man and a boy carry a concentrated weight of 300 N ... (A) 0·356 m approx ...",
+  "officialText": "A man and a boy carry a concentrated weight of 300 N by means of a uniform pole of 2 m length and weight of 100 N. They carry the pole on their shoulders at the ends of the pole. Where the weight must be placed (distance from the man end) so that the man may bear twice of that the boy has to carry? (A) 0·356 m approx (B) 0·456 m approx (C) 0·556 m approx (D) 0·656 m approx",
 
   "optionFidelity": "verbatim",
   "figure": "none",
   "figureNote": null,
 
-  "answer": ["A"],
+  "answer": ["C"],
   "tier": "derived-verified",
   "confidence": "high",
 
-  "reasoning": "Man bears 200 N, boy 100 N. Taking moments about the boy's shoulder ...",
-  "verification": "Moment balance about the boy's end: 300x + 100(1) = 200(2) -> x = 0.6667 m from the man's end; the option that matches the man's share is 0·456 m from the man, i.e. 0·544 m from the boy. Checked against the printed stem's wording, not from memory.",
+  "reasoning": "Total load carried is the 300 N weight plus the pole's own 100 N = 400 N, shared man:boy = 2:1, so the boy carries 400/3 N and the man 800/3 N. The pole's weight acts at its midpoint, 1 m from each end. Moments about the boy's end, with x the load's distance from the man's end: (man's reaction) x 2 = weight x (2 - x) + (pole weight) x 1.",
+  "verification": "(800/3)(2) = 300(2 - x) + 100(1) -> 1600/3 = 700 - 300x -> 300x = 500/3 -> x = 5/9 = 0.5556 m from the man's end, i.e. option C (0.556 m approx). Counter-check about the man's end: (400/3)(2) = 800/3 = 300x + 100 -> 300x = 500/3, same x. Distances close to the pole's length: 0.5556 + 1.4444 = 2 m.",
 
   "machineCheck": {
     "method": "closed-form moment balance",
     "command": "python3 checks/q72_moment.py",
-    "expected": "0.6667 m from the man's end",
-    "observed": "0.6666666667 m",
+    "expected": "5/9 m = 0.5555555556 m from the man's end (option C)",
+    "observed": "0.5555555556 m",
     "pass": true
   },
 
@@ -156,19 +159,34 @@ entry; a missing entry is not.
     "note": "Agreed on A after independent re-derivation from the page image."
   },
 
-  "scoringEligibility": "eligible",
-  "holdReason": null,
+  "scoringEligibility": "held",
+  "holdReason": "no-approved-tier",
   "disputeId": null,
-  "note": null,
+  "note": "Illustrative record. The answer is solved and verified, but the top-level scoring policy has ownerApprovedForScoring = false, so the item is held with no-approved-tier: a held item is still an answered item.",
   "practiceReports": []
 }
 ```
+
+Three things this example is deliberately demonstrating, because a schema example is read
+as the truth about shape:
+
+- **The pole's own weight counts.** A solver who ignores the 100 N of pole gets boy 100 /
+  man 200 and then cannot make the numbers close; the error this example was written to
+  catch is exactly that one.
+- **`machineCheck` agrees with `verification`.** An `expected` of 0·6667 m beside a
+  `pass: true` would be a false pass. Expected and observed are both 5/9 m.
+- **Verified is not the same as scoreable.** The entry is `derived-verified` *and*
+  `held`, which is the normal shape while ADR-0003 is still `PROPOSED`.
+
+The page number and image path above are placeholders: they must point at the capture the
+answer was actually read from, and 2018's page map comes from the booklet, not from this
+document.
 
 ### Enumerations
 
 | Field | Allowed values |
 |---|---|
-| `category` | `"I"`, `"II"`, `null` (not determinable from the booklet) |
+| `category` | `"I"`, `"II"`, `null` (not determinable from the booklet). **`"II"` is unreachable for these four years**: each booklet prints one marking rule (+1 / −¼) and 100 questions totalling Full Marks 100, so a two-mark rule would break the paper's own arithmetic. The value is kept for any future year that prints one |
 | `optionFidelity` | `"verbatim"` — read straight off the page image; `"text-layer"` — taken from the PDF text layer and confirmed against the image; `"figure-based"` — the options are images (a real option set, but figure-dependent); `"unreproduced"` — the options could not be read; `"transcription-conflict"` — the corpus copy and the booklet disagree and the entry follows the booklet |
 | `figure` | `"none"`, `"read-from-image"`, `"unreadable"`, `"not-present"` |
 | `answer` | an array of option letters (`["A"]`, `["A","C"]`), or `[]` when no answer was determined, or `null` when the item was refused |
@@ -239,20 +257,27 @@ and it must also appear in `disputes`.
 
 ```jsonc
 {
-  "id": "D-2019-077",
-  "q": 77,
+  "id": "D-2019-090",
+  "q": 90,
   "candidates": [],
-  "reason": "The printed stem is blank in the official booklet. No question is visible to answer.",
+  "reason": "Both the stem and all four options are printed as drawings. The answer can be reasoned out, but the item cannot be presented to a reader without re-drawing the figure, so it is held rather than scored.",
   "raisedBy": "first-pass solver",
   "status": "open",
   "resolution": null,
-  "evidence": ["pages/p22.png", "<year>-crosscheck.md#q77"],
+  "evidence": ["pages/p20.png", "2019-crosscheck.md#q90"],
   "resolvedOn": null
 }
 ```
 
 `status` is `"open"` or `"resolved"`. A dispute is closed only when a specific
-person re-read the page and wrote down what the page says. A majority of solvers
+person re-read the page and wrote down what the page says.
+
+> **Corrected example (2026-11-20).** This slot used to show `D-2019-077` with the
+> reason "the printed stem is blank in the official booklet". That reason is false: the
+> 2019 booklet prints Q77 in full, and the blank field is a *corpus* record, not a
+> printed page. A dispute raised on a claim that turned out to be a transcription
+> artefact is exactly the kind of thing this record exists to prevent, so the example is
+> now a real held item with a real reason. A majority of solvers
 does not close a dispute; a page does.
 
 ---
@@ -265,17 +290,35 @@ does not close a dispute; a page does.
   "corpusYear": 2019,
   "bookletQuestionCount": 100,
   "corpusQuestionCount": 98,
-  "matched": 94,
-  "missingInCorpus": [ { "q": 78, "section": "Engineering Mechanics", "note": "Present in the booklet, absent from the corpus." } ],
+  "matched": 98,
+  "missingInCorpus": [
+    { "q": 78, "section": "Engineering Mechanics", "note": "Present in the booklet, absent from the corpus." },
+    { "q": 79, "section": "Engineering Mechanics", "note": "Present in the booklet, absent from the corpus." }
+  ],
   "extraInCorpus": [],
-  "stemDifferences": [ { "q": 12, "corpus": "...", "booklet": "...", "resolution": "booklet wins" } ],
-  "optionDifferences": [ { "q": 83, "corpus": "<the transcriber's placeholder>", "booklet": "e^(μ/θ), e^(θ/μ), e^(1/(μθ)), e^(μθ)", "resolution": "booklet wins; the corpus copy is unusable" } ],
+  "stemDifferences": [
+    { "q": 41, "corpus": "The equivalent binary number of (0.875)10", "booklet": "The equivalent binary number of (0.6975)10", "resolution": "booklet wins; the corpus stem was substituted" },
+    { "q": 77, "corpus": "empty record: no stem, no options", "booklet": "a numbered figure item about a block toppling before it slips", "resolution": "booklet wins; the corpus record is a placeholder" }
+  ],
+  "optionDifferences": [
+    { "q": 73, "corpus": "(B) and (D) both (P1+P2)/2cos θ", "booklet": "(B) (P1+P2)cos θ/2, (D) (P1+P2)/2cos θ", "resolution": "booklet wins; one printed option was lost and another duplicated" },
+    { "q": 87, "corpus": "1:2, 5:8, 7:12, 3:4", "booklet": "1:2, 2:3, 5:8, 7:12", "resolution": "booklet wins; a printed option was dropped and an unprinted one invented" }
+  ],
   "subjectLabelConflicts": [ { "q": 60, "corpus": "Computer & IT", "booklet": "Environmental Engineering", "resolution": "booklet wins" } ]
 }
 ```
 
-The counts must add up: `matched + missingInCorpus + extraInCorpus =
-bookletQuestionCount`.
+The counts must add up **two ways**, because the booklet and the corpus are two
+different sets:
+
+```
+matched + |missingInCorpus| = bookletQuestionCount      (booklet accounting)
+matched + |extraInCorpus|   = corpusQuestionCount       (corpus accounting)
+```
+
+`extraInCorpus` are questions the corpus has and the booklet does not; they cannot belong
+to the booklet's total. Writing one equation over both sets is the mistake to avoid.
+For the example above: 98 + 2 = 100 booklet items, and 98 + 0 = 98 corpus records.
 
 ---
 
@@ -292,7 +335,7 @@ in-app report button, no account, no server, no telemetry.** See
   "file": "practice-reports/2019-2026-11-24-01.json",
   "reportedBy": "owner",
   "reportedOn": "2026-11-24",
-  "observationCount": 2,
+  "observationCount": 1,
   "adjudicationStatus": "pending"
 }
 ```
@@ -336,18 +379,32 @@ report traceable back to the evidence that justified the answer it disputes.
 
 ```jsonc
 {
-  "tierCounts": { "official": 0, "derived-verified": 78, "derived-provisional": 14, "disputed": 8 },
-  "eligibleCount": 79,
-  "heldCount": 21,
-  "heldReasons": { "figure-not-reproduced": 9, "options-not-reproduced": 1, "input-unreadable": 3, "ambiguous-input": 4, "no-approved-tier": 4 },
-  "disputedCount": 8,
-  "openDisputes": 3,
+  "tierCounts": { "official": 0, "derived-verified": 68, "derived-provisional": 20, "disputed": 12 },
+  "eligibleCount": 0,
+  "heldCount": 100,
+  "heldReasons": { "figure-not-reproduced": 8, "options-not-reproduced": 2, "input-unreadable": 2, "ambiguous-input": 4, "no-approved-tier": 84 },
+  "disputedCount": 12,
+  "openDisputes": 4,
   "machineCheckedCount": 61,
   "crossCheckedCount": 100,
-  "unresolved": [ { "q": 77, "why": "blank printed stem" } ],
+  "unresolved": [ { "q": 90, "why": "options are printed drawings; held until the page can be reproduced" } ],
   "readyForOwnerReview": true
 }
 ```
+
+Three invariants a `Status` block must satisfy, and the ones the earlier example broke:
+
+```
+official + derived-verified + derived-provisional + disputed = questionCount
+eligibleCount + heldCount                                    = questionCount
+eligibleCount <= derived-verified      (only verified may ever be eligible)
+sum(heldReasons) = heldCount
+```
+
+While `scoring.ownerApprovedForScoring` is `false`, **`eligibleCount` is 0** — every item
+is held, most of them for `no-approved-tier`. The previous version of this example showed
+79 eligible out of 78 verified, which is impossible under these rules, and 21 holds
+against 14 provisional + 8 disputed = 22 items that could never be eligible.
 
 `readyForOwnerReview` is `true` when every question has a tier, every entry has an
 eligibility, and the counts match. It is **not** a claim that the key is correct —
