@@ -196,8 +196,9 @@ const drills = mockPaper.subjects
     // A composed mock is not a paper in the archive, so it is reopened
     // through the link that composed it.
     const isMock = Boolean(resume?.mockSpec);
+    const isQuiz = Boolean(resume?.quizSpec);
     const isPaper = Boolean(resume && /^jelet-et-p1-\d{4}$/.test(resume.paperId));
-    if (slot && resume && (isPaper || isMock)) {
+    if (slot && resume && (isPaper || isMock || isQuiz)) {
       const answered = Object.keys(resume.responses ?? {}).filter((key) => (resume.responses[key] ?? []).length > 0).length;
       const total = resume.questionIds?.length ?? 0;
       const when = new Date(resume.submittedAt ?? resume.updatedAt).toLocaleString();
@@ -217,9 +218,11 @@ const drills = mockPaper.subjects
       info.append(title, note);
       const link = document.createElement('a');
       link.className = 'btn small';
-      link.href = isMock
-        ? `${base}mock/run/?${resume.mockSpec}`
-        : `${base}practice/${paperSlug}/${resume.subjectKey ? `${resume.subjectKey}/` : ''}`;
+      link.href = isQuiz
+        ? `${base}quiz/?${resume.quizSpec}`
+        : isMock
+          ? `${base}mock/run/?${resume.mockSpec}`
+          : `${base}practice/${paperSlug}/${resume.subjectKey ? `${resume.subjectKey}/` : ''}`;
       link.textContent = resume.submittedAt ? 'Review this attempt' : 'Continue';
       const row = document.createElement('div');
       row.className = 'row-between';

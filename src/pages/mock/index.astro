@@ -98,6 +98,22 @@ const plan = {
         ))}
       </fieldset>
 
+      <fieldset class="field">
+        <legend>Which category</legend>
+        <label class="check">
+          <input type="radio" name="cat" value="both" checked data-mock-categories />
+          <span>Both <small>Category I and Category II, as a real paper</small></span>
+        </label>
+        <label class="check">
+          <input type="radio" name="cat" value="I" data-mock-categories />
+          <span>Category I only <small>one correct option, +1 or −¼</small></span>
+        </label>
+        <label class="check">
+          <input type="radio" name="cat" value="II" data-mock-categories />
+          <span>Category II only <small>one or more correct options, +2 with partial credit</small></span>
+        </label>
+      </fieldset>
+
       <label class="field">
         <span>How many questions</span>
         <input type="number" name="n" min="1" max={MAX_MOCK_QUESTIONS} value={spec.count} data-mock-count />
@@ -166,7 +182,7 @@ const plan = {
   <script type="application/json" id="mock-subjects" set:html={JSON.stringify(plan)} />
 
   <script>
-    import { PAPER_SUBJECTS, MAX_MOCK_QUESTIONS, composeMock, defaultSpec, withSpecId, type MockCandidate, type MockSpec } from '../../lib/mock';
+    import { PAPER_SUBJECTS, MAX_MOCK_QUESTIONS, composeMock, defaultSpec, resolveTopics, withSpecId, type MockCandidate, type MockSpec } from '../../lib/mock';
 
     const poolNode = document.querySelector<HTMLScriptElement>('#mock-pool');
     const topicsNode = document.querySelector<HTMLScriptElement>('#mock-topics');
@@ -200,15 +216,24 @@ const plan = {
       }
     };
 
+    /** Read a form field as a number, falling back when it is absent. */
+    const numberOf = (raw: FormDataEntryValue | null, fallback: number): number => {
+      if (raw === null || String(raw).trim() === '') return fallback;
+      const value = Number(raw);
+      return Number.isFinite(value) ? value : fallback;
+    };
+
     const readSpec = (): MockSpec => {
       const data = new FormData(form!);
       const subjects = data.getAll('s').map(String).filter(Boolean);
       const topicIds = data.getAll('t').map(String).filter(Boolean);
-      const count = Number(data.get('n') ?? '0');
+      // A field that is absent falls back to the default, not to zero.
+      const count = numberOf(data.get('n'), defaultSpec().count);
       const mix = data.get('m') === 'custom' ? 'custom' : 'paper';
-      const share = Number(data.get('c') ?? '0.85');
-      const minutes = Number(data.get('d') ?? '0');
-      const seed = Number(data.get('seed') ?? '0');
+      const categories = data.get('cat') === 'I' || data.get('cat') === 'II' ? data.get('cat') as 'I' | 'II' : 'both';
+      const share = numberOf(data.get('c'), 0.85);
+      const minutes = numberOf(data.get('d'), 0);
+      const seed = numberOf(data.get('seed'), 1);
       const avoid = data.getAll('v').pop() === '1';
       const awarded = data.getAll('w').pop() !== '0';
       const title = String(data.get('name') ?? '').trim();
@@ -216,13 +241,14 @@ const plan = {
         title: title || defaultSpec().title,
         subjects: (subjects.length > 0 ? subjects : PAPER_SUBJECTS.map((subject) => subject.key)) as MockSpec['subjects'],
         topics: topicIds,
-        count: Math.max(1, Math.min(MAX_MOCK_QUESTIONS, Math.round(count) || defaultSpec().count)),
+        count: Math.max(1, Math.min(MAX_MOCK_QUESTIONS, Math.round(count))),
         categoryMix: mix,
-        categoryIShare: Number.isFinite(share) ? Math.min(1, Math.max(0, share)) : 0.85,
-        durationMinutes: Math.max(0, Math.min(300, Math.round(minutes) || 0)),
+        categoryIShare: Math.min(1, Math.max(0, share)),
+        categories,
+        durationMinutes: Math.max(0, Math.min(300, Math.round(minutes))),
         avoidSeen: avoid,
         includeAwarded: awarded,
-        seed: Number.isFinite(seed) ? Math.abs(Math.round(seed)) % 100000 : 1,
+        seed: Math.abs(Math.round(seed)) % 100000,
       });
     };
 
@@ -299,8 +325,53 @@ const plan = {
       paint();
     });
 
+    /**
+     * Take the selection from the link.
+     *
+     * A deep link - from the plan, from the review desk, from a subject's
+     * notes - carries the subject, the topic and the length in the query
+     * string. The builder opens on that selection rather than on its own
+     * default, so the learner sees the set they were sent to.
+     */
+    const applyIncoming = () => {
+      const incoming = new URLSearchParams(window.location.search);
+      if (incoming.getAll('s').length === 0 && incoming.getAll('t').length === 0 && !incoming.get('n')) return;
+
+      const subjects = incoming.getAll('s').flatMap((value) => value.split(',')).filter(Boolean);
+      if (subjects.length > 0) {
+        form?.querySelectorAll<HTMLInputElement>('input[name="s"]').forEach((input) => {
+          input.checked = subjects.includes(input.value);
+        });
+      }
+
+      const topics = incoming.getAll('t').flatMap((value) => value.split(',')).filter(Boolean);
+      if (topics.length > 0) {
+        const wanted = new Set(resolveTopics(topics, subjects as MockSpec['subjects']));
+        form?.querySelectorAll<HTMLInputElement>('input[name="t"]').forEach((input) => {
+          if (wanted.has(input.value)) input.checked = true;
+        });
+      }
+
+      const count = Number(incoming.get('n'));
+      if (Number.isFinite(count) && count > 0 && countInput) countInput.value = String(count);
+
+      const category = incoming.get('cat');
+      if (category === 'I' || category === 'II') {
+        form?.querySelectorAll<HTMLInputElement>('input[name="cat"]').forEach((input) => {
+          input.checked = input.value === category;
+        });
+      }
+
+      const title = incoming.get('name');
+      if (title) {
+        const titleInput = form?.querySelector<HTMLInputElement>('input[name="name"]');
+        if (titleInput) titleInput.value = title.slice(0, 80);
+      }
+    };
+
     if (countInput) countInput.max = String(MAX_MOCK_QUESTIONS);
     if (durationInput) durationInput.value = String(defaultSpec().durationMinutes);
+    applyIncoming();
     paint();
   </script>
 </Site>

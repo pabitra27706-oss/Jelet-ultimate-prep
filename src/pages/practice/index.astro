@@ -103,6 +103,31 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
     })}
   </section>
 
+  <section style="margin-top:2rem" aria-labelledby="quiz-heading">
+    <div class="section-head">
+      <h2 id="quiz-heading">Notebook quiz</h2>
+      <span class="micro">Untimed · one question at a time · marked as you go</span>
+    </div>
+    <p class="lead" style="margin:.4rem 0 .8rem">
+      A quiz is not a paper. There is no clock and no navigator: you get one question, you check it, and the published
+      answer and the paper it came from are shown straight away. Your place is kept on this device, so you can stop and
+      come back.
+    </p>
+    <ul class="linklist">
+      {(['mathematics', 'physics', 'chemistry', 'electrical'] as SubjectKey[]).map((subject) => (
+        <li>
+          <a href={`${base}quiz/?s=${subject}&n=10`}>
+            <span>
+              <strong>{subjectLabels[subject]} · ten questions</strong>
+              <small>Marked as you answer them, with the paper each question came from</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
   <section style="margin-top:2rem" aria-labelledby="notes-heading">
     <div class="section-head">
       <h2 id="notes-heading">Revision notes</h2>

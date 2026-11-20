@@ -478,7 +478,7 @@ test('the review desk says where the mistakes are, and the reason tag is the lea
   const firstRow = await page.locator('#remediation-list tbody tr').first().textContent();
   assert.match(firstRow, /MATHEMATICS|PHYSICS|CHEMISTRY|FUNDAMENTALS/i, 'a topic of the syllabus is named');
   const drill = await page.locator('#remediation-list a').first().getAttribute('href');
-  assert.match(drill, /\/mock\/\?s=/, 'a drill can be built from the topic');
+  assert.match(drill, /\/quiz\/\?s=/, 'a drill can be built from the topic');
 
   // The reason tag is optional and it is the learner's own word.
   await page.waitForSelector('[data-reason-for] button');
@@ -502,6 +502,105 @@ test('the subject notes list the past questions of every topic with the learner\
   // the published one.
   const answered = await page.locator('[data-question-row] td:nth-child(5)').first().textContent();
   assert.ok(answered.trim().length > 0, 'the published answer is shown');
+});
+
+test('the quiz shows one question, marks it when you check it, and shows the paper it came from', async (t) => {
+  const page = await context(t);
+  await go(page, 'quiz/?s=mathematics&n=3');
+  await page.waitForSelector('[data-quiz-question] .qcard', { timeout: 15000 });
+
+  // A quiz is untimed: there is no clock and no navigator.
+  assert.equal(await page.locator('[data-runner]').count(), 0, 'a quiz is not a paper');
+  assert.match(await page.locator('[data-quiz-lead]').textContent(), /no time limit/);
+  assert.equal(await page.locator('[data-quiz-position]').textContent(), 'Question 1 of 3');
+
+  // The answer is marked only when the learner checks it.
+  await page.locator('[data-quiz-question] .opt[data-option]').first().click();
+  assert.equal(await page.locator('[data-quiz-feedback]').textContent(), '', 'nothing is said before the check');
+  await page.locator('[data-quiz-check]').click();
+  await page.waitForTimeout(150);
+  const feedback = await page.locator('[data-quiz-feedback]').textContent();
+  assert.match(feedback, /Key:/, 'the published key is shown');
+  assert.match(feedback, /read the question in the paper/, 'the paper it came from is one click away');
+  assert.ok(await page.locator('[data-quiz-question] .opt[data-state="correct"]').count() > 0, 'the right option is marked');
+
+  // The place is kept on the device.
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForSelector('[data-quiz-question] .qcard', { timeout: 15000 });
+  assert.equal(await page.locator('[data-quiz-progress]').textContent(), '1 of 3 checked');
+});
+
+test('the quiz marks the board\u2019s own way and files the wrong ones for revision', async (t) => {
+  const page = await context(t);
+  await go(page, 'quiz/?s=mathematics&n=3');
+  await page.waitForSelector('[data-quiz-question] .qcard', { timeout: 15000 });
+
+  // Answer every question wrongly on purpose.
+  for (let index = 0; index < 3; index += 1) {
+    const options = page.locator('[data-quiz-question] .opt[data-option]');
+    const count = await options.count();
+    for (let option = 0; option < count; option += 1) {
+      await options.nth(option).click();
+      await page.waitForTimeout(60);
+      if (await page.locator('[data-quiz-question] .opt[data-state="correct"]').count() > 0) {
+        await options.nth(option).click();
+        await page.waitForTimeout(60);
+        break;
+      }
+    }
+    await page.locator('[data-quiz-check]').click();
+    await page.waitForTimeout(120);
+    if (await page.locator('[data-quiz-next]').isVisible()) await page.locator('[data-quiz-next]').click();
+    else await page.locator('[data-quiz-finish]').click();
+    await page.waitForTimeout(120);
+  }
+  await page.waitForSelector('[data-quiz-result] .score-hero', { timeout: 15000 });
+  const hero = await page.locator('[data-quiz-result] .score-hero').textContent();
+  assert.match(hero, /3 wrong/, 'every wrong answer is counted');
+  assert.equal(await page.locator('[data-quiz-result] .result-row').count(), 3, 'every question is listed');
+
+  // The wrong questions wait for revision, filed under the paper that holds them.
+  const queue = await page.evaluate(() => JSON.parse(localStorage.getItem('jelet:review:v1') ?? '{"items":[]}'));
+  assert.equal(queue.items.length, 3, 'the three wrong questions are in the queue');
+  for (const item of queue.items) {
+    assert.match(item.paperId, /^jelet-et-p1-\d{4}$/, 'each is filed under the paper it came from');
+    assert.equal(item.lastStatus, 'wrong');
+  }
+
+  // And the plan now knows about the quiz.
+  await go(page, 'plan/');
+  await page.waitForSelector('#plan-list a', { timeout: 15000 });
+  const steps = (await page.locator('#plan-list a').allTextContents()).join(' | ');
+  assert.match(steps, /Revise 3 questions that are due/);
+});
+
+test('a quiz of a topic says so, and the builder opens on the set the link asked for', async (t) => {
+  const page = await context(t);
+  await go(page, 'quiz/?s=physics&t=t01&n=2');
+  await page.waitForSelector('[data-quiz-question] .qcard', { timeout: 15000 });
+  assert.equal(await page.locator('[data-quiz-position]').textContent(), 'Question 1 of 2');
+  const chips = await page.locator('[data-quiz-chips]').innerText();
+  assert.match(chips, /2 questions/);
+
+  // The mock builder opens on the selection the link carries.
+  await go(page, 'mock/?s=chemistry&n=12');
+  await page.waitForSelector('[data-mock-plan-questions]', { state: 'attached', timeout: 15000 });
+  assert.equal(await page.locator('input[name="s"][value="chemistry"]').isChecked(), true, 'the subject is chosen');
+  assert.equal(await page.locator('input[name="s"][value="mathematics"]').isChecked(), false, 'the other subjects are not');
+  assert.equal(await page.locator('[data-mock-count]').inputValue(), '12');
+  let rows = await page.locator('[data-mock-plan-questions] tbody tr').count();
+  assert.equal(rows, 12, 'the plan is the set that was asked for');
+  let subjects = await page.locator('[data-mock-plan-questions] tbody tr td:nth-child(2)').allTextContents();
+  assert.deepEqual([...new Set(subjects.map((name) => name.toUpperCase()))], ['CHEMISTRY'], 'every planned question is from the subject that was asked for');
+
+  // A topic in the link narrows the plan to that topic.
+  await go(page, 'mock/?s=chemistry&t=tb&n=12');
+  await page.waitForSelector('[data-mock-plan-questions]', { state: 'attached', timeout: 15000 });
+  assert.equal(await page.locator('input[name="t"][value="chemistry-tb"]').isChecked(), true, 'the topic is chosen');
+  rows = await page.locator('[data-mock-plan-questions] tbody tr').count();
+  assert.ok(rows < 12, 'the plan is narrowed by the topic');
+  const topics = await page.locator('[data-mock-plan-questions] tbody tr td:nth-child(6)').allTextContents();
+  assert.ok(topics.every((name) => name.includes('Chemical Bonding')), 'every planned question is from that topic');
 });
 
 test('the printed companion prints an answer sheet in the booklet order and a ledger', async (t) => {

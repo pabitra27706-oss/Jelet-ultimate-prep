@@ -155,14 +155,16 @@ const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestio
       }
 
       // One lesson: the one that teaches the topic the learner keeps missing.
-      const lesson = (weak ? lessons.find((entry) => entry.topicId === weak.topicId) : undefined)
-        ?? lessons.find((entry) => entry.topicId.length > 0)
-        ?? lessons[0];
+      // The claim about the topic is only made when the lesson really teaches
+      // that topic - a plan must not tell a learner that a lesson on parallel
+      // circuits covers coordinate geometry.
+      const matching = weak ? lessons.find((entry) => entry.topicId === weak.topicId) : undefined;
+      const lesson = matching ?? lessons.find((entry) => entry.topicId.length > 0) ?? lessons[0];
       if (lesson) {
         steps.push({
           title: `Read one lesson: ${lesson.title}`,
-          detail: weak
-            ? `${weak.topicName} is where your mistakes concentrate, and this lesson teaches it.`
+          detail: matching
+            ? `${weak?.topicName} is where your mistakes concentrate, and this lesson teaches it.`
             : lesson.summary,
           href: `${base}learn/${lesson.id}/`,
           minutes: lesson.minutes,
@@ -175,7 +177,7 @@ const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestio
         steps.push({
           title: 'Do two problems on the topic you keep missing',
           detail: `${weak.topicName}: ${weak.wrong} wrong and ${weak.blank} blank so far.`,
-          href: `${base}mock/?s=${weak.subjectKey}&t=${encodeURIComponent(weak.topicCode)}&n=2`,
+          href: `${base}quiz/?s=${weak.subjectKey}&t=${encodeURIComponent(weak.topicCode)}&n=2`,
           minutes: 4,
           kind: 'problems',
         });
@@ -183,7 +185,7 @@ const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestio
         steps.push({
           title: 'Do two problems',
           detail: 'Nothing is wrong yet, so take two from the questions you have not met.',
-          href: `${base}mock/?n=2`,
+          href: `${base}quiz/?n=2`,
           minutes: 4,
           kind: 'problems',
         });
@@ -191,9 +193,11 @@ const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestio
 
       // One repeat: the last paper that still holds mistakes.
       if (lastAttempt && lastWrong > 0) {
-        const retry = lastAttempt.mockSpec
-          ? `${base}mock/run/?${lastAttempt.mockSpec}&retry=${encodeURIComponent(lastAttempt.id)}`
-          : `${base}practice/${lastAttempt.paperId}/${lastAttempt.subjectKey ? `${lastAttempt.subjectKey}/` : ''}?retry=${encodeURIComponent(lastAttempt.id)}`;
+        const retry = lastAttempt.quizSpec
+          ? `${base}quiz/?${lastAttempt.quizSpec}&retry=${encodeURIComponent(lastAttempt.id)}`
+          : lastAttempt.mockSpec
+            ? `${base}mock/run/?${lastAttempt.mockSpec}&retry=${encodeURIComponent(lastAttempt.id)}`
+            : `${base}practice/${lastAttempt.paperId}/${lastAttempt.subjectKey ? `${lastAttempt.subjectKey}/` : ''}?retry=${encodeURIComponent(lastAttempt.id)}`;
         steps.push({
           title: `Repeat the ${lastWrong} you got wrong`,
           detail: `From ${lastAttempt.paperLabel}. Your first answers are kept; the repeat is a new attempt.`,

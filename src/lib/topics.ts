@@ -13,8 +13,16 @@
  */
 import { syllabus, type SubjectKey } from './content.ts';
 
-/** The shape of a topic reference. */
-export const TOPIC_REFERENCE = /^jelet-syllabus:([a-z]+):t(\d{2})$/;
+/**
+ * The shape of a topic reference.
+ *
+ * A topic's code inside its subject is either two digits (`t04`, as physics
+ * and electrical are numbered) or one letter (`ta`, as mathematics and
+ * chemistry are lettered). Both are accepted, because the syllabus is the
+ * authority for which is which and a subject must not be excluded from
+ * having a lesson because of how it is numbered.
+ */
+export const TOPIC_REFERENCE = /^jelet-syllabus:([a-z]+):t(\d{2}|[a-z])$/;
 
 /** The subjects the syllabus holds, in the order the paper sets them. */
 export const syllabusSubjects = syllabus.subjects;

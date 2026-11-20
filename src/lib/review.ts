@@ -136,6 +136,9 @@ export function applyAttemptToQueue(items: ReviewItem[], results: QueueInput[]):
       correctStreak: passed ? (existing?.correctStreak ?? 0) + 1 : 0,
       lastStatus: result.status,
       lastAt: now,
+      // The learner's own reason survives a new attempt: it is their note,
+      // not a mark, and nothing in the marking of a fresh attempt erases it.
+      reason: existing?.reason ?? null,
     };
     byId.set(result.questionId, item);
   }

@@ -6,7 +6,7 @@
  * still gets a working session, and is told plainly that nothing was saved.
  */
 
-export type AttemptMode = 'mock' | 'drill';
+export type AttemptMode = 'mock' | 'drill' | 'quiz';
 
 export type AttemptItemResult = {
   questionId: string;
@@ -74,6 +74,13 @@ export type Attempt = {
    * the dashboard can reopen the same mock.
    */
   mockSpec?: string | null;
+  /**
+   * The specification of a notebook quiz, when this attempt is one.
+   *
+   * A quiz is not a paper and not a mock, so it keeps its own link: the only
+   * way back to it is the specification that composed it.
+   */
+  quizSpec?: string | null;
   /**
    * The paper each question of a composed mock came from.
    *

@@ -130,7 +130,7 @@ const topicQuestionIds = Object.fromEntries(chapters.map((chapter) => [chapter.i
         {chapter.lesson && (
           <a class="btn small" href={`${base}learn/${chapter.lesson.id}/`}>Open the lesson · {chapter.lesson.minutes} min</a>
         )}
-        <a class="btn small ghost" href={`${base}mock/?s=${subject}&t=${encodeURIComponent(chapter.code)}&n=10`}>Ten questions on this topic</a>
+        <a class="btn small ghost" href={`${base}quiz/?s=${subject}&t=${encodeURIComponent(chapter.code)}&n=10`}>Ten questions on this topic</a>
       </div>
 
       {chapter.questions.length === 0 ? (

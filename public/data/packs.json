@@ -14,7 +14,7 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 13165
+          "bytes": 14691
         },
         {
           "path": "library/index.html",
@@ -81,7 +81,7 @@
           "bytes": 35975
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.BWLTh-f_.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
           "bytes": 100
         },
         {
@@ -89,28 +89,24 @@
           "bytes": 1765
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.B0sM0dEY.js",
-          "bytes": 4044
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
           "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BXMwGsrj.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BU9M3PQe.js",
+          "bytes": 9773
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BYpFYT2N.js",
-          "bytes": 7744
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CSzaNN5Z.js",
-          "bytes": 2851
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D1BoRV_2.js",
-          "bytes": 5201
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
@@ -121,36 +117,52 @@
           "bytes": 6438
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_1_lang.crMayYdT.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock.Yk6dQ8fn.js",
-          "bytes": 6088
+          "path": "_astro/mock-client.BHBpR0M0.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.C1Gx-1VA.js",
+          "bytes": 6496
         },
         {
           "path": "_astro/progress.R2RM7ZQR.js",
           "bytes": 774
         },
         {
-          "path": "_astro/remediation.DEwpSUkR.js",
+          "path": "_astro/remediation.BdcnZp3c.js",
           "bytes": 1021
         },
         {
-          "path": "_astro/review.MO2vO_s6.js",
-          "bytes": 1779
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.C8bSMDbP.js",
-          "bytes": 4640
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "bytes": 2177
         },
         {
-          "path": "_astro/runner.PbqkiYV6.js",
-          "bytes": 16595
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
         },
         {
           "path": "_astro/stats.CfOC_cHw.js",
@@ -249,7 +261,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3295835,
+      "bytes": 3308836,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -265,7 +277,7 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 13165
+          "bytes": 14691
         },
         {
           "path": "library/index.html",
@@ -332,7 +344,7 @@
           "bytes": 35975
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.BWLTh-f_.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
           "bytes": 100
         },
         {
@@ -340,28 +352,24 @@
           "bytes": 1765
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.B0sM0dEY.js",
-          "bytes": 4044
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
           "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BXMwGsrj.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BU9M3PQe.js",
+          "bytes": 9773
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BYpFYT2N.js",
-          "bytes": 7744
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CSzaNN5Z.js",
-          "bytes": 2851
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D1BoRV_2.js",
-          "bytes": 5201
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
@@ -372,36 +380,52 @@
           "bytes": 6438
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_1_lang.crMayYdT.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock.Yk6dQ8fn.js",
-          "bytes": 6088
+          "path": "_astro/mock-client.BHBpR0M0.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.C1Gx-1VA.js",
+          "bytes": 6496
         },
         {
           "path": "_astro/progress.R2RM7ZQR.js",
           "bytes": 774
         },
         {
-          "path": "_astro/remediation.DEwpSUkR.js",
+          "path": "_astro/remediation.BdcnZp3c.js",
           "bytes": 1021
         },
         {
-          "path": "_astro/review.MO2vO_s6.js",
-          "bytes": 1779
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.C8bSMDbP.js",
-          "bytes": 4640
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "bytes": 2177
         },
         {
-          "path": "_astro/runner.PbqkiYV6.js",
-          "bytes": 16595
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
         },
         {
           "path": "_astro/stats.CfOC_cHw.js",
@@ -500,7 +524,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 2832982,
+      "bytes": 2845983,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -516,7 +540,7 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 13165
+          "bytes": 14691
         },
         {
           "path": "library/index.html",
@@ -583,7 +607,7 @@
           "bytes": 35975
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.BWLTh-f_.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
           "bytes": 100
         },
         {
@@ -591,28 +615,24 @@
           "bytes": 1765
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.B0sM0dEY.js",
-          "bytes": 4044
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
           "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BXMwGsrj.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BU9M3PQe.js",
+          "bytes": 9773
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BYpFYT2N.js",
-          "bytes": 7744
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CSzaNN5Z.js",
-          "bytes": 2851
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D1BoRV_2.js",
-          "bytes": 5201
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
@@ -623,36 +643,52 @@
           "bytes": 6438
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_1_lang.crMayYdT.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock.Yk6dQ8fn.js",
-          "bytes": 6088
+          "path": "_astro/mock-client.BHBpR0M0.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.C1Gx-1VA.js",
+          "bytes": 6496
         },
         {
           "path": "_astro/progress.R2RM7ZQR.js",
           "bytes": 774
         },
         {
-          "path": "_astro/remediation.DEwpSUkR.js",
+          "path": "_astro/remediation.BdcnZp3c.js",
           "bytes": 1021
         },
         {
-          "path": "_astro/review.MO2vO_s6.js",
-          "bytes": 1779
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.C8bSMDbP.js",
-          "bytes": 4640
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "bytes": 2177
         },
         {
-          "path": "_astro/runner.PbqkiYV6.js",
-          "bytes": 16595
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
         },
         {
           "path": "_astro/stats.CfOC_cHw.js",
@@ -751,7 +787,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3413072,
+      "bytes": 3426073,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -767,7 +803,7 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 13165
+          "bytes": 14691
         },
         {
           "path": "library/index.html",
@@ -806,7 +842,7 @@
           "bytes": 7784
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.BWLTh-f_.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
           "bytes": 100
         },
         {
@@ -814,28 +850,24 @@
           "bytes": 1765
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.B0sM0dEY.js",
-          "bytes": 4044
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
           "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BXMwGsrj.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BU9M3PQe.js",
+          "bytes": 9773
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BYpFYT2N.js",
-          "bytes": 7744
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CSzaNN5Z.js",
-          "bytes": 2851
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D1BoRV_2.js",
-          "bytes": 5201
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
@@ -846,36 +878,52 @@
           "bytes": 6438
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_1_lang.crMayYdT.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock.Yk6dQ8fn.js",
-          "bytes": 6088
+          "path": "_astro/mock-client.BHBpR0M0.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.C1Gx-1VA.js",
+          "bytes": 6496
         },
         {
           "path": "_astro/progress.R2RM7ZQR.js",
           "bytes": 774
         },
         {
-          "path": "_astro/remediation.DEwpSUkR.js",
+          "path": "_astro/remediation.BdcnZp3c.js",
           "bytes": 1021
         },
         {
-          "path": "_astro/review.MO2vO_s6.js",
-          "bytes": 1779
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.C8bSMDbP.js",
-          "bytes": 4640
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "bytes": 2177
         },
         {
-          "path": "_astro/runner.PbqkiYV6.js",
-          "bytes": 16595
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
         },
         {
           "path": "_astro/stats.CfOC_cHw.js",
@@ -974,14 +1022,14 @@
           "bytes": 13568
         }
       ],
-      "bytes": 957924,
+      "bytes": 970925,
       "offlineComplete": true,
       "onlineOnly": []
     },
     {
       "id": "mock-builder",
       "title": "Mock builder · the whole corpus",
-      "summary": "Compose a mock from every question the archive preserves, with the answer keys, and sit it with no connection.",
+      "summary": "Compose a mock or a notebook quiz from every question the archive preserves, with the answer keys, and sit it with no connection.",
       "version": "2026.11.19-phase06",
       "files": [
         {
@@ -990,7 +1038,7 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 13165
+          "bytes": 14691
         },
         {
           "path": "library/index.html",
@@ -1022,11 +1070,15 @@
         },
         {
           "path": "mock/index.html",
-          "bytes": 75150
+          "bytes": 75748
         },
         {
           "path": "mock/run/index.html",
           "bytes": 7161
+        },
+        {
+          "path": "quiz/index.html",
+          "bytes": 7531
         },
         {
           "path": "data/keys.json",
@@ -1049,7 +1101,7 @@
           "bytes": 80138
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.BWLTh-f_.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
           "bytes": 100
         },
         {
@@ -1057,28 +1109,24 @@
           "bytes": 1765
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.B0sM0dEY.js",
-          "bytes": 4044
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
           "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BXMwGsrj.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BU9M3PQe.js",
+          "bytes": 9773
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BYpFYT2N.js",
-          "bytes": 7744
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CSzaNN5Z.js",
-          "bytes": 2851
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D1BoRV_2.js",
-          "bytes": 5201
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
@@ -1089,36 +1137,52 @@
           "bytes": 6438
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_1_lang.crMayYdT.js",
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock.Yk6dQ8fn.js",
-          "bytes": 6088
+          "path": "_astro/mock-client.BHBpR0M0.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.C1Gx-1VA.js",
+          "bytes": 6496
         },
         {
           "path": "_astro/progress.R2RM7ZQR.js",
           "bytes": 774
         },
         {
-          "path": "_astro/remediation.DEwpSUkR.js",
+          "path": "_astro/remediation.BdcnZp3c.js",
           "bytes": 1021
         },
         {
-          "path": "_astro/review.MO2vO_s6.js",
-          "bytes": 1779
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.C8bSMDbP.js",
-          "bytes": 4640
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "bytes": 2177
         },
         {
-          "path": "_astro/runner.PbqkiYV6.js",
-          "bytes": 16595
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
         },
         {
           "path": "_astro/stats.CfOC_cHw.js",
@@ -1217,7 +1281,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3122052,
+      "bytes": 3143182,
       "offlineComplete": true,
       "onlineOnly": []
     }

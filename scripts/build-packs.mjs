@@ -104,10 +104,11 @@ const PACK_DEFINITIONS = [
   {
     id: 'mock-builder',
     title: 'Mock builder · the whole corpus',
-    summary: 'Compose a mock from every question the archive preserves, with the answer keys, and sit it with no connection.',
+    summary: 'Compose a mock or a notebook quiz from every question the archive preserves, with the answer keys, and sit it with no connection.',
     routes: [
       'mock/index.html',
       'mock/run/index.html',
+      'quiz/index.html',
     ],
     data: [
       'data/keys.json',

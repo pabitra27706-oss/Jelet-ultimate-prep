@@ -48,6 +48,9 @@ export const MAX_MOCK_QUESTIONS = 100;
 
 export type CategoryMix = 'paper' | 'custom';
 
+/** Which of the two categories a set may draw from. */
+export type CategoryFilter = 'both' | 'I' | 'II';
+
 export type MockSpec = {
   /** Stable id derived from the selection, so the same mock resumes. */
   id: string;
@@ -60,6 +63,8 @@ export type MockSpec = {
   count: number;
   /** How the two categories are mixed. */
   categoryMix: CategoryMix;
+  /** Which categories the set may draw from at all. */
+  categories: CategoryFilter;
   /** The Category I share when the mix is custom, between 0 and 1. */
   categoryIShare: number;
   /** Minutes allowed. Zero means untimed. */
@@ -71,6 +76,31 @@ export type MockSpec = {
   /** The seed of the shuffle. The same seed composes the same paper. */
   seed: number;
 };
+
+/**
+ * Resolve the topics a link asked for.
+ *
+ * A link may name a topic by its id (`mathematics-t04`) or by its code
+ * (`t04`), because the code is what a person reads and the id is what the
+ * corpus carries. A bare code is resolved inside each chosen subject, so a
+ * link written for one subject never silently draws from another.
+ */
+export function resolveTopics(topics: readonly string[], subjects: readonly SubjectKey[]): string[] {
+  const resolved = new Set<string>();
+  for (const topic of topics) {
+    const value = topic.trim();
+    if (!value) continue;
+    if (value.includes('-')) {
+      resolved.add(value);
+      continue;
+    }
+    // A topic code is two digits (`t04`) or one letter (`ta`), matching the
+    // way the syllabus numbers its subjects.
+    if (!/^t(?:\d{2}|[a-z])$/.test(value)) continue;
+    for (const subject of subjects) resolved.add(`${subject}-${value}`);
+  }
+  return [...resolved];
+}
 
 /**
  * One question the mock may draw.
@@ -186,6 +216,7 @@ function specHash(spec: Omit<MockSpec, 'id'>): string {
     spec.count,
     spec.categoryMix,
     spec.categoryIShare,
+    spec.categories,
     spec.durationMinutes,
     spec.avoidSeen,
     spec.includeAwarded,
@@ -213,6 +244,7 @@ export function defaultSpec(): MockSpec {
     count: 40,
     categoryMix: 'paper',
     categoryIShare: PAPER_CATEGORY_I_SHARE,
+    categories: 'both',
     durationMinutes: 60,
     avoidSeen: false,
     includeAwarded: true,
@@ -265,6 +297,7 @@ export function encodeSpec(spec: MockSpec): string {
   params.set('n', String(spec.count));
   params.set('m', spec.categoryMix);
   if (spec.categoryMix === 'custom') params.set('c', spec.categoryIShare.toFixed(3));
+  if (spec.categories !== 'both') params.set('cat', spec.categories);
   params.set('d', String(spec.durationMinutes));
   if (spec.avoidSeen) params.set('v', '1');
   if (!spec.includeAwarded) params.set('w', '0');
@@ -296,26 +329,39 @@ export function decodeSpec(search: string | URLSearchParams): MockSpec {
     return all.length > 0 ? all[all.length - 1] : null;
   };
 
+  // A parameter that is absent is absent. Number(null) is zero, which would
+  // silently turn a link without a length into a one-question set and a link
+  // without a share into no Category I at all.
+  const number = (name: string): number | null => {
+    const raw = params.get(name);
+    if (raw === null || raw.trim() === '') return null;
+    const value = Number(raw);
+    return Number.isFinite(value) ? value : null;
+  };
+
   const subjects = list('s').filter((value): value is SubjectKey => PAPER_SUBJECTS.some((subject) => subject.key === value));
-  const topics = list('t');
-  const count = Number(params.get('n'));
-  const minutes = Number(params.get('d'));
-  const share = Number(params.get('c'));
-  const seed = Number(params.get('seed'));
+  const chosenSubjects = subjects.length > 0 ? subjects : defaultSpec().subjects;
+  const topics = resolveTopics(list('t'), chosenSubjects);
+  const count = number('n');
+  const minutes = number('d');
+  const share = number('c');
+  const seed = number('seed');
   const mix = params.get('m');
+  const cat = params.get('cat');
   const title = params.get('name');
 
   return withSpecId({
     title: title && title.trim() ? title.trim().slice(0, 80) : defaultSpec().title,
-    subjects: subjects.length > 0 ? subjects : defaultSpec().subjects,
+    subjects: chosenSubjects,
     topics,
-    count: Number.isFinite(count) ? Math.max(1, Math.min(MAX_MOCK_QUESTIONS, Math.round(count))) : defaultSpec().count,
+    count: count !== null ? Math.max(1, Math.min(MAX_MOCK_QUESTIONS, Math.round(count))) : defaultSpec().count,
     categoryMix: mix === 'custom' ? 'custom' : 'paper',
-    categoryIShare: Number.isFinite(share) ? Math.min(1, Math.max(0, share)) : PAPER_CATEGORY_I_SHARE,
-    durationMinutes: Number.isFinite(minutes) ? Math.max(0, Math.min(300, Math.round(minutes))) : defaultSpec().durationMinutes,
+    categories: cat === 'I' || cat === 'II' ? cat : 'both',
+    categoryIShare: share !== null ? Math.min(1, Math.max(0, share)) : PAPER_CATEGORY_I_SHARE,
+    durationMinutes: minutes !== null ? Math.max(0, Math.min(300, Math.round(minutes))) : defaultSpec().durationMinutes,
     avoidSeen: last('v') === '1',
     includeAwarded: last('w') !== '0',
-    seed: Number.isFinite(seed) ? Math.abs(Math.round(seed)) % 100000 : defaultSpec().seed,
+    seed: seed !== null ? Math.abs(Math.round(seed)) % 100000 : defaultSpec().seed,
   });
 }
 
@@ -349,6 +395,8 @@ export function composeMock(
   const answered = new Set(answeredIds);
   const pool = candidates.filter((candidate) => {
     if (!subjectKeys.includes(candidate.subjectKey)) return false;
+    // A set that may only draw from one category never mixes them.
+    if (spec.categories !== 'both' && candidate.category !== spec.categories) return false;
     if (spec.topics.length > 0 && !candidate.topicIds.some((topic) => spec.topics.includes(topic))) return false;
     // A board-voided question is not held: the board awarded its marks to
     // every candidate, so it carries marks and it can be marked.
