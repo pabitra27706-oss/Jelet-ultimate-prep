@@ -162,7 +162,9 @@ for (const paper of papers) {
           actions.style.marginTop = '.5rem';
           const link = document.createElement('a');
           link.className = 'btn small ghost';
-          link.href = `${base}library/jelet-et-p1-${item.paperYear}/#q${item.n}`;
+          // The paper the question actually came from. A composed mock draws
+          // from several papers, and each question is filed under its own.
+          link.href = `${base}library/${item.paperId}/#q${item.n}`;
           link.textContent = 'Open the question';
           const right = document.createElement('button');
           right.className = 'btn small';
@@ -228,7 +230,11 @@ for (const paper of papers) {
           if (attempt.submittedAt) {
             const open = document.createElement('a');
             open.className = 'btn small ghost';
-            open.href = `${base}practice/${attempt.paperId}/${attempt.subjectKey ? `${attempt.subjectKey}/` : ''}?retry=${encodeURIComponent(attempt.id)}`;
+            // A composed mock is not a paper in the archive, so the only way
+            // back to it is the link that composed it.
+            open.href = attempt.mockSpec
+              ? `${base}mock/run/?${attempt.mockSpec}&retry=${encodeURIComponent(attempt.id)}`
+              : `${base}practice/${attempt.paperId}/${attempt.subjectKey ? `${attempt.subjectKey}/` : ''}?retry=${encodeURIComponent(attempt.id)}`;
             open.textContent = 'Repeat the wrong ones';
             actions.append(open);
           }

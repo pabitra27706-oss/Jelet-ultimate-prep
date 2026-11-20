@@ -101,6 +101,23 @@ const PACK_DEFINITIONS = [
     data: [],
     onlineOnly: [],
   },
+  {
+    id: 'mock-builder',
+    title: 'Mock builder · the whole corpus',
+    summary: 'Compose a mock from every question the archive preserves, with the answer keys, and sit it with no connection.',
+    routes: [
+      'mock/index.html',
+      'mock/run/index.html',
+    ],
+    data: [
+      'data/keys.json',
+      'data/mock-pool/mathematics.json',
+      'data/mock-pool/physics.json',
+      'data/mock-pool/chemistry.json',
+      'data/mock-pool/electrical.json',
+    ],
+    onlineOnly: [],
+  },
 ];
 
 /** The assets every pack needs: the shell, the maths renderer and its fonts. */

@@ -29,6 +29,20 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
       <span class="micro">Same clock, same marks, same rules.</span>
     </div>
     <div class="card-grid">
+      <div class="card-flat">
+        <div class="row-between" style="align-items:flex-start">
+          <div>
+            <strong>Your own mock</strong>
+            <div class="micro">
+              Choose the subjects, the topics, the length, the category mix and the clock. The questions come from the
+              same previous-year papers, and the marking is the board's own.
+            </div>
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:.6rem">
+          <a class="btn small" href={`${base}mock/`}>Build a mock</a>
+        </div>
+      </div>
       {keyed.map((paper) => (
         <div class="card-flat">
           <div class="row-between" style="align-items:flex-start">
@@ -163,7 +177,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
       for (const item of due.slice(0, 6)) {
         const li = document.createElement('li');
         const link = document.createElement('a');
-        link.href = `${base}library/jelet-et-p1-${item.paperYear}/#q${item.n}`;
+        link.href = `${base}library/${item.paperId}/#q${item.n}`;
         const span = document.createElement('span');
         const strong = document.createElement('strong');
         strong.textContent = `${item.paperYear} · Q${item.n}`;

@@ -26,9 +26,38 @@ export type RunnerConfig = {
   base: string;
   /** When set, only the wrong or blank items of that earlier attempt are repeated. */
   retryAttemptId?: string | null;
+  /**
+   * Where the "repeat the wrong ones" button goes.
+   *
+   * A paper rehearsal repeats itself. A composed mock repeats the mock, so
+   * the route is supplied rather than derived from the paper id.
+   */
+  retryPath?: string | null;
+  /**
+   * The paper each question came from, by question id.
+   *
+   * A mock draws from several previous-year papers, so the review queue has
+   * to know which paper each question belongs to. Without this, a wrong
+   * question from 2024 would be filed under the mock and the learner would be
+   * sent to a page that does not hold it.
+   */
+  sources?: Record<string, { paperId: string; year: number; n: number }> | null;
+  /**
+   * The specification of a composed mock, kept on the attempt so the review
+   * desk can reopen the same mock.
+   */
+  mockSpec?: string | null;
 };
 
 type KeyEntry = { key: string[]; tier: string; voided: boolean; reasoning?: string };
+
+/**
+ * A scored item, with the paper it came from.
+ *
+ * A full paper needs no source: it is the paper. A composed mock draws from
+ * several, and the learner is told which one each question belongs to.
+ */
+type RunnerItem = ScoredItem & { sourcePaperId: string; sourceYear: number; sourceN: number };
 
 const readKeyFile = async (url: string): Promise<Record<string, KeyEntry>> => {
   const response = await fetch(url, { headers: { Accept: 'application/json' } });
@@ -37,13 +66,56 @@ const readKeyFile = async (url: string): Promise<Record<string, KeyEntry>> => {
   return data.keys ?? {};
 };
 
+/**
+ * Read the runner's settings off the page.
+ *
+ * The shell of the runner is rendered by one component, so the full paper and
+ * the composed mock describe themselves in exactly the same way. Anything the
+ * page cannot know in advance — the questions a mock composed, where each of
+ * them came from — is passed in as an override.
+ */
+export function readRunnerConfig(root: HTMLElement, overrides: Partial<RunnerConfig> = {}): RunnerConfig {
+  const scope = root.dataset.scope ?? 'full';
+  const retryAttemptId = new URLSearchParams(window.location.search).get('retry');
+  const questionIds = [...root.querySelectorAll<HTMLElement>('.pane[data-question]')].map((node) => node.dataset.question ?? '');
+  const paperId = root.dataset.paper ?? '';
+  return {
+    attemptId: attemptIdOf(paperId, root.dataset.attemptScope ?? scope, retryAttemptId),
+    paperId,
+    paperYear: Number(root.dataset.paperYear ?? '0'),
+    paperLabel: root.dataset.paperLabel ?? '',
+    title: root.dataset.title ?? '',
+    mode: (root.dataset.mode as 'mock' | 'drill') ?? 'mock',
+    subjectKey: root.dataset.subjectKey || null,
+    subjectLabel: root.dataset.subjectLabel || null,
+    limitSeconds: root.dataset.limitSeconds ? Number(root.dataset.limitSeconds) : null,
+    questionIds,
+    scopeMarks: Number(root.dataset.scopeMarks ?? '0'),
+    scopeQuestions: Number(root.dataset.scopeQuestions ?? String(questionIds.length)),
+    keysUrl: root.dataset.keysUrl ?? '/data/keys.json',
+    base: root.dataset.base ?? '/',
+    retryAttemptId,
+    retryPath: root.dataset.retryPath || null,
+    ...overrides,
+  };
+}
+
+/** Stable id for one set, so a resumed session keeps its own history. */
+function attemptIdOf(paperId: string, scope: string, retryAttemptId: string | null): string {
+  return `${paperId}::${retryAttemptId ? `${scope}::retry-${retryAttemptId}` : scope}`;
+}
+
 const readQuestionMeta = (root: ParentNode) => {
-  const meta = new Map<string, { n: number; category: 'I' | 'II'; marks: number; subjectKey: string; subject: string; stem: string; voided: boolean }>();
+  const meta = new Map<string, { n: number; position: number; category: 'I' | 'II'; marks: number; subjectKey: string; subject: string; stem: string; voided: boolean; sourcePaperId: string; sourceYear: number; sourceN: number }>();
   root.querySelectorAll<HTMLElement>('.pane[data-question]').forEach((node) => {
     const id = node.dataset.question;
     if (!id) return;
+    const sourcePaperId = node.dataset.sourcePaper ?? '';
+    const sourceYear = Number(node.dataset.sourceYear ?? '0');
+    const sourceN = Number(node.dataset.sourceN ?? node.dataset.n ?? '0');
     meta.set(id, {
       n: Number(node.dataset.n ?? '0'),
+      position: Number(node.dataset.position ?? node.dataset.n ?? '0'),
       category: (node.dataset.category === 'II' ? 'II' : 'I'),
       marks: Number(node.dataset.marks ?? '1'),
       subjectKey: node.dataset.subjectKey ?? 'other',
@@ -52,13 +124,18 @@ const readQuestionMeta = (root: ParentNode) => {
       // The board voided this item: it awarded the marks to every candidate,
       // so the runner marks it for the learner and never asks for an answer.
       voided: node.dataset.voided === 'true',
+      // Where this question came from. A composed mock draws from several
+      // papers, so the source is recorded per question rather than per set.
+      sourcePaperId,
+      sourceYear,
+      sourceN,
     });
   });
   return meta;
 };
 
-export function initRunner(config: RunnerConfig): void {
-  const root = document.querySelector<HTMLElement>('[data-runner]');
+export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | null): void {
+  const root = rootOverride ?? document.querySelector<HTMLElement>('[data-runner]');
   if (!root) return;
   const container = root;
 
@@ -84,19 +161,19 @@ export function initRunner(config: RunnerConfig): void {
   let visited: string[] = [];
   let assisted: string[] = [];
 
-  const storageNote = document.querySelector<HTMLElement>('[data-runner-storage]');
-  const timerNode = document.querySelector<HTMLElement>('[data-runner-timer]');
-  const progressNode = document.querySelector<HTMLElement>('[data-runner-progress-text]');
-  const progressBar = document.querySelector<HTMLElement>('[data-runner-progress-bar]');
-  const submitButton = document.querySelector<HTMLButtonElement>('[data-runner-submit]');
-  const clearButton = document.querySelector<HTMLButtonElement>('[data-runner-clear]');
-  const resultsNode = document.querySelector<HTMLElement>('[data-runner-results]');
-  const paperNode = document.querySelector<HTMLElement>('[data-runner-paper]');
-  const navigatorNode = document.querySelector<HTMLElement>('[data-runner-nav]');
-  const markButton = document.querySelector<HTMLButtonElement>('[data-runner-mark]');
-  const navPanel = document.querySelector<HTMLElement>('[data-runner-navpanel]');
-  const navToggle = document.querySelector<HTMLButtonElement>('[data-runner-navtoggle]');
-  const announce = document.querySelector<HTMLElement>('[data-runner-announce]');
+  const storageNote = root.querySelector<HTMLElement>('[data-runner-storage]');
+  const timerNode = root.querySelector<HTMLElement>('[data-runner-timer]');
+  const progressNode = root.querySelector<HTMLElement>('[data-runner-progress-text]');
+  const progressBar = root.querySelector<HTMLElement>('[data-runner-progress-bar]');
+  const submitButton = root.querySelector<HTMLButtonElement>('[data-runner-submit]');
+  const clearButton = root.querySelector<HTMLButtonElement>('[data-runner-clear]');
+  const resultsNode = root.querySelector<HTMLElement>('[data-runner-results]');
+  const paperNode = root.querySelector<HTMLElement>('[data-runner-paper]');
+  const navigatorNode = root.querySelector<HTMLElement>('[data-runner-nav]');
+  const markButton = root.querySelector<HTMLButtonElement>('[data-runner-mark]');
+  const navPanel = root.querySelector<HTMLElement>('[data-runner-navpanel]');
+  const navToggle = root.querySelector<HTMLButtonElement>('[data-runner-navtoggle]');
+  const announce = root.querySelector<HTMLElement>('[data-runner-announce]');
 
   /* ---------------- attempt state ---------------- */
 
@@ -135,6 +212,12 @@ export function initRunner(config: RunnerConfig): void {
     limitSeconds: config.limitSeconds,
     scopeMarks: config.scopeMarks,
     scopeQuestions: config.scopeQuestions,
+    // A composed mock is not a paper, so it carries its own specification
+    // and the paper each of its questions came from. Without them the review
+    // desk could not reopen the mock or link a wrong question back to the
+    // paper that holds it.
+    mockSpec: config.mockSpec ?? existing?.mockSpec ?? null,
+    sources: config.sources ?? existing?.sources ?? null,
   };
 
   const save = () => {
@@ -418,7 +501,7 @@ export function initRunner(config: RunnerConfig): void {
       return;
     }
 
-    const items: ScoredItem[] = [];
+    const items: RunnerItem[] = [];
     const results: AttemptItemResult[] = [];
     for (const questionId of attempt.questionIds) {
       const info = meta.get(questionId);
@@ -435,7 +518,20 @@ export function initRunner(config: RunnerConfig): void {
         : entry
           ? scoreItem({ category: info.category, marks: info.marks, key: keyLetters, voided: false }, selected)
           : { status: 'unmarked' as const, awarded: { n: 0, d: 1 }, selected, key: keyLetters, explanation: 'No published key for this item.' };
-      items.push({ ...scored, id: questionId, n: info.n, subject: info.subject, subjectKey: info.subjectKey, category: info.category, marks: info.marks });
+      items.push({
+        ...scored,
+        id: questionId,
+        n: info.n,
+        subject: info.subject,
+        subjectKey: info.subjectKey,
+        category: info.category,
+        marks: info.marks,
+        // Where the question came from. A composed mock draws from several
+        // papers, and the learner is told which one each question belongs to.
+        sourcePaperId: info.sourcePaperId,
+        sourceYear: info.sourceYear,
+        sourceN: info.sourceN,
+      });
       results.push({ questionId, subjectKey: info.subjectKey, status: scored.status, awarded: scored.awarded.n / scored.awarded.d, assisted: assisted.includes(questionId) });
     }
 
@@ -446,11 +542,15 @@ export function initRunner(config: RunnerConfig): void {
     // Fold the outcome into the spaced-review queue.
     const queue = applyAttemptToQueue(readQueue(), results.map((result) => {
       const info = meta.get(result.questionId);
+      // A composed mock draws from several papers. Each question is filed
+      // under the paper it actually came from, so the review desk always
+      // links to a page that holds it.
+      const source = config.sources?.[result.questionId];
       return {
         questionId: result.questionId,
-        paperId: config.paperId,
-        paperYear: config.paperYear,
-        n: info?.n ?? 0,
+        paperId: source?.paperId ?? config.paperId,
+        paperYear: source?.year ?? config.paperYear,
+        n: source?.n ?? info?.sourceN ?? info?.n ?? 0,
         subjectKey: result.subjectKey,
         subjectLabel: info?.subject ?? '',
         stem: info?.stem ?? '',
@@ -474,7 +574,7 @@ export function initRunner(config: RunnerConfig): void {
 
   /* ---------------- paint the result ---------------- */
 
-  function paintNavigatorStates(items: ScoredItem[]) {
+  function paintNavigatorStates(items: RunnerItem[]) {
     if (!navigatorNode) return;
     const byId = new Map(items.map((item) => [item.id, item]));
     navigatorNode.querySelectorAll<HTMLButtonElement>('button[data-nav]').forEach((button) => {
@@ -490,7 +590,7 @@ export function initRunner(config: RunnerConfig): void {
 
   function renderResults(
     node: HTMLElement,
-    items: ScoredItem[],
+    items: RunnerItem[],
     summary: ReturnType<typeof summarise>,
     reason: string | undefined,
     cfg: RunnerConfig,
@@ -499,6 +599,9 @@ export function initRunner(config: RunnerConfig): void {
     const wrongCount = items.filter((item) => item.status === 'wrong' || item.status === 'blank').length;
     const total = formatMarks(summary.awarded);
     const wrongIds = items.filter((item) => item.status === 'wrong' || item.status === 'blank').map((item) => item.id);
+    // A composed mock draws from several papers, so each result says which
+    // paper the question came from.
+    const showSource = items.some((item) => item.sourcePaperId && item.sourcePaperId !== cfg.paperId);
     const subjectRows = Object.entries(summary.bySubject)
       .map(([key, value]) => `<tr><td>${escapeHtml(key)}</td><td>${formatMarks(value.awarded)} / ${value.maxMarks}</td><td>${value.correct + value.partial} of ${value.count}</td></tr>`)
       .join('');
@@ -532,7 +635,7 @@ export function initRunner(config: RunnerConfig): void {
         ${items.map((item) => `
           <div class="result-row" data-result-row="${escapeHtml(item.id)}">
             <div class="row-between">
-              <span><strong>Q${item.n}</strong> · ${escapeHtml(item.subject)} · Category ${item.category} · ${item.marks} mark${item.marks === 1 ? '' : 's'}</span>
+              <span><strong>Q${item.n}</strong> · ${escapeHtml(item.subject)} · Category ${item.category} · ${item.marks} mark${item.marks === 1 ? '' : 's'}${showSource && item.sourcePaperId ? ` · ${item.sourceYear} Q${item.sourceN}` : ''}</span>
               <span class="pill ${item.status}">${statusLabel(item.status)}</span>
             </div>
             <p class="small" style="margin:.2rem 0"><strong>${formatMarks(item.awarded)} mark${Math.abs(item.awarded.n / item.awarded.d) === 1 ? '' : 's'}</strong> · you marked ${item.selected.length ? item.selected.join(', ') : 'nothing'} · key ${item.key.length ? item.key.join(', ') : '—'}</p>
@@ -541,7 +644,9 @@ export function initRunner(config: RunnerConfig): void {
       </div>`;
 
     node.querySelector<HTMLButtonElement>('[data-retry-wrong]')?.addEventListener('click', () => {
-      const target = new URL(`${cfg.base}practice/${cfg.paperId}/${cfg.subjectKey ? `${cfg.subjectKey}/` : ''}`, window.location.origin);
+      // A paper rehearsal repeats itself; a composed mock repeats the mock.
+      const path = cfg.retryPath ?? `${cfg.base}practice/${cfg.paperId}/${cfg.subjectKey ? `${cfg.subjectKey}/` : ''}`;
+      const target = new URL(path, window.location.origin);
       target.searchParams.set('retry', cfg.attemptId);
       window.location.href = target.href;
     });

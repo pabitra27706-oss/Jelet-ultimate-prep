@@ -1,0 +1,306 @@
+---
+import Site from '../../layouts/Site.astro';
+import { PAPER_SUBJECTS, defaultSpec, MAX_MOCK_QUESTIONS } from '../../lib/mock';
+import { buildCandidates, topicCatalogue } from '../../lib/mock-pool';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+
+/**
+ * The questions a mock may draw.
+ *
+ * The pool is small — a few hundred lines of metadata, with no question text
+ * — so the builder can compose a plan in the browser without downloading
+ * anything it has not asked for.
+ */
+const pool = buildCandidates();
+const topics = topicCatalogue();
+
+const topicsBySubject = PAPER_SUBJECTS.map((subject) => ({
+  ...subject,
+  topics: topics.filter((topic) => topic.subjectId === subject.key),
+}));
+
+const spec = defaultSpec();
+const plan = {
+  subjects: PAPER_SUBJECTS.map((subject) => ({
+    key: subject.key,
+    label: subject.label,
+    share: subject.share,
+    available: pool.filter((candidate) => candidate.subjectKey === subject.key).length,
+  })),
+  total: pool.length,
+};
+---
+
+<Site title="Mock builder" active="practice" description="Compose a JELET Paper I mock from the real previous-year corpus: choose the subjects, topics, length, category mix and clock, and see exactly what you will be given.">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">›</span>
+    <span>Mock builder</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.2rem">
+    <div class="grow">
+      <p class="eyebrow">Configurable mock</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.6rem)">Build the paper you actually need.</h1>
+      <p class="lead">
+        Every question here comes from a previous-year paper the archive preserves, and every one of them carries a
+        published answer key, so the mock is marked with the board's own rules. Nothing is written by hand and nothing
+        is padded: if the corpus cannot supply what you asked for, the plan says so.
+      </p>
+    </div>
+    <a class="btn ghost" href={`${base}practice/`}>Full papers and drills</a>
+  </div>
+
+  <div class="row-between" style="align-items:flex-start;gap:1.4rem" data-mock-layout>
+    <form class="card" method="get" action={`${base}mock/run/`} data-mock-form style="flex:1 1 22rem;min-width:0">
+      <h2 style="font-size:1.1rem">The paper</h2>
+
+      <label class="field">
+        <span>Title</span>
+        <input type="text" name="name" maxlength="80" placeholder="Balanced mock" data-mock-title />
+      </label>
+
+      <fieldset class="field">
+        <legend>Subjects</legend>
+        <p class="micro">A real Paper I is 40% mathematics, 30% physics, 20% chemistry and 10% electrical. The mock follows the same shares unless the corpus cannot fill them.</p>
+        {PAPER_SUBJECTS.map((subject) => (
+          <label class="check">
+            <input type="checkbox" name="s" value={subject.key} checked data-mock-subject={subject.key} />
+            <span>
+              {subject.label}
+              <small>{plan.subjects.find((entry) => entry.key === subject.key)?.available ?? 0} questions available</small>
+            </span>
+          </label>
+        ))}
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>Topics</legend>
+        <p class="micro">Leave everything unticked to draw from every topic. A ticked topic is drawn from; a question that was mapped to several topics can be drawn by any of them.</p>
+        {topicsBySubject.map((subject) => (
+          subject.topics.length > 0 && (
+            <details class="mock-topics">
+              <summary>{subject.label} <span class="micro">({subject.topics.length} topics)</span></summary>
+              <div class="mock-topic-list">
+                {subject.topics.map((topic) => (
+                  <label class="check">
+                    <input type="checkbox" name="t" value={topic.id} data-mock-topic={topic.id} disabled={topic.available === 0} />
+                    <span>
+                      {topic.code ? `${topic.code}. ` : ''}{topic.name}
+                      <small>{topic.available === 0 ? 'no markable questions yet' : `${topic.available} questions available`}</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </details>
+          )
+        ))}
+      </fieldset>
+
+      <label class="field">
+        <span>How many questions</span>
+        <input type="number" name="n" min="1" max={MAX_MOCK_QUESTIONS} value={spec.count} data-mock-count />
+        <small class="micro">At most {MAX_MOCK_QUESTIONS}. The plan below shows what the corpus can really supply.</small>
+      </label>
+
+      <fieldset class="field">
+        <legend>How the two categories are mixed</legend>
+        <label class="check">
+          <input type="radio" name="m" value="paper" checked data-mock-mix />
+          <span>Match the paper <small>85% Category I, 15% Category II</small></span>
+        </label>
+        <label class="check">
+          <input type="radio" name="m" value="custom" data-mock-mix />
+          <span>Choose the share <small>below</small></span>
+        </label>
+        <label class="field" data-mock-share-field hidden>
+          <span>Category I share</span>
+          <input type="range" name="c" min="0" max="1" step="0.05" value={spec.categoryIShare} data-mock-share />
+          <output class="micro" data-mock-share-output>85%</output>
+        </label>
+      </fieldset>
+
+      <label class="field">
+        <span>Minutes</span>
+        <input type="number" name="d" min="0" max="300" value={spec.durationMinutes} data-mock-duration />
+        <small class="micro">Zero means no time limit. A real paper allows 120 minutes for 120 marks.</small>
+      </label>
+
+      <fieldset class="field">
+        <legend>What to leave out</legend>
+        <label class="check">
+          <input type="hidden" name="v" value="0" />
+          <input type="checkbox" name="v" value="1" data-mock-avoid />
+          <span>Questions you have already sat on this device <small>they are only left out while enough remain</small></span>
+        </label>
+        <label class="check">
+          <input type="hidden" name="w" value="0" />
+          <input type="checkbox" name="w" value="1" checked data-mock-awarded />
+          <span>Questions the board voided <small>their marks go to every candidate, so they can sit in a mock</small></span>
+        </label>
+      </fieldset>
+
+      <label class="field">
+        <span>Seed</span>
+        <input type="number" name="seed" min="0" max="99999" value={spec.seed} data-mock-seed />
+        <small class="micro">The same seed always draws the same questions, so a mock can be handed to someone else.</small>
+      </label>
+
+      <div class="btn-row" style="margin-top:1rem">
+        <button class="btn" type="submit">Start the mock</button>
+        <button class="btn ghost" type="button" data-mock-reseed>Draw again</button>
+      </div>
+      <p class="micro" style="margin-top:.6rem">The mock is a link. You can bookmark it, share it, or come back to it later and it will be the same paper.</p>
+    </form>
+
+    <section class="card" style="flex:1 1 24rem;min-width:0" aria-labelledby="plan-heading" data-mock-plan>
+      <h2 id="plan-heading" style="font-size:1.1rem">What you will be given</h2>
+      <p class="micro" data-mock-plan-summary>Composing…</p>
+      <div data-mock-plan-body></div>
+    </section>
+  </div>
+
+  <script type="application/json" id="mock-pool" set:html={JSON.stringify(pool)} />
+  <script type="application/json" id="mock-topics" set:html={JSON.stringify(topics)} />
+  <script type="application/json" id="mock-subjects" set:html={JSON.stringify(plan)} />
+
+  <script>
+    import { PAPER_SUBJECTS, MAX_MOCK_QUESTIONS, composeMock, defaultSpec, withSpecId, type MockCandidate, type MockSpec } from '../../lib/mock';
+
+    const poolNode = document.querySelector<HTMLScriptElement>('#mock-pool');
+    const topicsNode = document.querySelector<HTMLScriptElement>('#mock-topics');
+    const pool = poolNode ? (JSON.parse(poolNode.textContent ?? '[]') as MockCandidate[]) : [];
+    const topics = topicsNode ? (JSON.parse(topicsNode.textContent ?? '[]') as { id: string; subjectId: string; name: string; available: number }[]) : [];
+
+    const form = document.querySelector<HTMLFormElement>('[data-mock-form]');
+    const planBody = document.querySelector<HTMLElement>('[data-mock-plan-body]');
+    const planSummary = document.querySelector<HTMLElement>('[data-mock-plan-summary]');
+    const countInput = document.querySelector<HTMLInputElement>('[data-mock-count]');
+    const durationInput = document.querySelector<HTMLInputElement>('[data-mock-duration]');
+    const seedInput = document.querySelector<HTMLInputElement>('[data-mock-seed]');
+    const shareField = document.querySelector<HTMLElement>('[data-mock-share-field]');
+    const shareInput = document.querySelector<HTMLInputElement>('[data-mock-share]');
+    const shareOutput = document.querySelector<HTMLElement>('[data-mock-share-output]');
+
+    /** The question ids this device has already sat. */
+    const answeredIds = (): string[] => {
+      try {
+        const raw = localStorage.getItem('jelet:attempts:v1');
+        if (!raw) return [];
+        const parsed = JSON.parse(raw) as { attempts?: { questionIds?: string[]; submittedAt?: number | null }[] };
+        const ids = new Set<string>();
+        for (const attempt of parsed.attempts ?? []) {
+          if (!attempt.submittedAt) continue;
+          for (const id of attempt.questionIds ?? []) ids.add(id);
+        }
+        return [...ids];
+      } catch {
+        return [];
+      }
+    };
+
+    const readSpec = (): MockSpec => {
+      const data = new FormData(form!);
+      const subjects = data.getAll('s').map(String).filter(Boolean);
+      const topicIds = data.getAll('t').map(String).filter(Boolean);
+      const count = Number(data.get('n') ?? '0');
+      const mix = data.get('m') === 'custom' ? 'custom' : 'paper';
+      const share = Number(data.get('c') ?? '0.85');
+      const minutes = Number(data.get('d') ?? '0');
+      const seed = Number(data.get('seed') ?? '0');
+      const avoid = data.getAll('v').pop() === '1';
+      const awarded = data.getAll('w').pop() !== '0';
+      const title = String(data.get('name') ?? '').trim();
+      return withSpecId({
+        title: title || defaultSpec().title,
+        subjects: (subjects.length > 0 ? subjects : PAPER_SUBJECTS.map((subject) => subject.key)) as MockSpec['subjects'],
+        topics: topicIds,
+        count: Math.max(1, Math.min(MAX_MOCK_QUESTIONS, Math.round(count) || defaultSpec().count)),
+        categoryMix: mix,
+        categoryIShare: Number.isFinite(share) ? Math.min(1, Math.max(0, share)) : 0.85,
+        durationMinutes: Math.max(0, Math.min(300, Math.round(minutes) || 0)),
+        avoidSeen: avoid,
+        includeAwarded: awarded,
+        seed: Number.isFinite(seed) ? Math.abs(Math.round(seed)) % 100000 : 1,
+      });
+    };
+
+    const paint = () => {
+      if (!planBody || !planSummary) return;
+      const spec = readSpec();
+      const composition = composeMock(spec, pool, spec.avoidSeen ? answeredIds() : []);
+
+      planSummary.textContent = composition.shortfall > 0
+        ? `${composition.count} questions · ${composition.marks} marks · ${composition.shortfall} could not be supplied`
+        : `${composition.count} questions · ${composition.marks} marks`;
+
+      const rows = composition.bySubject.map((subject) => `
+        <tr>
+          <td>${subject.label}</td>
+          <td>${subject.count}</td>
+          <td>${subject.marks}</td>
+          <td>${subject.categoryI} / ${subject.categoryII}</td>
+        </tr>`).join('');
+
+      const notes = composition.notes.map((note) => `<li>${note}</li>`).join('');
+
+      const chosen = composition.items.map((item, index) => {
+        const topicNames = item.topicIds
+          .map((id) => topics.find((topic) => topic.id === id)?.name)
+          .filter(Boolean)
+          .slice(0, 2)
+          .join(', ');
+        return `<tr>
+          <td>${index + 1}</td>
+          <td>${item.subject}</td>
+          <td>${item.year} Q${item.n}</td>
+          <td>${item.category === 'I' ? 'I' : 'II'}</td>
+          <td>${item.marks}</td>
+          <td>${topicNames || '—'}</td>
+        </tr>`;
+      }).join('');
+
+      planBody.innerHTML = `
+        <table class="table">
+          <thead><tr><th>Subject</th><th>Questions</th><th>Marks</th><th>Cat I / II</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="4">Choose at least one subject.</td></tr>'}</tbody>
+        </table>
+        ${notes ? `<ul class="small" style="margin-top:.6rem;color:var(--muted)">${notes}</ul>` : ''}
+        <details style="margin-top:.8rem">
+          <summary>The ${composition.count} questions, in order</summary>
+          <div style="max-height:22rem;overflow:auto">
+            <table class="table" data-mock-plan-questions>
+              <thead><tr><th>#</th><th>Subject</th><th>From</th><th>Cat</th><th>Marks</th><th>Topic</th></tr></thead>
+              <tbody>${chosen || '<tr><td colspan="6">Nothing to show yet.</td></tr>'}</tbody>
+            </table>
+          </div>
+        </details>
+        <p class="micro" style="margin-top:.8rem">
+          The clock, the navigator, the marking and the review queue behave exactly as they do in a full paper. A wrong
+          question is filed under the paper it actually came from, so the review desk always sends you to a page that
+          holds it.
+        </p>`;
+    };
+
+    form?.addEventListener('change', () => {
+      const mix = form.querySelector<HTMLInputElement>('input[name="m"]:checked')?.value;
+      if (shareField) shareField.hidden = mix !== 'custom';
+      if (shareOutput && shareInput) shareOutput.textContent = `${Math.round(Number(shareInput.value) * 100)}%`;
+      paint();
+    });
+    form?.addEventListener('input', () => {
+      if (shareOutput && shareInput) shareOutput.textContent = `${Math.round(Number(shareInput.value) * 100)}%`;
+      paint();
+    });
+    document.querySelector<HTMLButtonElement>('[data-mock-reseed]')?.addEventListener('click', () => {
+      if (!seedInput) return;
+      seedInput.value = String(Math.floor(Math.random() * 100000));
+      paint();
+    });
+
+    if (countInput) countInput.max = String(MAX_MOCK_QUESTIONS);
+    if (durationInput) durationInput.value = String(defaultSpec().durationMinutes);
+    paint();
+  </script>
+</Site>

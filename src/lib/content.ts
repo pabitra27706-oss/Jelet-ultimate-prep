@@ -8,8 +8,10 @@
 import papersData from '../data/papers.json' with { type: 'json' };
 import keysData from '../data/keys.json' with { type: 'json' };
 import syllabusData from '../data/syllabus.json' with { type: 'json' };
+import { subjectLabels, type SubjectKey } from './subjects.ts';
 
-export type SubjectKey = 'mathematics' | 'physics' | 'chemistry' | 'electrical' | 'computer' | 'other';
+export type { SubjectKey };
+export { subjectLabels };
 export type Category = 'I' | 'II';
 
 export type Option = { label: string; text: string };
@@ -128,14 +130,11 @@ export const paperById = new Map(papers.map((paper) => [paper.id, paper]));
 export const paperByYear = new Map(papers.map((paper) => [paper.year, paper]));
 export const keyByYear = new Map(keys.map((key) => [key.year, key]));
 
-export const subjectLabels: Record<SubjectKey, string> = {
-  mathematics: 'Mathematics',
-  physics: 'Physics',
-  chemistry: 'Chemistry',
-  electrical: 'Electrical & Electronics',
-  computer: 'Computer & IT',
-  other: 'Other',
-};
+/**
+ * The subject names live in their own module so a browser bundle can use
+ * them without pulling in the corpus. They are re-exported here so existing
+ * callers keep working.
+ */
 
 /** Papers whose items can actually be scored with a published key. */
 export const scorablePapers = papers.filter((paper) => paper.scoreableQuestions > 0);

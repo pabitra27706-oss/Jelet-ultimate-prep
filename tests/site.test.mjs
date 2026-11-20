@@ -342,6 +342,98 @@ test('the navigator, mark-for-review and clear all work without a server', async
   await page.waitForFunction(() => /0 of 82 answered/.test(document.querySelector('[data-runner-progress-text]')?.textContent ?? ''));
 });
 
+test('the mock builder composes a paper from the real corpus and shows exactly what it holds', async (t) => {
+  const page = await context(t);
+  await go(page, 'mock/');
+  await page.waitForSelector('[data-mock-plan-body] table');
+
+  // The plan is the paper, not an estimate: the counts add up and the
+  // subject table names the real subjects.
+  const summary = await page.locator('[data-mock-plan-summary]').textContent();
+  assert.match(summary, /40 questions/);
+  const rows = await page.locator('[data-mock-plan-body] tbody tr').count();
+  assert.ok(rows >= 4, 'the plan lists a row per subject');
+
+  // The questions are listed with the paper each one came from.
+  const firstRow = await page.locator('[data-mock-plan-questions] tbody tr').first().textContent();
+  assert.match(firstRow, /20\d\d Q\d+/, 'a planned question names its paper and its number');
+  const planned = await page.locator('[data-mock-plan-questions] tbody tr').count();
+  assert.equal(planned, 40, 'the plan lists every question of the mock');
+
+  // Changing the count changes the plan.
+  await page.locator('[data-mock-count]').fill('15');
+  await page.waitForFunction(() => /15 questions/.test(document.querySelector('[data-mock-plan-summary]')?.textContent ?? ''));
+});
+
+test('a composed mock sits, marks with the board rules and lands in the review desk', async (t) => {
+  const page = await context(t);
+  await go(page, 'mock/run/?s=physics&n=10&m=paper&d=20&seed=5');
+  await page.waitForSelector('.pane[data-question]');
+
+  const count = await page.locator('.pane').count();
+  assert.equal(count, 10, 'the mock holds the ten questions that were asked for');
+  const subjects = await page.locator('.pane').evaluateAll((nodes) => [...new Set(nodes.map((node) => node.dataset.subjectKey))]);
+  assert.deepEqual(subjects, ['physics'], 'only the chosen subject is drawn');
+  const numbers = await page.locator('.pane').evaluateAll((nodes) => nodes.map((node) => node.dataset.n));
+  assert.deepEqual(numbers, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], 'a mock numbers its own questions');
+  const sources = await page.locator('.pane').evaluateAll((nodes) => nodes.map((node) => node.dataset.sourcePaper));
+  assert.ok(sources.every((paper) => /^jelet-et-p1-20\d\d$/.test(paper)), 'every question remembers the paper it came from');
+  assert.ok(await page.locator('.pane [data-source-chip]').first().isVisible(), 'the learner is told where the question came from');
+
+  // The clock is the one that was asked for.
+  assert.equal((await page.locator('[data-runner-timer]').textContent()).trim(), '20:00');
+
+  // Answer the first question and submit. The rules are the board's.
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+  const summaryText = await page.locator('[data-runner-results]').textContent();
+  assert.match(summaryText, /10 questions were in scope/, 'the mock marks its own scope');
+  assert.match(summaryText, /1 wrong/, 'the wrong answer is marked wrong');
+
+  // The wrong and blank questions go to the review desk under the paper they
+  // actually came from.
+  await go(page, 'review/');
+  await page.waitForFunction(() => (document.querySelector('[data-stat="queue"]')?.textContent ?? '') !== '\u2014');
+  const queue = Number(await page.locator('[data-stat="queue"]').textContent());
+  assert.ok(queue >= 9, 'every unanswered item joins the queue');
+  const link = await page.locator('#queue-list a').first().getAttribute('href');
+  assert.match(link, /\/library\/jelet-et-p1-20\d\d\/#q\d+$/, 'a queued question links to the paper that holds it');
+});
+
+test('a mock is a link: the same specification always composes the same paper', async (t) => {
+  const page = await context(t);
+  await go(page, 'mock/run/?s=chemistry&n=8&m=paper&d=0&seed=77');
+  await page.waitForSelector('.pane[data-question]');
+  const first = await page.locator('.pane').evaluateAll((nodes) => nodes.map((node) => node.dataset.question));
+  await page.reload();
+  await page.waitForSelector('.pane[data-question]');
+  const second = await page.locator('.pane').evaluateAll((nodes) => nodes.map((node) => node.dataset.question));
+  assert.deepEqual(second, first, 'the same link composes the same paper');
+});
+
+test('the mock attempt keeps its specification and can be repeated from the review desk', async (t) => {
+  const page = await context(t);
+  await go(page, 'mock/run/?s=electrical&n=6&m=paper&d=10&seed=3');
+  await page.waitForSelector('.pane[data-question]');
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  await go(page, 'review/');
+  const repeat = page.getByRole('link', { name: 'Repeat the wrong ones' }).first();
+  await repeat.waitFor();
+  const href = await repeat.getAttribute('href');
+  assert.match(href, /\/mock\/run\/\?.*retry=/, 'a mock is repeated through its own link');
+
+  // Following the link comes back to the same mock, with only the wrong
+  // questions in it.
+  await go(page, href.replace(/^.*\/mock\//, 'mock/'));
+  await page.waitForSelector('.pane[data-question]');
+  const count = await page.locator('.pane:not([hidden])').count();
+  assert.ok(count > 0 && count <= 6, 'the repeat holds only the questions that were wrong');
+});
+
 test('the printed companion prints an answer sheet in the booklet order and a ledger', async (t) => {
   const page = await context(t);
   await go(page, `practice/${paper2025}/print/`);

@@ -1,0 +1,114 @@
+---
+/**
+ * The shell of a set the learner sits.
+ *
+ * A full-paper rehearsal and a composed mock are the same kind of thing: a
+ * clock, a navigator, a set of questions and a marked result. Only the
+ * questions differ — a paper brings its own, a mock composes them in the
+ * browser. Everything else lives here, so the two cannot drift apart.
+ */
+const {
+  mode = 'mock',
+  scope = 'full',
+  paperId = '',
+  paperYear = 0,
+  paperLabel = '',
+  title = '',
+  subjectKey = null,
+  subjectLabel = null,
+  limitSeconds = null,
+  scopeMarks = 0,
+  scopeQuestions = 0,
+  /** The scope part of the attempt id, so a resumed set keeps its history. */
+  attemptScope = null,
+  /** Where "repeat the wrong ones" goes. A mock repeats the mock. */
+  retryPath = null,
+  /** False when the questions are composed in the browser and the navigator follows them. */
+  serverRendered = true,
+} = Astro.props as {
+  mode?: 'mock' | 'drill';
+  scope?: string;
+  paperId?: string;
+  paperYear?: number;
+  paperLabel?: string;
+  title?: string;
+  subjectKey?: string | null;
+  subjectLabel?: string | null;
+  limitSeconds?: number | null;
+  scopeMarks?: number;
+  scopeQuestions?: number;
+  attemptScope?: string | null;
+  retryPath?: string | null;
+  serverRendered?: boolean;
+};
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+---
+
+<section
+  data-runner
+  data-paper={paperId}
+  data-paper-year={paperYear}
+  data-paper-label={paperLabel}
+  data-title={title}
+  data-mode={mode}
+  data-scope={scope}
+  data-subject-key={subjectKey ?? ''}
+  data-subject-label={subjectLabel ?? ''}
+  data-limit-seconds={limitSeconds === null ? '' : String(limitSeconds)}
+  data-scope-marks={String(scopeMarks)}
+  data-scope-questions={String(scopeQuestions)}
+  data-attempt-scope={attemptScope ?? scope}
+  data-retry-path={retryPath ?? ''}
+  data-keys-url={`${base}data/keys.json`}
+  data-base={base}
+  data-server-rendered={serverRendered ? 'yes' : 'no'}
+>
+  <div class="runner-bar no-print">
+    <div class="runner-bar-top">
+      <span class="timer" data-runner-timer>--:--</span>
+      <span class="micro" data-runner-progress-text>0 answered</span>
+      <div class="btn-row" style="margin:0">
+        <button class="btn small ghost" type="button" data-runner-mark>Mark</button>
+        <button class="btn small ghost" type="button" data-runner-clear>Clear</button>
+        <button class="btn small" type="button" data-runner-submit>Submit</button>
+        <button class="btn small ghost" type="button" data-runner-navtoggle aria-expanded="false" aria-controls="runner-nav">Navigator</button>
+      </div>
+    </div>
+    <div class="progress-track" aria-hidden="true"><span data-runner-progress-bar style="width:0%"></span></div>
+  </div>
+
+  <p class="micro no-print" data-runner-storage>Loaded from this browser only.</p>
+  <p class="micro" data-runner-announce role="status" aria-live="polite"></p>
+
+  <div class="runner">
+    <div>
+      <div data-runner-paper><slot name="questions" /></div>
+      <div data-runner-results hidden></div>
+    </div>
+
+    <aside class="runner-side no-print" data-runner-navpanel>
+      <div class="sheet">
+        <h2 style="font-size:1rem">Navigator</h2>
+        <div class="omr" data-runner-nav><slot name="navigator" /></div>
+        <div class="legend" style="margin-top:.6rem">
+          <span><i class="a"></i> answered</span>
+          <span><i class="m"></i> marked</span>
+          <span><i class="c"></i> correct</span>
+          <span><i class="w"></i> wrong</span>
+          <slot name="void-legend" />
+        </div>
+        <details style="margin-top:.6rem">
+          <summary>How you are marked</summary>
+          <div class="details-body micro">
+            <p><strong>Category I</strong> — the exact correct option: +1 mark. A wrong option or more than one option:
+            −1/4 mark. Nothing marked: 0.</p>
+            <p><strong>Category II</strong> — all correct options and no wrong option: +2 marks. Any wrong option marked:
+            0. A correct subset: 2 × marked correct ÷ total correct.</p>
+            <p>Questions the board voided award their marks to every candidate.</p>
+          </div>
+        </details>
+      </div>
+    </aside>
+  </div>
+</section>
