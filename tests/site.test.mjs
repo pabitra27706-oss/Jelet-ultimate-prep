@@ -574,6 +574,63 @@ test('the quiz marks the board\u2019s own way and files the wrong ones for revis
   assert.match(steps, /Revise 3 questions that are due/);
 });
 
+test('the repeat step of the plan shows only the questions that were wrong', async (t) => {
+  const page = await context(t);
+
+  await go(page, 'quiz/?s=mathematics&n=3');
+
+  // The published key, so the test can answer one question right on purpose.
+  const keys = await page.evaluate(async () => {
+    const response = await fetch(`${location.pathname.replace(/quiz\/.*$/, '')}data/keys.json`);
+    return (await response.json()).keys;
+  });
+  await page.waitForSelector('[data-quiz-question] .qcard', { timeout: 15000 });
+
+  // Question 1 right, question 2 wrong, question 3 wrong.
+  for (let index = 0; index < 3; index += 1) {
+    const questionId = await page.locator('[data-quiz-question] .qcard').getAttribute('data-quiz-question-id');
+    const key = keys[questionId]?.key ?? [];
+    const options = page.locator('[data-quiz-question] .opt[data-option]');
+    const count = await options.count();
+    if (index === 0) {
+      for (let option = 0; option < count; option += 1) {
+        if ((await options.nth(option).getAttribute('data-option')) === key[0]) {
+          await options.nth(option).click();
+          break;
+        }
+      }
+    } else {
+      // Any option the key does not name.
+      for (let option = 0; option < count; option += 1) {
+        const letter = await options.nth(option).getAttribute('data-option');
+        if (!key.includes(letter)) {
+          await options.nth(option).click();
+          break;
+        }
+      }
+    }
+    await page.locator('[data-quiz-check]').click();
+    await page.waitForTimeout(150);
+    const label = await page.locator('[data-quiz-feedback]').textContent();
+    if (index === 0) assert.match(label, /^Correct/, 'the right answer is marked right');
+    else assert.match(label, /^Wrong/, 'the wrong answer is marked wrong');
+    if (await page.locator('[data-quiz-next]').isVisible()) await page.locator('[data-quiz-next]').click();
+    else await page.locator('[data-quiz-finish]').click();
+    await page.waitForTimeout(150);
+  }
+  await page.waitForSelector('[data-quiz-result] .score-hero', { timeout: 15000 });
+
+  await go(page, 'plan/');
+  await page.waitForSelector('#plan-list a', { timeout: 15000 });
+  const repeat = page.locator('#plan-list a').filter({ hasText: 'Repeat the' }).first();
+  const href = await repeat.getAttribute('href');
+  assert.match(href, /retry=/, 'the repeat carries the attempt it repeats');
+
+  await page.goto(origin + href);
+  await page.waitForSelector('[data-quiz-question] .qcard', { timeout: 15000 });
+  assert.match(await page.locator('[data-quiz-position]').textContent(), /Question 1 of 2/, 'only the wrong questions are repeated');
+});
+
 test('a quiz of a topic says so, and the builder opens on the set the link asked for', async (t) => {
   const page = await context(t);
   await go(page, 'quiz/?s=physics&t=t01&n=2');

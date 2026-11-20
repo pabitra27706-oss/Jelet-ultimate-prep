@@ -97,9 +97,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
     } from '../../lib/quiz.ts';
 
     const base = (document.querySelector<HTMLElement>('[data-base]')?.dataset.base) ?? '/';
-    const spec = decodeSpec(window.location.search);
     const params = new URLSearchParams(window.location.search);
     const retryAttemptId = params.get('retry');
+    // A quiz has no clock, so the length of a paper never applies to it.
+    const spec = { ...decodeSpec(params), durationMinutes: 0 };
 
     const titleNode = document.querySelector<HTMLElement>('[data-quiz-title]');
     const leadNode = document.querySelector<HTMLElement>('[data-quiz-lead]');
