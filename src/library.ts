@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import { validatePractice, type PracticeData } from './practice';
+import { loadTeaching } from './teaching';
 import type { IndexEntry } from './search';
 import { papers, answerLetters, keyFor } from './lib/content';
 import { stripMath } from './lib/math';
@@ -7,9 +7,8 @@ import { stripMath } from './lib/math';
 /** Build-time index of approved public material: lessons, original cards and the paper corpus. */
 export async function buildLibraryIndex(): Promise<IndexEntry[]> {
   const base = import.meta.env.BASE_URL;
-  const lessons = await getCollection('lessons');
+  const { lessons } = await loadTeaching();
   const practiceEntries = await getCollection('practice');
-  validatePractice(practiceEntries.map((entry) => entry.data) as PracticeData[]);
 
   const entries: IndexEntry[] = [];
   for (const lesson of lessons) {
@@ -17,7 +16,7 @@ export async function buildLibraryIndex(): Promise<IndexEntry[]> {
       id: `lesson:${lesson.id}`,
       type: 'lesson',
       title: lesson.data.title,
-      summary: 'Shared voltage, split current · worked example, guided hints and independent notebook check.',
+      summary: lesson.data.summary,
       topic: lesson.data.topic,
       year: null,
       paper: null,
@@ -29,7 +28,7 @@ export async function buildLibraryIndex(): Promise<IndexEntry[]> {
       figure: 'Circuit diagram with text description',
       url: `${base}learn/${lesson.id}/`,
       anchor: lesson.data.sections[0] ?? null,
-      terms: [lesson.data.title, ...lesson.data.sections].join(' '),
+      terms: [lesson.data.title, lesson.data.summary, ...lesson.data.sections].join(' '),
     });
   }
   for (const entry of practiceEntries) {

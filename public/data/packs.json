@@ -22,7 +22,7 @@
         },
         {
           "path": "search/index.html",
-          "bytes": 12343
+          "bytes": 12345
         },
         {
           "path": "review/index.html",
@@ -42,7 +42,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 381625
+          "bytes": 381723
         },
         {
           "path": "practice/jelet-et-p1-2025/index.html",
@@ -93,24 +93,28 @@
           "bytes": 4044
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
-          "bytes": 1235
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D-vV2fz_.js",
-          "bytes": 2832
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.Bmx5xWxE.js",
+          "bytes": 2851
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
+          "bytes": 1235
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
           "bytes": 3626
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DCpacMP1.js",
-          "bytes": 2126
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
           "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.pKOPuztN.js",
@@ -125,8 +129,8 @@
           "bytes": 6088
         },
         {
-          "path": "_astro/progress.CBaqGCta.js",
-          "bytes": 764
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
         },
         {
           "path": "_astro/review.CgnBZm03.js",
@@ -237,7 +241,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3283050,
+      "bytes": 3284493,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -261,7 +265,7 @@
         },
         {
           "path": "search/index.html",
-          "bytes": 12343
+          "bytes": 12345
         },
         {
           "path": "review/index.html",
@@ -281,7 +285,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 381625
+          "bytes": 381723
         },
         {
           "path": "practice/jelet-et-p1-2024/index.html",
@@ -332,24 +336,28 @@
           "bytes": 4044
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
-          "bytes": 1235
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D-vV2fz_.js",
-          "bytes": 2832
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.Bmx5xWxE.js",
+          "bytes": 2851
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
+          "bytes": 1235
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
           "bytes": 3626
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DCpacMP1.js",
-          "bytes": 2126
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
           "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.pKOPuztN.js",
@@ -364,8 +372,8 @@
           "bytes": 6088
         },
         {
-          "path": "_astro/progress.CBaqGCta.js",
-          "bytes": 764
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
         },
         {
           "path": "_astro/review.CgnBZm03.js",
@@ -476,7 +484,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 2820197,
+      "bytes": 2821640,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -500,7 +508,7 @@
         },
         {
           "path": "search/index.html",
-          "bytes": 12343
+          "bytes": 12345
         },
         {
           "path": "review/index.html",
@@ -520,7 +528,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 381625
+          "bytes": 381723
         },
         {
           "path": "practice/jelet-et-p1-2022/index.html",
@@ -571,24 +579,28 @@
           "bytes": 4044
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
-          "bytes": 1235
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D-vV2fz_.js",
-          "bytes": 2832
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.Bmx5xWxE.js",
+          "bytes": 2851
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
+          "bytes": 1235
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
           "bytes": 3626
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DCpacMP1.js",
-          "bytes": 2126
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
           "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.pKOPuztN.js",
@@ -603,8 +615,8 @@
           "bytes": 6088
         },
         {
-          "path": "_astro/progress.CBaqGCta.js",
-          "bytes": 764
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
         },
         {
           "path": "_astro/review.CgnBZm03.js",
@@ -715,7 +727,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3400287,
+      "bytes": 3401730,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -739,7 +751,7 @@
         },
         {
           "path": "search/index.html",
-          "bytes": 12343
+          "bytes": 12345
         },
         {
           "path": "review/index.html",
@@ -759,15 +771,15 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 381625
+          "bytes": 381723
         },
         {
           "path": "learn/parallel-circuits/index.html",
-          "bytes": 11654
+          "bytes": 12635
         },
         {
           "path": "cards/orig-parallel-independent-v1/index.html",
-          "bytes": 7744
+          "bytes": 7712
         },
         {
           "path": "_astro/Runner.astro_astro_type_script_index_0_lang.BxvyWfsj.js",
@@ -782,24 +794,28 @@
           "bytes": 4044
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
-          "bytes": 1235
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D-vV2fz_.js",
-          "bytes": 2832
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.Bmx5xWxE.js",
+          "bytes": 2851
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
+          "bytes": 1235
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
           "bytes": 3626
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DCpacMP1.js",
-          "bytes": 2126
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
           "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.pKOPuztN.js",
@@ -814,8 +830,8 @@
           "bytes": 6088
         },
         {
-          "path": "_astro/progress.CBaqGCta.js",
-          "bytes": 764
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
         },
         {
           "path": "_astro/review.CgnBZm03.js",
@@ -926,7 +942,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 944622,
+      "bytes": 947014,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -950,7 +966,7 @@
         },
         {
           "path": "search/index.html",
-          "bytes": 12343
+          "bytes": 12345
         },
         {
           "path": "review/index.html",
@@ -970,7 +986,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 381625
+          "bytes": 381723
         },
         {
           "path": "mock/index.html",
@@ -1013,24 +1029,28 @@
           "bytes": 4044
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
-          "bytes": 1235
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.D-vV2fz_.js",
-          "bytes": 2832
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.Bmx5xWxE.js",
+          "bytes": 2851
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.CkkfaKZH.js",
+          "bytes": 1235
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
           "bytes": 3626
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DCpacMP1.js",
-          "bytes": 2126
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
           "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.pKOPuztN.js",
@@ -1045,8 +1065,8 @@
           "bytes": 6088
         },
         {
-          "path": "_astro/progress.CBaqGCta.js",
-          "bytes": 764
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
         },
         {
           "path": "_astro/review.CgnBZm03.js",
@@ -1157,7 +1177,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3109699,
+      "bytes": 3111142,
       "offlineComplete": true,
       "onlineOnly": []
     }

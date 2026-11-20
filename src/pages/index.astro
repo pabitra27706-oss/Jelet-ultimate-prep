@@ -169,7 +169,7 @@ const drills = mockPaper.subjects
 
     // The lesson's own reading position, if the learner started the chapter.
     const lessonSlot = document.querySelector('#lesson-slot');
-    const { progress } = readProgress();
+    const { progress } = readProgress('parallel-circuits');
     if (lessonSlot && progress && isSection(progress.section)) {
       const row = document.createElement('div');
       row.className = 'card-flat';

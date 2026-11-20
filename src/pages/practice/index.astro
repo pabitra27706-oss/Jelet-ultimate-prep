@@ -1,12 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
 import Site from '../../layouts/Site.astro';
-import { validatePractice, type PracticeData } from '../../practice';
+import { loadTeaching } from '../../teaching';
 import { papers, rehearsableQuestions, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const items = (await getCollection('practice')).map((entry) => entry.data) as PracticeData[];
-validatePractice(items);
+const { practice } = await loadTeaching();
+const items = practice.map((entry) => entry.data);
 const keyed = papers.filter((paper) => paper.scoreableQuestions > 0);
 const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
 ---
