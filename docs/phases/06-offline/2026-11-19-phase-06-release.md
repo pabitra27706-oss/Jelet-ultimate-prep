@@ -8,14 +8,14 @@
 
 | Item | Value |
 |---|---|
-| Deployed by | [Pages run 44632743958](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44632743958), commit `45be567`, all six suites green before the artifact was uploaded |
+| Deployed by | [Pages run 44668532668](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44668532668), commit `f9ca92d` — the merge of [PR #5](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/pull/5) into `main`, all six suites green before the artifact was uploaded |
 | Previous published release | [44608640041](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44608640041), commit `26ad6b7` — the exam-engine build, 33 pages, 73 files, 7.9 MB |
 | This build | 42 pages, 86 files, 8.7 MB (8,810,834 bytes), of which the public allowlist is 52 files / 8,472,717 bytes (8.08 MB) |
 | Live routes confirmed by fetch | `/offline/`, `/coverage/`, `/workspace/`, `/practice/jelet-et-p1-2025/reconciliation/` — each returns the real Phase 05–08 content, not a 404 |
 
 The offline packs, the reconciliation ledger, the printable companion, the
 coverage dashboard and the full study-record backup are **live on the public
-URL**. The deploy job now runs all six suites before it uploads the
+URL**, published from `main` after PR #5 was merged. The deploy job now runs all six suites before it uploads the
 artifact, so a build the suites reject cannot reach the site.
 
 The live site's pack page states the release version as `2026.11.19-phase06`
