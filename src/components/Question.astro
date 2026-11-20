@@ -1,5 +1,6 @@
 ---
 import { renderMath } from '../lib/math';
+import Figure from './Figure.astro';
 import type { Question as QuestionData } from '../lib/content';
 
 const {
@@ -50,6 +51,14 @@ const held = !question.scorable && !question.boardAwarded;
   </div>
   <div class="qstem" set:html={stemHtml}></div>
   {question.transcriptionNote && <p class="micro"><strong>Transcription note:</strong> {question.transcriptionNote}</p>}
+  {
+    question.figureAsset && (
+      <Figure
+        asset={question.figureAsset}
+        caption={`Figure for Q${question.n}, redrawn from the values printed in the booklet.`}
+      />
+    )
+  }
   {question.figureNote && <p class="holdnote">{question.figureNote}</p>}
   {question.options.length > 0 ? (
     <ul class="opts">
@@ -83,7 +92,13 @@ const held = !question.scorable && !question.boardAwarded;
   ) : (
     <p class="holdnote">The preserved transcription does not reproduce the options of this item.</p>
   )}
-  {held && question.holdReason && !question.figureNote && (
+  {/*
+    An item with a reconstructed figure carries two separate statements: the
+    figure is a redraw, and the redraw does not make the item marked. Both are
+    shown. Without a figure the note and the reason say the same thing, so
+    only one of them is.
+  */}
+  {held && question.holdReason && (question.figureAsset || !question.figureNote) && (
     <p class="micro">{question.holdReason}</p>
   )}
   {showKey && keyLetters.length > 0 && (

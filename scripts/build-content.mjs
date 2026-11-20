@@ -4,6 +4,7 @@
  *
  * Source of truth (read-only):
  *   archive/jelet-prep/data/pyq-md/*.md          seven question-paper transcriptions
+ *   editorial/pyq-md/*.md                        transcriptions made after the capture
  *   archive/jelet-prep/data/docs/official-keys/*  WBJEEB final answer-key notices (official tier)
  *   archive/jelet-prep/data/docs/derived-keys/*   independently solved 2022 answers (derived tier)
  *   archive/jelet-prep/data/syllabus.md           2026 syllabus (bulletin of 18 March 2026)
@@ -30,6 +31,45 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const archive = join(root, 'archive/jelet-prep/data');
 const outDir = join(root, 'src/data');
 const checkOnly = process.argv.includes('--check');
+
+/**
+ * Where a transcription comes from.
+ *
+ * The preserved archive is a read-only baseline and holds the seven papers it
+ * was captured with. A paper transcribed after that capture lives in the
+ * editorial collection, beside its provenance record, and the archive is left
+ * exactly as it was. Both are read the same way; only the root differs, and
+ * the source file recorded in the dataset says which collection a paper came
+ * from.
+ */
+const COLLECTIONS = [
+  { root: join(root, 'editorial'), label: 'editorial' },
+  { root: archive, label: 'archive' },
+];
+
+/**
+ * Read one paper transcription, newest collection first.
+ *
+ * @param {number} year
+ * @returns {Promise<{raw: string, sourceFile: string}>}
+ */
+async function readTranscription(year) {
+  const relative = join('pyq-md', `${year}.md`);
+  for (const collection of COLLECTIONS) {
+    let raw;
+    try {
+      raw = await readFile(join(collection.root, relative), 'utf8');
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
+    }
+    return {
+      raw,
+      sourceFile: collection.label === 'archive' ? relative : join(collection.label, relative),
+    };
+  }
+  throw new Error(`No transcription for ${year} in ${COLLECTIONS.map((c) => c.label).join(' or ')}`);
+}
 
 /** Subject keys used across the site. Order follows the 2026 Paper I pattern. */
 const SUBJECT_KEYS = {
@@ -87,6 +127,18 @@ const LAYOUT = {
     { subject: 'Chemistry', from: 71, to: 90, categories: [{ category: 'I', from: 71, to: 85 }, { category: 'II', from: 86, to: 90 }] },
     { subject: 'Electrical & Electronics', from: 91, to: 100, categories: [{ category: 'I', from: 91, to: 100 }] },
   ], notes: ['The transcription states one combined heading for Q1-85; the subject split comes from the archived derived key, which records a subject for every question.'] },
+  2023: { pattern: 'modern', maxMarks: 120, durationMinutes: 120, subjects: [
+    { subject: 'Mathematics', from: 1, to: 40, categories: [{ category: 'I', from: 1, to: 30 }, { category: 'II', from: 31, to: 40 }] },
+    { subject: 'Physics', from: 41, to: 70, categories: [{ category: 'I', from: 41, to: 65 }, { category: 'II', from: 66, to: 70 }] },
+    { subject: 'Chemistry', from: 71, to: 90, categories: [{ category: 'I', from: 71, to: 85 }, { category: 'II', from: 86, to: 90 }] },
+    { subject: 'Electrical & Electronics', from: 91, to: 100, categories: [{ category: 'I', from: 91, to: 100 }] },
+  ], notes: [
+    'Transcribed from the official WBJEEB booklet for Paper I, Set A; see editorial/provenance/2023-paper1.md.',
+    'The subject and category ranges are the section headings the booklet itself prints.',
+    'Ten items depend on a figure the transcription does not reproduce; they are held and are not marked.',
+    'Q6, Q46, Q88 and Q94 are voided by the board: no option is keyed and the marks go to every candidate.',
+    'Q34 as printed is satisfied by two options; the board keyed (D).',
+  ] },
   2024: { pattern: 'modern', maxMarks: 120, durationMinutes: 120, subjects: [
     { subject: 'Mathematics', from: 1, to: 40, categories: [{ category: 'I', from: 1, to: 30 }, { category: 'II', from: 31, to: 40 }] },
     { subject: 'Physics', from: 41, to: 70, categories: [{ category: 'I', from: 41, to: 65 }, { category: 'II', from: 66, to: 70 }] },
@@ -156,8 +208,7 @@ function detectFigure(text) {
 }
 
 async function parsePaper(year) {
-  const relative = join('pyq-md', `${year}.md`);
-  const raw = await readFile(join(archive, relative), 'utf8');
+  const { raw, sourceFile } = await readTranscription(year);
   const lines = raw.split('\n');
   const layout = LAYOUT[year];
   if (!layout) throw new Error(`No layout recorded for ${year}`);
@@ -223,6 +274,8 @@ async function parsePaper(year) {
       options,
       figure,
       figureNote: figure ? 'This item depends on a diagram that the preserved transcription does not reproduce.' : null,
+      /** The figure layer entry for this item, when the collection has one. */
+      figureAsset: null,
       transcriptionNote: notes.length > 0 ? notes.join(' ') : null,
       optionsComplete: hasAllOptions,
       scorable: hasAllOptions && !figure,
@@ -265,7 +318,7 @@ async function parsePaper(year) {
     notes: layout.notes ?? [],
     gaps,
     questions,
-    sourceFile: relative,
+    sourceFile,
     sourceSha256: sha256(raw),
   };
 }
@@ -422,7 +475,7 @@ async function buildSyllabus() {
  * ------------------------------------------------------------------ */
 
 const papers = [];
-for (const year of [2017, 2018, 2019, 2021, 2022, 2024, 2025]) papers.push(await parsePaper(year));
+for (const year of [2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025]) papers.push(await parsePaper(year));
 const keys = await buildKeys(papers);
 const syllabus = await buildSyllabus();
 
@@ -475,6 +528,49 @@ for (const paper of papers) {
   paper.voidedQuestions = paper.questions.filter((question) => question.voided).map((question) => question.n);
   paper.rehearsableQuestions = paper.scoreableQuestions + paper.boardAwardedQuestions;
   paper.rehearsableMarks = paper.scoreableMarks + paper.boardAwardedMarks;
+}
+
+/* ---- attach the figure layer ---- */
+/**
+ * A question whose stem points at a diagram is a dead end unless the diagram
+ * is there. The figure layer is a separate asset set, referenced by question
+ * id, and it never touches the scoring gate: ADR-0002 is explicit that a
+ * redrawn figure does not verify a question and does not unblock scoring.
+ * The notes below change; `scorable`, `boardAwarded` and `holdReason`'s
+ * presence do not.
+ */
+for (const paper of papers) {
+  const path = join(root, 'editorial/figures', String(paper.year), 'manifest.json');
+  let manifest = null;
+  try {
+    manifest = JSON.parse(await readFile(path, 'utf8'));
+  } catch {
+    manifest = null;
+  }
+  if (!manifest) continue;
+  const byQuestion = new Map(manifest.entries.map((entry) => [entry.question, entry]));
+  for (const question of paper.questions) {
+    const entry = byQuestion.get(question.n);
+    if (!entry) continue;
+    question.figureAsset = {
+      id: entry.id,
+      svg: entry.svg,
+      url: join('figures', String(paper.year), entry.svg),
+      kind: entry.figureKind,
+      status: entry.status,
+      fidelity: entry.fidelity,
+      alt: entry.alt,
+      description: entry.description,
+      deviations: entry.deviations,
+      reviewed: entry.kindReviewed === true,
+    };
+    question.figureNote = 'Reconstructed figure. It is drawn from the values printed in the booklet and is not the official artwork.';
+    if (!question.scorable && !question.boardAwarded) {
+      question.holdReason = question.optionsComplete
+        ? 'The item depends on a diagram. The reconstruction shows the printed values, but a redraw does not verify an item, so it is not marked.'
+        : 'The transcription does not reproduce the options of this item, and a reconstructed diagram does not supply them, so the item is not marked.';
+    }
+  }
 }
 
 /* ---- invariants: fail loudly rather than publish a wrong dataset ---- */

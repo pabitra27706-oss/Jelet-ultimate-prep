@@ -109,7 +109,16 @@ const terms = {};
 for (const [topic, synonyms] of Object.entries(baselineTerms)) {
   terms[topic] = { synonyms };
 }
-const baseline = mapCorpus({ papers, syllabus, terms });
+
+// The baseline is the corpus as it stood at the start of Phase 07. Papers
+// added after that point are excluded, or the "baseline" would silently
+// absorb them and the delta would measure nothing. The 2023 paper was
+// transcribed later than the baseline, so it is not part of it. Every other
+// paper — including 2024 and 2025 — was already in the corpus when the
+// baseline was recorded, so a year cutoff would wrongly drop those too.
+const BASELINE_EXCLUDED_PAPERS = [2023];
+const baselinePapers = papers.filter((paper) => !BASELINE_EXCLUDED_PAPERS.includes(paper.year));
+const baseline = mapCorpus({ papers: baselinePapers, syllabus, terms });
 
 const current = {
   mapped: map.mappedQuestions,
@@ -206,6 +215,8 @@ const report = {
   baseline: {
     source: 'scripts/topic-terms-baseline.json',
     note: 'The map as it stood at the start of Phase 07, rebuilt from the pre-expansion term lists. Those lists reproduce the recorded starting figures exactly.',
+    corpusCutoff: `excluding ${BASELINE_EXCLUDED_PAPERS.join(', ')}`,
+    corpusNote: 'The baseline is rebuilt over the corpus as it stood when the baseline was recorded. A paper transcribed after that point is not part of the baseline, so the delta measures the addition rather than absorbing it.',
   },
   baselineSummary,
   currentSummary,

@@ -1,0 +1,59 @@
+---
+/**
+ * A reconstructed figure, with its text equivalent.
+ *
+ * The asset is inlined rather than linked so that it inherits the page's
+ * colour tokens and its own `<title>` and `<desc>` reach the accessibility
+ * tree. The same file is published under `public/figures/` for the offline
+ * pack and for anyone who wants the raw asset.
+ *
+ * Three things are always on the surface, because ADR-0002 requires all
+ * three: the figure, the text equivalent, and the statement that the figure
+ * is a reconstruction and not the publisher's artwork.
+ */
+import type { FigureAsset } from '../lib/content';
+
+const { asset } = Astro.props as { asset: FigureAsset };
+
+const assets = import.meta.glob<string>('../../editorial/figures/**/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+/** The authored asset, looked up by its file name. */
+const key = Object.keys(assets).find((path) => path.endsWith(`/${asset.svg}`));
+const raw = key ? assets[key] : null;
+const markup = typeof raw === 'string' ? raw : null;
+---
+
+<figure class="qfigure" data-figure={asset.id}>
+  {
+    markup ? (
+      <div class="qfigure-art" set:html={markup} />
+    ) : (
+      <p class="holdnote">
+        The figure for this item could not be loaded. Its text equivalent is below.
+      </p>
+    )
+  }
+  <figcaption class="qfigure-caption">
+    <span class="qfigure-badge">Reconstructed figure</span>
+    <span class="qfigure-alt">{asset.alt}</span>
+  </figcaption>
+  <details class="qfigure-text">
+    <summary>Text equivalent of the figure</summary>
+    <p>{asset.description}</p>
+    <p class="micro">
+      <strong>How this redraw differs from the official artwork:</strong> {asset.deviations}
+    </p>
+    {
+      !asset.reviewed && (
+        <p class="micro">
+          The wiring or layout of this figure is a reconstruction from the printed values, not a
+          traced copy of the booklet's artwork. It is recorded for review against the original page.
+        </p>
+      )
+    }
+  </details>
+</figure>

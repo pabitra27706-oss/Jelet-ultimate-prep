@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" role="img" aria-labelledby="figtitle figdesc" width="700" height="320">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the accessible text layer of the official booklet carried no labels
+    for this figure, so the wiring is reconstructed from the stem text, which names a
+    capacitor, a supply of emf E, a switch and a resistor R, and from the keyed
+    options, which require the source to be disconnected when the switch closes so
+    that the current falls exponentially to zero.
+  -->
+  <title id="figtitle">Capacitor discharging through a resistor after a switch is closed</title>
+  <desc id="figdesc">A circuit with two vertical branches joined by a top wire and a bottom wire. The capacitor C sits in the top wire. The left branch holds a supply of emf E and a switch S1. The right branch holds a resistor R and a switch S2, and the two branches share the bottom wire. Both switches are drawn open.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="700" height="320" rx="12"/>
+    <g class="fig-ln" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 120 262 L 120 240" />
+      <path d="M 120 202 L 120 194" />
+      <circle cx="120" cy="221" r="19" />
+      <path d="M 120 194 L 120 166" />
+      <path class="fig-acc" d="M 120 194 L 137 177" />
+    <circle class="fig-accf" cx="120" cy="194" r="4" />
+    <circle class="fig-accf" cx="120" cy="166" r="4" />
+      <path d="M 120 166 L 120 80 L 292 80" />
+      <path d="M 292 80 L 298 80" />
+      <path d="M 310 80 L 500 80 L 500 196" />
+      <path class="fig-plate" stroke="none" d="M 296 58 L 302 58 L 302 102 L 296 102 Z" />
+      <path class="fig-plate" stroke="none" d="M 306 58 L 312 58 L 312 102 L 306 102 Z" />
+      <rect class="fig-fill" x="488" y="118" width="24" height="56" rx="4" />
+      <path d="M 500 80 L 500 118" />
+      <path d="M 500 174 L 500 200" />
+      <path class="fig-acc" d="M 500 200 L 518 218" />
+    <circle class="fig-accf" cx="500" cy="200" r="4" />
+    <circle class="fig-accf" cx="500" cy="232" r="4" />
+      <path d="M 500 236 L 500 262 L 120 262" />
+    </g>
+    <text class="fig-lbl" x="120" y="228" font-size="16" text-anchor="middle">E</text>
+    <text class="fig-lbl" x="150" y="182" font-size="14">S1<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+    <text class="fig-lbl" x="304" y="52" font-size="15" text-anchor="middle">C</text>
+    <text class="fig-lbl" x="530" y="150" font-size="15">R</text>
+    <text class="fig-lbl" x="530" y="222" font-size="14">S2<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+    <text class="fig-mut" x="350" y="300" font-size="12" text-anchor="middle">S2<tspan baseline-shift="sub" font-size="70%">2</tspan> is closed at t = t0<tspan baseline-shift="sub" font-size="70%">0</tspan>; the capacitor then discharges through R.</text>
+</svg>

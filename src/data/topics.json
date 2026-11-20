@@ -3,8 +3,8 @@
   "edition": "JELET-2026 Syllabus & Essential Information",
   "bulletinDate": "2026-03-18",
   "totalTopics": 42,
-  "mappedQuestions": 286,
-  "unmappedQuestions": 146,
+  "mappedQuestions": 349,
+  "unmappedQuestions": 183,
   "conflictCount": 0,
   "outsideSyllabusQuestions": 258,
   "topics": [
@@ -143,6 +143,47 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q2",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 2,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "matrix"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q4",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 4,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "matrix",
+            "singular",
+            "singular matrix"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q31",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 31,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "matrix",
+            "matrices",
+            "symmetric matrix",
+            "skew"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q1",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -223,9 +264,9 @@
           ]
         }
       ],
-      "coveredQuestions": 10,
-      "coveredMarks": 13,
-      "coveredYears": 3
+      "coveredQuestions": 13,
+      "coveredMarks": 17,
+      "coveredYears": 4
     },
     {
       "id": "mathematics-tb",
@@ -235,6 +276,42 @@
       "name": "Determinants (up to order 3)",
       "detail": "Expansion, minors, cofactors, properties, Cramer’s rule (3 unknowns), rank of matrix, homogeneous & non‑homogeneous systems (statements & applications).",
       "questions": [
+        {
+          "questionId": "jelet-et-p1-2023:q3",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 3,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "rank of the matrix"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q6",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 6,
+          "held": false,
+          "voided": true,
+          "marks": 1,
+          "terms": [
+            "system of equations"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q32",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 32,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "determinant"
+          ]
+        },
         {
           "questionId": "jelet-et-p1-2025:q4",
           "paperId": "jelet-et-p1-2025",
@@ -248,9 +325,9 @@
           ]
         }
       ],
-      "coveredQuestions": 1,
-      "coveredMarks": 1,
-      "coveredYears": 1
+      "coveredQuestions": 4,
+      "coveredMarks": 5,
+      "coveredYears": 2
     },
     {
       "id": "mathematics-tc",
@@ -270,6 +347,18 @@
           "marks": 1,
           "terms": [
             "imaginary"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q8",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 8,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "cube root of unity"
           ]
         },
         {
@@ -310,9 +399,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 4,
-      "coveredYears": 2
+      "coveredQuestions": 4,
+      "coveredMarks": 5,
+      "coveredYears": 3
     },
     {
       "id": "mathematics-td",
@@ -445,6 +534,92 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q5",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 5,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "collinear"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q10",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 10,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "parabola"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q11",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 11,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "conic"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q13",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 13,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "tangent"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q19",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 19,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "tangent to",
+            "tangent"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q20",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 20,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "tangent to",
+            "tangent"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q37",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 37,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "normal to"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q8",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -544,9 +719,9 @@
           ]
         }
       ],
-      "coveredQuestions": 15,
-      "coveredMarks": 18,
-      "coveredYears": 3
+      "coveredQuestions": 22,
+      "coveredMarks": 26,
+      "coveredYears": 4
     },
     {
       "id": "mathematics-te",
@@ -593,6 +768,56 @@
           "terms": [
             "vector",
             "coplanar"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q12",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 12,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "vector"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q26",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 26,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "area"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q34",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 34,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "area"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q35",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 35,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "vector",
+            "scalar triple",
+            "unit vector"
           ]
         },
         {
@@ -646,9 +871,9 @@
           ]
         }
       ],
-      "coveredQuestions": 6,
-      "coveredMarks": 8,
-      "coveredYears": 3
+      "coveredQuestions": 10,
+      "coveredMarks": 14,
+      "coveredYears": 4
     },
     {
       "id": "mathematics-tf",
@@ -722,6 +947,54 @@
           "questionId": "jelet-et-p1-2022:q39",
           "paperId": "jelet-et-p1-2022",
           "year": 2022,
+          "n": 39,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "sin x"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q15",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 15,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "continuous"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q18",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 18,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "rolle's theorem"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q25",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 25,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "continuous"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q39",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
           "n": 39,
           "held": false,
           "voided": false,
@@ -827,9 +1100,9 @@
           ]
         }
       ],
-      "coveredQuestions": 12,
-      "coveredMarks": 18,
-      "coveredYears": 3
+      "coveredQuestions": 16,
+      "coveredMarks": 23,
+      "coveredYears": 4
     },
     {
       "id": "mathematics-tg",
@@ -1061,6 +1334,42 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q22",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 22,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "partial"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q23",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 23,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "partial"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q38",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 38,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "partial"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q20",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -1097,9 +1406,9 @@
           ]
         }
       ],
-      "coveredQuestions": 5,
-      "coveredMarks": 5,
-      "coveredYears": 3
+      "coveredQuestions": 8,
+      "coveredMarks": 9,
+      "coveredYears": 4
     },
     {
       "id": "mathematics-ti",
@@ -1367,6 +1676,18 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q27",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 27,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "differential equation"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2025:q29",
           "paperId": "jelet-et-p1-2025",
           "year": 2025,
@@ -1379,9 +1700,9 @@
           ]
         }
       ],
-      "coveredQuestions": 1,
-      "coveredMarks": 1,
-      "coveredYears": 1
+      "coveredQuestions": 2,
+      "coveredMarks": 2,
+      "coveredYears": 2
     },
     {
       "id": "mathematics-tk",
@@ -1504,6 +1825,32 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q29",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 29,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "probability",
+            "at random"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q30",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 30,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "events",
+            "mutually exclusive"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q29",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -1565,9 +1912,9 @@
           ]
         }
       ],
-      "coveredQuestions": 7,
-      "coveredMarks": 8,
-      "coveredYears": 3
+      "coveredQuestions": 9,
+      "coveredMarks": 10,
+      "coveredYears": 4
     },
     {
       "id": "physics-t01",
@@ -1587,6 +1934,18 @@
           "marks": 1,
           "terms": [
             "error"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q41",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 41,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "dimension of"
           ]
         },
         {
@@ -1614,9 +1973,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 3,
-      "coveredYears": 2
+      "coveredQuestions": 4,
+      "coveredMarks": 4,
+      "coveredYears": 3
     },
     {
       "id": "physics-t02",
@@ -1679,6 +2038,81 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q44",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 44,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "velocity"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q45",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 45,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "acceleration"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q46",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 46,
+          "held": false,
+          "voided": true,
+          "marks": 1,
+          "terms": [
+            "velocity"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q47",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 47,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "speed"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q50",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 50,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "velocity",
+            "relative velocity"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q66",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 66,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "speed",
+            "velocity",
+            "acceleration"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q41",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -1736,8 +2170,7 @@
           "voided": false,
           "marks": 2,
           "terms": [
-            "velocity",
-            "displacement"
+            "velocity"
           ]
         },
         {
@@ -1762,8 +2195,7 @@
           "voided": false,
           "marks": 1,
           "terms": [
-            "acceleration",
-            "displacement"
+            "acceleration"
           ]
         },
         {
@@ -1823,14 +2255,13 @@
           "voided": false,
           "marks": 2,
           "terms": [
-            "velocity",
-            "displacement"
+            "velocity"
           ]
         }
       ],
-      "coveredQuestions": 9,
-      "coveredMarks": 11,
-      "coveredYears": 3
+      "coveredQuestions": 15,
+      "coveredMarks": 18,
+      "coveredYears": 4
     },
     {
       "id": "physics-t03",
@@ -1996,6 +2427,19 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q67",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 67,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "potential energy",
+            "energy of"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q57",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -2070,9 +2514,9 @@
           ]
         }
       ],
-      "coveredQuestions": 4,
-      "coveredMarks": 5,
-      "coveredYears": 3
+      "coveredQuestions": 5,
+      "coveredMarks": 7,
+      "coveredYears": 4
     },
     {
       "id": "physics-t05",
@@ -2365,6 +2809,31 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q48",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 48,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "adiabatic",
+            "isothermal"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q68",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 68,
+          "held": true,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "heat"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q47",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -2529,6 +2998,44 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q51",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 51,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "refractive index"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q53",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 53,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "refractive index",
+            "refraction",
+            "wavelength"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q70",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 70,
+          "held": true,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "wavelength"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q43",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -2541,9 +3048,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 3,
-      "coveredYears": 1
+      "coveredQuestions": 5,
+      "coveredMarks": 5,
+      "coveredYears": 2
     },
     {
       "id": "physics-t14",
@@ -2553,6 +3060,19 @@
       "name": "Lens",
       "detail": "Convex & concave lenses, image formation, lens formula, power of lens, equivalent focal length & power of two thin lenses in contact.",
       "questions": [
+        {
+          "questionId": "jelet-et-p1-2023:q52",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 52,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "lens",
+            "focal length"
+          ]
+        },
         {
           "questionId": "jelet-et-p1-2024:q50",
           "paperId": "jelet-et-p1-2024",
@@ -2594,9 +3114,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 3,
-      "coveredYears": 2
+      "coveredQuestions": 4,
+      "coveredMarks": 4,
+      "coveredYears": 3
     },
     {
       "id": "physics-t15",
@@ -2634,6 +3154,30 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q62",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 62,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "work function"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q64",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 64,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "photon"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q55",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -2648,9 +3192,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 4,
-      "coveredYears": 2
+      "coveredQuestions": 5,
+      "coveredMarks": 6,
+      "coveredYears": 3
     },
     {
       "id": "chemistry-ta",
@@ -2695,6 +3239,43 @@
           "terms": [
             "bohr model",
             "bohr"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q72",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 72,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "bohr"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q75",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 75,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "orbital",
+            "electrons in"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q87",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 87,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "quantum numbers"
           ]
         },
         {
@@ -2751,9 +3332,9 @@
           ]
         }
       ],
-      "coveredQuestions": 7,
-      "coveredMarks": 7,
-      "coveredYears": 3
+      "coveredQuestions": 10,
+      "coveredMarks": 11,
+      "coveredYears": 4
     },
     {
       "id": "chemistry-tb",
@@ -2774,6 +3355,18 @@
           "terms": [
             "shape of",
             "tetrahedral"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q81",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 81,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "covalent"
           ]
         },
         {
@@ -2814,9 +3407,9 @@
           ]
         }
       ],
-      "coveredQuestions": 4,
-      "coveredMarks": 5,
-      "coveredYears": 2
+      "coveredQuestions": 5,
+      "coveredMarks": 6,
+      "coveredYears": 3
     },
     {
       "id": "chemistry-tc",
@@ -2911,6 +3504,21 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q90",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 90,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "acid",
+            "base",
+            "arrhenius",
+            "lewis"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q78",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -2973,9 +3581,9 @@
           ]
         }
       ],
-      "coveredQuestions": 11,
-      "coveredMarks": 13,
-      "coveredYears": 3
+      "coveredQuestions": 12,
+      "coveredMarks": 15,
+      "coveredYears": 4
     },
     {
       "id": "chemistry-td",
@@ -2985,6 +3593,19 @@
       "name": "Oxidation, Reduction, Electrochemistry",
       "detail": "Redox balancing (ion‑electron method), redox titration, electrolysis, Faraday’s laws, electrolysis of CuSO₄, electroplating, electrorefining, electrochemical cells (dry cell, lead storage cell), electrochemical series.",
       "questions": [
+        {
+          "questionId": "jelet-et-p1-2023:q74",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 74,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "electrolysis",
+            "electrolysis of"
+          ]
+        },
         {
           "questionId": "jelet-et-p1-2024:q75",
           "paperId": "jelet-et-p1-2024",
@@ -3037,9 +3658,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 3,
-      "coveredYears": 2
+      "coveredQuestions": 4,
+      "coveredMarks": 4,
+      "coveredYears": 3
     },
     {
       "id": "chemistry-te",
@@ -3061,11 +3682,23 @@
             "heat absorbed",
             "change in internal"
           ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q80",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 80,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "equilibrium constant"
+          ]
         }
       ],
-      "coveredQuestions": 1,
-      "coveredMarks": 1,
-      "coveredYears": 1
+      "coveredQuestions": 2,
+      "coveredMarks": 2,
+      "coveredYears": 2
     },
     {
       "id": "chemistry-tf",
@@ -3086,11 +3719,25 @@
           "terms": [
             "white pigment"
           ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q89",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 89,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "gangue",
+            "flux",
+            "slag"
+          ]
         }
       ],
-      "coveredQuestions": 1,
-      "coveredMarks": 1,
-      "coveredYears": 1
+      "coveredQuestions": 2,
+      "coveredMarks": 3,
+      "coveredYears": 2
     },
     {
       "id": "chemistry-tg",
@@ -3100,6 +3747,30 @@
       "name": "Water",
       "detail": "Hardness (types, causes, units, disadvantages), EDTA estimation, removal by Permutit, ion‑exchange, phosphate conditioning, Calgon treatment.",
       "questions": [
+        {
+          "questionId": "jelet-et-p1-2023:q78",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 78,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "water"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q88",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 88,
+          "held": false,
+          "voided": true,
+          "marks": 2,
+          "terms": [
+            "water"
+          ]
+        },
         {
           "questionId": "jelet-et-p1-2025:q78",
           "paperId": "jelet-et-p1-2025",
@@ -3125,9 +3796,9 @@
           ]
         }
       ],
-      "coveredQuestions": 2,
-      "coveredMarks": 3,
-      "coveredYears": 1
+      "coveredQuestions": 4,
+      "coveredMarks": 6,
+      "coveredYears": 2
     },
     {
       "id": "chemistry-th",
@@ -3366,6 +4037,56 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q91",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 91,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "resistor",
+            "capacitor",
+            "inductor"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q92",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 92,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "capacitors"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q94",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 94,
+          "held": false,
+          "voided": true,
+          "marks": 1,
+          "terms": [
+            "resistors"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q95",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 95,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "capacitors"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q91",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -3416,9 +4137,9 @@
           ]
         }
       ],
-      "coveredQuestions": 5,
-      "coveredMarks": 5,
-      "coveredYears": 3
+      "coveredQuestions": 6,
+      "coveredMarks": 6,
+      "coveredYears": 4
     },
     {
       "id": "electrical-t02",
@@ -3515,6 +4236,32 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q96",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 96,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "transformer",
+            "primary",
+            "secondary"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q97",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 97,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "transformer"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q92",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -3553,9 +4300,9 @@
           ]
         }
       ],
-      "coveredQuestions": 4,
-      "coveredMarks": 4,
-      "coveredYears": 3
+      "coveredQuestions": 6,
+      "coveredMarks": 6,
+      "coveredYears": 4
     },
     {
       "id": "electrical-t03",
@@ -3740,6 +4487,31 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2023:q98",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 98,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "motor",
+            "torque of"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q99",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 99,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "motor"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q100",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -3766,9 +4538,9 @@
           ]
         }
       ],
-      "coveredQuestions": 3,
-      "coveredMarks": 3,
-      "coveredYears": 3
+      "coveredQuestions": 5,
+      "coveredMarks": 5,
+      "coveredYears": 4
     },
     {
       "id": "electrical-t04",
@@ -3999,11 +4771,23 @@
             "power factor",
             "ac circuit"
           ]
+        },
+        {
+          "questionId": "jelet-et-p1-2023:q100",
+          "paperId": "jelet-et-p1-2023",
+          "year": 2023,
+          "n": 100,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "impedance"
+          ]
         }
       ],
-      "coveredQuestions": 0,
-      "coveredMarks": 0,
-      "coveredYears": 0
+      "coveredQuestions": 1,
+      "coveredMarks": 1,
+      "coveredYears": 1
     },
     {
       "id": "electrical-t06",
@@ -4807,6 +5591,339 @@
       "n": 99,
       "subjectKey": "electrical",
       "held": true,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q1",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 1,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q7",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 7,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q9",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 9,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q14",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 14,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q16",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 16,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q17",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 17,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q21",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 21,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q24",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 24,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q28",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 28,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q33",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 33,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q36",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 36,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q40",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 40,
+      "subjectKey": "mathematics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q42",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 42,
+      "subjectKey": "physics",
+      "held": true,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q43",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 43,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q49",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 49,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q54",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 54,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q55",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 55,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q56",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 56,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q57",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 57,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q58",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 58,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q59",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 59,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q60",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 60,
+      "subjectKey": "physics",
+      "held": true,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q61",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 61,
+      "subjectKey": "physics",
+      "held": true,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q63",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 63,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q65",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 65,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q69",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 69,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q71",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 71,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q73",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 73,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q76",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 76,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q77",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 77,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q79",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 79,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q82",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 82,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q83",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 83,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q84",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 84,
+      "subjectKey": "chemistry",
+      "held": true,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q85",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 85,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q86",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 86,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2023:q93",
+      "paperId": "jelet-et-p1-2023",
+      "year": 2023,
+      "n": 93,
+      "subjectKey": "electrical",
+      "held": false,
       "reason": "no approved term for this question matched a topic in its subject"
     },
     {

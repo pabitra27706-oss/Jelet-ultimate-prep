@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-labelledby="figtitle figdesc" width="700" height="270">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the accessible text layer preserved the chain order of the printed
+    structural formula (a quaternary carbon, then CH2, then CH, then CH3) but dropped
+    one methyl label. The redraw restores the two methyl groups drawn below the
+    quaternary carbon and the CH group, which is the only arrangement consistent with
+    both the printed skeleton and the keyed answer of one tertiary carbon.
+  -->
+  <title id="figtitle">Structural formula of a branched alkane</title>
+  <desc id="figdesc">The structural formula of 2,2,4-trimethylpentane. A central carbon is joined on the left to a methyl group, above to a methyl group, below to a further methyl group and on the right to a CH2 group. The CH2 group is joined to a CH group, which carries a methyl group below it and is joined on the right to a terminal methyl group.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="700" height="270" rx="12"/>
+    <g class="fig-ln" stroke-width="2.2" stroke-linecap="round">
+      <path d="M 112 150 L 152 150" />
+      <path d="M 196 150 L 236 150" />
+      <path d="M 300 150 L 340 150" />
+      <path d="M 376 150 L 416 150" />
+      <path d="M 174 138 L 174 104" />
+      <path d="M 174 162 L 174 196" />
+      <path d="M 358 162 L 358 196" />
+    </g>
+    <text class="fig-lbl" x="60" y="157" font-size="17" text-anchor="middle">H3<tspan baseline-shift="sub" font-size="70%">3</tspan>C</text>
+    <text class="fig-lbl" x="174" y="157" font-size="17" text-anchor="middle">C</text>
+    <text class="fig-lbl" x="266" y="157" font-size="17" text-anchor="middle">CH2<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+    <text class="fig-lbl" x="358" y="157" font-size="17" text-anchor="middle">CH</text>
+    <text class="fig-lbl" x="448" y="157" font-size="17" text-anchor="middle">CH3<tspan baseline-shift="sub" font-size="70%">3</tspan></text>
+    <text class="fig-lbl" x="174" y="92" font-size="17" text-anchor="middle">CH3<tspan baseline-shift="sub" font-size="70%">3</tspan></text>
+    <text class="fig-lbl" x="174" y="220" font-size="17" text-anchor="middle">CH3<tspan baseline-shift="sub" font-size="70%">3</tspan></text>
+    <text class="fig-lbl" x="358" y="220" font-size="17" text-anchor="middle">CH3<tspan baseline-shift="sub" font-size="70%">3</tspan></text>
+</svg>

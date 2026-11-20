@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" role="img" aria-labelledby="figtitle figdesc" width="640" height="340">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: B and C are drawn at one common volume and A at two thirds of
+    that volume, the only arrangement of the printed pressures 3P, 2P and P that
+    leaves BA isothermal and CA adiabatic at the same time. It is also the only
+    arrangement whose adiabatic index is one of the four printed options,
+    gamma = ln 3 / ln(3/2) = 1 / (1 - ln2/ln3).
+  -->
+  <title id="figtitle">Pressure-volume diagram for an ideal gas</title>
+  <desc id="figdesc">A pressure against volume plot with three states. State A lies at pressure 3P and a smaller volume; state B lies at pressure 2P and state C at pressure P, and B and C share the same volume, so they sit on one vertical line. A curve runs from A down to B, labelled as the isothermal path BA, and a steeper curve runs from A down to C, labelled as the adiabatic path CA.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="640" height="340" rx="12"/>
+    <g class="fig-ln" stroke-width="2" stroke-linecap="round">
+      <path d="M 95 265 L 95 50" />
+      <path d="M 95 265 L 595 265" />
+      <path class="fig-acc" stroke-width="2.6" d="M 348.33 79 C 380 99.65 418 119.11 475 141" />
+      <path class="fig-acc" stroke-width="2.6" d="M 348.33 79 C 380 129.84 418 163.38 475 203" />
+      <path class="fig-dash" d="M 475 141 L 475 203" />
+      <path d="M 89 79 L 95 79" />
+    <text class="fig-mut" x="85" y="84" font-size="13" text-anchor="end">3P</text>
+      <path d="M 89 141 L 95 141" />
+    <text class="fig-mut" x="85" y="146" font-size="13" text-anchor="end">2P</text>
+      <path d="M 89 203 L 95 203" />
+    <text class="fig-mut" x="85" y="208" font-size="13" text-anchor="end">P</text>
+      <circle class="fig-accf" cx="348.33" cy="79" r="5" />
+      <circle class="fig-accf" cx="475" cy="141" r="5" />
+      <circle class="fig-accf" cx="475" cy="203" r="5" />
+    </g>
+    <text class="fig-lbl" x="334.33" y="69" font-size="15" text-anchor="end">A</text>
+    <text class="fig-lbl" x="487" y="135" font-size="15">B</text>
+    <text class="fig-lbl" x="487" y="209" font-size="15">C</text>
+    <text class="fig-lbl" x="85" y="44" font-size="15" text-anchor="end">P</text>
+    <text class="fig-lbl" x="598" y="270" font-size="15">V</text>
+    <text class="fig-mut" x="85" y="270" font-size="13" text-anchor="end">O</text>
+      <path class="fig-soft" d="M 416.1 77.76 L 391.4 106.03" />
+      <path class="fig-soft" d="M 374.3 175.1 L 391.4 143.45" />
+    <text class="fig-mut fig-halo" x="416.1" y="77.76" font-size="12" text-anchor="middle">BA : isothermal</text>
+    <text class="fig-mut fig-halo" x="374.3" y="175.1" font-size="12" text-anchor="middle">CA : adiabatic</text>
+</svg>

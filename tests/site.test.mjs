@@ -105,7 +105,7 @@ test('the dashboard shows real corpus numbers and an honest empty record', async
   const attempted = await page.locator('[data-stat="attempted"]').textContent();
   assert.equal(attempted, '0');
   assert.equal(await page.locator('[data-stat="accuracy"]').textContent(), '—');
-  assert(await page.getByText(/690 questions from seven previous-year papers/).isVisible());
+  assert(await page.getByText(/790 questions from eight previous-year papers/).isVisible());
   assert(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible());
   assert(await page.getByRole('link', { name: /JELET 2025 · Paper I/ }).first().isVisible());
 });
@@ -114,12 +114,12 @@ test('the paper library lists every paper with its key tier and real counts', as
   const page = await context(t);
   await go(page, 'library/');
   const rows = page.locator('[data-paper-row]');
-  assert.equal(await rows.count(), 7);
+  assert.equal(await rows.count(), 8);
   await page.selectOption('#filter-key', 'official');
-  await page.waitForFunction(() => /2 of 7 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
-  assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 2);
+  await page.waitForFunction(() => /3 of 8 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 3);
   await page.selectOption('#filter-key', 'none');
-  await page.waitForFunction(() => /4 of 7 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
+  await page.waitForFunction(() => /4 of 8 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
   assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 4);
 });
 
@@ -383,8 +383,16 @@ test('a composed mock sits, marks with the board rules and lands in the review d
   // The clock is the one that was asked for.
   assert.equal((await page.locator('[data-runner-timer]').textContent()).trim(), '20:00');
 
-  // Answer the first question and submit. The rules are the board's.
-  await page.locator('.pane.active .opt[data-option="A"]').click();
+  // Answer the first question with a deliberately wrong option and submit.
+  // The wrong option is read from the published key rather than hard-coded,
+  // because a mock's composition changes whenever the corpus grows, and a
+  // hard-coded letter would quietly start marking the right answer.
+  const publishedKey = await (await fetch(`${origin}${base}data/keys.json`)).json();
+  const firstId = await page.locator('.pane.active').getAttribute('data-question');
+  const firstKey = publishedKey.keys[firstId]?.key ?? [];
+  const wrongOption = ['A', 'B', 'C', 'D'].find((letter) => !firstKey.includes(letter));
+  assert.ok(wrongOption, `the first mock question ${firstId} has a key to be wrong about`);
+  await page.locator(`.pane.active .opt[data-option="${wrongOption}"]`).click();
   await page.locator('[data-runner-submit]').click();
   await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
   const summaryText = await page.locator('[data-runner-results]').textContent();
@@ -427,9 +435,10 @@ test('the mock attempt keeps its specification and can be repeated from the revi
   assert.match(href, /\/mock\/run\/\?.*retry=/, 'a mock is repeated through its own link');
 
   // Following the link comes back to the same mock, with only the wrong
-  // questions in it.
+  // questions in it. The panes that are not part of the repeat are hidden
+  // rather than removed, so the selector has to ask for a visible one.
   await go(page, href.replace(/^.*\/mock\//, 'mock/'));
-  await page.waitForSelector('.pane[data-question]');
+  await page.waitForSelector('.pane:not([hidden])');
   const count = await page.locator('.pane:not([hidden])').count();
   assert.ok(count > 0 && count <= 6, 'the repeat holds only the questions that were wrong');
 });
@@ -931,7 +940,7 @@ test('the search index ships the whole corpus in a compact payload', async () =>
   const data = JSON.parse(raw);
   assert.equal(data.version, 2);
   const questions = data.entries.filter((entry) => entry.i.startsWith('question:'));
-  assert.equal(questions.length, 690);
+  assert.equal(questions.length, 790);
   assert(raw.length < 500 * 1024, `index too large: ${raw.length}`);
 });
 

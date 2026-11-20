@@ -11,6 +11,16 @@ const officialPapers = scorablePapers.filter((paper) => paper.keyTier === 'offic
 const derivedPapers = scorablePapers.filter((paper) => paper.keyTier === 'derived');
 const readOnlyPapers = papers.filter((paper) => !paper.hasKey);
 
+/**
+ * The corpus grows, so the sentence that counts it is derived rather than
+ * written out. A hard-coded "seven" was correct once and silently wrong the
+ * next time a paper was added.
+ */
+const paperWord = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][
+  papers.length
+] ?? String(papers.length);
+const officialYears = officialPapers.map((paper) => paper.year).join(', ').replace(/, ([^,]*)$/, ' and $1');
+
 const drills = mockPaper.subjects
   .map((subject) => {
     const items = rehearsableQuestions(mockPaper, subject.subjectKey);
@@ -18,15 +28,15 @@ const drills = mockPaper.subjects
   })
   .filter((subject) => subject.count > 0);
 ---
-<Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, seven previous-year papers with board answer keys, and spaced revision built from your own attempts.">
+<Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, previous-year papers with board answer keys, and spaced revision built from your own attempts.">
   <section class="hero">
     <div class="row-between" style="align-items:flex-start">
       <div class="grow">
         <p class="eyebrow">Paper I · Mathematics · Physics · Chemistry · Electrical &amp; Electronics</p>
         <h1>Prepare for JELET on your own.</h1>
         <p class="lead">
-          {totalQuestions} questions from seven previous-year papers, the board's own answer keys for{' '}
-          {officialPapers.map((paper) => paper.year).join(' and ')}, the real marking rules, timed mocks and a
+          {totalQuestions} questions from {paperWord} previous-year papers, the board's own answer keys for{' '}
+          {officialYears}, the real marking rules, timed mocks and a
           revision queue that follows the questions you actually got wrong.
         </p>
         <div class="hero-actions">

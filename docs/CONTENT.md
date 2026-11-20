@@ -38,14 +38,34 @@ The generator (`scripts/build-content.mjs`) reads the preserved archive and emit
 | 2019 | 98 | 0 | — | 0 | — | 0 | read only | no usable key |
 | 2021 | 100 | 0 | — | 0 | — | 0 | read only | no usable key |
 | 2022 | 95 | 87 | 102 | 0 | — | 87 | **derived** | independently solved; never labelled official |
+| 2023 | 100 | 86 | 103 | 4 | 5 | 90 | official | WBJEEB notice JEEB/Reg-267/23, Set A, identity-mapped |
 | 2024 | 97 | 78 | 93 | 2 | 2 | 80 | official | WBJEEB notice, Set A, identity-mapped |
 | 2025 | 100 | 82 | 100 | 3 | 3 | 85 | official | WBJEEB notice, Set A, identity-mapped |
 
-- 690 questions in total. **247** carry a published key and are marked against it. **5** more were voided by the board and award their marks to every candidate, so **252** questions can be sat and carry marks in a total. The other 438 are readable and searchable but never marked, and they are excluded from the denominator of every total.
-- A board-voided item is *not* a held item. The board published "W": no option is keyed and the full marks go to every candidate, whatever the candidate answered. These five items are labelled in the reader, in the runner and in the result, they are never asked for, and they never enter the review queue:
-  - 2024 Q49 and Q58 · 2025 Q41, Q79 and Q84.
+- 790 questions in total. **333** carry a published key and are marked against it. **9** more were voided by the board and award their marks to every candidate, so **342** questions can be sat and carry marks in a total. The other 448 are readable and searchable but never marked, and they are excluded from the denominator of every total.
+- A board-voided item is *not* a held item. The board published "W": no option is keyed and the full marks go to every candidate, whatever the candidate answered. These nine items are labelled in the reader, in the runner and in the result, they are never asked for, and they never enter the review queue:
+  - 2023 Q6, Q46, Q88 and Q94 · 2024 Q49 and Q58 · 2025 Q41, Q79 and Q84.
   - 2024 Q49 also depends on a diagram the transcription does not reproduce. The board voided it precisely so that no answer was needed, so the board's award governs the credit; ordinary held diagram items stay held and stay out of the totals.
+  - 2023 Q88 is a Category II item and carries two marks.
 - Corpus gaps carried openly rather than filled: 2019 Q78–79, 2022 Q86–90, 2024 Q60–62.
 - A question is held when its diagram was never transcribed, its options are malformed, or the transcription note says the item is ambiguous. Held items keep their reason on the page.
-- The 2023 and 2026 keys exist in the key file but no paper was transcribed for them, so nothing is published for those years.
+- The 2026 key exists in the key file but no paper was transcribed for it, so nothing is published for that year.
 - Every paper page shows its year, paper, set/booklet, key tier and the board document reference. The key tier is never dropped from a screen that shows a key.
+
+### The figure layer
+
+A question whose stem points at a diagram is a dead end unless the diagram is there. The figure layer is the set of reconstructed drawings that closes that gap, and it is governed by [ADR-0002](../archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md), which is a decision rather than a preference:
+
+| Rule | What it means here | Where it is enforced |
+|---|---|---|
+| No official pixels | An asset may not embed, link or trace any raster from the booklet. Only hand-authored SVG primitives. | `scripts/build-figures.mjs`, `tests/figures.test.mjs` |
+| Explicit provenance | Every asset names its source paper, booklet reference and retrieval date in a comment, and the manifest repeats it in structured form. | `editorial/figures/<year>/manifest.json` |
+| A text equivalent | Every asset carries a `<title>` and a `<desc>`, and the manifest carries an alt text and a long description, both published beside the figure. | `src/components/Figure.astro` |
+| No automatic scoring | A redraw does not verify an item. Ten of the 2023 items remain held with their figure on the page, and no held item becomes scoreable. | `tests/figures.test.mjs` |
+
+The layer is authored in `editorial/figures/<year>/`, published to `public/figures/<year>/` by `scripts/build-figures.mjs`, and inlined into the reader so a figure inherits the page's colour tokens in both themes. The published copies are byte-identical to the authored ones, and the check step in the release workflow fails if they drift.
+
+**The eleven 2023 figures** cover Q42, Q48, Q60, Q61, Q68, Q70, Q84, Q91, Q92, Q94 and Q95. Each manifest entry records what the drawing is, how faithful it is to the printed values, and how it differs from the booklet's artwork. Four entries — Q68, Q84, Q94 and Q95 — are marked as reconstructions whose wiring or layout was derived rather than traced, because the booklet's accessible text layer preserved the element labels but not the connections between them. Those four are flagged for owner review against the original page and are labelled as such on the site.
+
+**Figures do not unblock scoring.** Q94 is the clearest case: the board voided it, so it is board-awarded, and the figure beside it changes nothing about that. The ten held items keep their hold reason, and the total a learner can score is unchanged by the presence of a drawing.
+

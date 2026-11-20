@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350" role="img" aria-labelledby="figtitle figdesc" width="700" height="350">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the printed statement gives the slit separation as b and the distance
+    to the screen as d, and the redraw uses those letters rather than the more usual
+    d and D.
+  -->
+  <title id="figtitle">Young's double slit experiment with white light</title>
+  <desc id="figdesc">A white light source on the left shines on a vertical barrier carrying two slits, S1 above and S2 below, separated by a distance b. A vertical screen stands to the right at a distance d from the slits. A point P on the screen lies directly in front of S1. A ray is drawn from S1 to P and a second ray from S2 to P, and a dashed line marks the central axis midway between the two slits.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="700" height="350" rx="12"/>
+    <g class="fig-ln" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 150 60 L 150 105" />
+      <path d="M 150 135 L 150 175" />
+      <path d="M 150 205 L 150 262" />
+      <path d="M 580 60 L 580 262" />
+      <path class="fig-acc" d="M 150 120 L 580 120" />
+      <path class="fig-acc" d="M 150 190 L 580 120" />
+      <path class="fig-dash" d="M 150 155 L 580 155" />
+      <circle cx="48" cy="155" r="18" />
+      <path class="fig-acc" d="M 66 145 L 86 128 M 66 155 L 88 155 M 66 165 L 86 182" />
+    </g>
+    <circle class="fig-accf" cx="580" cy="120" r="5" />
+      <path class="fig-soft" d="M 118 120 L 118 190" />
+      <path class="fig-soft" d="M 112 126 L 118 120 L 124 126" />
+      <path class="fig-soft" d="M 112 184 L 118 190 L 124 184" />
+      <path class="fig-soft" d="M 150 296 L 580 296" />
+      <path class="fig-soft" d="M 156 290 L 150 296 L 156 302" />
+      <path class="fig-soft" d="M 574 290 L 580 296 L 574 302" />
+    <text class="fig-lbl" x="136" y="112" font-size="15" text-anchor="end">S1<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+    <text class="fig-lbl" x="136" y="212" font-size="15" text-anchor="end">S2<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+    <text class="fig-lbl" x="594" y="126" font-size="15">P</text>
+    <text class="fig-mut" x="594" y="74" font-size="13">screen</text>
+    <text class="fig-lbl" x="110" y="160" font-size="14" text-anchor="end">b</text>
+    <text class="fig-lbl" x="365" y="288" font-size="14" text-anchor="middle">d</text>
+    <text class="fig-mut" x="48" y="196" font-size="12" text-anchor="middle">white</text>
+    <text class="fig-mut" x="48" y="210" font-size="12" text-anchor="middle">light</text>
+</svg>

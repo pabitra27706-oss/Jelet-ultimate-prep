@@ -57,6 +57,42 @@ const PACK_DEFINITIONS = [
     onlineOnly: [],
   },
   {
+    id: 'paper-2023',
+    title: 'JELET 2023 · Paper I',
+    summary:
+      'The whole 2023 paper: every question, the official Set-A key, and a timed rehearsal. The ten items that depend on a diagram are held, and each of them carries a reconstructed figure.',
+    routes: [
+      'practice/jelet-et-p1-2023/index.html',
+      'practice/jelet-et-p1-2023/mathematics/index.html',
+      'practice/jelet-et-p1-2023/physics/index.html',
+      'practice/jelet-et-p1-2023/chemistry/index.html',
+      'practice/jelet-et-p1-2023/electrical/index.html',
+      'practice/jelet-et-p1-2023/print/index.html',
+      'practice/jelet-et-p1-2023/reconciliation/index.html',
+      'library/jelet-et-p1-2023/index.html',
+    ],
+    data: ['data/keys.json'],
+    /**
+     * The figure layer. The library page inlines these drawings, so the pack
+     * works without them, but the published copies are the canonical asset
+     * and a learner saving the paper's figures should get them.
+     */
+    assets: [
+      'figures/2023/q42-xt-yt.svg',
+      'figures/2023/q48-pv-plot.svg',
+      'figures/2023/q60-bridge-circuit.svg',
+      'figures/2023/q61-power-load-graph.svg',
+      'figures/2023/q68-rc-discharge.svg',
+      'figures/2023/q70-yds.svg',
+      'figures/2023/q84-structure.svg',
+      'figures/2023/q91-series-rlc.svg',
+      'figures/2023/q92-capacitors.svg',
+      'figures/2023/q94-three-branch-circuit.svg',
+      'figures/2023/q95-capacitor-network.svg',
+    ],
+    onlineOnly: [],
+  },
+  {
     id: 'paper-2024',
     title: 'JELET 2024 · Paper I',
     summary: 'The whole 2024 paper: every question, the official Set-A key, and a timed rehearsal.',
@@ -201,6 +237,7 @@ async function build() {
       ...SHARED_ASSETS,
       ...definition.routes,
       ...definition.data,
+      ...(definition.assets ?? []),
       ...shared,
       ...katex,
     ];

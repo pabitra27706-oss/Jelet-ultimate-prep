@@ -276,8 +276,12 @@ test('the map does not count the questions outside the syllabus as coverage', ()
 });
 
 test('the corpus was not modified to make the coverage look better', () => {
-  // The three published papers must keep their original question counts.
-  const expected = { 2017: 100, 2018: 100, 2019: 98, 2021: 100, 2022: 95, 2024: 97, 2025: 100 };
+  // Every paper must keep the question count it was published with. The 2023
+  // paper is a new transcription of a year that had a key but no paper, so it
+  // adds a paper rather than changing one.
+  const expected = {
+    2017: 100, 2018: 100, 2019: 98, 2021: 100, 2022: 95, 2023: 100, 2024: 97, 2025: 100,
+  };
   for (const paper of papers) {
     assert.equal(paper.questions.length, expected[paper.year], `${paper.year} changed size`);
   }
@@ -304,10 +308,15 @@ test('the baseline term lists reproduce the recorded starting figures exactly', 
   // The coverage delta is only meaningful if the baseline is a real map and
   // not a note. The pre-expansion term lists must rebuild a map that matches
   // every figure recorded at the start of Phase 07.
+  //
+  // The baseline is a record of the corpus as it stood at the start of the
+  // phase, so it is rebuilt over the papers that were published then. The
+  // 2023 paper was transcribed later and is not part of that starting point.
   const { mapCorpus } = await import('../scripts/topic-mapping.mjs');
   const terms = {};
   for (const [topic, synonyms] of Object.entries(baselineTerms)) terms[topic] = { synonyms };
-  const baseline = mapCorpus({ papers, syllabus, terms });
+  const phase07Papers = papers.filter((paper) => paper.year !== 2023);
+  const baseline = mapCorpus({ papers: phase07Papers, syllabus, terms });
 
   assert.equal(baseline.mappedQuestions, 212, 'the baseline maps a different number of questions');
   assert.equal(baseline.unmappedQuestions + baseline.outsideSyllabusQuestions, 478, 'the baseline unmaps a different number');

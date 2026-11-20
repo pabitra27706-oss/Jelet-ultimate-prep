@@ -214,8 +214,10 @@ test('phase 05: an ordinary held item is never board-awarded', () => {
     for (const question of paper.questions) {
       if (question.boardAwarded) {
         assert.equal(question.voided, true, `${question.id} is board-awarded only because the board voided it`);
-        assert.equal(question.marks, 1);
-        assert.equal(question.category, 'I');
+        // A board award is worth the marks its category carries. The board
+        // voided a Category II item in 2023, so the award is two marks, not
+        // one: the rule is the category, not the number of items seen so far.
+        assert.equal(question.marks, question.category === 'II' ? 2 : 1, `${question.id} is awarded the wrong marks`);
         continue;
       }
       if (question.voided) continue;

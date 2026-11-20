@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 330" role="img" aria-labelledby="figtitle figdesc" width="660" height="330">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the cells are drawn with the positive plate uppermost. That polarity is
+    forced by the printed options: with the 2 V cell positive at the top the network
+    gives R = 100 ohm, one of the printed options, and the opposite polarity would
+    require a negative resistance.
+  -->
+  <title id="figtitle">Bridge circuit with a galvanometer between a 500 ohm resistor and a 2 volt cell</title>
+  <desc id="figdesc">A rectangular circuit. The left branch contains a 12 volt battery whose positive plate is on top; its top wire runs through a 500 ohm resistor to a junction. From that junction a vertical branch carries a resistor R down to the bottom rail, and the top wire continues right through a galvanometer G to the right-hand branch, which contains a 2 volt cell whose positive plate is on top, before returning along the bottom rail to the battery.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="660" height="330" rx="12"/>
+    <g class="fig-ln" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 100 70 L 545 70" />
+      <path d="M 100 70 L 100 150" />
+      <path d="M 100 168 L 100 262 L 545 262 L 545 168" />
+      <path d="M 545 70 L 545 150" />
+      <path d="M 320 70 L 320 262" />
+      <rect class="fig-fill" x="140" y="58" width="70" height="24" rx="4" />
+      <circle class="fig-mask" cx="432" cy="70" r="24" />
+      <circle cx="432" cy="70" r="24" />
+      <rect class="fig-fill" x="308" y="128" width="24" height="56" rx="4" />
+      <path class="fig-plate" stroke="none" d="M 82 150 L 118 150 L 118 154 L 82 154 Z" />
+      <path class="fig-plate" stroke="none" d="M 91 168 L 109 168 L 109 172 L 91 172 Z" />
+      <path class="fig-plate" stroke="none" d="M 527 150 L 563 150 L 563 154 L 527 154 Z" />
+      <path class="fig-plate" stroke="none" d="M 536 168 L 554 168 L 554 172 L 536 172 Z" />
+    </g>
+    <circle class="fig-accf" cx="320" cy="70" r="5" />
+    <text class="fig-lbl" x="175" y="48" font-size="14" text-anchor="middle">500 Ω</text>
+    <text class="fig-lbl" x="432" y="77" font-size="17" text-anchor="middle">G</text>
+    <text class="fig-lbl" x="344" y="160" font-size="15">R</text>
+    <text class="fig-lbl" x="64" y="160" font-size="14" text-anchor="end">12 V</text>
+    <text class="fig-lbl" x="578" y="160" font-size="14">2 V</text>
+</svg>

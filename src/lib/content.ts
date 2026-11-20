@@ -15,6 +15,32 @@ export { subjectLabels };
 export type Category = 'I' | 'II';
 
 export type Option = { label: string; text: string };
+/**
+ * A reconstructed figure for a question whose stem points at a diagram.
+ *
+ * The asset is original line art redrawn from the values printed in the
+ * official booklet. It is never the publisher's artwork, and it never makes
+ * the question scoreable: ADR-0002 holds that a redraw does not verify an
+ * item.
+ */
+export type FigureAsset = {
+  id: string;
+  /** File name of the authored asset inside the collection's figure folder. */
+  svg: string;
+  /** Published path of the asset, relative to the site root. */
+  url: string;
+  kind: string;
+  status: string;
+  fidelity: string;
+  /** Short text equivalent, used as the image's alternative text. */
+  alt: string;
+  /** Long text equivalent, published beside the figure. */
+  description: string;
+  /** How the redraw differs from the official artwork. */
+  deviations: string;
+  /** Whether the figure's kind has been reviewed against the original page. */
+  reviewed: boolean;
+};
 export type Question = {
   id: string;
   n: number;
@@ -26,6 +52,8 @@ export type Question = {
   options: Option[];
   figure: boolean;
   figureNote: string | null;
+  /** The reconstructed figure for this item, when the collection has one. */
+  figureAsset: FigureAsset | null;
   transcriptionNote: string | null;
   optionsComplete: boolean;
   scorable: boolean;
