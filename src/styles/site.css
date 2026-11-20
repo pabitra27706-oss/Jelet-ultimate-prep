@@ -25,6 +25,13 @@
   --blue: #1d4f8a;
   --blue-soft: #e2ecf9;
   --focus: #b1440a;
+  /* Figure layer. The assets read these tokens, so a redrawn figure follows
+     the page theme instead of carrying a fixed palette of its own. */
+  --fig-bg: #fffdf8;
+  --fig-ink: #12252f;
+  --fig-muted: #5d7683;
+  --fig-accent: #0a5c4c;
+  --fig-fill: #dcefe7;
   --shadow: 0 1px 2px rgba(18, 37, 47, .06), 0 8px 24px -16px rgba(18, 37, 47, .3);
   --shadow-lg: 0 2px 6px rgba(18, 37, 47, .08), 0 28px 60px -30px rgba(18, 37, 47, .45);
   --radius: 14px;
@@ -59,6 +66,11 @@ html[data-theme="dark"] {
   --blue: #8fbdf0;
   --blue-soft: #16273c;
   --focus: #ffb27a;
+  --fig-bg: #16222a;
+  --fig-ink: #e9f1ef;
+  --fig-muted: #9bb3b0;
+  --fig-accent: #5fd3b0;
+  --fig-fill: #16332d;
   --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 28px -18px rgba(0, 0, 0, .8);
   --shadow-lg: 0 2px 8px rgba(0, 0, 0, .45), 0 30px 64px -32px rgba(0, 0, 0, .9);
 }
@@ -186,6 +198,20 @@ ul, ol { padding-left: 1.3rem; }
 .seg button, .seg a { border: 1px solid var(--line-2); background: var(--card); color: var(--ink-2); border-radius: 999px; padding: .35rem .75rem; min-height: 38px; font: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; text-decoration: none; }
 .seg button[aria-pressed="true"], .seg a[aria-current="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
 
+/* ---------- the mock builder ---------- */
+fieldset.field { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: .7rem .8rem; margin: 0; }
+fieldset.field > legend { font-weight: 800; font-size: .92rem; padding: 0 .25rem; }
+.check { display: flex; align-items: flex-start; gap: .55rem; padding: .45rem 0; font-weight: 600; font-size: .9rem; cursor: pointer; min-width: 0; }
+.check input[type="checkbox"], .check input[type="radio"] { width: 1.15rem; height: 1.15rem; margin: .15rem 0 0; flex: none; accent-color: var(--teal); }
+.check > span { min-width: 0; overflow-wrap: anywhere; }
+.check small { display: block; color: var(--muted); font-weight: 500; font-size: .78rem; }
+.mock-topics { border-top: 1px solid var(--line); padding: .5rem 0; }
+.mock-topics > summary { cursor: pointer; font-weight: 750; font-size: .88rem; padding: .25rem 0; }
+.mock-topic-list { padding: .1rem 0 .3rem .4rem; }
+.field input[type="range"] { padding: 0; min-height: 2rem; accent-color: var(--teal); }
+.chip.source { background: var(--paper-2); border-color: var(--line-2); font-weight: 700; }
+[data-mock-layout] { flex-wrap: wrap; }
+
 /* ---------- question cards ---------- */
 .qcard { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(.9rem, 2.4vw, 1.3rem); scroll-margin-top: 4.5rem; }
 .qcard + .qcard { margin-top: var(--gap); }
@@ -208,6 +234,22 @@ ul, ol { padding-left: 1.3rem; }
 .opt[data-state="missed"] .key { background: var(--green); border-color: var(--green); color: #fff; }
 .opt[disabled] { cursor: default; }
 .holdnote { background: var(--amber-soft); border-left: 4px solid var(--amber); padding: .55rem .7rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .88rem; color: var(--ink); }
+
+/* ---------- reconstructed figures ----------
+   A figure is original line art redrawn from the values printed in the
+   official booklet. It is inlined so it inherits the page's colour tokens,
+   and it always ships with its text equivalent and the statement that it is
+   a reconstruction rather than the publisher's artwork. */
+.qfigure { margin: .9rem 0; }
+.qfigure-art { border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: var(--fig-bg); }
+.qfigure-art svg { display: block; width: 100%; height: auto; }
+.qfigure-caption { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-top: .45rem; font-size: .82rem; color: var(--muted); }
+.qfigure-alt { flex: 1 1 18rem; min-width: 0; overflow-wrap: anywhere; }
+.qfigure-badge { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); border-radius: 999px; padding: .1rem .55rem; font-size: .72rem; font-weight: 750; letter-spacing: .02em; text-transform: uppercase; }
+.qfigure-text { margin-top: .45rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); padding: .5rem .7rem; }
+.qfigure-text summary { cursor: pointer; font-size: .84rem; font-weight: 700; color: var(--ink); }
+.qfigure-text p { font-size: .86rem; margin: .5rem 0 0; }
+.qfigure-text .micro { margin-top: .45rem; }
 .marknote { background: var(--red-soft); border-left: 4px solid var(--red); padding: .55rem .7rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .88rem; }
 .keynote { background: var(--green-soft); border-left: 4px solid var(--green); padding: .55rem .7rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .88rem; }
 

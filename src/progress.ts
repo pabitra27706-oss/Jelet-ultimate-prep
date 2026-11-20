@@ -1,16 +1,55 @@
+/**
+ * The learner's place in a lesson.
+ *
+ * The teaching sequence is fixed for every lesson: a learner meets the
+ * prerequisite, predicts, sees the worked example, tries it with help, tries
+ * it alone and revises. A lesson may leave a step out, but it may not invent
+ * one, because the progress of every lesson is stored against the same
+ * anchors.
+ *
+ * The place is kept per lesson and on this device only.
+ */
 export const sections = ['prerequisite', 'predict', 'worked-example', 'guided-practice', 'independent-practice', 'revision-sheet'] as const;
 export type Section = typeof sections[number];
-const storageKey = 'jelet:parallel-circuits:v1';
+const storagePrefix = 'jelet:';
+const storageVersion = 'v1';
+const validHints: readonly string[] = ['hint-one', 'hint-two', 'hint-three'];
+
+export { validHints };
+
+/**
+ * Check a lesson's own section list against the teaching sequence.
+ *
+ * The lesson's sections must be known, must not repeat, and must appear in
+ * the order they are taught.
+ */
+export function validateSections(lessonId: string, declared: readonly string[]): void {
+  const positions = declared.map((section) => sections.indexOf(section as Section));
+  if (positions.some((position) => position === -1)) {
+    throw new Error(`Lesson ${lessonId} uses a section that is not part of the teaching sequence`);
+  }
+  if (new Set(declared).size !== declared.length) {
+    throw new Error(`Lesson ${lessonId} repeats a section`);
+  }
+  for (let index = 1; index < positions.length; index += 1) {
+    if (positions[index]! <= positions[index - 1]!) {
+      throw new Error(`Lesson ${lessonId} lists its sections out of teaching order`);
+    }
+  }
+}
+
 export type Progress = { section: Section; guidedHints: string[]; independentRevealed: boolean };
-export const validHints: readonly string[] = ['hint-one', 'hint-two', 'hint-three'];
+
+/** The storage key for one lesson's place. */
+export const progressKey = (lessonId: string): string => `${storagePrefix}${lessonId}:${storageVersion}`;
 
 export function isSection(value: unknown): value is Section {
   return typeof value === 'string' && sections.some((section) => section === value);
 }
 
-export function readProgress(): { progress?: Progress; available: boolean } {
+export function readProgress(lessonId: string): { progress?: Progress; available: boolean } {
   try {
-    const raw = localStorage.getItem(storageKey);
+    const raw = localStorage.getItem(progressKey(lessonId));
     if (raw) {
       try {
         const parsed = JSON.parse(raw);
@@ -31,9 +70,9 @@ export function readProgress(): { progress?: Progress; available: boolean } {
   }
 }
 
-export function saveProgress(progress: Progress) {
+export function saveProgress(lessonId: string, progress: Progress) {
   try {
-    localStorage.setItem(storageKey, JSON.stringify(progress));
+    localStorage.setItem(progressKey(lessonId), JSON.stringify(progress));
     return true;
   } catch {
     return false;

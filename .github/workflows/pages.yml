@@ -5,11 +5,13 @@ on:
     branches:
       - main
       - arena/1e582bac-jelet-ultimate-prep
+      - arena/5da70e22-jelet-ultimate-prep
     paths:
       - 'src/**'
       - 'public/**'
       - 'tests/**'
       - 'scripts/**'
+      - 'editorial/**'
       - 'package*.json'
       - 'astro.config.mjs'
       - 'tsconfig.json'
@@ -43,12 +45,21 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run check
+      # The figure layer is published from editorial/figures. The check runs
+      # first so that a stale committed copy fails the gate instead of being
+      # quietly overwritten by the publish step.
+      - name: Validate and publish the figure layer
+        run: |
+          npm run figures:check
+          npm run figures
       - run: npm run build
       - run: python3 docs/phases/01-evidence/check_inventory.py
       # A deployment must not be able to publish a build the suites reject,
       # so every suite runs before the artifact is uploaded.
       - name: Run the scoring and review rules
         run: npm run test:rules
+      - name: Run the figure reconstruction suite
+        run: npm run test:figures
       - name: Run the exam rehearsal suite
         run: npm run test:phase05
       - name: Run the offline and release suite

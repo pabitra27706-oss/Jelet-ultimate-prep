@@ -1,12 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
 import Site from '../../layouts/Site.astro';
-import { validatePractice, type PracticeData } from '../../practice';
+import { loadTeaching } from '../../teaching';
 import { papers, rehearsableQuestions, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const items = (await getCollection('practice')).map((entry) => entry.data) as PracticeData[];
-validatePractice(items);
+const { practice } = await loadTeaching();
+const items = practice.map((entry) => entry.data);
 const keyed = papers.filter((paper) => paper.scoreableQuestions > 0);
 const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
 ---
@@ -29,6 +28,20 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
       <span class="micro">Same clock, same marks, same rules.</span>
     </div>
     <div class="card-grid">
+      <div class="card-flat">
+        <div class="row-between" style="align-items:flex-start">
+          <div>
+            <strong>Your own mock</strong>
+            <div class="micro">
+              Choose the subjects, the topics, the length, the category mix and the clock. The questions come from the
+              same previous-year papers, and the marking is the board's own.
+            </div>
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:.6rem">
+          <a class="btn small" href={`${base}mock/`}>Build a mock</a>
+        </div>
+      </div>
       {keyed.map((paper) => (
         <div class="card-flat">
           <div class="row-between" style="align-items:flex-start">
@@ -88,6 +101,51 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
         </div>
       );
     })}
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="quiz-heading">
+    <div class="section-head">
+      <h2 id="quiz-heading">Notebook quiz</h2>
+      <span class="micro">Untimed · one question at a time · marked as you go</span>
+    </div>
+    <p class="lead" style="margin:.4rem 0 .8rem">
+      A quiz is not a paper. There is no clock and no navigator: you get one question, you check it, and the published
+      answer and the paper it came from are shown straight away. Your place is kept on this device, so you can stop and
+      come back.
+    </p>
+    <ul class="linklist">
+      {(['mathematics', 'physics', 'chemistry', 'electrical'] as SubjectKey[]).map((subject) => (
+        <li>
+          <a href={`${base}quiz/?s=${subject}&n=10`}>
+            <span>
+              <strong>{subjectLabels[subject]} · ten questions</strong>
+              <small>Marked as you answer them, with the paper each question came from</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="notes-heading">
+    <div class="section-head">
+      <h2 id="notes-heading">Revision notes</h2>
+      <span class="micro">Every topic, every past question, your own results beside them.</span>
+    </div>
+    <ul class="linklist">
+      {(['mathematics', 'physics', 'chemistry', 'electrical'] as SubjectKey[]).map((subject) => (
+        <li>
+          <a href={`${base}notes/${subject}/`}>
+            <span>
+              <strong>{subjectLabels[subject]}</strong>
+              <small>The topics of the syllabus and the past questions that sit in them</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <section style="margin-top:2rem" aria-labelledby="queue-heading">
@@ -163,7 +221,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
       for (const item of due.slice(0, 6)) {
         const li = document.createElement('li');
         const link = document.createElement('a');
-        link.href = `${base}library/jelet-et-p1-${item.paperYear}/#q${item.n}`;
+        link.href = `${base}library/${item.paperId}/#q${item.n}`;
         const span = document.createElement('span');
         const strong = document.createElement('strong');
         strong.textContent = `${item.paperYear} · Q${item.n}`;

@@ -8,11 +8,39 @@
 import papersData from '../data/papers.json' with { type: 'json' };
 import keysData from '../data/keys.json' with { type: 'json' };
 import syllabusData from '../data/syllabus.json' with { type: 'json' };
+import { subjectLabels, type SubjectKey } from './subjects.ts';
 
-export type SubjectKey = 'mathematics' | 'physics' | 'chemistry' | 'electrical' | 'computer' | 'other';
+export type { SubjectKey };
+export { subjectLabels };
 export type Category = 'I' | 'II';
 
 export type Option = { label: string; text: string };
+/**
+ * A reconstructed figure for a question whose stem points at a diagram.
+ *
+ * The asset is original line art redrawn from the values printed in the
+ * official booklet. It is never the publisher's artwork, and it never makes
+ * the question scoreable: ADR-0002 holds that a redraw does not verify an
+ * item.
+ */
+export type FigureAsset = {
+  id: string;
+  /** File name of the authored asset inside the collection's figure folder. */
+  svg: string;
+  /** Published path of the asset, relative to the site root. */
+  url: string;
+  kind: string;
+  status: string;
+  fidelity: string;
+  /** Short text equivalent, used as the image's alternative text. */
+  alt: string;
+  /** Long text equivalent, published beside the figure. */
+  description: string;
+  /** How the redraw differs from the official artwork. */
+  deviations: string;
+  /** Whether the figure's kind has been reviewed against the original page. */
+  reviewed: boolean;
+};
 export type Question = {
   id: string;
   n: number;
@@ -24,6 +52,8 @@ export type Question = {
   options: Option[];
   figure: boolean;
   figureNote: string | null;
+  /** The reconstructed figure for this item, when the collection has one. */
+  figureAsset: FigureAsset | null;
   transcriptionNote: string | null;
   optionsComplete: boolean;
   scorable: boolean;
@@ -128,14 +158,11 @@ export const paperById = new Map(papers.map((paper) => [paper.id, paper]));
 export const paperByYear = new Map(papers.map((paper) => [paper.year, paper]));
 export const keyByYear = new Map(keys.map((key) => [key.year, key]));
 
-export const subjectLabels: Record<SubjectKey, string> = {
-  mathematics: 'Mathematics',
-  physics: 'Physics',
-  chemistry: 'Chemistry',
-  electrical: 'Electrical & Electronics',
-  computer: 'Computer & IT',
-  other: 'Other',
-};
+/**
+ * The subject names live in their own module so a browser bundle can use
+ * them without pulling in the corpus. They are re-exported here so existing
+ * callers keep working.
+ */
 
 /** Papers whose items can actually be scored with a published key. */
 export const scorablePapers = papers.filter((paper) => paper.scoreableQuestions > 0);

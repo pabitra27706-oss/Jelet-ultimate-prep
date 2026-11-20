@@ -1,0 +1,215 @@
+---
+import { getCollection } from 'astro:content';
+import Site from '../../../layouts/Site.astro';
+import { loadTeaching } from '../../../teaching';
+import { topicsOfSubject } from '../../../lib/topics.ts';
+import { topicStatuses } from '../../../lib/coverage.ts';
+import { subjectLabels } from '../../../lib/subjects.ts';
+import { papers, answerLetters, keyFor, type SubjectKey } from '../../../lib/content.ts';
+import { syllabusSubjects } from '../../../lib/topics.ts';
+
+export function getStaticPaths() {
+  return syllabusSubjects.map((group) => ({ params: { subject: group.id } }));
+}
+
+const { subject: subjectKey } = Astro.params;
+const subject = subjectKey as SubjectKey;
+if (!syllabusSubjects.some((group) => group.id === subject)) {
+  throw new Error(`Unknown subject: ${subjectKey}`);
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+await loadTeaching();
+const lessons = await getCollection('lessons');
+const statuses = new Map(topicStatuses().map((status) => [status.topic.id, status]));
+
+/** Every question of the corpus, by id, with the paper it belongs to. */
+const questionIndex = new Map(papers.flatMap((paper) => paper.questions.map((question) => [question.id, { paper, question }] as const)));
+
+/**
+ * The notes of one subject.
+ *
+ * Each topic of the syllabus is listed with the past questions that sit in
+ * it, their published answers, and the way the learner has actually done on
+ * them. Nothing is written here that is not already in the corpus: the notes
+ * are an index of the verified material, not a second copy of it.
+ */
+const chapters = topicsOfSubject(subject).map((topic) => {
+  const status = statuses.get(topic.id);
+  const record = status?.topic;
+  const questions = (record?.questions ?? [])
+    .map((entry) => {
+      const found = questionIndex.get(entry.questionId);
+      if (!found) return null;
+      const { paper, question } = found;
+      const key = keyFor(paper);
+      const letters = answerLetters(paper, question);
+      return {
+        id: question.id,
+        n: question.n,
+        year: paper.year,
+        paperId: paper.id,
+        paperLabel: paper.label,
+        subject: question.subject,
+        category: question.category,
+        marks: question.marks,
+        markable: question.scorable || question.boardAwarded,
+        voided: question.boardAwarded,
+        answer: letters.join(', ') || (question.boardAwarded ? 'awarded to everyone' : '—'),
+        tier: key?.tier ?? null,
+        terms: entry.terms.slice(0, 3),
+      };
+    })
+    .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+  const lesson = lessons.find((entry) => entry.data.subject === subject && (entry.data.topic.split(':').pop() ?? '') === topic.code && entry.data.status === 'open');
+  return {
+    ...topic,
+    band: status?.band ?? 'none',
+    note: status?.note ?? 'No question in the corpus maps to this topic.',
+    covered: record?.coveredQuestions ?? 0,
+    coveredYears: record?.coveredYears ?? 0,
+    coveredMarks: record?.coveredMarks ?? 0,
+    questions,
+    lesson: lesson ? { id: lesson.id, title: lesson.data.title, minutes: lesson.data.minutes } : null,
+  };
+});
+
+const label = subjectLabels[subject] ?? subject;
+const markable = chapters.reduce((sum, chapter) => sum + chapter.questions.filter((question) => question.markable).length, 0);
+const total = chapters.reduce((sum, chapter) => sum + chapter.questions.length, 0);
+
+/** The question ids of each topic, for the learner's own results. */
+const topicQuestionIds = Object.fromEntries(chapters.map((chapter) => [chapter.id, chapter.questions.map((question) => question.id)]));
+---
+
+<Site title={`${label} notes`} active="learn" description={`Revision notes for ${label}: every syllabus topic, every past question that sits in it, and your own results beside them.`}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}learn/`}>Learn</a> <span aria-hidden="true">›</span>
+    <a href={`${base}notes/${subject}/`}>{label}</a>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.2rem">
+    <div class="grow">
+      <p class="eyebrow">Revision notes · {label}</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.6rem)">{label}</h1>
+      <p class="lead">
+        {chapters.length} topic groups · {total} past questions sit in them, {markable} of which can be marked.
+        Every question below is a real previous-year question with its published answer; nothing here is written from
+        memory. Your own results appear beside them as you work.
+      </p>
+    </div>
+    <div class="btn-row">
+      <a class="btn ghost" href={`${base}learn/`}>All subjects</a>
+      <a class="btn" href={`${base}mock/?s=${subject}&n=30`}>A {label} mock</a>
+    </div>
+  </div>
+
+  <section class="card" style="margin-bottom:1.4rem" aria-labelledby="how-heading">
+    <h2 id="how-heading" style="font-size:1.05rem">How to use these notes</h2>
+    <ul class="small" style="color:var(--muted);margin-bottom:0">
+      <li>Work down a topic. Read the question, answer it on paper, then check the published answer beside it.</li>
+      <li>Your own results are filled in from the papers you have sat on this device. Nothing is uploaded.</li>
+      <li>A topic with a lesson has one: open it before the questions, because the lesson teaches the method the questions ask for.</li>
+      <li>Where a topic has few or no markable questions, that is said plainly rather than hidden.</li>
+    </ul>
+  </section>
+
+  {chapters.map((chapter) => (
+    <section class="module" id={chapter.id} aria-labelledby={`${chapter.id}-heading`}>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">{chapter.code.toUpperCase()}</p>
+          <h2 id={`${chapter.id}-heading`} style="font-size:1.2rem">{chapter.name}</h2>
+        </div>
+        <span class="chip" data-band={chapter.band}>{chapter.band === 'none' ? 'no markable question' : `${chapter.covered} markable · ${chapter.coveredYears} paper${chapter.coveredYears === 1 ? '' : 's'}`}</span>
+      </div>
+      <p class="small" style="color:var(--muted)">{chapter.detail}</p>
+      <p class="micro">{chapter.note}</p>
+      <div class="btn-row" style="margin:.5rem 0 .8rem">
+        {chapter.lesson && (
+          <a class="btn small" href={`${base}learn/${chapter.lesson.id}/`}>Open the lesson · {chapter.lesson.minutes} min</a>
+        )}
+        <a class="btn small ghost" href={`${base}quiz/?s=${subject}&t=${encodeURIComponent(chapter.code)}&n=10`}>Ten questions on this topic</a>
+      </div>
+
+      {chapter.questions.length === 0 ? (
+        <p class="micro">No question in the corpus maps to this topic yet. It is listed because the syllabus holds it, not because there is material to read.</p>
+      ) : (
+        <div style="overflow-x:auto">
+          <table class="table" data-topic-table={chapter.id}>
+            <thead>
+              <tr><th>Year</th><th>Q</th><th>Cat</th><th>Marks</th><th>Answer</th><th>Your result</th><th></th></tr>
+            </thead>
+            <tbody>
+              {chapter.questions.map((question) => (
+                <tr data-question-row={question.id} data-markable={question.markable ? 'yes' : 'no'}>
+                  <td>{question.year}</td>
+                  <td>Q{question.n}</td>
+                  <td>{question.category === 'II' ? 'II' : 'I'}</td>
+                  <td>{question.marks}</td>
+                  <td>
+                    {question.answer}
+                    {question.tier === 'derived' && <span class="chip derived" style="margin-left:.3rem">derived</span>}
+                    {question.voided && <span class="chip info" style="margin-left:.3rem">board awarded</span>}
+                  </td>
+                  <td class="micro" data-result>not sat yet</td>
+                  <td><a class="micro" href={`${base}library/${question.paperId}/#q${question.n}`}>read it →</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  ))}
+
+  <script type="application/json" id="note-topics" set:html={JSON.stringify(topicQuestionIds)} />
+  <script>
+    import { readAttempts } from '../../../lib/attempts.ts';
+
+    const node = document.querySelector<HTMLScriptElement>('#note-topics');
+    const map = node ? JSON.parse(node.textContent ?? '{}') as Record<string, string[]> : {};
+
+    // The learner's own outcome for every question they have sat.
+    const outcome = new Map<string, { status: string; assisted: boolean }>();
+    for (const attempt of readAttempts()) {
+      for (const result of attempt.results ?? []) {
+        if (!outcome.has(result.questionId)) outcome.set(result.questionId, { status: result.status, assisted: result.assisted });
+      }
+    }
+    const label = (status: string, assisted: boolean): string => {
+      if (status === 'correct') return assisted ? 'correct · hint used' : 'correct';
+      if (status === 'partial') return 'partial';
+      if (status === 'wrong') return 'wrong';
+      if (status === 'blank') return 'blank';
+      if (status === 'voided') return 'awarded to everyone';
+      return 'not marked';
+    };
+
+    let sat = 0;
+    let correct = 0;
+    for (const rows of Object.values(map)) {
+      for (const id of rows) {
+        const found = outcome.get(id);
+        if (!found) continue;
+        sat += 1;
+        if (found.status === 'correct') correct += 1;
+      }
+    }
+    for (const row of document.querySelectorAll<HTMLElement>('[data-question-row]')) {
+      const id = row.dataset.questionRow ?? '';
+      const found = outcome.get(id);
+      const cell = row.querySelector<HTMLElement>('[data-result]');
+      if (cell) cell.textContent = found ? label(found.status, found.assisted) : 'not sat yet';
+    }
+
+    const summary = document.querySelector<HTMLElement>('[data-notes-summary]');
+    if (summary) {
+      summary.textContent = sat === 0
+        ? 'You have not sat any of these questions on this device yet.'
+        : `You have sat ${sat} of the questions on this page, and got ${correct} right.`;
+    }
+  </script>
+  <p class="micro" data-notes-summary></p>
+</Site>

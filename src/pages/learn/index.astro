@@ -1,20 +1,108 @@
 ---
+import { getCollection } from 'astro:content';
 import Site from '../../layouts/Site.astro';
-import { getEntry } from 'astro:content';
+import { loadTeaching } from '../../teaching';
+import { syllabusSubjects, topicsOfSubject } from '../../lib/topics.ts';
+import { subjectLabels } from '../../lib/subjects.ts';
+import type { SubjectKey } from '../../lib/subjects.ts';
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const lesson = await getEntry('lessons', 'parallel-circuits');
-if (!lesson) throw new Error('Missing approved pilot lesson');
+await loadTeaching();
+const lessons = await getCollection('lessons');
+
+/**
+ * The catalog.
+ *
+ * Every topic of the syllabus is listed, whether or not a lesson exists for
+ * it. A topic with no lesson says so; a topic with a lesson links to it. The
+ * learner is never shown a chapter that is not there, and never told a
+ * chapter exists when it does not.
+ */
+const chapters = syllabusSubjects.map((group) => {
+  const subject = group.id as SubjectKey;
+  const subjectLessons = lessons.filter((lesson) => lesson.data.subject === subject && lesson.data.status === 'open');
+  return {
+    subject,
+    name: group.name,
+    label: subjectLabels[subject] ?? group.name,
+    topics: topicsOfSubject(subject).map((topic) => {
+      const lesson = subjectLessons.find((entry) => {
+        const lessonTopic = entry.data.topic.split(':').pop() ?? '';
+        return lessonTopic === topic.code;
+      });
+      return {
+        ...topic,
+        lesson: lesson ? { id: lesson.id, title: lesson.data.title, minutes: lesson.data.minutes, summary: lesson.data.summary } : null,
+      };
+    }),
+  };
+});
+
+const openLessons = lessons.filter((lesson) => lesson.data.status === 'open');
 ---
-<Site title="Learn" active="learn">
-  <div class="page-intro"><p class="eyebrow">PAPER I · LEARN</p><h1>Learn by topic.</h1><p class="lead">One pilot chapter, with a worked example and original notebook practice.</p></div>
-  <section class="module" aria-labelledby="subject">
-    <p class="eyebrow">ELECTRICAL &amp; ELECTRONICS</p><h2 id="subject">DC sources and circuits</h2>
-    <p>Find branch voltages and currents in a passive circuit.</p>
-    <a class="chapter-card" href={`${base}learn/parallel-circuits/`}><span><strong>{lesson.data.title}</strong><small>Same voltage, split current · {lesson.data.minutes} min</small></span><span aria-hidden="true">→</span></a>
-  </section>
+
+<Site title="Learn" active="learn" description="The JELET Paper I syllabus as a course: every subject, every topic, the lessons that exist and the ones that do not yet.">
+  <div class="page-intro">
+    <p class="eyebrow">PAPER I · LEARN</p>
+    <h1>Learn by topic.</h1>
+    <p class="lead">
+      The whole syllabus, in the order the paper is set: {syllabusSubjects.length} subjects,
+      {chapters.reduce((sum, group) => sum + group.topics.length, 0)} topic groups.
+      {openLessons.length === 1 ? 'One chapter is written so far' : `${openLessons.length} chapters are written so far`} —
+      the rest are marked as missing, because a topic that has no lesson yet should say so rather than look empty.
+    </p>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:1.6rem">
+    {chapters.map((group) => (
+      <a class="linkrow" href={`${base}notes/${group.subject}/`}>
+        <span>
+          <strong>{group.label}</strong>
+          <small>{group.topics.length} topic groups · {group.topics.filter((topic) => topic.lesson).length} with a lesson</small>
+        </span>
+        <span aria-hidden="true">→</span>
+      </a>
+    ))}
+  </div>
+
+  {chapters.map((group) => (
+    <section class="module" aria-labelledby={`subject-${group.subject}`}>
+      <p class="eyebrow">{group.name}</p>
+      <h2 id={`subject-${group.subject}`}>{group.label}</h2>
+      <p>
+        The revision notes for this subject gather every past question of each topic, with your own results beside
+        them. <a href={`${base}notes/${group.subject}/`}>Open the {group.label} notes →</a>
+      </p>
+      <ul class="linklist">
+        {group.topics.map((topic) => (
+          <li>
+            {topic.lesson ? (
+              <a href={`${base}learn/${topic.lesson.id}/`}>
+                <span>
+                  <strong>{topic.name}</strong>
+                  <small>Lesson · {topic.lesson.minutes} min · {topic.lesson.summary}</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <a href={`${base}notes/${group.subject}/#${topic.id}`}>
+                <span>
+                  <strong>{topic.name}</strong>
+                  <small>No lesson yet · open the notes and the past questions for this topic</small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
   <section class="module" aria-labelledby="original-practice">
-    <p class="eyebrow">ORIGINAL PRACTICE</p><h2 id="original-practice">Notebook checks</h2>
-    <p>Try a fresh circuit on your own, then open the check in the lesson. Not a past exam question.</p>
+    <p class="eyebrow">ORIGINAL PRACTICE</p>
+    <h2 id="original-practice">Notebook checks</h2>
+    <p>Original exercises written for this site. Not past exam questions, and never marked as if they were.</p>
     <a class="chapter-card" href={`${base}practice/`}><span><strong>Practice cards</strong><small>Stable IDs · source and answer status · no account</small></span><span aria-hidden="true">→</span></a>
   </section>
 </Site>

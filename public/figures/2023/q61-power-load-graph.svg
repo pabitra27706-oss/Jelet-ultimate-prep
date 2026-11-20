@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" role="img" aria-labelledby="figtitle figdesc" width="700" height="330">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the peak is drawn at load resistance r and at one quarter of the
+    marked E^2/r level, so the plotted maximum is E^2/(4r), the maximum power a cell
+    delivers to a load. That is the coordinate (1, 1/4) in units of r and E^2/r.
+  -->
+  <title id="figtitle">Power delivered to a load resistance as the load is varied</title>
+  <desc id="figdesc">A graph of power P on the vertical axis against load resistance R on the horizontal axis. A curve rises from the origin, reaches its highest point at the point M, and then falls away towards the horizontal axis. The point M stands above the load resistance marked r on the horizontal axis, and the vertical axis carries the mark E squared over r. The peak of the curve is one quarter of the way up the marked E squared over r level.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="700" height="330" rx="12"/>
+    <g class="fig-ln" stroke-width="2" stroke-linecap="round">
+      <path d="M 95 258 L 95 52" />
+      <path d="M 95 258 L 655 258" />
+      <path class="fig-acc" stroke-width="2.8" d="M 95 258 L 108.75 238.25 L 122.5 226 L 136.25 218.33 L 150 213.56 L 163.75 210.66 L 177.5 209.02 L 191.25 208.22 L 205 208 L 218.75 208.17 L 232.5 208.62 L 246.25 209.25 L 260 210 L 273.75 210.83 L 287.5 211.72 L 301.25 212.63 L 315 213.56 L 328.75 214.48 L 342.5 215.4 L 356.25 216.3 L 370 217.18 L 383.75 218.05 L 397.5 218.89 L 411.25 219.71 L 425 220.5 L 438.75 221.27 L 452.5 222.01 L 466.25 222.73 L 480 223.43 L 493.75 224.11 L 507.5 224.76 L 521.25 225.39 L 535 226 L 548.75 226.59 L 562.5 227.16 L 576.25 227.71 L 590 228.25 L 603.75 228.77 L 617.5 229.27 L 631.25 229.75 L 645 230.22" />
+      <path d="M 205 258 L 205 264" />
+      <path d="M 89 58 L 95 58" />
+      <circle class="fig-accf" cx="205" cy="208" r="5" />
+    </g>
+    <text class="fig-mut" x="205" y="278" font-size="13" text-anchor="middle">r</text>
+    <text class="fig-mut" x="85" y="63" font-size="13" text-anchor="end">E<tspan baseline-shift="super" font-size="70%">2</tspan> / r</text>
+    <text class="fig-lbl" x="217" y="200" font-size="15">M</text>
+    <text class="fig-lbl" x="83" y="46" font-size="15" text-anchor="end">P</text>
+    <text class="fig-lbl" x="658" y="263" font-size="15">R</text>
+    <text class="fig-mut" x="83" y="263" font-size="13" text-anchor="end">O</text>
+</svg>

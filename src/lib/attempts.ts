@@ -6,7 +6,7 @@
  * still gets a working session, and is told plainly that nothing was saved.
  */
 
-export type AttemptMode = 'mock' | 'drill';
+export type AttemptMode = 'mock' | 'drill' | 'quiz';
 
 export type AttemptItemResult = {
   questionId: string;
@@ -66,6 +66,29 @@ export type Attempt = {
   /** paper-level completeness facts shown next to the result */
   scopeMarks: number;
   scopeQuestions: number;
+  /**
+   * The specification of a composed mock, when this attempt is one.
+   *
+   * A mock is not a paper in the archive, so the only way back to it is the
+   * link that composed it. It is kept on the attempt so the review desk and
+   * the dashboard can reopen the same mock.
+   */
+  mockSpec?: string | null;
+  /**
+   * The specification of a notebook quiz, when this attempt is one.
+   *
+   * A quiz is not a paper and not a mock, so it keeps its own link: the only
+   * way back to it is the specification that composed it.
+   */
+  quizSpec?: string | null;
+  /**
+   * The paper each question of a composed mock came from.
+   *
+   * A mock draws from several previous-year papers. The review queue files a
+   * wrong question under the paper that actually holds it, so the learner is
+   * always sent to a page that has the question on it.
+   */
+  sources?: Record<string, { paperId: string; year: number; n: number }> | null;
   /** Filled in when the attempt is submitted; the outcome of every item. */
   results?: AttemptItemResult[];
 };
@@ -210,9 +233,4 @@ export function deleteAttempt(id: string): boolean {
 
 export function clearAttempts(): boolean {
   return writeAttempts([]);
-}
-
-/** Stable id for one set, so a resumed session keeps its own history. */
-export function attemptId(paperId: string, scope: string): string {
-  return `${paperId}::${scope}`;
 }

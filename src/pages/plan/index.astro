@@ -1,0 +1,296 @@
+---
+import Site from '../../layouts/Site.astro';
+import { getCollection } from 'astro:content';
+import { loadTeaching } from '../../teaching';
+import { parseTopicReference } from '../../lib/topics.ts';
+import { papers } from '../../lib/content.ts';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+await loadTeaching();
+const lessons = (await getCollection('lessons'))
+  .filter((entry) => entry.data.status === 'open')
+  .map((entry) => {
+    const topic = parseTopicReference(entry.data.topic);
+    return {
+      id: entry.id,
+      title: entry.data.title,
+      summary: entry.data.summary,
+      subject: entry.data.subject,
+      minutes: entry.data.minutes,
+      topicId: topic?.id ?? '',
+      topicName: topic?.name ?? '',
+      topicCode: topic?.code ?? '',
+    };
+  });
+
+const scorableTotal = papers.reduce((sum, paper) => sum + paper.scoreableQuestions, 0);
+---
+
+<Site title="Your plan" active="today" description="A study plan built from your own record: what is due, what to read, two problems to do and one thing to repeat.">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <span>Your plan</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1.2rem">
+    <div class="grow">
+      <p class="eyebrow">Built from your own record</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.6rem)">What to do next.</h1>
+      <p class="lead">
+        One lesson, two problems and one repeat — a plan small enough to finish. It is built from the papers you have
+        sat on this device and from what is due for revision, and it changes as you work. Nothing here is a score, and
+        nothing is uploaded.
+      </p>
+    </div>
+    <a class="btn ghost" href={`${base}review/`}>The review desk</a>
+  </div>
+
+  <section class="card" aria-labelledby="plan-heading">
+    <div class="section-head">
+      <h2 id="plan-heading" style="font-size:1.1rem">Today</h2>
+      <span class="micro" data-plan-total></span>
+    </div>
+    <div id="plan-list">
+      <p class="micro">Reading your record…</p>
+    </div>
+    <p class="micro" style="margin-top:.8rem" data-plan-note></p>
+  </section>
+
+  <section class="card" style="margin-top:1.4rem" aria-labelledby="signals-heading">
+    <div class="section-head">
+      <h2 id="signals-heading" style="font-size:1.1rem">Three signals, kept apart</h2>
+      <span class="micro">They answer different questions and are never combined into one number.</span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><b data-signal="coverage">—</b><span>Coverage</span><em data-signal-note="coverage">of the {scorableTotal} questions that carry a published key</em></div>
+      <div class="stat"><b data-signal="accuracy">—</b><span>Independent accuracy</span><em data-signal-note="accuracy">correct on a first, unassisted attempt</em></div>
+      <div class="stat"><b data-signal="due">—</b><span>Items due</span><em data-signal-note="due">questions waiting for spaced revision</em></div>
+    </div>
+    <p class="micro" style="margin-top:.8rem" data-signal-note-more>
+      Coverage says how much of the syllabus you have met. Accuracy says how well you did on what you met first time.
+      Items due says what the ladder has scheduled. A page you opened is none of these.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:1.4rem" aria-labelledby="week-heading">
+    <div class="section-head">
+      <h2 id="week-heading" style="font-size:1.1rem">The next seven days</h2>
+      <span class="micro">What the ladder has scheduled, and what you actually sat</span>
+    </div>
+    <div id="week-list"></div>
+  </section>
+
+  <script type="application/json" id="plan-lessons" set:html={JSON.stringify(lessons)} />
+  <script type="application/json" id="plan-scorable" set:html={JSON.stringify(scorableTotal)} />
+
+  <script>
+    import { readAttempts } from '../../lib/attempts.ts';
+    import { readQueue, dueItems } from '../../lib/review.ts';
+    import { buildStats } from '../../lib/stats.ts';
+    import { summariseMistakes, topicsToRemediate, type TopicIndex } from '../../lib/remediation.ts';
+
+    const base = (document.querySelector<HTMLElement>('[data-base]')?.dataset.base) ?? '/';
+    const scorableTotal = Number(document.querySelector<HTMLScriptElement>('#plan-scorable')?.textContent ?? '0');
+    const lessonNode = document.querySelector<HTMLScriptElement>('#plan-lessons');
+    const lessons = lessonNode ? (JSON.parse(lessonNode.textContent ?? '[]') as {
+      id: string; title: string; summary: string; subject: string; minutes: number;
+      topicId: string; topicName: string; topicCode: string;
+    }[]) : [];
+
+    const attempts = readAttempts();
+    const queue = readQueue();
+    const stats = buildStats(attempts, queue, scorableTotal);
+
+    const set = (key: string, value: string) => {
+      const node = document.querySelector(`[data-signal="${key}"]`);
+      if (node) node.textContent = value;
+    };
+    const setNote = (key: string, value: string) => {
+      const node = document.querySelector(`[data-signal-note="${key}"]`);
+      if (node) node.textContent = value;
+    };
+
+    set('coverage', `${Math.round(stats.coverage * 100)}%`);
+    setNote('coverage', `${stats.questionsAttempted} of ${scorableTotal} questions with a published key`);
+    set('accuracy', stats.accuracy === null ? '—' : `${Math.round(stats.accuracy * 100)}%`);
+    setNote('accuracy', stats.independentAnswered > 0
+      ? `${stats.independentCorrect} of ${stats.independentAnswered} first attempts, without hints`
+      : 'no submitted attempt yet');
+    set('due', String(stats.dueNow));
+    setNote('due', `${stats.queueSize} question${stats.queueSize === 1 ? '' : 's'} in the queue in total`);
+
+    const dayKey = (date: Date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const satDays = new Set<string>();
+    for (const attempt of attempts) {
+      if (!attempt.submittedAt) continue;
+      satDays.add(dayKey(new Date(attempt.submittedAt)));
+    }
+
+    const build = async () => {
+      let index: TopicIndex = { topics: {}, questions: {} };
+      try {
+        const response = await fetch(`${base}data/topic-index.json`, { headers: { Accept: 'application/json' } });
+        if (response.ok) index = (await response.json()) as TopicIndex;
+      } catch { /* The plan still works without the topic map. */ }
+
+      const remediation = summariseMistakes(queue, index);
+      const weak = topicsToRemediate(remediation, 1)[0];
+
+      const due = dueItems(queue).length;
+      const lastAttempt = [...attempts]
+        .filter((attempt) => attempt.submittedAt)
+        .sort((a, b) => (b.submittedAt ?? 0) - (a.submittedAt ?? 0))[0];
+      const lastWrong = (lastAttempt?.results ?? []).filter((result) => result.status === 'wrong' || result.status === 'blank').length;
+
+      const steps: { title: string; detail: string; href: string; minutes: number; kind: string }[] = [];
+
+      if (due > 0) {
+        steps.push({
+          title: `Revise ${due} question${due === 1 ? '' : 's'} that are due`,
+          detail: 'The ladder has brought them back. Answering them correctly twice in a row clears them.',
+          href: `${base}review/`,
+          minutes: Math.max(2, Math.round(due * 1.5)),
+          kind: 'revise',
+        });
+      }
+
+      // One lesson: the one that teaches the topic the learner keeps missing.
+      // The claim about the topic is only made when the lesson really teaches
+      // that topic - a plan must not tell a learner that a lesson on parallel
+      // circuits covers coordinate geometry.
+      const matching = weak ? lessons.find((entry) => entry.topicId === weak.topicId) : undefined;
+      const lesson = matching ?? lessons.find((entry) => entry.topicId.length > 0) ?? lessons[0];
+      if (lesson) {
+        steps.push({
+          title: `Read one lesson: ${lesson.title}`,
+          detail: matching
+            ? `${weak?.topicName} is where your mistakes concentrate, and this lesson teaches it.`
+            : lesson.summary,
+          href: `${base}learn/${lesson.id}/`,
+          minutes: lesson.minutes,
+          kind: 'lesson',
+        });
+      }
+
+      // Two problems, from the weakest topic that has something to draw.
+      if (weak) {
+        steps.push({
+          title: 'Do two problems on the topic you keep missing',
+          detail: `${weak.topicName}: ${weak.wrong} wrong and ${weak.blank} blank so far.`,
+          href: `${base}quiz/?s=${weak.subjectKey}&t=${encodeURIComponent(weak.topicCode)}&n=2`,
+          minutes: 4,
+          kind: 'problems',
+        });
+      } else {
+        steps.push({
+          title: 'Do two problems',
+          detail: 'Nothing is wrong yet, so take two from the questions you have not met.',
+          href: `${base}quiz/?n=2`,
+          minutes: 4,
+          kind: 'problems',
+        });
+      }
+
+      // One repeat: the last paper that still holds mistakes.
+      if (lastAttempt && lastWrong > 0) {
+        const retry = lastAttempt.quizSpec
+          ? `${base}quiz/?${lastAttempt.quizSpec}&retry=${encodeURIComponent(lastAttempt.id)}`
+          : lastAttempt.mockSpec
+            ? `${base}mock/run/?${lastAttempt.mockSpec}&retry=${encodeURIComponent(lastAttempt.id)}`
+            : `${base}practice/${lastAttempt.paperId}/${lastAttempt.subjectKey ? `${lastAttempt.subjectKey}/` : ''}?retry=${encodeURIComponent(lastAttempt.id)}`;
+        steps.push({
+          title: `Repeat the ${lastWrong} you got wrong`,
+          detail: `From ${lastAttempt.paperLabel}. Your first answers are kept; the repeat is a new attempt.`,
+          href: retry,
+          minutes: Math.max(3, Math.round(lastWrong * 1.5)),
+          kind: 'retry',
+        });
+      }
+
+      const list = document.querySelector('#plan-list');
+      const total = document.querySelector<HTMLElement>('[data-plan-total]');
+      const note = document.querySelector<HTMLElement>('[data-plan-note]');
+      if (list) {
+        list.replaceChildren();
+        if (steps.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'empty';
+          empty.textContent = 'There is nothing due and nothing to repeat. Sit a paper or build a mock to get started.';
+          list.append(empty);
+        }
+        for (const step of steps) {
+          const row = document.createElement('a');
+          row.className = 'linkrow';
+          row.href = step.href;
+          const left = document.createElement('span');
+          const strong = document.createElement('strong');
+          strong.textContent = step.title;
+          const small = document.createElement('small');
+          small.textContent = step.detail;
+          left.append(strong, small);
+          const right = document.createElement('span');
+          right.className = 'micro';
+          right.textContent = `~${step.minutes} min`;
+          row.append(left, right);
+          list.append(row);
+        }
+      }
+      if (total) {
+        const minutes = steps.reduce((sum, step) => sum + step.minutes, 0);
+        total.textContent = steps.length === 0 ? '' : `about ${minutes} minutes`;
+      }
+      if (note) {
+        const lastSat = [...satDays].sort().at(-1);
+        if (!lastSat) {
+          note.textContent = 'You have not sat a paper on this device yet. Everything above is the plan; nothing is a record of past work.';
+        } else {
+          const days = Math.floor((Date.now() - new Date(lastSat).getTime()) / (24 * 60 * 60 * 1000));
+          note.textContent = days === 0
+            ? 'You sat a paper today. The reviews that came due in the meantime are still waiting; a missed day reschedules them, it does not lose them.'
+            : `Your last paper was ${days} day${days === 1 ? '' : 's'} ago. The reviews that came due in between are still waiting — a missed day moves them, it does not cancel them.`;
+        }
+      }
+
+      // The week: what the ladder has scheduled and what was actually sat.
+      const week = document.querySelector('#week-list');
+      if (week) {
+        week.replaceChildren();
+        const table = document.createElement('table');
+        table.className = 'table';
+        table.innerHTML = '<thead><tr><th>Day</th><th>Reviews due</th><th>You sat a paper</th></tr></thead>';
+        const body = document.createElement('tbody');
+        for (let offset = 0; offset < 7; offset += 1) {
+          const date = new Date();
+          date.setHours(0, 0, 0, 0);
+          date.setDate(date.getDate() + offset);
+          const key = dayKey(date);
+          const end = new Date(date);
+          end.setDate(end.getDate() + 1);
+          const dueThatDay = queue.filter((item) => item.due >= date.getTime() && item.due < end.getTime()).length;
+          const row = document.createElement('tr');
+          const cells = [
+            offset === 0 ? 'Today' : date.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' }),
+            String(dueThatDay),
+            satDays.has(key) ? 'yes' : '—',
+          ];
+          for (const cell of cells) {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            row.append(td);
+          }
+          body.append(row);
+        }
+        table.append(body);
+        week.append(table);
+        const caption = document.createElement('p');
+        caption.className = 'micro';
+        caption.style.marginTop = '.6rem';
+        caption.textContent = 'Reviews due come from the ladder. The last column is what you actually submitted — nothing here is inferred from a page you opened.';
+        week.append(caption);
+      }
+    };
+
+    void build();
+  </script>
+  <span hidden data-base={base}></span>
+</Site>

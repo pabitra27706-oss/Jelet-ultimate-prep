@@ -1,9 +1,14 @@
 ---
 title: Parallel circuits
+summary: Same voltage, split current - a worked example, guided hints and an independent notebook check.
+subject: electrical
+topic: jelet-syllabus:electrical:t04
 revision: 1
 provenance: original
-topic: jelet-syllabus:electrical-and-electronics:t04
+status: open
 minutes: 8
+prerequisites: [Ohm's law, nodes and branches]
+objective: By the end you can find the branch currents of a parallel circuit and explain what changes when one branch opens.
 sections: [prerequisite, predict, worked-example, guided-practice, independent-practice, revision-sheet]
 ---
 

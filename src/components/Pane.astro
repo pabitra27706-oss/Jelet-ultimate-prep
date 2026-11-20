@@ -1,0 +1,60 @@
+---
+import Question from './Question.astro';
+import type { Question as QuestionData } from '../lib/content';
+import { paneAttributes, runnerFooterHtml, voidNoticeHtml, type PaneMeta } from '../lib/runner-markup';
+
+const {
+  question,
+  /** The number the learner sees on this item. Defaults to the paper's own number. */
+  number = question.n,
+  /** The position of this item in the set the learner is sitting. */
+  position = number,
+  /** How many items the set holds. */
+  total = 1,
+  /** The prefix for the anchor id, so a composed mock never collides. */
+  anchorPrefix = 'q-',
+  /** The paper the question came from, when the set draws from several. */
+  sourcePaper = '',
+  sourceYear = 0,
+  sourceN = 0,
+} = Astro.props as {
+  question: QuestionData;
+  number?: number;
+  position?: number;
+  total?: number;
+  anchorPrefix?: string;
+  sourcePaper?: string;
+  sourceYear?: number;
+  sourceN?: number;
+};
+
+const meta: PaneMeta = {
+  id: question.id,
+  number,
+  position,
+  total,
+  category: question.category,
+  marks: question.marks,
+  subject: question.subject,
+  subjectKey: question.subjectKey,
+  voided: question.boardAwarded,
+  sourcePaper,
+  sourceYear,
+  sourceN,
+};
+
+/**
+ * One question in a set the learner is sitting.
+ *
+ * A full-paper rehearsal and a composed mock use the same pane: the runner
+ * reads the item's category, marks, subject and disposition from the data
+ * attributes, and the question itself is rendered by the shared component so
+ * both sets look and behave identically.
+ */
+---
+
+<div class="pane" {...paneAttributes(meta)}>
+  <Question question={question} mode="runner" headingLevel="h2" anchor={`${anchorPrefix}${question.id}`} />
+  {question.boardAwarded && <Fragment set:html={voidNoticeHtml(question.marks)} />}
+  <Fragment set:html={runnerFooterHtml(position, total)} />
+</div>

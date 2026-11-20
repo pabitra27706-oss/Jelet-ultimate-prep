@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 290" role="img" aria-labelledby="figtitle figdesc" width="700" height="290">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the x-t graph is drawn as the straight line x = 0.8t + 0.2 and the
+    y-t graph as the parabola y = t^2, the two curves that pass through every value
+    printed in the booklet's own table for this item.
+  -->
+  <title id="figtitle">Position-time diagrams for a particle moving in two dimensions</title>
+  <desc id="figdesc">Two graphs side by side. The left graph plots x in metres against t in seconds and is a straight line passing through the marked points (1 s, 1 m) and (2 s, 1.8 m). The right graph plots y in metres against t in seconds and is a parabola passing through the marked points (1 s, 1 m) and (2 s, 4 m).</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="700" height="290" rx="12"/>
+    <g class="fig-ln" stroke-width="2" stroke-linecap="round">
+      <path d="M 70 235 L 70 55" />
+      <path d="M 70 235 L 335 235" />
+      <path class="fig-acc" d="M 70 220.6 L 335 76.6" stroke-width="2.6" />
+      <path d="M 174 235 L 174 241" />
+    <text class="fig-mut" x="174" y="255" font-size="13" text-anchor="middle">1</text>
+      <path d="M 278 235 L 278 241" />
+    <text class="fig-mut" x="278" y="255" font-size="13" text-anchor="middle">2</text>
+      <path d="M 64 163 L 70 163" />
+    <text class="fig-mut" x="60" y="168" font-size="13" text-anchor="end">1</text>
+      <path d="M 64 105.4 L 70 105.4" />
+    <text class="fig-mut" x="60" y="110.4" font-size="13" text-anchor="end">1.8</text>
+      <path class="fig-dash" d="M 174 163 L 174 235" />
+      <path class="fig-dash" d="M 278 105.4 L 278 235" />
+      <circle class="fig-accf" cx="174" cy="163" r="4" />
+      <circle class="fig-accf" cx="278" cy="105.4" r="4" />
+    <text class="fig-mut" x="54" y="240" font-size="13" text-anchor="end">O</text>
+    <text class="fig-lbl" x="54" y="58" font-size="14" text-anchor="end">x (m)</text>
+    <text class="fig-lbl" x="338" y="240" font-size="14">t (s)</text>
+    <text class="fig-mut fig-halo" x="174" y="149" font-size="12" text-anchor="middle">(1, 1)</text>
+    <text class="fig-mut fig-halo" x="270" y="93" font-size="12" text-anchor="end">(2, 1.8)</text>
+      <path d="M 400 235 L 400 55" />
+      <path d="M 400 235 L 665 235" />
+      <path class="fig-acc" d="M 400 235 L 408.94 234.73 L 417.89 233.93 L 426.83 232.6 L 435.78 230.74 L 444.72 228.34 L 453.66 225.41 L 462.61 221.95 L 471.55 217.96 L 480.5 213.43 L 489.44 208.37 L 498.38 202.78 L 507.33 196.66 L 516.27 190 L 525.22 182.81 L 534.16 175.09 L 543.1 166.84 L 552.05 158.05 L 560.99 148.73 L 569.94 138.88 L 578.88 128.5 L 587.82 117.58 L 596.77 106.13 L 605.71 94.15 L 614.66 81.64 L 623.6 68.59 L 632.54 55.01" stroke-width="2.6" />
+      <path d="M 504 235 L 504 241" />
+    <text class="fig-mut" x="504" y="255" font-size="13" text-anchor="middle">1</text>
+      <path d="M 608 235 L 608 241" />
+    <text class="fig-mut" x="608" y="255" font-size="13" text-anchor="middle">2</text>
+      <path d="M 394 199 L 400 199" />
+    <text class="fig-mut" x="390" y="204" font-size="13" text-anchor="end">1</text>
+      <path d="M 394 91 L 400 91" />
+    <text class="fig-mut" x="390" y="96" font-size="13" text-anchor="end">4</text>
+      <path class="fig-dash" d="M 504 199 L 504 235" />
+      <path class="fig-dash" d="M 608 91 L 608 235" />
+      <circle class="fig-accf" cx="504" cy="199" r="4" />
+      <circle class="fig-accf" cx="608" cy="91" r="4" />
+    <text class="fig-mut" x="384" y="240" font-size="13" text-anchor="end">O</text>
+    <text class="fig-lbl" x="384" y="58" font-size="14" text-anchor="end">y (m)</text>
+    <text class="fig-lbl" x="668" y="240" font-size="14">t (s)</text>
+    <text class="fig-mut fig-halo" x="504" y="185" font-size="12" text-anchor="middle">(1, 1)</text>
+    <text class="fig-mut fig-halo" x="600" y="79" font-size="12" text-anchor="end">(2, 4)</text>
+    </g>
+</svg>

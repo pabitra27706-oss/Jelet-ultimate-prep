@@ -1,0 +1,378 @@
+---
+import Site from '../../layouts/Site.astro';
+import { syllabusSubjects } from '../../lib/topics.ts';
+import { subjectLabels } from '../../lib/subjects.ts';
+import type { SubjectKey } from '../../lib/subjects.ts';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+---
+
+<Site title="Quiz" active="practice" description="A notebook quiz: one question at a time, marked the moment you check it, with the published answer and the paper it came from.">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">›</span>
+    <span>Quiz</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1rem">
+    <div class="grow">
+      <p class="eyebrow">Notebook quiz</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.6rem)" data-quiz-title>Quiz</h1>
+      <p class="lead" data-quiz-lead>Composing the questions…</p>
+      <div class="chip-row" data-quiz-chips></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn ghost" href={`${base}mock/`}>Build a timed mock</a>
+      <a class="btn ghost" href={`${base}practice/`}>Other sets</a>
+    </div>
+  </div>
+
+  <div class="notice" data-quiz-loading>
+    <strong>Composing the questions.</strong> They are drawn from the published pools of the subjects you chose.
+  </div>
+  <div class="notice" data-quiz-error hidden></div>
+
+  <section class="card" aria-labelledby="quiz-heading" data-quiz-card hidden>
+    <div class="section-head">
+      <h2 id="quiz-heading" style="font-size:1.05rem" data-quiz-position>Question 1</h2>
+      <span class="micro" data-quiz-progress>0 of 0 checked</span>
+    </div>
+    <div class="progress-track" aria-hidden="true" style="margin-bottom:1rem"><span data-quiz-bar style="width:0%"></span></div>
+
+    <div data-quiz-question></div>
+
+    <div class="btn-row" style="margin-top:1rem">
+      <button class="btn small ghost" type="button" data-quiz-check disabled>Check the answer</button>
+      <button class="btn small" type="button" data-quiz-next disabled>Next question</button>
+      <button class="btn small ghost" type="button" data-quiz-finish hidden>Finish and see the result</button>
+      <button class="btn small ghost" type="button" data-quiz-reveal hidden>Show the answer</button>
+    </div>
+    <p class="micro" data-quiz-feedback role="status" aria-live="polite" style="margin-top:.6rem"></p>
+    <p class="micro" data-quiz-place style="margin-top:.2rem"></p>
+  </section>
+
+  <section class="card" style="margin-top:1.4rem" data-quiz-result hidden aria-labelledby="quiz-result-heading">
+    <h2 id="quiz-result-heading" style="font-size:1.1rem">Your result</h2>
+    <div data-quiz-result-body></div>
+  </section>
+
+  <section style="margin-top:2rem" aria-labelledby="quiz-start-heading">
+    <div class="section-head">
+      <h2 id="quiz-start-heading" style="font-size:1.1rem">Start a quiz</h2>
+      <span class="micro">Untimed · one question at a time · marked as you go</span>
+    </div>
+    <div class="card-grid">
+      {syllabusSubjects.map((group) => (
+        <a class="linkrow" href={`${base}quiz/?s=${group.id}&n=10`}>
+          <span>
+            <strong>{subjectLabels[group.id as SubjectKey] ?? group.name}</strong>
+            <small>Ten questions, marked as you answer them</small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+    <p class="micro" style="margin-top:.8rem">
+      A quiz keeps its place on this device, so you can close the tab and come back to the same question. When you
+      finish, the wrong and blank questions wait for you at the review desk like any other attempt.
+    </p>
+  </section>
+
+  <script>
+    import { decodeSpec, encodeSpec } from '../../lib/mock.ts';
+    import { subjectLabels } from '../../lib/subjects.ts';
+    import { composeFromPool, fetchPools } from '../../lib/mock-client.ts';
+    import {
+      clearQuizState,
+      emptyQuizState,
+      markQuestion,
+      readQuizState,
+      recordQuiz,
+      saveQuizState,
+      wrongQuestionIds,
+      type KeyEntry,
+      type QuizAnswer,
+      type QuizQuestion,
+      type QuizState,
+    } from '../../lib/quiz.ts';
+
+    const base = (document.querySelector<HTMLElement>('[data-base]')?.dataset.base) ?? '/';
+    const params = new URLSearchParams(window.location.search);
+    const retryAttemptId = params.get('retry');
+    // A quiz has no clock, so the length of a paper never applies to it.
+    const spec = { ...decodeSpec(params), durationMinutes: 0 };
+
+    const titleNode = document.querySelector<HTMLElement>('[data-quiz-title]');
+    const leadNode = document.querySelector<HTMLElement>('[data-quiz-lead]');
+    const chips = document.querySelector<HTMLElement>('[data-quiz-chips]');
+    const loading = document.querySelector<HTMLElement>('[data-quiz-loading]');
+    const error = document.querySelector<HTMLElement>('[data-quiz-error]');
+    const card = document.querySelector<HTMLElement>('[data-quiz-card]');
+    const questionNode = document.querySelector<HTMLElement>('[data-quiz-question]');
+    const positionNode = document.querySelector<HTMLElement>('[data-quiz-position]');
+    const progressNode = document.querySelector<HTMLElement>('[data-quiz-progress]');
+    const bar = document.querySelector<HTMLElement>('[data-quiz-bar]');
+    const checkButton = document.querySelector<HTMLButtonElement>('[data-quiz-check]');
+    const nextButton = document.querySelector<HTMLButtonElement>('[data-quiz-next]');
+    const finishButton = document.querySelector<HTMLButtonElement>('[data-quiz-finish]');
+    const revealButton = document.querySelector<HTMLButtonElement>('[data-quiz-reveal]');
+    const feedback = document.querySelector<HTMLElement>('[data-quiz-feedback]');
+    const placeNode = document.querySelector<HTMLElement>('[data-quiz-place]');
+    const resultSection = document.querySelector<HTMLElement>('[data-quiz-result]');
+    const resultBody = document.querySelector<HTMLElement>('[data-quiz-result-body]');
+
+    const showError = (message: string) => {
+      if (!error) return;
+      error.hidden = false;
+      error.textContent = message;
+      if (loading) loading.hidden = true;
+    };
+
+    const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[character] ?? character));
+
+    const start = async () => {
+      if (!card || !questionNode) return;
+      let pool: Awaited<ReturnType<typeof fetchPools>> = [];
+      let keys: Record<string, KeyEntry> = {};
+      try {
+        pool = await fetchPools(base, spec.subjects);
+        const response = await fetch(`${base}data/keys.json`, { headers: { Accept: 'application/json' } });
+        if (response.ok) {
+          const data = (await response.json()) as { keys?: Record<string, KeyEntry> };
+          keys = data.keys ?? {};
+        }
+      } catch {
+        showError('The questions could not be loaded. Check your connection and try again.');
+        return;
+      }
+
+      const composition = composeFromPool(spec, pool, []);
+      let questions: QuizQuestion[] = composition.items.map((item) => ({
+        item,
+        html: pool.find((entry) => entry.id === item.id)?.html ?? '',
+      })).filter((question) => question.html.length > 0);
+
+      // A repeat shows only the questions that were wrong last time.
+      if (retryAttemptId) {
+        const wrong = wrongQuestionIds(retryAttemptId);
+        // Only the questions that were wrong are repeated. If the set does
+        // not hold them - the corpus changed, or the attempt was from another
+        // set - the whole set is kept rather than an empty page.
+        if (wrong && wrong.length > 0) {
+          const repeat = questions.filter((question) => wrong.includes(question.item.id));
+          if (repeat.length > 0) questions = repeat;
+        }
+      }
+
+      if (questions.length === 0) {
+        showError('This quiz could not be composed: the corpus has nothing that matches what you asked for. Try another subject or topic.');
+        return;
+      }
+
+      const quizId = `quiz-${spec.id}`;
+      let state: QuizState = readQuizState(quizId);
+      if (state.index >= questions.length) state = emptyQuizState(state.startedAt);
+      const sources: Record<string, { paperId: string; year: number; n: number }> = {};
+      for (const question of questions) sources[question.item.id] = { paperId: question.item.paperId, year: question.item.year, n: question.item.n };
+
+      if (titleNode) {
+        // The quiz has its own name. A mock's title belongs to the mock.
+        const subjects = spec.subjects.map((key) => subjectLabels[key] ?? key);
+        const subjectPart = subjects.length === 1 ? subjects[0] : subjects.join(' and ');
+        titleNode.textContent = `Quiz · ${subjectPart}`;
+      }
+      if (leadNode) leadNode.textContent = `${questions.length} questions · no time limit · marked the moment you check it.`;
+      if (chips) {
+        chips.innerHTML = [
+          `<span class="chip">${questions.length} questions</span>`,
+          `<span class="chip">${composition.marks} marks</span>`,
+          `<span class="chip">${composition.categoryI} Category I · ${composition.categoryII} Category II</span>`,
+        ].join('');
+      }
+      if (loading) loading.hidden = true;
+      card.hidden = false;
+
+      const answerOf = (id: string): QuizAnswer => state.answers[id] ?? { selected: [], revealed: false, checked: false };
+      const persist = () => {
+        const saved = saveQuizState(quizId, state);
+        if (placeNode) {
+          placeNode.textContent = saved
+            ? 'Your place is kept on this device. Close the tab and come back to the same question.'
+            : 'This browser is blocking storage, so your place will be lost if you close the tab.';
+        }
+      };
+
+      const paint = () => {
+        const question = questions[state.index];
+        if (!question) return;
+        const answer = answerOf(question.item.id);
+        const checked = answer.checked;
+
+        const checkedCount = questions.filter((entry) => answerOf(entry.item.id).checked).length;
+        positionNode!.textContent = `Question ${state.index + 1} of ${questions.length}`;
+        progressNode!.textContent = `${checkedCount} of ${questions.length} checked`;
+        bar!.style.width = `${Math.round((checkedCount / questions.length) * 100)}%`;
+
+        const number = state.index + 1;
+        questionNode.innerHTML = `
+          <div class="qcard" data-quiz-question-id="${escapeHtml(question.item.id)}">
+            <div class="qhead">
+              <span class="qnum">Q${number}</span>
+              <span class="chip">${escapeHtml(question.item.subject)}</span>
+              <span class="chip">Category ${question.item.category === 'II' ? 'II' : 'I'}</span>
+              <span class="chip">${question.item.marks} mark${question.item.marks === 1 ? '' : 's'}</span>
+            </div>
+            ${question.html.replace(/^<section[^>]*>/, '').replace(/<\/section>$/, '')}
+          </div>`;
+
+        // The options become live buttons inside the quiz, and they keep the
+        // same attributes the paper runner uses.
+        const body = questionNode.querySelector('.qcard');
+        body?.querySelectorAll<HTMLButtonElement>('.opt[data-option]').forEach((button) => {
+          button.setAttribute('aria-pressed', answer.selected.includes(button.dataset.option ?? '') ? 'true' : 'false');
+          if (checked) button.disabled = true;
+          button.addEventListener('click', () => {
+            const current = answerOf(question.item.id);
+            const label = button.dataset.option ?? '';
+            const set = new Set(current.selected);
+            if (question.item.category === 'I') {
+              if (set.has(label)) set.delete(label);
+              else { set.clear(); set.add(label); }
+            } else if (set.has(label)) {
+              set.delete(label);
+            } else {
+              set.add(label);
+            }
+            state.answers[question.item.id] = { ...current, selected: [...set].sort() };
+            persist();
+            paint();
+          });
+        });
+
+        // The buttons follow the state of the question on screen: check it,
+        // then move on. The learner may also finish before the last question,
+        // because a question they cannot answer is a reason to stop.
+        checkButton!.disabled = checked;
+        nextButton!.hidden = !checked || state.index >= questions.length - 1;
+        nextButton!.disabled = !checked;
+        finishButton!.hidden = checkedCount === 0;
+        revealButton!.hidden = checked;
+        revealButton!.disabled = checked;
+
+        if (checked) {
+          const key = keys[question.item.id];
+          const scored = markQuestion(question, answer, key);
+          const options = questionNode.querySelectorAll<HTMLButtonElement>('.opt[data-option]');
+          options.forEach((button) => {
+            const label = button.dataset.option ?? '';
+            const isKey = (key?.key ?? []).includes(label);
+            const chosen = answer.selected.includes(label);
+            if (isKey) button.dataset.state = 'correct';
+            else if (chosen) button.dataset.state = 'wrong';
+          });
+          feedback!.innerHTML = `<strong>${statusLabel(scored.status)}</strong> — ${escapeHtml(scored.explanation)}`
+            + `<br><span class="micro">Key: ${key?.key?.length ? key.key.join(', ') : '—'} · from ${question.item.year} Q${question.item.n}`
+            + ` · <a href="${base}library/${question.item.paperId}/#q${question.item.n}">read the question in the paper →</a>`
+            + `${key?.reasoning ? ` · <span class="micro">${escapeHtml(key.reasoning)}</span>` : ''}</span>`;
+        } else {
+          feedback!.textContent = '';
+        }
+        persist();
+      };
+
+      checkButton!.addEventListener('click', () => {
+        const question = questions[state.index];
+        if (!question) return;
+        const current = answerOf(question.item.id);
+        state.answers[question.item.id] = { ...current, checked: true };
+        persist();
+        paint();
+      });
+
+      revealButton!.addEventListener('click', () => {
+        const question = questions[state.index];
+        if (!question) return;
+        const current = answerOf(question.item.id);
+        state.answers[question.item.id] = { ...current, revealed: true };
+        persist();
+        paint();
+      });
+
+      nextButton!.addEventListener('click', () => {
+        if (state.index < questions.length - 1) {
+          state.index += 1;
+          persist();
+          paint();
+        }
+      });
+
+      const finish = () => {
+        const recorded = recordQuiz({
+          quizId: spec.id,
+          title: titleNode?.textContent?.trim() || 'Notebook quiz',
+          spec: encodeSpec(spec),
+          questions,
+          answers: state.answers,
+          keys,
+          sources,
+          startedAt: state.startedAt,
+        });
+        clearQuizState(quizId);
+        if (card) card.hidden = true;
+        if (resultSection) resultSection.hidden = false;
+        const rows = recorded.attempt.results ?? [];
+        // Built outside the template: a nested template literal inside one
+        // confuses the page compiler.
+        const rowHtml = rows.map((row) => {
+          const question = questions.find((entry) => entry.item.id === row.questionId);
+          const answer = answerOf(row.questionId);
+          const key = keys[row.questionId];
+          const position = question ? questions.indexOf(question) + 1 : 0;
+          const subject = escapeHtml(question?.item.subject ?? '');
+          const from = question ? question.item.year + ' Q' + question.item.n : '';
+          const chosen = answer.selected.length ? answer.selected.join(', ') : 'nothing';
+          const answerKey = key?.key?.length ? key.key.join(', ') : '—';
+          const marks = row.awarded === 1 ? '' : 's';
+          return '<div class="result-row">'
+            + '<div class="row-between">'
+            + '<span><strong>Q' + position + '</strong> · ' + subject + ' · ' + from + ' · Category ' + (question?.item.category ?? 'I') + '</span>'
+            + '<span class="pill ' + row.status + '">' + statusLabel(row.status) + '</span>'
+            + '</div>'
+            + '<p class="small" style="margin:.2rem 0"><strong>' + row.awarded + '</strong> mark' + marks
+            + ' · you marked ' + chosen + ' · key ' + answerKey + '</p>'
+            + '</div>';
+        }).join('');
+        if (resultBody) {
+          resultBody.innerHTML = `
+            <div class="score-hero">
+              <b>${recorded.summary.awarded.n / recorded.summary.awarded.d}</b>
+              <div>
+                <strong>out of ${recorded.summary.maxMarks} marks</strong>
+                <p class="micro">${recorded.summary.correct} correct · ${recorded.summary.partial} partial · ${recorded.summary.wrong} wrong · ${recorded.summary.blank} blank${recorded.summary.voided > 0 ? ` · ${recorded.summary.voided} voided by the board` : ''}</p>
+              </div>
+            </div>
+            <p class="micro">The rules are the board's own: +1 for the exact Category I option, −¼ for a wrong or multiple answer, +2 for every correct Category II option with no wrong one, and a share of the two marks for a correct subset.</p>
+            <div class="btn-row" style="margin-top:.6rem">
+              <a class="btn small" href="${base}review/">Open the review desk</a>
+              <a class="btn small ghost" href="${base}quiz/?${encodeSpec(spec)}">Sit it again</a>
+              <a class="btn small ghost" href="${base}plan/">What to do next</a>
+            </div>
+            <h3 style="margin-top:1.2rem">Every question</h3>
+            <div class="stack">${rowHtml}</div>`;
+        }
+      };
+
+      finishButton!.addEventListener('click', finish);
+      paint();
+    };
+
+    const statusLabel = (status: string) => ({
+      correct: 'Correct', partial: 'Partial', wrong: 'Wrong', blank: 'Blank', voided: 'Voided', unmarked: 'Not marked',
+    }[status] ?? status);
+
+    void start();
+  </script>
+  <span hidden data-base={base}></span>
+</Site>

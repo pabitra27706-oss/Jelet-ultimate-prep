@@ -1,7 +1,8 @@
 ---
 publicId: orig-parallel-independent-v1
 title: Parallel branches · independent check
-topic: jelet-syllabus:electrical-and-electronics:t04
+subject: electrical
+topic: jelet-syllabus:electrical:t04
 revision: 1
 provenance: original
 readiness: original-practice

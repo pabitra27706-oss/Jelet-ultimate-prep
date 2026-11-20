@@ -1,35 +1,17 @@
-import { sections, type Section } from './progress';
+/**
+ * The teaching material's own contracts.
+ *
+ * The guard itself lives in `content-check.ts`, because it is a build-time
+ * check and not a runtime helper. This module is the small surface the pages
+ * use.
+ */
+import { validateContent, type LessonData, type PracticeData } from './content-check.ts';
 
-export type PracticeData = {
-  publicId: string;
-  title: string;
-  topic: string;
-  revision: number;
-  provenance: 'original';
-  readiness: 'original-practice';
-  primarySectionAnchor: Section;
-  source: string;
-  answerStatus: string;
-  summary: string;
-};
+export { validateContent };
+export type { LessonData, PracticeData };
 
-/** Build-time guard: stable IDs, reviewed provenance and existing lesson targets. */
-export function validatePractice(items: readonly PracticeData[]): void {
-  const seen = new Set<string>();
-  for (const item of items) {
-    if (!/^orig-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.publicId)) {
-      throw new Error(`Invalid practice ID: ${item.publicId}`);
-    }
-    if (seen.has(item.publicId)) throw new Error(`Duplicate practice ID: ${item.publicId}`);
-    seen.add(item.publicId);
-    if (!sections.includes(item.primarySectionAnchor)) {
-      throw new Error(`Practice ${item.publicId} points to a missing lesson anchor`);
-    }
-    if (item.provenance !== 'original' || item.readiness !== 'original-practice') {
-      throw new Error(`Practice ${item.publicId} is not an approved original item`);
-    }
-  }
-}
+/** Where an original practice card lives. */
+export const practiceHref = (base: string, id: string): string => `${base}cards/${id}/`;
 
-export const practiceHref = (base: string, id: string) => `${base}cards/${id}/`;
-export const lessonHref = (base: string, anchor: Section) => `${base}learn/parallel-circuits/#${anchor}`;
+/** Where a section of a lesson lives. */
+export const lessonHref = (base: string, lessonId: string, anchor: string): string => `${base}learn/${lessonId}/#${anchor}`;

@@ -218,7 +218,11 @@ export const TERMS = {
       "kinematic",
       "projectile",
       "circular motion",
-      "displacement",
+      // "Displacement" was withdrawn from this list. It opens the stem of
+      // every SHM, potential-energy and displacement-graph question, so on
+      // its own it was evidence of nothing in particular, and it tied a
+      // units-and-dimensions question against kinematics when the two terms
+      // weighed the same.
       "speed",
       "relative velocity",
       "uniform acceleration",

@@ -2,7 +2,9 @@
   "generatedFrom": "src/data/topics.json",
   "baseline": {
     "source": "scripts/topic-terms-baseline.json",
-    "note": "The map as it stood at the start of Phase 07, rebuilt from the pre-expansion term lists. Those lists reproduce the recorded starting figures exactly."
+    "note": "The map as it stood at the start of Phase 07, rebuilt from the pre-expansion term lists. Those lists reproduce the recorded starting figures exactly.",
+    "corpusCutoff": "excluding 2023",
+    "corpusNote": "The baseline is rebuilt over the corpus as it stood when the baseline was recorded. A paper transcribed after that point is not part of the baseline, so the delta measures the addition rather than absorbing it."
   },
   "baselineSummary": {
     "topics": 42,
@@ -18,82 +20,96 @@
   },
   "currentSummary": {
     "topics": 42,
-    "covered": 39,
-    "broad": 5,
-    "moderate": 12,
-    "thin": 22,
-    "none": 3,
-    "mappedQuestions": 286,
-    "unmappedQuestions": 404,
+    "covered": 40,
+    "broad": 9,
+    "moderate": 17,
+    "thin": 14,
+    "none": 2,
+    "mappedQuestions": 349,
+    "unmappedQuestions": 441,
     "conflicts": 0,
     "outsideSyllabusQuestions": 258
   },
   "delta": {
-    "questionsMapped": 74,
-    "topicsCovered": 5,
-    "broadTopics": 1,
-    "moderateTopics": 5,
-    "thinTopics": -1,
-    "uncoveredTopics": -5,
-    "unmappedQuestions": -74,
+    "questionsMapped": 137,
+    "topicsCovered": 6,
+    "broadTopics": 5,
+    "moderateTopics": 10,
+    "thinTopics": -9,
+    "uncoveredTopics": -6,
+    "unmappedQuestions": -37,
     "conflicts": -7
   },
   "moved": [
     {
+      "topicId": "mathematics-ta",
+      "name": "Matrices (up to order 3)",
+      "from": 10,
+      "to": 13,
+      "delta": 3
+    },
+    {
+      "topicId": "mathematics-tb",
+      "name": "Determinants (up to order 3)",
+      "from": 1,
+      "to": 4,
+      "delta": 3
+    },
+    {
+      "topicId": "mathematics-tc",
+      "name": "Complex Numbers",
+      "from": 3,
+      "to": 4,
+      "delta": 1
+    },
+    {
       "topicId": "mathematics-td",
       "name": "Co‑ordinate Geometry (2D)",
       "from": 14,
-      "to": 15,
-      "delta": 1
+      "to": 22,
+      "delta": 8
     },
     {
       "topicId": "mathematics-te",
       "name": "Vector Algebra",
       "from": 5,
-      "to": 6,
-      "delta": 1
+      "to": 10,
+      "delta": 5
     },
     {
       "topicId": "mathematics-tf",
       "name": "Differential Calculus",
       "from": 9,
-      "to": 12,
-      "delta": 3
+      "to": 16,
+      "delta": 7
     },
     {
       "topicId": "mathematics-th",
       "name": "Partial Differentiation",
       "from": 0,
-      "to": 5,
-      "delta": 5
-    },
-    {
-      "topicId": "mathematics-tj",
-      "name": "Ordinary Differential Equations",
-      "from": 2,
-      "to": 1,
-      "delta": -1
+      "to": 8,
+      "delta": 8
     },
     {
       "topicId": "mathematics-tk",
       "name": "Probability",
       "from": 1,
-      "to": 7,
-      "delta": 6
+      "to": 9,
+      "delta": 8
     },
     {
       "topicId": "physics-t01",
       "name": "Units & dimensions",
       "from": 0,
-      "to": 3,
-      "delta": 3
+      "to": 4,
+      "delta": 4
     },
     {
       "topicId": "physics-t02",
       "name": "Kinematics",
       "from": 10,
-      "to": 9,
-      "delta": -1
+      "to": 15,
+      "delta": 5
     },
     {
       "topicId": "physics-t03",
@@ -106,8 +122,8 @@
       "topicId": "physics-t04",
       "name": "Work, power, energy",
       "from": 3,
-      "to": 4,
-      "delta": 1
+      "to": 5,
+      "delta": 2
     },
     {
       "topicId": "physics-t05",
@@ -124,60 +140,95 @@
       "delta": 2
     },
     {
+      "topicId": "physics-t13",
+      "name": "Refraction of light",
+      "from": 3,
+      "to": 5,
+      "delta": 2
+    },
+    {
       "topicId": "physics-t14",
       "name": "Lens",
       "from": 2,
-      "to": 3,
-      "delta": 1
+      "to": 4,
+      "delta": 2
+    },
+    {
+      "topicId": "physics-t15",
+      "name": "Photoelectricity",
+      "from": 3,
+      "to": 5,
+      "delta": 2
     },
     {
       "topicId": "chemistry-ta",
       "name": "Atomic Structure",
       "from": 6,
-      "to": 7,
+      "to": 10,
+      "delta": 4
+    },
+    {
+      "topicId": "chemistry-tb",
+      "name": "Chemical Bonding",
+      "from": 4,
+      "to": 5,
       "delta": 1
     },
     {
       "topicId": "chemistry-tc",
       "name": "Acids, Bases & Salts",
       "from": 3,
-      "to": 11,
-      "delta": 8
+      "to": 12,
+      "delta": 9
     },
     {
-      "topicId": "chemistry-te",
-      "name": "Chemical Equilibrium",
-      "from": 0,
-      "to": 1,
-      "delta": 1
-    },
-    {
-      "topicId": "chemistry-tf",
-      "name": "Metallurgy",
-      "from": 0,
-      "to": 1,
-      "delta": 1
-    },
-    {
-      "topicId": "chemistry-tg",
-      "name": "Water",
-      "from": 0,
-      "to": 2,
-      "delta": 2
-    },
-    {
-      "topicId": "electrical-t02",
-      "name": "Transformers",
+      "topicId": "chemistry-td",
+      "name": "Oxidation, Reduction, Electrochemistry",
       "from": 3,
       "to": 4,
       "delta": 1
     },
     {
-      "topicId": "electrical-t05",
-      "name": "AC circuits",
-      "from": 1,
-      "to": 0,
-      "delta": -1
+      "topicId": "chemistry-te",
+      "name": "Chemical Equilibrium",
+      "from": 0,
+      "to": 2,
+      "delta": 2
+    },
+    {
+      "topicId": "chemistry-tf",
+      "name": "Metallurgy",
+      "from": 0,
+      "to": 2,
+      "delta": 2
+    },
+    {
+      "topicId": "chemistry-tg",
+      "name": "Water",
+      "from": 0,
+      "to": 4,
+      "delta": 4
+    },
+    {
+      "topicId": "electrical-t01",
+      "name": "Components & instruments",
+      "from": 5,
+      "to": 6,
+      "delta": 1
+    },
+    {
+      "topicId": "electrical-t02",
+      "name": "Transformers",
+      "from": 3,
+      "to": 6,
+      "delta": 3
+    },
+    {
+      "topicId": "electrical-t03",
+      "name": "Electrical machines",
+      "from": 3,
+      "to": 5,
+      "delta": 2
     },
     {
       "topicId": "electrical-t06",
@@ -189,22 +240,40 @@
   ],
   "bandChanged": [
     {
+      "topicId": "mathematics-tb",
+      "name": "Determinants (up to order 3)",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "mathematics-tc",
+      "name": "Complex Numbers",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "mathematics-te",
+      "name": "Vector Algebra",
+      "from": "moderate",
+      "to": "broad"
+    },
+    {
       "topicId": "mathematics-th",
       "name": "Partial Differentiation",
       "from": "none",
-      "to": "moderate"
+      "to": "broad"
     },
     {
       "topicId": "mathematics-tk",
       "name": "Probability",
       "from": "thin",
-      "to": "moderate"
+      "to": "broad"
     },
     {
       "topicId": "physics-t01",
       "name": "Units & dimensions",
       "from": "none",
-      "to": "thin"
+      "to": "moderate"
     },
     {
       "topicId": "physics-t04",
@@ -225,10 +294,40 @@
       "to": "moderate"
     },
     {
+      "topicId": "physics-t13",
+      "name": "Refraction of light",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "physics-t14",
+      "name": "Lens",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "physics-t15",
+      "name": "Photoelectricity",
+      "from": "thin",
+      "to": "moderate"
+    },
+    {
+      "topicId": "chemistry-ta",
+      "name": "Atomic Structure",
+      "from": "moderate",
+      "to": "broad"
+    },
+    {
       "topicId": "chemistry-tc",
       "name": "Acids, Bases & Salts",
       "from": "thin",
       "to": "broad"
+    },
+    {
+      "topicId": "chemistry-td",
+      "name": "Oxidation, Reduction, Electrochemistry",
+      "from": "thin",
+      "to": "moderate"
     },
     {
       "topicId": "chemistry-te",
@@ -246,7 +345,7 @@
       "topicId": "chemistry-tg",
       "name": "Water",
       "from": "none",
-      "to": "thin"
+      "to": "moderate"
     },
     {
       "topicId": "electrical-t02",
@@ -255,24 +354,24 @@
       "to": "moderate"
     },
     {
-      "topicId": "electrical-t05",
-      "name": "AC circuits",
+      "topicId": "electrical-t03",
+      "name": "Electrical machines",
       "from": "thin",
-      "to": "none"
+      "to": "moderate"
     }
   ],
   "newlyCovered": [
     {
       "topicId": "mathematics-th",
       "name": "Partial Differentiation",
-      "band": "moderate",
-      "questions": 5
+      "band": "broad",
+      "questions": 8
     },
     {
       "topicId": "physics-t01",
       "name": "Units & dimensions",
-      "band": "thin",
-      "questions": 3
+      "band": "moderate",
+      "questions": 4
     },
     {
       "topicId": "physics-t05",
@@ -284,19 +383,19 @@
       "topicId": "chemistry-te",
       "name": "Chemical Equilibrium",
       "band": "thin",
-      "questions": 1
+      "questions": 2
     },
     {
       "topicId": "chemistry-tf",
       "name": "Metallurgy",
       "band": "thin",
-      "questions": 1
+      "questions": 2
     },
     {
       "topicId": "chemistry-tg",
       "name": "Water",
-      "band": "thin",
-      "questions": 2
+      "band": "moderate",
+      "questions": 4
     }
   ],
   "stillUncovered": [
@@ -307,12 +406,6 @@
       "reason": "every question the corpus holds for this topic depends on a diagram the transcription does not reproduce (4 held)"
     },
     {
-      "topicId": "electrical-t05",
-      "name": "AC circuits",
-      "questionsHeld": 13,
-      "reason": "every question the corpus holds for this topic depends on a diagram the transcription does not reproduce (13 held)"
-    },
-    {
       "topicId": "electrical-t08",
       "name": "Digital electronics",
       "questionsHeld": 2,
@@ -320,8 +413,8 @@
     }
   ],
   "totals": {
-    "questionsAddedToTopics": 39,
-    "topicsWithAnyChange": 21
+    "questionsAddedToTopics": 96,
+    "topicsWithAnyChange": 28
   },
   "limits": [
     "A count of questions and topics. It is not a claim that a learner learned anything.",

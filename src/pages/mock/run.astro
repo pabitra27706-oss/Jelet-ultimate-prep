@@ -1,0 +1,154 @@
+---
+import Site from '../../layouts/Site.astro';
+import RunnerFrame from '../../components/RunnerFrame.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+
+/**
+ * The mock itself.
+ *
+ * The specification travels in the query string, so this page is one static
+ * file that composes any mock the corpus can supply. The questions are drawn
+ * in the browser from the published pools, because the corpus is far too
+ * large to send to a phone and far too varied to pre-render every
+ * combination.
+ */
+---
+
+<Site title="Mock" active="practice" description="A composed JELET Paper I mock, marked with the board's own rules.">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href={base}>Today</a> <span aria-hidden="true">›</span>
+    <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">›</span>
+    <a href={`${base}mock/`}>Mock builder</a> <span aria-hidden="true">›</span>
+    <span data-mock-breadcrumb>Mock</span>
+  </nav>
+
+  <div class="row-between" style="align-items:flex-start;margin-bottom:1rem">
+    <div class="grow">
+      <p class="eyebrow">Composed mock</p>
+      <h1 style="font-size:clamp(1.7rem,5vw,2.6rem)" data-mock-title>Mock</h1>
+      <p class="lead" data-mock-lead>Composing the paper…</p>
+      <div class="chip-row" data-mock-chips></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn ghost" href={`${base}mock/`}>Change the paper</a>
+      <a class="btn ghost" href={`${base}practice/`}>Other sets</a>
+    </div>
+  </div>
+
+  <div class="notice" data-mock-loading>
+    <strong>Composing the paper.</strong> The questions are drawn from the published pools of the subjects you chose.
+  </div>
+
+  <div data-mock-error hidden class="notice"></div>
+
+  <RunnerFrame
+    mode="mock"
+    scope="mock"
+    paperId=""
+    paperYear={0}
+    paperLabel="Composed mock"
+    title="Composed mock"
+    subjectKey={null}
+    subjectLabel={null}
+    limitSeconds={null}
+    scopeMarks={0}
+    scopeQuestions={0}
+    attemptScope="mock"
+    serverRendered={false}
+  />
+
+  <script>
+    import { readAttempts } from '../../lib/attempts';
+    import { decodeSpec, encodeSpec } from '../../lib/mock';
+    import { composeFromPool, fetchPools, renderComposition } from '../../lib/mock-client';
+    import { initRunner, readRunnerConfig } from '../../lib/runner';
+
+    const root = document.querySelector<HTMLElement>('[data-runner]');
+    const loading = document.querySelector<HTMLElement>('[data-mock-loading]');
+    const error = document.querySelector<HTMLElement>('[data-mock-error]');
+    const titleNode = document.querySelector<HTMLElement>('[data-mock-title]');
+    const leadNode = document.querySelector<HTMLElement>('[data-mock-lead]');
+    const chips = document.querySelector<HTMLElement>('[data-mock-chips]');
+    const crumb = document.querySelector<HTMLElement>('[data-mock-breadcrumb]');
+
+    const base = root?.dataset.base ?? '/';
+    const spec = decodeSpec(window.location.search);
+
+    /** The question ids this device has already sat. */
+    const answeredIds = (): string[] => {
+      const ids = new Set<string>();
+      for (const attempt of readAttempts()) {
+        if (!attempt.submittedAt) continue;
+        for (const id of attempt.questionIds ?? []) ids.add(id);
+      }
+      return [...ids];
+    };
+
+    const showError = (message: string) => {
+      if (!error) return;
+      error.hidden = false;
+      error.textContent = message;
+      if (loading) loading.hidden = true;
+    };
+
+    const start = async () => {
+      if (!root) return;
+      try {
+        const pool = await fetchPools(base, spec.subjects);
+        const composition = composeFromPool(spec, pool, answeredIds());
+        if (composition.items.length === 0) {
+          showError('This mock could not be composed: the corpus has nothing that matches the subjects and topics you chose. Open the builder and choose something else.');
+          return;
+        }
+
+        renderComposition(root, composition, pool);
+
+        const marks = composition.marks;
+        const minutes = spec.durationMinutes;
+        if (titleNode) titleNode.textContent = spec.title;
+        if (crumb) crumb.textContent = spec.title;
+        document.title = `${spec.title} · JELET mock`;
+        if (leadNode) {
+          leadNode.textContent = `${composition.count} questions · ${marks} marks · ${minutes === 0 ? 'no time limit' : `${minutes} minutes`} · Category I and Category II, marked with the board's rules.`;
+        }
+        if (chips) {
+          chips.innerHTML = [
+            `<span class="chip">${composition.count} questions</span>`,
+            `<span class="chip">${marks} marks</span>`,
+            `<span class="chip">${composition.categoryI} Category I · ${composition.categoryII} Category II</span>`,
+            ...composition.byYear.map((year) => `<span class="chip ${year.tier === 'official' ? 'official' : 'derived'}">${year.count} from ${year.year}${year.tier === 'derived' ? ' · derived key' : ''}</span>`),
+          ].join('');
+        }
+        if (loading) loading.hidden = true;
+
+        const sources: Record<string, { paperId: string; year: number; n: number }> = {};
+        for (const item of composition.items) sources[item.id] = { paperId: item.paperId, year: item.year, n: item.n };
+
+        const query = encodeSpec(spec);
+        // The shell describes itself, so the runner reads the mock's own
+        // settings the same way it reads a paper's.
+        root.dataset.paper = `mock-${spec.id}`;
+        root.dataset.paperYear = '0';
+        root.dataset.paperLabel = 'Composed mock';
+        root.dataset.title = spec.title;
+        root.dataset.limitSeconds = minutes === 0 ? '' : String(minutes * 60);
+        root.dataset.scopeMarks = String(marks);
+        root.dataset.scopeQuestions = String(composition.count);
+        root.dataset.attemptScope = 'mock';
+        // Repeating the wrong ones repeats this mock, not some paper.
+        root.dataset.retryPath = `${base}mock/run/?${query}`;
+
+        const config = readRunnerConfig(root, {
+          sources,
+          mockSpec: query,
+        });
+        initRunner(config, root);
+      } catch (error_) {
+        showError(error_ instanceof Error ? error_.message : 'This mock could not be composed.');
+      }
+    };
+
+    void start();
+  </script>
+</Site>

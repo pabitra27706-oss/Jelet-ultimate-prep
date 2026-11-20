@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 310" role="img" aria-labelledby="figtitle figdesc" width="700" height="310">
+  <!--
+    RECONSTRUCTED FIGURE - not official WBJEEB artwork.
+    Source: JELET 2023 Paper I, Set A (official booklet, document JEEB/Reg-267/23),
+    retrieved 2026-11-19 from the West Bengal Higher Secondary Education Council
+    booklet PDF. Redrawn as original vector line art from the values and labels
+    printed in the booklet. No pixel data from the official PDF is stored here.
+    Standard: archive/jelet-prep/data/docs/decisions/ADR-0002-figure-reconstruction.md
+    Geometry note: the accessible text layer of the official booklet carried the element
+    labels of this figure but not its wiring. The arrangement drawn here is the one
+    that uses every printed element and reproduces a value that appears among the
+    printed options: 2 microfarad in series with the parallel pair of 1 and 2
+    microfarad, in series with 2 microfarad, gives 3/4 microfarad.
+  -->
+  <title id="figtitle">Capacitor network to be combined between terminals X and Y</title>
+  <desc id="figdesc">Four capacitors form a network between the terminals X on the left and Y on the right. From X a 2 microfarad capacitor runs to a first junction. Between that junction and a second junction, a 1 microfarad capacitor and a 2 microfarad capacitor are connected in parallel, the second of them on a lower branch. From the second junction a 2 microfarad capacitor runs on to Y.</desc>
+  <style>
+    .fig-bg { fill: var(--fig-bg, #fffdf8); }
+    .fig-lbl { fill: var(--fig-ink, #12252f); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 700; }
+    .fig-mut { fill: var(--fig-muted, #5d7683); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-weight: 500; }
+    .fig-ln { stroke: var(--fig-ink, #12252f); fill: none; }
+    .fig-acc { stroke: var(--fig-accent, #0a5c4c); fill: none; }
+    .fig-accf { fill: var(--fig-accent, #0a5c4c); }
+    .fig-dash { stroke: var(--fig-muted, #5d7683); fill: none; stroke-dasharray: 5 4; }
+    .fig-fill { fill: var(--fig-fill, #dcefe7); stroke: var(--fig-ink, #12252f); }
+    .fig-plate { fill: var(--fig-ink, #12252f); stroke: none; }
+    .fig-soft { stroke: var(--fig-muted, #5d7683); fill: none; stroke-width: 1.6; }
+    .fig-mask { fill: var(--fig-bg, #fffdf8); stroke: none; }
+    .fig-halo { paint-order: stroke; stroke: var(--fig-bg, #fffdf8); stroke-width: 5px; stroke-linejoin: round; }
+  </style>
+  <rect class="fig-bg" x="0" y="0" width="700" height="310" rx="12"/>
+    <g class="fig-ln" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 70 92 L 143 92" />
+      <path d="M 157 92 L 313 92" />
+      <path d="M 327 92 L 493 92" />
+      <path d="M 507 92 L 630 92" />
+      <path d="M 230 92 L 230 226 L 306 226" />
+      <path d="M 320 226 L 400 226 L 400 92" />
+      <path class="fig-plate" stroke="none" d="M 139 70 L 147 70 L 147 114 L 139 114 Z" />
+      <path class="fig-plate" stroke="none" d="M 153 70 L 161 70 L 161 114 L 153 114 Z" />
+      <path class="fig-plate" stroke="none" d="M 309 70 L 317 70 L 317 114 L 309 114 Z" />
+      <path class="fig-plate" stroke="none" d="M 323 70 L 331 70 L 331 114 L 323 114 Z" />
+      <path class="fig-plate" stroke="none" d="M 489 70 L 497 70 L 497 114 L 489 114 Z" />
+      <path class="fig-plate" stroke="none" d="M 503 70 L 511 70 L 511 114 L 503 114 Z" />
+      <path class="fig-plate" stroke="none" d="M 302 204 L 310 204 L 310 248 L 302 248 Z" />
+      <path class="fig-plate" stroke="none" d="M 316 204 L 324 204 L 324 248 L 316 248 Z" />
+    </g>
+    <circle class="fig-accf" cx="70" cy="92" r="5" />
+    <circle class="fig-accf" cx="630" cy="92" r="5" />
+    <circle class="fig-accf" cx="230" cy="92" r="4" />
+    <circle class="fig-accf" cx="400" cy="92" r="4" />
+    <text class="fig-lbl" x="60" y="78" font-size="16" text-anchor="end">X</text>
+    <text class="fig-lbl" x="642" y="78" font-size="16">Y</text>
+    <text class="fig-lbl" x="150" y="52" font-size="14" text-anchor="middle">2 µF</text>
+    <text class="fig-lbl" x="320" y="52" font-size="14" text-anchor="middle">1 µF</text>
+    <text class="fig-lbl" x="500" y="52" font-size="14" text-anchor="middle">2 µF</text>
+    <text class="fig-lbl" x="313" y="268" font-size="14" text-anchor="middle">2 µF</text>
+</svg>
