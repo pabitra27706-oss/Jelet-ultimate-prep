@@ -137,8 +137,11 @@ export function validateKeyFile(key, { corpus, path = '<memory>' } = {}) {
       else {
         for (const f of ['method', 'expected', 'observed', 'pass']) if (!(f in mc)) err(`${at}: machineCheck missing '${f}'`);
         if (typeof mc.pass !== 'boolean') err(`${at}: machineCheck.pass must be a boolean`);
-        if (mc.pass === true && mc.expected !== undefined && mc.observed !== undefined && String(mc.expected) === String(mc.observed) && false) {
-          // unreachable: kept as documentation that pass is a fact about the run
+        // A pass is a claim about a run, so it has to name the run. Without this the
+        // field can be set by hand, which is the failure mode this phase exists to stop.
+        if (mc.pass === true && !mc.command) err(`${at}: machineCheck.pass is true but no command reproduces it`);
+        if (mc.pass === true && typeof mc.command === 'string' && !/^(python3|node) /.test(mc.command)) {
+          err(`${at}: machineCheck.command must start with an interpreter, not '${mc.command.split(' ')[0]}'`);
         }
         if (mc.pass === true && (e.tier === 'disputed')) warn(`${at}: machineCheck passed on a disputed item`);
       }

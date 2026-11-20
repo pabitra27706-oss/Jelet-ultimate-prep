@@ -176,7 +176,19 @@ test('the validator rejects the failures the external review found in the docs',
   k = clone(FIRST); k.reconciliation.matched = 99;
   assert.ok(validateKeyFile(k, { corpus }).errors.some((e) => e.includes('bookletQuestionCount')));
 
-  // 7. a dispute tier with no dispute record
+  // 7. a machine check that claims a pass but names no run
+  k = clone(FIRST);
+  const mcEntry = k.entries.find((e) => e.machineCheck);
+  k.entries.find((e) => e.q === mcEntry.q).machineCheck = { ...mcEntry.machineCheck, command: undefined };
+  assert.ok(validateKeyFile(k, { corpus }).errors.some((e) => e.includes('no command reproduces it')));
+
+  // 8. a machine check whose command is not an interpreter invocation
+  k = clone(FIRST);
+  const mcEntry2 = k.entries.find((e) => e.machineCheck);
+  k.entries.find((e) => e.q === mcEntry2.q).machineCheck = { ...mcEntry2.machineCheck, command: 'echo PASS' };
+  assert.ok(validateKeyFile(k, { corpus }).errors.some((e) => e.includes('must start with an interpreter')));
+
+  // 9. a dispute tier with no dispute record
   k = clone(FIRST); k.entries[0].tier = 'disputed'; k.entries[0].disputeId = 'D-2017-001';
   assert.ok(validateKeyFile(k, { corpus }).errors.some((e) => e.includes('not present in disputes')));
 });
