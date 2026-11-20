@@ -7,6 +7,25 @@
  * item back to the first box, a correct answer promotes it.
  */
 
+/**
+ * Why the learner says they got it wrong.
+ *
+ * The tag is voluntary. It is never required, never scored and never used to
+ * judge the learner; it exists so a person can see the shape of their own
+ * mistakes — a run of "calculation" errors is a different problem from a run
+ * of "concept" errors.
+ */
+export const mistakeReasons = ['concept', 'method', 'calculation', 'misread'] as const;
+export type MistakeReason = typeof mistakeReasons[number];
+
+/** What each tag means, in the learner's words. */
+export const mistakeReasonLabels: Record<MistakeReason, string> = {
+  concept: 'The idea itself',
+  method: 'The method was wrong',
+  calculation: 'The arithmetic went wrong',
+  misread: 'I misread the question',
+};
+
 export type ReviewItem = {
   questionId: string;
   paperId: string;
@@ -21,6 +40,8 @@ export type ReviewItem = {
   correctStreak: number;
   lastStatus: string;
   lastAt: number;
+  /** The learner's own reason for the mistake, when they gave one. */
+  reason?: MistakeReason | null;
 };
 
 const STORAGE_KEY = 'jelet:review:v1';
@@ -128,6 +149,17 @@ export function dueItems(items: ReviewItem[], now = Date.now()): ReviewItem[] {
 export function nextDue(items: ReviewItem[], now = Date.now()): ReviewItem | undefined {
   void now;
   return [...items].sort((a, b) => a.due - b.due)[0];
+}
+
+/**
+ * Record why the learner says they got it wrong.
+ *
+ * The tag is theirs to give and theirs to take back: passing `null` clears
+ * it. Nothing else about the item changes — the ladder still decides when it
+ * comes back.
+ */
+export function tagReason(items: ReviewItem[], questionId: string, reason: MistakeReason | null): ReviewItem[] {
+  return items.map((item) => (item.questionId === questionId ? { ...item, reason } : item));
 }
 
 /**

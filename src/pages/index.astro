@@ -30,9 +30,9 @@ const drills = mockPaper.subjects
           revision queue that follows the questions you actually got wrong.
         </p>
         <div class="hero-actions">
-          <a class="btn" href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper <span aria-hidden="true">→</span></a>
+          <a class="btn" href={`${base}plan/`}>What to do next <span aria-hidden="true">→</span></a>
+          <a class="btn ghost" href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
           <a class="btn ghost" href={`${base}mock/`}>Build your own mock</a>
-          <a class="btn ghost" href={`${base}practice/`}>Pick a subject drill</a>
         </div>
         <p class="micro">No account. Everything is marked on your device. Nothing is uploaded.</p>
       </div>
@@ -68,7 +68,7 @@ const drills = mockPaper.subjects
       <h2 id="continue-heading">Pick up where you stopped</h2>
     </div>
     <div id="continue-slot">
-      <div class="empty">Nothing started yet on this device. Choose a paper below to begin.</div>
+      <div class="empty">Nothing started yet on this device. <a href={`${base}plan/`}>See what to do next</a>, or choose a paper below.</div>
     </div>
     <div id="lesson-slot" style="margin-top:.6rem"></div>
   </section>

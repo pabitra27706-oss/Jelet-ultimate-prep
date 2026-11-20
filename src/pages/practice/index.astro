@@ -103,6 +103,26 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
     })}
   </section>
 
+  <section style="margin-top:2rem" aria-labelledby="notes-heading">
+    <div class="section-head">
+      <h2 id="notes-heading">Revision notes</h2>
+      <span class="micro">Every topic, every past question, your own results beside them.</span>
+    </div>
+    <ul class="linklist">
+      {(['mathematics', 'physics', 'chemistry', 'electrical'] as SubjectKey[]).map((subject) => (
+        <li>
+          <a href={`${base}notes/${subject}/`}>
+            <span>
+              <strong>{subjectLabels[subject]}</strong>
+              <small>The topics of the syllabus and the past questions that sit in them</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
   <section style="margin-top:2rem" aria-labelledby="queue-heading">
     <div class="section-head">
       <h2 id="queue-heading">Your review queue</h2>

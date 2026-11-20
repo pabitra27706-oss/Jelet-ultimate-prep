@@ -434,6 +434,76 @@ test('the mock attempt keeps its specification and can be repeated from the revi
   assert.ok(count > 0 && count <= 6, 'the repeat holds only the questions that were wrong');
 });
 
+test('the plan is built from the learner\u2019s own record, not from a guess', async (t) => {
+  const page = await context(t);
+
+  // With nothing on the device, the plan is honest about that.
+  await go(page, 'plan/');
+  await page.waitForSelector('#plan-list a');
+  assert.match(await page.locator('[data-plan-note]').textContent(), /have not sat a paper/);
+  assert.equal(await page.locator('[data-signal="accuracy"]').textContent(), '\u2014', 'no accuracy without an attempt');
+  assert.equal(await page.locator('[data-signal="coverage"]').textContent(), '0%');
+  assert.equal(await page.locator('#week-list tbody tr').count(), 7, 'the week is always seven days');
+
+  // Sit a paper. The plan must now know about it.
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="B"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  await go(page, 'plan/');
+  await page.waitForSelector('#plan-list a');
+  const steps = await page.locator('#plan-list a').allTextContents();
+  const joined = steps.join(' | ');
+  assert.match(joined, /Revise \d+ question/, 'the plan asks for the reviews that are due');
+  assert.match(joined, /Read one lesson/, 'the plan asks for one lesson');
+  assert.match(joined, /Do two problems/, 'the plan asks for two problems');
+  assert.match(joined, /Repeat the \d+ you got wrong/, 'the plan asks for one repeat');
+  assert.match(await page.locator('[data-plan-note]').textContent(), /Your last paper was today|You sat a paper today/);
+  assert.notEqual(await page.locator('[data-signal="accuracy"]').textContent(), '\u2014');
+  assert.ok(Number(await page.locator('[data-signal="due"]').textContent()) > 0, 'items due is separate from coverage');
+});
+
+test('the review desk says where the mistakes are, and the reason tag is the learner\u2019s own', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="B"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  await go(page, 'review/');
+  await page.waitForSelector('#remediation-list table', { timeout: 15000 });
+  const firstRow = await page.locator('#remediation-list tbody tr').first().textContent();
+  assert.match(firstRow, /MATHEMATICS|PHYSICS|CHEMISTRY|FUNDAMENTALS/i, 'a topic of the syllabus is named');
+  const drill = await page.locator('#remediation-list a').first().getAttribute('href');
+  assert.match(drill, /\/mock\/\?s=/, 'a drill can be built from the topic');
+
+  // The reason tag is optional and it is the learner's own word.
+  await page.waitForSelector('[data-reason-for] button');
+  await page.locator('[data-reason-for] button').first().click();
+  await page.waitForSelector('[data-reason-for] [aria-pressed="true"]', { timeout: 15000 });
+  const tagged = await page.locator('[data-reason-for]').first().textContent();
+  assert.match(tagged, /You said:/);
+});
+
+test('the subject notes list the past questions of every topic with the learner\u2019s own result', async (t) => {
+  const page = await context(t);
+  await go(page, 'notes/physics/');
+  await page.waitForSelector('[data-question-row]');
+  const rows = await page.locator('[data-question-row]').count();
+  assert.ok(rows > 30, 'physics holds a real number of past questions');
+  const header = await page.locator('[data-topic-table] thead').first().textContent();
+  assert.match(header, /Your result/, 'the notes carry the learner\u2019s own result');
+  assert.match(await page.locator('[data-notes-summary]').textContent(), /have not sat any/);
+
+  // The notes answer a question that belongs to a topic, and the answer is
+  // the published one.
+  const answered = await page.locator('[data-question-row] td:nth-child(5)').first().textContent();
+  assert.ok(answered.trim().length > 0, 'the published answer is shown');
+});
+
 test('the printed companion prints an answer sheet in the booklet order and a ledger', async (t) => {
   const page = await context(t);
   await go(page, `practice/${paper2025}/print/`);

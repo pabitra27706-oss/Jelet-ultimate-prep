@@ -43,6 +43,14 @@ for (const paper of papers) {
     <div id="subject-breakdown" style="margin-top:1rem"></div>
   </section>
 
+  <section style="margin-top:2rem" aria-labelledby="remediation-heading">
+    <div class="section-head">
+      <h2 id="remediation-heading">Where the mistakes are</h2>
+      <span class="micro">Your own record, counted by topic</span>
+    </div>
+    <div id="remediation-list"></div>
+  </section>
+
   <section style="margin-top:2rem" aria-labelledby="queue-heading">
     <div class="section-head">
       <h2 id="queue-heading">Due now</h2>
@@ -61,8 +69,9 @@ for (const paper of papers) {
 
   <script>
     import { readAttempts, deleteAttempt } from '../../lib/attempts';
-    import { readQueue, writeQueue, gradeItem, dueItems } from '../../lib/review';
+    import { readQueue, writeQueue, gradeItem, dueItems, mistakeReasons, mistakeReasonLabels, tagReason, type MistakeReason } from '../../lib/review';
     import { buildStats } from '../../lib/stats';
+    import { summariseMistakes, topicsToRemediate, type TopicIndex } from '../../lib/remediation';
 
     const base = (document.querySelector<HTMLElement>('[data-base]')?.dataset.base) ?? '/';
     const scorableTotal = Number(document.querySelector<HTMLElement>('[data-scorable-total]')?.dataset.scorableTotal ?? '0');
@@ -120,6 +129,73 @@ for (const paper of papers) {
       }
     }
 
+    // Where the mistakes concentrate. The topic index is a small published
+    // file, so this needs no corpus in the browser.
+    const remediationSlot = document.querySelector('#remediation-list');
+    const drawRemediation = async () => {
+      if (!remediationSlot) return;
+      let index: TopicIndex = { topics: {}, questions: {} };
+      try {
+        const response = await fetch(`${base}data/topic-index.json`, { headers: { Accept: 'application/json' } });
+        if (response.ok) index = (await response.json()) as TopicIndex;
+      } catch { /* The panel degrades to nothing rather than to a wrong number. */ }
+      const remediation = summariseMistakes(queue, index);
+      if (remediation.total === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'Nothing to show yet. Every question you get wrong or leave blank is counted here, by the topic it belongs to.';
+        remediationSlot.append(empty);
+        return;
+      }
+      const weak = topicsToRemediate(remediation, 5);
+      if (weak.length === 0) {
+        const note = document.createElement('p');
+        note.className = 'micro';
+        note.textContent = `${remediation.total} question${remediation.total === 1 ? '' : 's'} in the queue, but none of them are mapped to a syllabus topic yet.`;
+        remediationSlot.append(note);
+        return;
+      }
+      const table = document.createElement('table');
+      table.className = 'table';
+      table.innerHTML = '<thead><tr><th>Topic</th><th>Wrong</th><th>Blank</th><th>Partial</th><th>Waiting</th><th></th></tr></thead>';
+      const body = document.createElement('tbody');
+      for (const topic of weak) {
+        const row = document.createElement('tr');
+        const cells = [
+          `${topic.subjectName} · ${topic.topicName}`,
+          String(topic.wrong),
+          String(topic.blank),
+          String(topic.partial),
+          String(topic.due),
+        ];
+        for (const cell of cells) {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          row.append(td);
+        }
+        const action = document.createElement('td');
+        const drill = document.createElement('a');
+        drill.className = 'btn small ghost';
+        const code = topic.topicId.slice(topic.topicId.lastIndexOf('-') + 1);
+        drill.href = `${base}mock/?s=${topic.subjectKey}&t=${encodeURIComponent(code)}&n=10`;
+        drill.textContent = 'Drill this topic';
+        action.append(drill);
+        row.append(action);
+        body.append(row);
+      }
+      table.append(body);
+      remediationSlot.append(table);
+
+      if (remediation.byReason.length > 0) {
+        const line = document.createElement('p');
+        line.className = 'micro';
+        line.style.marginTop = '.6rem';
+        line.textContent = `You described ${remediation.byReason.map((entry) => `${entry.count} ${mistakeReasonLabels[entry.reason].toLowerCase()}`).join(', ')}. The tag is yours to give; it is never scored.`;
+        remediationSlot.append(line);
+      }
+    };
+    void drawRemediation();
+
     const queueList = document.querySelector('#queue-list');
     const queueCount = document.querySelector<HTMLElement>('[data-queue-count]');
     const due = dueItems(queue);
@@ -160,6 +236,32 @@ for (const paper of papers) {
           const actions = document.createElement('div');
           actions.className = 'btn-row';
           actions.style.marginTop = '.5rem';
+
+          // Why the learner thinks they got it wrong. It is voluntary: the
+          // tag is a note to themselves, never a score.
+          const reason = document.createElement('div');
+          reason.className = 'btn-row';
+          reason.style.marginTop = '.5rem';
+          reason.setAttribute('data-reason-for', item.questionId);
+          const reasonLabel = document.createElement('span');
+          reasonLabel.className = 'micro';
+          reasonLabel.textContent = item.reason ? `You said: ${mistakeReasonLabels[item.reason]}` : 'Why was it wrong?';
+          reason.append(reasonLabel);
+          for (const option of mistakeReasons) {
+            const tag = document.createElement('button');
+            tag.className = 'btn small ghost';
+            tag.type = 'button';
+            tag.dataset.reason = option;
+            tag.textContent = mistakeReasonLabels[option];
+            tag.setAttribute('aria-pressed', item.reason === option ? 'true' : 'false');
+            tag.addEventListener('click', () => {
+              const next = tagReason(readQueue(), item.questionId, item.reason === option ? null : option as MistakeReason);
+              writeQueue(next);
+              window.location.reload();
+            });
+            reason.append(tag);
+          }
+
           const link = document.createElement('a');
           link.className = 'btn small ghost';
           // The paper the question actually came from. A composed mock draws
@@ -185,7 +287,7 @@ for (const paper of papers) {
             window.location.reload();
           });
           actions.append(link, right, wrong);
-          row.append(head, actions);
+          row.append(head, reason, actions);
           li.append(row);
           list.append(li);
         }
