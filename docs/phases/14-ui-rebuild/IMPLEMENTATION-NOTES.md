@@ -218,3 +218,7 @@ than invent a second settings style.
 - **Statuses:** `StatusBadge` with `tone="official" | "derived" | "neutral"` and
   the labels **Official key**, **Derived key**, **No published key**. Never
   “Full/Partial/No Key”, and never colour alone.
+- **Accuracy caution:** the disclosure lives in `ContentCaution.astro`. The
+  layout renders it under the header for Practice and Review, and Papers passes
+  `caution="inline"` to render it itself after the chips and before the cards,
+  so the title and search field open the screen.

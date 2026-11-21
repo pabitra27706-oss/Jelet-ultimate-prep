@@ -46,6 +46,7 @@
 | Bookmark | toggles, persists, filters, agrees with You | pressed + label change, survives reload as exactly 1, You reads 1 | “a card bookmark persists…” | pass |
 | Search | real index, per-paper counts, Back restores | “2 of 8 papers shown · 2 matching questions”; no-match → empty; Back keeps query and 2 cards | “the Papers search reads the real index…” | pass |
 | Storage denied | list usable, bookmarking disabled honestly | 8 cards, bookmark button and Bookmarked chip disabled, reader link works | “a blocked bookmark store leaves the Papers list usable” | pass |
+| Caution position | title and search open the screen; note sits after the chips and before the cards | note follows `.papers-chips`, precedes `#paper-list`, appears once; Practice keeps it at the top | “the accuracy note follows the year options on Papers and leads other screens” | pass |
 | Existing behaviour | key select still narrows to 3 and 4 | unchanged after opening More filters | “the paper library lists every paper…” | pass |
 | 320 px @ 200 % | no page-wide overflow | passes on all ten routes incl. `library/` | suite test | pass |
 | Offline | library opens from the shell cache | passes | suite test | pass |
@@ -54,8 +55,8 @@
   → PASS: 42 rows, unique IDs and all required fields; 92 local link targets.
   `npm run check` → 115 files, 0 errors / 0 warnings / 0 hints.
   `npm run build` → 63 pages, 10 packs, 26,660 KB of packs, `dist/` ≈ 18 MB.
-  `npm test` → **294 passed, 0 failed** (browser **80**, of which 5 are new for
-  this screen). Headless Chromium **153.0.8010.0** at 390×844, 375×812,
+  `npm test` → **295 passed, 0 failed** (browser **81**, of which 6 are new for
+  this screen, including one that pins the caution's position). Headless Chromium **153.0.8010.0** at 390×844, 375×812,
   320×700 and 1280×900. `git diff --check` clean.
 
 - **Residual physical gate:** **ANDROID CHECK NEEDED — pending.** No deployed
@@ -107,7 +108,7 @@
 | Status | Full Key / Partial Key / No Key | Official key / Derived key / No published key | no “partial” claim; each tier is named |
 | Sessions | six 2023 sessions | none | the corpus has one paper per year |
 | Bookmark | outline glyph | outline → filled when saved, 44 px target | stateful, stored locally |
-| Accuracy note | absent | shared caution disclosure above the title | shell-level honesty, not screen-specific |
+| Accuracy note | absent | shared caution disclosure **below the filters, above the cards** | moved at the owner's request so the title and search open the screen |
 | Bottom bar | Papers active in teal | same | no pill |
 | Desktop | absent | 46 rem centred column | no reference counterpart |
 

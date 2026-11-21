@@ -232,6 +232,29 @@ test('the Papers screen matches the reference composition without invented sessi
   assert.equal(await page.evaluate(() => document.activeElement?.getAttribute('data-chip-year')), '2022');
 });
 
+test('the accuracy note follows the year options on Papers and leads other screens', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  const order = await page.evaluate(() => {
+    const chips = document.querySelector('.papers-chips');
+    const caution = document.querySelector('[data-content-caution]');
+    const list = document.querySelector('#paper-list');
+    return {
+      count: document.querySelectorAll('[data-content-caution]').length,
+      afterChips: Boolean(chips.compareDocumentPosition(caution) & Node.DOCUMENT_POSITION_FOLLOWING),
+      beforeList: Boolean(caution.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING),
+      firstInMain: document.querySelector('main').firstElementChild?.matches('[data-content-caution]') ?? false,
+    };
+  });
+  assert.equal(order.count, 1, 'the note appears once');
+  assert.equal(order.afterChips, true, 'the note sits below the year options');
+  assert.equal(order.beforeList, true, 'the note sits above the cards');
+  assert.equal(order.firstInMain, false, 'the title and search open the screen');
+
+  await go(page, 'practice/');
+  assert.equal(await page.locator('main > [data-content-caution]').count(), 1, 'other screens keep the note at the top');
+});
+
 test('the year chips, key filter and clear action narrow the real papers', async (t) => {
   const page = await context(t);
   await go(page, 'library/');

@@ -14,6 +14,7 @@
 import Site from '../../layouts/Site.astro';
 import Icon from '../../components/Icon.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
+import ContentCaution from '../../components/ContentCaution.astro';
 import { papers, subjectOrder, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
@@ -29,6 +30,7 @@ const totalQuestions = papers.reduce((sum, paper) => sum + paper.questionCount, 
 <Site
   title="Papers"
   active="library"
+  caution="inline"
   description="Eight JELET previous-year papers: mathematics, physics, chemistry and electrical questions with board answer keys where they exist."
 >
   <div class="papers">
@@ -85,6 +87,8 @@ const totalQuestions = papers.reduce((sum, paper) => sum + paper.questionCount, 
         </label>
       </div>
     </details>
+
+    <ContentCaution />
 
     <ul class="papers-list" id="paper-list">
       {papers.map((paper) => {
