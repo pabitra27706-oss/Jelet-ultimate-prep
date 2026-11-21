@@ -2,7 +2,8 @@
 
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 17, practice
   result and review. **Built and agent-verified; owner visual review pending.**
-  2026-11-21. Branch `arena/61a4f729-jelet-ultimate-prep`, commit `f3ca604` plus the content repair noted below.
+  2026-11-21. Branch `arena/61a4f729-jelet-ultimate-prep`, commits `f3ca604` and `07bdb53`
+  (the second carries the content repair noted below).
   Owner is the reviewer; Phase 18 has not started.
 
 - **Inputs and pre-change evidence; reused/adapted/rejected reference and
@@ -72,9 +73,10 @@
   320 px and phone text zoom do not scroll sideways, and TalkBack reads the
   row's status and the “open one to review it” hint. Not tested on a device.
 
-- **CI run, build size, published URL and browser/device:** CI is reported on
-  the pull request after the push (see the phase's commit); nothing is deployed
-  or merged by this phase. Browser: headless Chromium 153.0.8010.0; no
+- **CI run, build size, published URL and browser/device:** the branch's
+  `pilot` job passed on pull request #14
+  (`actions/runs/44948697184`, 1 m 30 s, on `07bdb53`). Nothing is deployed or
+  merged by this phase; the published site still serves the Phase 14 build. Browser: headless Chromium 153.0.8010.0; no
   physical device. The screenshots are a **seeded, test-only** attempt in a
   fresh browser profile (Q1 right, Q2 wrong, the rest blank); the numbers in
   the images are not site content.
