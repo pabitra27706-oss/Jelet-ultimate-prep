@@ -2,7 +2,7 @@
 
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 18, the Practice
   chooser. **Built and agent-verified; owner visual review pending.** 2026-11-21.
-  Branch `arena/61a4f729-jelet-ultimate-prep`, commit `TODO_HASH`. Phase 19 has
+  Branch `arena/61a4f729-jelet-ultimate-prep`, commit `52e1d17`. Phase 19 has
   not started.
 
 - **Inputs and pre-change evidence; reused/adapted/rejected reference and
