@@ -232,7 +232,17 @@ async function build() {
   const katex = await katexAssets();
 
   const packs = [];
-  for (const definition of PACK_DEFINITIONS) {
+  const historicalPacks = [2021, 2019, 2018, 2017].map(year => ({
+    id: `paper-${year}`, title: `JELET ${year} · provisional practice`,
+    summary: 'Paper reader and untimed provisional practice. Comparison scores are not official results; disputed and unanswered items are excluded.',
+    routes: [`library/jelet-et-p1-${year}/index.html`, `practice/jelet-et-p1-${year}/index.html`],
+    data: [], onlineOnly: [],
+  }));
+  const definitions = [...PACK_DEFINITIONS, ...historicalPacks].sort((a, b) => {
+    const year = (id) => /^paper-\d{4}$/.test(id) ? Number(id.slice(-4)) : 0;
+    return year(b.id) - year(a.id);
+  });
+  for (const definition of definitions) {
     const wanted = [
       ...SHARED_ASSETS,
       ...definition.routes,

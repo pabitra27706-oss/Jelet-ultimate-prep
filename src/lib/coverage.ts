@@ -97,7 +97,7 @@ export type Coverage = {
 const data = topicsData as unknown as Coverage;
 export const coverage: Coverage = data;
 export const topics: TopicRecord[] = coverage.topics;
-export const papers = papersData.papers;
+export const papers = [...papersData.papers].sort((a, b) => b.year - a.year);
 
 /** How a topic's coverage should be described, without overclaiming. */
 export type CoverageBand = 'none' | 'thin' | 'moderate' | 'broad';

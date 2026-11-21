@@ -80,10 +80,13 @@ test('phase 06: a pack carries the maths fonts, so a question renders with no co
       pack.files.some((file) => file.path.endsWith('katex.min.css')),
       `${pack.id} carries the maths stylesheet`,
     );
-    assert.ok(
-      pack.files.some((file) => file.path === 'data/keys.json'),
-      `${pack.id} carries the answer key it needs`,
-    );
+    if (['paper-2017','paper-2018','paper-2019','paper-2021'].includes(pack.id)) {
+      const route = `practice/jelet-et-p1-${pack.id.slice(-4)}/index.html`;
+      assert.ok(pack.files.some(file => file.path === route));
+      assert.match(await readFile(resolve('dist', route), 'utf8'), /data-provisional-items/);
+    } else {
+      assert.ok(pack.files.some((file) => file.path === 'data/keys.json'), `${pack.id} carries its scored key`);
+    }
     assert.equal(pack.offlineComplete, true, `${pack.id} can be completed offline`);
     assert.deepEqual(pack.onlineOnly, [], `${pack.id} needs nothing online-only`);
   }

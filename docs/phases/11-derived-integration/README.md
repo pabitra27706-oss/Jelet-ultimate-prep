@@ -45,3 +45,7 @@ Implemented provisional study aids in the paper reader for the 400 imported 2017
 - No independent content/rights/device certification; no commit, push, merge or deployment in this integration turn.
 
 Remaining planned phases/tasks above are not all complete: verified scoring, full transcription reconciliation and release approval are separate. See the current roadmap for the owner pause on further answer research.
+
+## Subsequent owner approval: provisional practice mode
+
+The owner has now approved selectable-answer practice with **separate provisional comparison scores**, not a verified-tier promotion. See [decision, boundaries and verification](PROVISIONAL-PRACTICE.md). This extends the earlier read-only implementation for 262 available labels; ordinary scoring eligibility, normal attempt history and official/2022 flows are unchanged. Historical display-only descriptions above refer to the preceding release.

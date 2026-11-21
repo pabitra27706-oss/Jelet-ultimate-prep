@@ -14,11 +14,11 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 17154
+          "bytes": 18127
         },
         {
           "path": "library/index.html",
-          "bytes": 12107
+          "bytes": 12210
         },
         {
           "path": "search/index.html",
@@ -97,14 +97,6 @@
           "bytes": 5275
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
-          "bytes": 4905
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.Cb2rza8_.js",
-          "bytes": 9811
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
         },
@@ -121,6 +113,10 @@
           "bytes": 2898
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
@@ -129,15 +125,19 @@
           "bytes": 7815
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock-client.BHBpR0M0.js",
+          "path": "_astro/mock-client.Cv1bZlhX.js",
           "bytes": 2594
         },
         {
-          "path": "_astro/mock.C1Gx-1VA.js",
+          "path": "_astro/mock.CpYmcgun.js",
           "bytes": 6496
         },
         {
@@ -153,7 +153,7 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
           "bytes": 2177
         },
         {
@@ -261,7 +261,270 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3507270,
+      "bytes": 3508346,
+      "offlineComplete": true,
+      "onlineOnly": []
+    },
+    {
+      "id": "paper-2024",
+      "title": "JELET 2024 · Paper I",
+      "summary": "The whole 2024 paper: every question, the official Set-A key, and a timed rehearsal.",
+      "version": "2026.11.19-phase06",
+      "files": [
+        {
+          "path": "index.html",
+          "bytes": 11826
+        },
+        {
+          "path": "practice/index.html",
+          "bytes": 18127
+        },
+        {
+          "path": "library/index.html",
+          "bytes": 12210
+        },
+        {
+          "path": "search/index.html",
+          "bytes": 12633
+        },
+        {
+          "path": "review/index.html",
+          "bytes": 7361
+        },
+        {
+          "path": "workspace/index.html",
+          "bytes": 130384
+        },
+        {
+          "path": "manifest.webmanifest",
+          "bytes": 655
+        },
+        {
+          "path": "icon.svg",
+          "bytes": 552
+        },
+        {
+          "path": "search-index.json",
+          "bytes": 446498
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/index.html",
+          "bytes": 619629
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/mathematics/index.html",
+          "bytes": 418614
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/physics/index.html",
+          "bytes": 135380
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/chemistry/index.html",
+          "bytes": 53398
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/electrical/index.html",
+          "bytes": 36175
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/print/index.html",
+          "bytes": 98288
+        },
+        {
+          "path": "practice/jelet-et-p1-2024/reconciliation/index.html",
+          "bytes": 57005
+        },
+        {
+          "path": "library/jelet-et-p1-2024/index.html",
+          "bytes": 672827
+        },
+        {
+          "path": "data/keys.json",
+          "bytes": 44491
+        },
+        {
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "bytes": 100
+        },
+        {
+          "path": "_astro/attempts.3fuGf95v.js",
+          "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
+          "bytes": 1235
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
+          "bytes": 3626
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
+          "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
+          "bytes": 7445
+        },
+        {
+          "path": "_astro/mock-client.Cv1bZlhX.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.CpYmcgun.js",
+          "bytes": 6496
+        },
+        {
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
+        },
+        {
+          "path": "_astro/remediation.BdcnZp3c.js",
+          "bytes": 1021
+        },
+        {
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
+        },
+        {
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "bytes": 2177
+        },
+        {
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
+        },
+        {
+          "path": "_astro/stats.CfOC_cHw.js",
+          "bytes": 1528
+        },
+        {
+          "path": "_astro/workspace.B-fywpra.js",
+          "bytes": 3061
+        },
+        {
+          "path": "_astro/Site.DiEsHWmq.css",
+          "bytes": 26750
+        },
+        {
+          "path": "vendor/katex/katex.min.css",
+          "bytes": 21218
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+          "bytes": 28076
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+          "bytes": 6912
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+          "bytes": 6908
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+          "bytes": 11348
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+          "bytes": 11316
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+          "bytes": 25324
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+          "bytes": 16780
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+          "bytes": 16988
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+          "bytes": 26272
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+          "bytes": 16400
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+          "bytes": 16440
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+          "bytes": 12216
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+          "bytes": 12028
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+          "bytes": 10344
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+          "bytes": 9644
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+          "bytes": 5468
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+          "bytes": 5208
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+          "bytes": 3624
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+          "bytes": 4928
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+          "bytes": 13568
+        }
+      ],
+      "bytes": 3174701,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -277,11 +540,11 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 17154
+          "bytes": 18127
         },
         {
           "path": "library/index.html",
-          "bytes": 12107
+          "bytes": 12210
         },
         {
           "path": "search/index.html",
@@ -404,14 +667,6 @@
           "bytes": 5275
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
-          "bytes": 4905
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.Cb2rza8_.js",
-          "bytes": 9811
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
         },
@@ -428,6 +683,10 @@
           "bytes": 2898
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
@@ -436,15 +695,19 @@
           "bytes": 7815
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock-client.BHBpR0M0.js",
+          "path": "_astro/mock-client.Cv1bZlhX.js",
           "bytes": 2594
         },
         {
-          "path": "_astro/mock.C1Gx-1VA.js",
+          "path": "_astro/mock.CpYmcgun.js",
           "bytes": 6496
         },
         {
@@ -460,7 +723,7 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
           "bytes": 2177
         },
         {
@@ -568,270 +831,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3770834,
-      "offlineComplete": true,
-      "onlineOnly": []
-    },
-    {
-      "id": "paper-2024",
-      "title": "JELET 2024 · Paper I",
-      "summary": "The whole 2024 paper: every question, the official Set-A key, and a timed rehearsal.",
-      "version": "2026.11.19-phase06",
-      "files": [
-        {
-          "path": "index.html",
-          "bytes": 11826
-        },
-        {
-          "path": "practice/index.html",
-          "bytes": 17154
-        },
-        {
-          "path": "library/index.html",
-          "bytes": 12107
-        },
-        {
-          "path": "search/index.html",
-          "bytes": 12633
-        },
-        {
-          "path": "review/index.html",
-          "bytes": 7361
-        },
-        {
-          "path": "workspace/index.html",
-          "bytes": 130384
-        },
-        {
-          "path": "manifest.webmanifest",
-          "bytes": 655
-        },
-        {
-          "path": "icon.svg",
-          "bytes": 552
-        },
-        {
-          "path": "search-index.json",
-          "bytes": 446498
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/index.html",
-          "bytes": 619629
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/mathematics/index.html",
-          "bytes": 418614
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/physics/index.html",
-          "bytes": 135380
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/chemistry/index.html",
-          "bytes": 53398
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/electrical/index.html",
-          "bytes": 36175
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/print/index.html",
-          "bytes": 98288
-        },
-        {
-          "path": "practice/jelet-et-p1-2024/reconciliation/index.html",
-          "bytes": 57005
-        },
-        {
-          "path": "library/jelet-et-p1-2024/index.html",
-          "bytes": 672827
-        },
-        {
-          "path": "data/keys.json",
-          "bytes": 44491
-        },
-        {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
-          "bytes": 100
-        },
-        {
-          "path": "_astro/attempts.3fuGf95v.js",
-          "bytes": 1765
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
-          "bytes": 2488
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
-          "bytes": 5275
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
-          "bytes": 4905
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.Cb2rza8_.js",
-          "bytes": 9811
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
-          "bytes": 1235
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
-          "bytes": 3626
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
-          "bytes": 6438
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
-          "bytes": 2898
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
-          "bytes": 952
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
-          "bytes": 7815
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
-          "bytes": 7445
-        },
-        {
-          "path": "_astro/mock-client.BHBpR0M0.js",
-          "bytes": 2594
-        },
-        {
-          "path": "_astro/mock.C1Gx-1VA.js",
-          "bytes": 6496
-        },
-        {
-          "path": "_astro/progress.R2RM7ZQR.js",
-          "bytes": 774
-        },
-        {
-          "path": "_astro/remediation.BdcnZp3c.js",
-          "bytes": 1021
-        },
-        {
-          "path": "_astro/review.ByXoSI49.js",
-          "bytes": 1802
-        },
-        {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
-          "bytes": 2177
-        },
-        {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
-        },
-        {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
-        },
-        {
-          "path": "_astro/stats.CfOC_cHw.js",
-          "bytes": 1528
-        },
-        {
-          "path": "_astro/workspace.B-fywpra.js",
-          "bytes": 3061
-        },
-        {
-          "path": "_astro/Site.DiEsHWmq.css",
-          "bytes": 26750
-        },
-        {
-          "path": "vendor/katex/katex.min.css",
-          "bytes": 21218
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
-          "bytes": 28076
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
-          "bytes": 6912
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
-          "bytes": 6908
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
-          "bytes": 11348
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
-          "bytes": 11316
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
-          "bytes": 25324
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
-          "bytes": 16780
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
-          "bytes": 16988
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
-          "bytes": 26272
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
-          "bytes": 16400
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
-          "bytes": 16440
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
-          "bytes": 12216
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
-          "bytes": 12028
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
-          "bytes": 10344
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
-          "bytes": 9644
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
-          "bytes": 5468
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
-          "bytes": 5208
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
-          "bytes": 3624
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
-          "bytes": 4928
-        },
-        {
-          "path": "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
-          "bytes": 13568
-        }
-      ],
-      "bytes": 3173625,
+      "bytes": 3771910,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -847,11 +847,11 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 17154
+          "bytes": 18127
         },
         {
           "path": "library/index.html",
-          "bytes": 12107
+          "bytes": 12210
         },
         {
           "path": "search/index.html",
@@ -930,14 +930,6 @@
           "bytes": 5275
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
-          "bytes": 4905
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.Cb2rza8_.js",
-          "bytes": 9811
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
         },
@@ -954,6 +946,10 @@
           "bytes": 2898
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
@@ -962,15 +958,19 @@
           "bytes": 7815
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock-client.BHBpR0M0.js",
+          "path": "_astro/mock-client.Cv1bZlhX.js",
           "bytes": 2594
         },
         {
-          "path": "_astro/mock.C1Gx-1VA.js",
+          "path": "_astro/mock.CpYmcgun.js",
           "bytes": 6496
         },
         {
@@ -986,7 +986,7 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
           "bytes": 2177
         },
         {
@@ -1094,7 +1094,947 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3689472,
+      "bytes": 3690548,
+      "offlineComplete": true,
+      "onlineOnly": []
+    },
+    {
+      "id": "paper-2021",
+      "title": "JELET 2021 · provisional practice",
+      "summary": "Paper reader and untimed provisional practice. Comparison scores are not official results; disputed and unanswered items are excluded.",
+      "version": "2026.11.19-phase06",
+      "files": [
+        {
+          "path": "index.html",
+          "bytes": 11826
+        },
+        {
+          "path": "practice/index.html",
+          "bytes": 18127
+        },
+        {
+          "path": "library/index.html",
+          "bytes": 12210
+        },
+        {
+          "path": "search/index.html",
+          "bytes": 12633
+        },
+        {
+          "path": "review/index.html",
+          "bytes": 7361
+        },
+        {
+          "path": "workspace/index.html",
+          "bytes": 130384
+        },
+        {
+          "path": "manifest.webmanifest",
+          "bytes": 655
+        },
+        {
+          "path": "icon.svg",
+          "bytes": 552
+        },
+        {
+          "path": "search-index.json",
+          "bytes": 446498
+        },
+        {
+          "path": "library/jelet-et-p1-2021/index.html",
+          "bytes": 493055
+        },
+        {
+          "path": "practice/jelet-et-p1-2021/index.html",
+          "bytes": 282456
+        },
+        {
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "bytes": 100
+        },
+        {
+          "path": "_astro/attempts.3fuGf95v.js",
+          "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
+          "bytes": 1235
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
+          "bytes": 3626
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
+          "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
+          "bytes": 7445
+        },
+        {
+          "path": "_astro/mock-client.Cv1bZlhX.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.CpYmcgun.js",
+          "bytes": 6496
+        },
+        {
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
+        },
+        {
+          "path": "_astro/remediation.BdcnZp3c.js",
+          "bytes": 1021
+        },
+        {
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
+        },
+        {
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "bytes": 2177
+        },
+        {
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
+        },
+        {
+          "path": "_astro/stats.CfOC_cHw.js",
+          "bytes": 1528
+        },
+        {
+          "path": "_astro/workspace.B-fywpra.js",
+          "bytes": 3061
+        },
+        {
+          "path": "_astro/Site.DiEsHWmq.css",
+          "bytes": 26750
+        },
+        {
+          "path": "vendor/katex/katex.min.css",
+          "bytes": 21218
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+          "bytes": 28076
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+          "bytes": 6912
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+          "bytes": 6908
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+          "bytes": 11348
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+          "bytes": 11316
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+          "bytes": 25324
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+          "bytes": 16780
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+          "bytes": 16988
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+          "bytes": 26272
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+          "bytes": 16400
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+          "bytes": 16440
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+          "bytes": 12216
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+          "bytes": 12028
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+          "bytes": 10344
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+          "bytes": 9644
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+          "bytes": 5468
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+          "bytes": 5208
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+          "bytes": 3624
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+          "bytes": 4928
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+          "bytes": 13568
+        }
+      ],
+      "bytes": 1814405,
+      "offlineComplete": true,
+      "onlineOnly": []
+    },
+    {
+      "id": "paper-2019",
+      "title": "JELET 2019 · provisional practice",
+      "summary": "Paper reader and untimed provisional practice. Comparison scores are not official results; disputed and unanswered items are excluded.",
+      "version": "2026.11.19-phase06",
+      "files": [
+        {
+          "path": "index.html",
+          "bytes": 11826
+        },
+        {
+          "path": "practice/index.html",
+          "bytes": 18127
+        },
+        {
+          "path": "library/index.html",
+          "bytes": 12210
+        },
+        {
+          "path": "search/index.html",
+          "bytes": 12633
+        },
+        {
+          "path": "review/index.html",
+          "bytes": 7361
+        },
+        {
+          "path": "workspace/index.html",
+          "bytes": 130384
+        },
+        {
+          "path": "manifest.webmanifest",
+          "bytes": 655
+        },
+        {
+          "path": "icon.svg",
+          "bytes": 552
+        },
+        {
+          "path": "search-index.json",
+          "bytes": 446498
+        },
+        {
+          "path": "library/jelet-et-p1-2019/index.html",
+          "bytes": 374715
+        },
+        {
+          "path": "practice/jelet-et-p1-2019/index.html",
+          "bytes": 228014
+        },
+        {
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "bytes": 100
+        },
+        {
+          "path": "_astro/attempts.3fuGf95v.js",
+          "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
+          "bytes": 1235
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
+          "bytes": 3626
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
+          "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
+          "bytes": 7445
+        },
+        {
+          "path": "_astro/mock-client.Cv1bZlhX.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.CpYmcgun.js",
+          "bytes": 6496
+        },
+        {
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
+        },
+        {
+          "path": "_astro/remediation.BdcnZp3c.js",
+          "bytes": 1021
+        },
+        {
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
+        },
+        {
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "bytes": 2177
+        },
+        {
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
+        },
+        {
+          "path": "_astro/stats.CfOC_cHw.js",
+          "bytes": 1528
+        },
+        {
+          "path": "_astro/workspace.B-fywpra.js",
+          "bytes": 3061
+        },
+        {
+          "path": "_astro/Site.DiEsHWmq.css",
+          "bytes": 26750
+        },
+        {
+          "path": "vendor/katex/katex.min.css",
+          "bytes": 21218
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+          "bytes": 28076
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+          "bytes": 6912
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+          "bytes": 6908
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+          "bytes": 11348
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+          "bytes": 11316
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+          "bytes": 25324
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+          "bytes": 16780
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+          "bytes": 16988
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+          "bytes": 26272
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+          "bytes": 16400
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+          "bytes": 16440
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+          "bytes": 12216
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+          "bytes": 12028
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+          "bytes": 10344
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+          "bytes": 9644
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+          "bytes": 5468
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+          "bytes": 5208
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+          "bytes": 3624
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+          "bytes": 4928
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+          "bytes": 13568
+        }
+      ],
+      "bytes": 1641623,
+      "offlineComplete": true,
+      "onlineOnly": []
+    },
+    {
+      "id": "paper-2018",
+      "title": "JELET 2018 · provisional practice",
+      "summary": "Paper reader and untimed provisional practice. Comparison scores are not official results; disputed and unanswered items are excluded.",
+      "version": "2026.11.19-phase06",
+      "files": [
+        {
+          "path": "index.html",
+          "bytes": 11826
+        },
+        {
+          "path": "practice/index.html",
+          "bytes": 18127
+        },
+        {
+          "path": "library/index.html",
+          "bytes": 12210
+        },
+        {
+          "path": "search/index.html",
+          "bytes": 12633
+        },
+        {
+          "path": "review/index.html",
+          "bytes": 7361
+        },
+        {
+          "path": "workspace/index.html",
+          "bytes": 130384
+        },
+        {
+          "path": "manifest.webmanifest",
+          "bytes": 655
+        },
+        {
+          "path": "icon.svg",
+          "bytes": 552
+        },
+        {
+          "path": "search-index.json",
+          "bytes": 446498
+        },
+        {
+          "path": "library/jelet-et-p1-2018/index.html",
+          "bytes": 367230
+        },
+        {
+          "path": "practice/jelet-et-p1-2018/index.html",
+          "bytes": 204298
+        },
+        {
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "bytes": 100
+        },
+        {
+          "path": "_astro/attempts.3fuGf95v.js",
+          "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
+          "bytes": 1235
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
+          "bytes": 3626
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
+          "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
+          "bytes": 7445
+        },
+        {
+          "path": "_astro/mock-client.Cv1bZlhX.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.CpYmcgun.js",
+          "bytes": 6496
+        },
+        {
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
+        },
+        {
+          "path": "_astro/remediation.BdcnZp3c.js",
+          "bytes": 1021
+        },
+        {
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
+        },
+        {
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "bytes": 2177
+        },
+        {
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
+        },
+        {
+          "path": "_astro/stats.CfOC_cHw.js",
+          "bytes": 1528
+        },
+        {
+          "path": "_astro/workspace.B-fywpra.js",
+          "bytes": 3061
+        },
+        {
+          "path": "_astro/Site.DiEsHWmq.css",
+          "bytes": 26750
+        },
+        {
+          "path": "vendor/katex/katex.min.css",
+          "bytes": 21218
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+          "bytes": 28076
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+          "bytes": 6912
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+          "bytes": 6908
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+          "bytes": 11348
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+          "bytes": 11316
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+          "bytes": 25324
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+          "bytes": 16780
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+          "bytes": 16988
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+          "bytes": 26272
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+          "bytes": 16400
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+          "bytes": 16440
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+          "bytes": 12216
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+          "bytes": 12028
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+          "bytes": 10344
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+          "bytes": 9644
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+          "bytes": 5468
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+          "bytes": 5208
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+          "bytes": 3624
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+          "bytes": 4928
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+          "bytes": 13568
+        }
+      ],
+      "bytes": 1610422,
+      "offlineComplete": true,
+      "onlineOnly": []
+    },
+    {
+      "id": "paper-2017",
+      "title": "JELET 2017 · provisional practice",
+      "summary": "Paper reader and untimed provisional practice. Comparison scores are not official results; disputed and unanswered items are excluded.",
+      "version": "2026.11.19-phase06",
+      "files": [
+        {
+          "path": "index.html",
+          "bytes": 11826
+        },
+        {
+          "path": "practice/index.html",
+          "bytes": 18127
+        },
+        {
+          "path": "library/index.html",
+          "bytes": 12210
+        },
+        {
+          "path": "search/index.html",
+          "bytes": 12633
+        },
+        {
+          "path": "review/index.html",
+          "bytes": 7361
+        },
+        {
+          "path": "workspace/index.html",
+          "bytes": 130384
+        },
+        {
+          "path": "manifest.webmanifest",
+          "bytes": 655
+        },
+        {
+          "path": "icon.svg",
+          "bytes": 552
+        },
+        {
+          "path": "search-index.json",
+          "bytes": 446498
+        },
+        {
+          "path": "library/jelet-et-p1-2017/index.html",
+          "bytes": 363996
+        },
+        {
+          "path": "practice/jelet-et-p1-2017/index.html",
+          "bytes": 229553
+        },
+        {
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "bytes": 100
+        },
+        {
+          "path": "_astro/attempts.3fuGf95v.js",
+          "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
+          "bytes": 2488
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.BWNKJQjG.js",
+          "bytes": 5275
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
+          "bytes": 1235
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DChVZ3cx.js",
+          "bytes": 3626
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DQzIIaiF.js",
+          "bytes": 6438
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DVdHtpbM.js",
+          "bytes": 2898
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
+          "bytes": 952
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.s_XE7Xzq.js",
+          "bytes": 7815
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
+          "bytes": 7445
+        },
+        {
+          "path": "_astro/mock-client.Cv1bZlhX.js",
+          "bytes": 2594
+        },
+        {
+          "path": "_astro/mock.CpYmcgun.js",
+          "bytes": 6496
+        },
+        {
+          "path": "_astro/progress.R2RM7ZQR.js",
+          "bytes": 774
+        },
+        {
+          "path": "_astro/remediation.BdcnZp3c.js",
+          "bytes": 1021
+        },
+        {
+          "path": "_astro/review.ByXoSI49.js",
+          "bytes": 1802
+        },
+        {
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "bytes": 2177
+        },
+        {
+          "path": "_astro/runner.bB3FnkBu.js",
+          "bytes": 14009
+        },
+        {
+          "path": "_astro/scoring.I650gJKz.js",
+          "bytes": 2673
+        },
+        {
+          "path": "_astro/stats.CfOC_cHw.js",
+          "bytes": 1528
+        },
+        {
+          "path": "_astro/workspace.B-fywpra.js",
+          "bytes": 3061
+        },
+        {
+          "path": "_astro/Site.DiEsHWmq.css",
+          "bytes": 26750
+        },
+        {
+          "path": "vendor/katex/katex.min.css",
+          "bytes": 21218
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+          "bytes": 28076
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+          "bytes": 6912
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+          "bytes": 6908
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+          "bytes": 11348
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+          "bytes": 11316
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+          "bytes": 25324
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+          "bytes": 16780
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+          "bytes": 16988
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+          "bytes": 26272
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+          "bytes": 16400
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+          "bytes": 16440
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+          "bytes": 12216
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+          "bytes": 12028
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+          "bytes": 10344
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+          "bytes": 9644
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+          "bytes": 5468
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+          "bytes": 5208
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+          "bytes": 3624
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+          "bytes": 4928
+        },
+        {
+          "path": "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+          "bytes": 13568
+        }
+      ],
+      "bytes": 1632443,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1110,11 +2050,11 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 17154
+          "bytes": 18127
         },
         {
           "path": "library/index.html",
-          "bytes": 12107
+          "bytes": 12210
         },
         {
           "path": "search/index.html",
@@ -1165,14 +2105,6 @@
           "bytes": 5275
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
-          "bytes": 4905
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.Cb2rza8_.js",
-          "bytes": 9811
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
         },
@@ -1189,6 +2121,10 @@
           "bytes": 2898
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
@@ -1197,15 +2133,19 @@
           "bytes": 7815
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock-client.BHBpR0M0.js",
+          "path": "_astro/mock-client.Cv1bZlhX.js",
           "bytes": 2594
         },
         {
-          "path": "_astro/mock.C1Gx-1VA.js",
+          "path": "_astro/mock.CpYmcgun.js",
           "bytes": 6496
         },
         {
@@ -1221,7 +2161,7 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
           "bytes": 2177
         },
         {
@@ -1329,7 +2269,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1059160,
+      "bytes": 1060236,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1345,11 +2285,11 @@
         },
         {
           "path": "practice/index.html",
-          "bytes": 17154
+          "bytes": 18127
         },
         {
           "path": "library/index.html",
-          "bytes": 12107
+          "bytes": 12210
         },
         {
           "path": "search/index.html",
@@ -1424,14 +2364,6 @@
           "bytes": 5275
         },
         {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.CBWUo9Ej.js",
-          "bytes": 4905
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.Cb2rza8_.js",
-          "bytes": 9811
-        },
-        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.ClyCjGnI.js",
           "bytes": 1235
         },
@@ -1448,6 +2380,10 @@
           "bytes": 2898
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
+          "bytes": 9811
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
           "bytes": 952
         },
@@ -1456,15 +2392,19 @@
           "bytes": 7815
         },
         {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.uBScWltf.js",
+          "bytes": 4905
+        },
+        {
           "path": "_astro/index.astro_astro_type_script_index_1_lang.CmfOiU4s.js",
           "bytes": 7445
         },
         {
-          "path": "_astro/mock-client.BHBpR0M0.js",
+          "path": "_astro/mock-client.Cv1bZlhX.js",
           "bytes": 2594
         },
         {
-          "path": "_astro/mock.C1Gx-1VA.js",
+          "path": "_astro/mock.CpYmcgun.js",
           "bytes": 6496
         },
         {
@@ -1480,7 +2420,7 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CWhKm8zE.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
           "bytes": 2177
         },
         {
@@ -1588,7 +2528,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 4159459,
+      "bytes": 4160535,
       "offlineComplete": true,
       "onlineOnly": []
     }

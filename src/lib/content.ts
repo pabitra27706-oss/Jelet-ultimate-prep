@@ -151,7 +151,7 @@ export type Syllabus = {
   patternTableFound: boolean;
 };
 
-export const papers = papersData.papers as unknown as Paper[];
+export const papers = [...papersData.papers].sort((a, b) => b.year - a.year) as unknown as Paper[];
 export const keys = keysData.keys as unknown as AnswerKey[];
 export const syllabus = syllabusData.syllabus as unknown as Syllabus;
 

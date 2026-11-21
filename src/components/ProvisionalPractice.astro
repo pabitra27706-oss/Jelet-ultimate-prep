@@ -1,0 +1,62 @@
+---
+import Question from './Question.astro';
+import type { Paper, Question as QuestionData } from '../lib/content';
+const { paper, questions } = Astro.props as {paper: Paper; questions: QuestionData[]};
+const items = questions.map(q => ({id:q.id, answer:q.provisionalAid!.answer}));
+---
+<section data-provisional-practice>
+  <p class="notice"><strong>Provisional practice score — not an official or verified result.</strong> Answers may be wrong or refer to imperfectly transcribed options. Only available, undisputed provisional labels are compared. {paper.questionCount - questions.length} questions are excluded. Category I: +1 for agreement, −¼ for disagreement, 0 for blank. These results do not enter your normal exam history, mastery or review queue.</p>
+  <p class="micro">Untimed practice. Selections last only while this page is open; reloading clears them. Submit to reveal the comparisons. You can change your selections and submit again.</p>
+  <noscript><p class="notice">JavaScript is required to select answers and calculate provisional feedback. The paper reader remains available without it.</p></noscript>
+  <div class="stack">
+    {questions.map(q => <Question question={q} mode="runner" anchor={`q${q.n}`} provisionalPractice={true} />)}
+  </div>
+  <div class="btn-row" style="margin-top:1rem">
+    <button class="btn" type="button" data-provisional-submit>Calculate provisional score</button>
+    <button class="btn ghost" type="button" data-provisional-reset>Clear selections</button>
+  </div>
+  <p data-provisional-result role="status" aria-live="polite"></p>
+  <script type="application/json" data-provisional-items set:html={JSON.stringify(items).replace(/</g, '\\u003c')}></script>
+</section>
+<script>
+  import { provisionalResult } from '../lib/provisional-practice.mjs';
+  document.querySelectorAll<HTMLElement>('[data-provisional-practice]').forEach(root => {
+    const items = JSON.parse(root.querySelector('[data-provisional-items]')!.textContent!) as {id:string; answer:string}[];
+    const selected: Record<string,string> = {};
+    const result = root.querySelector<HTMLElement>('[data-provisional-result]')!;
+    const clearFeedback = () => {
+      root.querySelectorAll('[data-provisional-feedback]').forEach(el => el.remove());
+      result.textContent = '';
+    };
+    root.querySelectorAll<HTMLButtonElement>('button[data-option]').forEach(button => {
+      button.addEventListener('click', () => {
+        clearFeedback();
+        const id = button.dataset.question!;
+        const label = button.dataset.option!;
+        if (selected[id] === label) delete selected[id]; else selected[id] = label;
+        root.querySelectorAll<HTMLButtonElement>('button[data-option]').forEach(b => {
+          if (b.dataset.question === id) b.setAttribute('aria-pressed', String(selected[id] === b.dataset.option));
+        });
+      });
+    });
+    root.querySelector('[data-provisional-submit]')!.addEventListener('click', () => {
+      clearFeedback();
+      const r = provisionalResult(items, selected);
+      result.textContent = `Provisional practice score: ${r.score} / ${r.maximum}. Agreed: ${r.correct}; disagreed: ${r.wrong}; blank: ${r.blank}. Not an official or verified result.`;
+      for (const item of items) {
+        const card = Array.from(root.querySelectorAll<HTMLElement>('[data-question].qcard')).find(el => el.dataset.question === item.id)!;
+        const feedback = document.createElement('p');
+        feedback.className = 'notice';
+        feedback.dataset.provisionalFeedback = '';
+        feedback.textContent = `Provisional label: ${item.answer}. Your choice: ${selected[item.id] ?? 'blank'}. ${!selected[item.id] ? 'Not attempted.' : selected[item.id] === item.answer ? 'Agrees with the provisional label.' : 'Disagrees with the provisional label.'} This is not a verified correction.`;
+        card.append(feedback);
+      }
+    });
+    root.querySelector('[data-provisional-reset]')!.addEventListener('click', () => {
+      clearFeedback();
+      Object.keys(selected).forEach(id => delete selected[id]);
+      root.querySelectorAll('button[data-option]').forEach(b => b.setAttribute('aria-pressed','false'));
+      result.textContent = 'Selections cleared.';
+    });
+  });
+</script>
