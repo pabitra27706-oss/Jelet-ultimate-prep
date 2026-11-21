@@ -200,12 +200,12 @@ ul, ol { padding-left: 1.3rem; }
 }
 .today-hero-copy { min-width: 0; }
 .today-hero-copy h1 {
-  max-width: 18ch;
-  margin: .35rem 0 .85rem;
-  font-size: clamp(2.15rem, 4.4vw, 3.6rem);
-  font-weight: 850;
-  line-height: 1.02;
-  letter-spacing: -.055em;
+  max-width: 26ch;
+  margin: .25rem 0 .35rem;
+  font-size: clamp(1.55rem, 3.4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -.035em;
   text-wrap: balance;
 }
 .today-subjects { margin: 0; color: var(--ink-2); font-size: clamp(1rem, 1.8vw, 1.15rem); line-height: 1.5; }
@@ -238,7 +238,7 @@ ul, ol { padding-left: 1.3rem; }
 }
 .today-next > * { position: relative; }
 .today-next-label { display: flex; align-items: center; gap: .55rem; margin: 0 0 .7rem; color: var(--feature-accent); font-size: .75rem; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
-.today-next-label span { display: grid; place-items: center; width: 1.65rem; height: 1.65rem; border-radius: 9px; background: var(--feature-glow); font-size: 1rem; }
+.today-next-label > span:first-child { display: grid; place-items: center; flex: none; width: 1.65rem; height: 1.65rem; border-radius: 9px; background: var(--feature-glow); font-size: 1rem; }
 .today-next h2 { max-width: 18ch; margin: 0 0 .55rem; font-size: clamp(1.5rem, 2.7vw, 2rem); font-weight: 800; line-height: 1.08; letter-spacing: -.045em; }
 .today-next > p:not(.today-next-label) { max-width: 42ch; color: var(--feature-muted); margin: 0 0 1rem; font-size: .96rem; line-height: 1.55; }
 .today-primary-action {
@@ -353,6 +353,36 @@ ul, ol { padding-left: 1.3rem; }
 .today-subject-copy strong, .today-subject-copy small { display: block; overflow-wrap: anywhere; }
 .today-subject-copy strong { font-size: .92rem; line-height: 1.25; }
 .today-subject-copy small { margin-top: .2rem; color: var(--muted); font-size: .74rem; line-height: 1.3; }
+.today-subject-meter { display: block; height: .42rem; margin: .4rem 0 .1rem; border-radius: 999px; background: var(--paper-2); overflow: hidden; }
+.today-subject-meter > span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--teal), var(--teal-2)); transition: width .35s var(--ease); }
+.today-subject-card[data-subject="mathematics"] .today-subject-icon { color: #5143ba; }
+.today-subject-card[data-subject="physics"] .today-subject-icon { color: #176baf; }
+.today-subject-card[data-subject="chemistry"] .today-subject-icon { color: #976000; }
+.today-subject-card[data-subject="electrical"] .today-subject-icon { color: #6742b2; }
+html[data-theme="dark"] .today-subject-card[data-subject="mathematics"] .today-subject-icon { color: #b7adff; }
+html[data-theme="dark"] .today-subject-card[data-subject="physics"] .today-subject-icon { color: #88c7ff; }
+html[data-theme="dark"] .today-subject-card[data-subject="chemistry"] .today-subject-icon { color: #ffd27f; }
+html[data-theme="dark"] .today-subject-card[data-subject="electrical"] .today-subject-icon { color: #d3b9ff; }
+.today-action-card:nth-child(2) .today-action-icon { background: var(--blue-soft); color: var(--blue); }
+.today-action-card:nth-child(3) .today-action-icon { background: var(--amber-soft); color: var(--amber); }
+.today-encouragement {
+  display: grid;
+  grid-template-columns: 2.7rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .8rem;
+  margin-top: .8rem;
+  min-height: 76px;
+  padding: .75rem .9rem;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: linear-gradient(100deg, var(--teal-soft), var(--card));
+  color: var(--ink);
+  text-decoration: none;
+}
+.today-encouragement-icon { display: grid; place-items: center; width: 2.6rem; aspect-ratio: 1; border-radius: 13px; background: var(--teal); color: var(--button-ink); font-size: 1.2rem; }
+.today-encouragement strong, .today-encouragement small { display: block; }
+.today-encouragement small { margin-top: .15rem; color: var(--muted); font-size: .82rem; }
+.today-encouragement-arrow { color: var(--teal); font-size: 1.5rem; }
 .today-record { margin-top: var(--gap); padding: clamp(.9rem, 2.2vw, 1.25rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
 .today-record .section-head { margin-bottom: .7rem; }
 .today-record .section-head h2 { font-size: 1.2rem; }
@@ -607,7 +637,8 @@ footer { border-top: 1px solid var(--line); background: var(--card); color: var(
   .tabbar { display: grid; }
   body { padding-bottom: 4.4rem; }
   .today-hero { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-  .today-hero-copy h1 { max-width: 18ch; font-size: clamp(2rem, 8.8vw, 2.7rem); }
+  .today-hero-copy h1 { max-width: none; font-size: clamp(1.25rem, 4.8vw, 1.55rem); line-height: 1.2; }
+  .today-subjects { font-size: .9rem; }
   .today-next { border-radius: 16px; padding: 1.05rem; }
   .today-next-label { margin-bottom: .5rem; }
   .today-next h2 { font-size: clamp(1.35rem, 6vw, 1.6rem); margin-bottom: .4rem; }

@@ -106,8 +106,8 @@ test('a first-time learner sees one guided start and can expand optional routes'
   assert.equal(await page.locator('[data-record-panel]').isVisible(), false);
   assert.equal(await page.locator('[data-resume-section]').isVisible(), false);
   assert.match((await page.locator('.today-corpus').textContent()).replace(/\s+/g, ' '), /800 questions across eight previous-year papers/);
-  const primary = page.getByRole('link', { name: /Choose a subject/ });
-  assert.equal(await primary.getAttribute('href'), '#drills-heading');
+  const primary = page.getByRole('link', { name: /Start the lesson/ });
+  assert.equal(await primary.getAttribute('href'), '/Jelet-ultimate-prep/learn/parallel-circuits/');
   assert(await primary.isVisible());
   assert.equal(await page.locator('.today-action-card').count(), 3, 'quick actions expose real Learn, Papers and Mock routes');
   assert.equal(await page.locator('.today-action-card').nth(0).getAttribute('href'), '/Jelet-ultimate-prep/learn/');
@@ -116,6 +116,9 @@ test('a first-time learner sees one guided start and can expand optional routes'
   await page.waitForFunction(() => document.querySelector('[data-review-count]')?.textContent === '0');
   assert.match(await page.locator('[data-review-detail]').textContent(), /miss in eligible practice/);
   assert.equal(await page.locator('.today-subject-card').count(), 4, 'subject cards show the real 2025 keyed drills');
+  assert.equal(await page.locator('.today-subject-card [role="progressbar"]').count(), 4);
+  assert.match(await page.locator('.today-subject-card [data-subject-count]').first().textContent(), /^0 \/ \d+ questions answered$/);
+  assert.equal(await page.locator('.today-subject-card [role="progressbar"]').first().getAttribute('aria-valuenow'), '0');
   const options = page.locator('.today-more-options');
   assert.equal(await options.getAttribute('open'), null);
   assert.equal(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible(), false);
@@ -128,7 +131,7 @@ test('a first-time learner sees one guided start and can expand optional routes'
 test('the Today dashboard reflows on narrow phones, keeps its action tappable, and preserves desktop navigation', async (t) => {
   const page = await context(t);
   await go(page);
-  const primary = page.getByRole('link', { name: /Choose a subject/ });
+  const primary = page.getByRole('link', { name: /Start the lesson/ });
   assert.equal(await primary.count(), 1);
   assert(await primary.isVisible());
   assert.equal(await page.locator('.today-stat-grid .stat').count(), 4);
@@ -195,6 +198,10 @@ test('the runner answers, saves, resumes and marks a paper with the real rules',
   const page = await context(t);
   await go(page, `practice/${paper2025}/`);
   await page.waitForSelector('[data-runner]');
+  const questionSubjects = new Map();
+  for (const number of [1, 2, 3]) {
+    questionSubjects.set(`q${number}`, await page.locator(`.qcard[data-n="${number}"]`).getAttribute('data-subject-key'));
+  }
 
   // Q1 is a Category I item with key D.
   await page.locator('.pane.active .opt[data-option="D"]').click();
@@ -228,6 +235,17 @@ test('the runner answers, saves, resumes and marks a paper with the real rules',
   // The navigator repaints with the outcome of each item.
   const states = await page.locator('[data-runner-nav] button').evaluateAll((nodes) => nodes.slice(0, 3).map((node) => node.dataset.state));
   assert.deepEqual(states, ['correct', 'wrong', 'wrong']);
+
+  await go(page);
+  const answeredBySubject = new Map();
+  for (const number of [1, 2]) {
+    const key = questionSubjects.get(`q${number}`);
+    answeredBySubject.set(key, (answeredBySubject.get(key) ?? 0) + 1);
+  }
+  for (const [key, count] of answeredBySubject) {
+    const text = await page.locator(`.today-subject-card[data-subject="${key}"] [data-subject-count]`).textContent();
+    assert.match(text, new RegExp(`^${count} \\/ \\d+ questions answered$`), 'dashboard coverage counts distinct answered items, not every blank on a submitted paper');
+  }
 });
 
 test('the clock survives a reload without handing back time', async (t) => {

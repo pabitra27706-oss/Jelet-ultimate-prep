@@ -22,7 +22,7 @@ const paperWord = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven'
 const drills = mockPaper.subjects
   .map((subject) => {
     const items = rehearsableQuestions(mockPaper, subject.subjectKey);
-    return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0) };
+    return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0), questionIds: items.map((question) => question.id) };
   })
   .filter((subject) => subject.count > 0);
 const subjectSymbols: Record<string, string> = {
@@ -32,16 +32,15 @@ const subjectSymbols: Record<string, string> = {
 <Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, previous-year papers with board answer keys, and spaced revision built from your own attempts.">
   <section class="today-hero" aria-labelledby="today-title">
     <div class="today-hero-copy">
-      <p class="eyebrow">JELET Paper I · your study desk</p>
-      <h1 id="today-title">Smarter study. Brighter tomorrow.</h1>
-      <p class="today-subjects">Learn a concept, practise a question, and return to what needs work.</p>
-      <p class="micro">Free · No account needed.</p>
+      <p class="eyebrow">JELET Paper I</p>
+      <h1 id="today-title">Smarter Study. Brighter Tomorrow.</h1>
+      <p class="today-subjects">Independent preparation, one clear step at a time.</p>
     </div>
     <div class="today-next">
-      <p class="today-next-label"><span aria-hidden="true">✦</span> Start here</p>
-      <h2 data-next-heading>Choose one subject to begin.</h2>
-      <p data-next-copy>Pick a subject drill and start with a question.</p>
-      <a class="today-primary-action" data-next-action href="#drills-heading"><span data-next-label>Choose a subject</span><span aria-hidden="true">↗</span></a>
+      <p class="today-next-label"><span aria-hidden="true">✦</span><span data-next-eyebrow>Start here</span></p>
+      <h2 data-next-heading>Parallel circuits</h2>
+      <p data-next-copy>Electrical · Original lesson · 8 min</p>
+      <a class="today-primary-action" data-next-action href={`${base}learn/parallel-circuits/`}><span data-next-label>Start the lesson</span><span aria-hidden="true">↗</span></a>
       <details class="today-more-options">
         <summary>More ways to study <span aria-hidden="true">＋</span></summary>
         <div class="today-quick-links">
@@ -131,18 +130,25 @@ const subjectSymbols: Record<string, string> = {
     </p>
     <div class="today-subject-grid">
       {drills.map((subject) => (
-        <a class="today-subject-card" data-subject={subject.subjectKey} href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
+        <a class="today-subject-card" data-subject-card data-subject={subject.subjectKey} data-question-ids={JSON.stringify(subject.questionIds)} href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
           <span class="today-subject-icon" aria-hidden="true">{subjectSymbols[subject.subjectKey] ?? '•'}</span>
           <span class="today-subject-copy">
             <strong>{subjectLabels[subject.subjectKey as SubjectKey]}</strong>
-            <small>{subject.count} questions · {subject.marks} marks</small>
-            <small>{subject.categories.map((category) => `Category ${category.category}`).join(' + ')}</small>
+            <small><span data-subject-count>0 / {subject.count} questions answered</span></small>
+            <span class="today-subject-meter" role="progressbar" aria-label={`${subjectLabels[subject.subjectKey as SubjectKey]} questions answered`} aria-valuemin="0" aria-valuemax={subject.count} aria-valuenow="0"><span data-subject-meter></span></span>
+            <small>{subject.count} scoreable questions · {subject.marks} marks</small>
           </span>
           <span class="today-subject-arrow" aria-hidden="true">›</span>
         </a>
       ))}
     </div>
   </section>
+
+  <a class="today-encouragement" href={`${base}plan/`}>
+    <span class="today-encouragement-icon" aria-hidden="true">↗</span>
+    <span><strong>Small steps add up.</strong><small>Make a focused study plan from your own practice.</small></span>
+    <span class="today-encouragement-arrow" aria-hidden="true">›</span>
+  </a>
 
   <section class="today-section" aria-labelledby="papers-heading">
     <div class="section-head">
@@ -238,6 +244,29 @@ const subjectSymbols: Record<string, string> = {
           : 'Questions you miss in eligible practice can be scheduled here.';
     }
 
+    // Show actual answered 2025 drill items, not a lesson-completion or mastery claim.
+    document.querySelectorAll<HTMLElement>('[data-subject-card]').forEach((card) => {
+      let questionIds: string[] = [];
+      try {
+        const parsed = JSON.parse(card.dataset.questionIds ?? '[]');
+        if (Array.isArray(parsed)) questionIds = parsed.filter((id): id is string => typeof id === 'string');
+      } catch { /* A malformed card renders as zero coverage, never an invented value. */ }
+      const eligible = new Set(questionIds);
+      const attempted = new Set<string>();
+      for (const attempt of attempts) {
+        for (const [questionId, selected] of Object.entries(attempt.responses ?? {})) {
+          if (Array.isArray(selected) && selected.length > 0 && eligible.has(questionId)) attempted.add(questionId);
+        }
+      }
+      const count = Math.min(attempted.size, eligible.size);
+      const countNode = card.querySelector<HTMLElement>('[data-subject-count]');
+      const meter = card.querySelector<HTMLElement>('[data-subject-meter]');
+      const progress = card.querySelector<HTMLElement>('[role="progressbar"]');
+      if (countNode) countNode.textContent = `${count} / ${eligible.size} questions answered`;
+      if (meter) meter.style.width = eligible.size > 0 ? `${Math.round(count / eligible.size * 100)}%` : '0%';
+      progress?.setAttribute('aria-valuenow', String(count));
+    });
+
     // The lesson's own reading position, if the learner started the chapter.
     const lessonSlot = document.querySelector('#lesson-slot');
     const { progress } = readProgress('parallel-circuits');
@@ -307,12 +336,12 @@ const subjectSymbols: Record<string, string> = {
       const heroActionLabel = document.querySelector<HTMLElement>('[data-next-label]');
       const heroHeading = document.querySelector<HTMLElement>('[data-next-heading]');
       const heroCopy = document.querySelector<HTMLElement>('[data-next-copy]');
-      const heroEyebrow = document.querySelector<HTMLElement>('.today-next-label');
+      const heroEyebrow = document.querySelector<HTMLElement>('[data-next-eyebrow]');
       if (heroAction) heroAction.href = resumeHref;
-      if (heroActionLabel) heroActionLabel.textContent = resume.submittedAt ? 'Review your latest attempt' : 'Continue your practice';
+      if (heroActionLabel) heroActionLabel.textContent = resume.submittedAt ? 'Review your latest attempt' : 'Resume this practice';
       if (heroHeading) heroHeading.textContent = resume.submittedAt ? 'Your latest attempt is ready.' : 'Pick up where you stopped.';
       if (heroCopy) heroCopy.textContent = `${status}. Your work is stored on this device.`;
-      if (heroEyebrow) heroEyebrow.textContent = 'YOUR NEXT STEP';
+      if (heroEyebrow) heroEyebrow.textContent = 'Continue';
 
       const row = document.createElement('div');
       row.className = 'row-between';
@@ -324,12 +353,12 @@ const subjectSymbols: Record<string, string> = {
       const heroActionLabel = document.querySelector<HTMLElement>('[data-next-label]');
       const heroHeading = document.querySelector<HTMLElement>('[data-next-heading]');
       const heroCopy = document.querySelector<HTMLElement>('[data-next-copy]');
-      const heroEyebrow = document.querySelector<HTMLElement>('.today-next-label');
+      const heroEyebrow = document.querySelector<HTMLElement>('[data-next-eyebrow]');
       if (heroAction) heroAction.href = `${base}learn/parallel-circuits/?resume=1#${progress.section}`;
       if (heroActionLabel) heroActionLabel.textContent = 'Continue your lesson';
       if (heroHeading) heroHeading.textContent = 'Welcome back to your lesson.';
       if (heroCopy) heroCopy.textContent = `Resume at ${progress.section.replaceAll('-', ' ')}. Your reading place is saved on this device.`;
-      if (heroEyebrow) heroEyebrow.textContent = 'YOUR NEXT STEP';
+      if (heroEyebrow) heroEyebrow.textContent = 'Continue';
     }
   </script>
 </Site>
