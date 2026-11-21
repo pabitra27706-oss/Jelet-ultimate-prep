@@ -33,7 +33,7 @@ const tabs = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a5c4c" />
+    <meta name="theme-color" content="#087e78" />
     <link rel="manifest" href={`${base}manifest.webmanifest`} />
     <link rel="icon" href={`${base}icon.svg`} type="image/svg+xml" />
     <link rel="stylesheet" href={`${base}vendor/katex/katex.min.css`} />
@@ -60,16 +60,22 @@ const tabs = [
           {nav.map((item) => <a href={item.href} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
           <a href={`${base}search/`} aria-current={active === 'search' ? 'page' : undefined}>Search</a>
         </nav>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark">◐</button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark"><span data-theme-icon aria-hidden="true">☾</span></button>
       </div>
     </header>
     <main class:list={['wrap', 'main']} id="main" tabindex="-1">
       {['library', 'practice', 'review'].includes(active) && (
-        <aside class="notice" aria-label="Question and answer accuracy notice" data-content-caution style="margin-bottom:1.2rem">
-          <strong>Some questions and answers have unresolved issues.</strong>
-          <p style="margin:.4rem 0 0">Known issues include transcription errors, ambiguous wording and disputed answers. Derived answers are not official board keys, and agreement between AI reviews does not guarantee correctness. Official key labels are retained, but a matching label does not verify the transcribed option text.</p>
-          <p style="margin:.4rem 0 0">Use scores as practice feedback, not a certified measure of exam readiness. If an item appears inconsistent, consult the original paper and the applicable final board key, where available. Further answer review is paused; this notice does not resolve the issues or change which questions are marked.</p>
-        </aside>
+        <details class="content-caution" aria-label="Question and answer accuracy notice" data-content-caution>
+          <summary>
+            <span class="caution-mark" aria-hidden="true">i</span>
+            <span class="caution-summary"><strong>Accuracy note</strong><small>Some question text and answers have unresolved issues.</small></span>
+            <span class="caution-action">Details <span aria-hidden="true">⌄</span></span>
+          </summary>
+          <div class="content-caution-copy">
+            <p>Known issues include transcription errors, ambiguous wording and disputed answers. Derived answers are not official board keys, and agreement between AI reviews does not guarantee correctness. Official key labels are retained, but a matching label does not verify the transcribed option text.</p>
+            <p>Use scores as practice feedback, not a certified measure of exam readiness. If an item appears inconsistent, consult the original paper and the applicable final board key, where available. Further answer review is paused; this notice does not resolve the issues or change which questions are marked.</p>
+          </div>
+        </details>
       )}
       <slot />
     </main>
@@ -95,11 +101,17 @@ const tabs = [
     </nav>
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      const themeIcon = toggle?.querySelector<HTMLElement>('[data-theme-icon]');
+      const currentTheme = document.documentElement.dataset.theme
+        ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const showNextTheme = (theme: string) => { if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☀' : '☾'; };
+      showNextTheme(currentTheme);
       toggle?.addEventListener('click', () => {
         const current = document.documentElement.dataset.theme
           ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = next;
+        showNextTheme(next);
         try { localStorage.setItem('jelet:theme', next); } catch { /* storage blocked: the choice lasts this page only */ }
       });
 

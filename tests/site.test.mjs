@@ -98,16 +98,69 @@ test('the answer key file is published, marked with its tier and never leaks a p
  * Dashboard and library
  * ------------------------------------------------------------------ */
 
-test('the dashboard shows real corpus numbers and an honest empty record', async (t) => {
+test('a first-time learner sees one guided start and can expand optional routes', async (t) => {
   const page = await context(t);
   await go(page);
   assert.match(await page.title(), /^Today/);
-  const attempted = await page.locator('[data-stat="attempted"]').textContent();
-  assert.equal(attempted, '0');
-  assert.equal(await page.locator('[data-stat="accuracy"]').textContent(), '—');
-  assert(await page.getByText(/800 questions from eight previous-year papers/).isVisible());
+  assert.equal(await page.locator('[data-first-visit]').count(), 0, 'first visit stays focused on study actions rather than a redundant privacy notice');
+  assert.equal(await page.locator('[data-record-panel]').isVisible(), false);
+  assert.equal(await page.locator('[data-resume-section]').isVisible(), false);
+  assert.match((await page.locator('.today-corpus').textContent()).replace(/\s+/g, ' '), /800 questions across eight previous-year papers/);
+  const primary = page.getByRole('link', { name: /Start the lesson/ });
+  assert.equal(await primary.getAttribute('href'), '/Jelet-ultimate-prep/learn/parallel-circuits/');
+  assert(await primary.isVisible());
+  assert.equal(await page.locator('.today-action-card').count(), 3, 'quick actions expose real Learn, Papers and Mock routes');
+  assert.equal(await page.locator('.today-action-card').nth(0).getAttribute('href'), '/Jelet-ultimate-prep/learn/');
+  assert.equal(await page.locator('.today-action-card').nth(1).getAttribute('href'), '/Jelet-ultimate-prep/library/');
+  assert.equal(await page.locator('.today-action-card').nth(2).getAttribute('href'), '/Jelet-ultimate-prep/mock/');
+  await page.waitForFunction(() => document.querySelector('[data-review-count]')?.textContent === '0');
+  assert.match(await page.locator('[data-review-detail]').textContent(), /miss in eligible practice/);
+  assert.equal(await page.locator('.today-subject-card').count(), 4, 'subject cards show the real 2025 keyed drills');
+  assert.equal(await page.locator('.today-subject-card [role="progressbar"]').count(), 4);
+  assert.match(await page.locator('.today-subject-card [data-subject-count]').first().textContent(), /^0 \/ \d+ questions answered$/);
+  assert.equal(await page.locator('.today-subject-card [role="progressbar"]').first().getAttribute('aria-valuenow'), '0');
+  const options = page.locator('.today-more-options');
+  assert.equal(await options.getAttribute('open'), null);
+  assert.equal(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible(), false);
+  await options.locator('summary').click();
   assert(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible());
-  assert(await page.getByRole('link', { name: /JELET 2025 · Paper I/ }).first().isVisible());
+  assert(await page.getByRole('link', { name: /Build your own mock/ }).isVisible());
+  assert.equal(await page.locator('.today-stat-grid .stat').count(), 4);
+});
+
+test('the Today dashboard reflows on narrow phones, keeps its action tappable, and preserves desktop navigation', async (t) => {
+  const page = await context(t);
+  await go(page);
+  const primary = page.getByRole('link', { name: /Start the lesson/ });
+  assert.equal(await primary.count(), 1);
+  assert(await primary.isVisible());
+  assert.equal(await page.locator('.today-stat-grid .stat').count(), 4);
+  assert.equal(await page.locator('.tabbar a').count(), 5);
+  await page.locator('[data-record-panel]').evaluate((element) => { element.hidden = false; });
+
+  for (const width of [320, 360, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    const metrics = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+      columns: getComputedStyle(document.querySelector('.today-stat-grid')).gridTemplateColumns.split(' ').length,
+      actionHeight: document.querySelector('.today-primary-action').getBoundingClientRect().height,
+      tabsDisplay: getComputedStyle(document.querySelector('.tabbar')).display,
+    }));
+    assert(metrics.document <= metrics.viewport, `no horizontal overflow at ${width}px: ${JSON.stringify(metrics)}`);
+    assert.equal(metrics.columns, 2, `phone stats use two readable columns at ${width}px`);
+    assert(metrics.actionHeight >= 44, `primary action meets the 44px touch target at ${width}px`);
+    assert.equal(metrics.tabsDisplay, 'grid', `bottom navigation remains visible at ${width}px`);
+  }
+
+  await page.locator('[data-theme-toggle]').click();
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+  assert((await page.evaluate(() => document.documentElement.scrollWidth)) <= 430, 'dark mode also fits the narrow dashboard');
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  assert.equal(await page.locator('.today-stat-grid').evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length), 4);
+  assert.equal(await page.locator('.tabbar').evaluate((el) => getComputedStyle(el).display), 'none');
+  assert.equal(await page.locator('.appnav').evaluate((el) => getComputedStyle(el).display), 'flex');
 });
 
 test('the paper library lists every paper with its key tier and real counts', async (t) => {
@@ -145,6 +198,10 @@ test('the runner answers, saves, resumes and marks a paper with the real rules',
   const page = await context(t);
   await go(page, `practice/${paper2025}/`);
   await page.waitForSelector('[data-runner]');
+  const questionSubjects = new Map();
+  for (const number of [1, 2, 3]) {
+    questionSubjects.set(`q${number}`, await page.locator(`.qcard[data-n="${number}"]`).getAttribute('data-subject-key'));
+  }
 
   // Q1 is a Category I item with key D.
   await page.locator('.pane.active .opt[data-option="D"]').click();
@@ -178,6 +235,17 @@ test('the runner answers, saves, resumes and marks a paper with the real rules',
   // The navigator repaints with the outcome of each item.
   const states = await page.locator('[data-runner-nav] button').evaluateAll((nodes) => nodes.slice(0, 3).map((node) => node.dataset.state));
   assert.deepEqual(states, ['correct', 'wrong', 'wrong']);
+
+  await go(page);
+  const answeredBySubject = new Map();
+  for (const number of [1, 2]) {
+    const key = questionSubjects.get(`q${number}`);
+    answeredBySubject.set(key, (answeredBySubject.get(key) ?? 0) + 1);
+  }
+  for (const [key, count] of answeredBySubject) {
+    const text = await page.locator(`.today-subject-card[data-subject="${key}"] [data-subject-count]`).textContent();
+    assert.match(text, new RegExp(`^${count} \\/ \\d+ questions answered$`), 'dashboard coverage counts distinct answered items, not every blank on a submitted paper');
+  }
 });
 
 test('the clock survives a reload without handing back time', async (t) => {
@@ -770,6 +838,10 @@ test('hint and notebook progress survives returning and reload, without showing 
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.guidedHints.includes('hint-one'));
   assert(await closed(page, '[data-reveal="hint-two"]'));
   await go(page);
+  const dashboardResume = page.locator('[data-next-action]');
+  await page.waitForFunction(() => /Continue your lesson/.test(document.querySelector('[data-next-label]')?.textContent ?? ''));
+  assert.match(await dashboardResume.getAttribute('href'), /learn\/parallel-circuits\/\?resume=1#guided-practice$/);
+  assert.equal(await page.locator('[data-resume-section]').isVisible(), true);
   const resume = page.getByRole('link', { name: /Parallel circuits · the lesson/ });
   await resume.click();
   assert.equal(new URL(page.url()).hash, '#guided-practice');
@@ -823,11 +895,15 @@ test('the theme toggle switches the palette and remembers the choice', async (t)
   const page = await context(t);
   await go(page);
   const before = await page.evaluate(() => document.documentElement.dataset.theme ?? 'light');
+  const beforeIcon = await page.locator('[data-theme-icon]').textContent();
+  assert.equal(beforeIcon, before === 'dark' ? '☀' : '☾');
   await page.locator('[data-theme-toggle]').click();
   const after = await page.evaluate(() => document.documentElement.dataset.theme ?? 'light');
   assert.notEqual(before, after);
+  assert.equal(await page.locator('[data-theme-icon]').textContent(), after === 'dark' ? '☀' : '☾');
   await page.reload();
   assert.equal(await page.evaluate(() => document.documentElement.dataset.theme ?? 'light'), after);
+  assert.equal(await page.locator('[data-theme-icon]').textContent(), after === 'dark' ? '☀' : '☾');
 });
 
 test('the site keeps working with the network switched off', async () => {
@@ -848,7 +924,7 @@ test('the site keeps working with the network switched off', async () => {
 
     await ctx.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    assert.match(await page.locator('h1').first().textContent(), /JELET/i, 'the shell renders from the cache while offline');
+    assert.match(await page.locator('h1').first().textContent(), /Smarter study/i, 'the shell renders from the cache while offline');
     // Cached navigation must work too, not just the home page.
     await page.goto(origin + base + 'syllabus/', { waitUntil: 'domcontentloaded' });
     assert.match(await page.locator('h1').first().textContent(), /Syllabus/i);
@@ -1295,15 +1371,19 @@ test('2022 restored chemistry questions render complete multi-answer inputs and 
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
 });
 
-test('papers, practice and review show the unresolved-content notice', async (t) => {
+test('accuracy notices stay compact until deliberately expanded on papers, practice and review', async (t) => {
   const page = await context(t);
   for (const path of ['library/', 'library/jelet-et-p1-2022/', 'practice/', 'review/']) {
     await go(page, path);
     const notice = page.locator('[data-content-caution]');
     assert.equal(await notice.count(), 1);
-    assert.ok(await notice.isVisible());
+    assert.equal(await notice.evaluate((el) => el.tagName), 'DETAILS');
+    assert.ok(await notice.locator('summary').isVisible());
+    assert.equal(await notice.locator('.content-caution-copy').isVisible(), false, 'long accuracy text does not push page content down by default');
     assert.match(await notice.textContent(), /Further answer review is paused/);
-    assert.match(await notice.textContent(), /does not.*change which questions are marked/);
+    await notice.locator('summary').click();
+    assert.equal(await notice.locator('.content-caution-copy').isVisible(), true);
+    assert.match(await notice.locator('.content-caution-copy').textContent(), /does not.*change which questions are marked/);
   }
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
 });

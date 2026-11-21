@@ -19,49 +19,82 @@ const readOnlyPapers = papers.filter((paper) => !paper.hasKey);
 const paperWord = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][
   papers.length
 ] ?? String(papers.length);
-const officialYears = officialPapers.map((paper) => paper.year).join(', ').replace(/, ([^,]*)$/, ' and $1');
-
 const drills = mockPaper.subjects
   .map((subject) => {
     const items = rehearsableQuestions(mockPaper, subject.subjectKey);
-    return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0) };
+    return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0), questionIds: items.map((question) => question.id) };
   })
   .filter((subject) => subject.count > 0);
+const subjectSymbols: Record<string, string> = {
+  mathematics: 'π', physics: '∿', chemistry: '⚗', electrical: 'EE',
+};
 ---
 <Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, previous-year papers with board answer keys, and spaced revision built from your own attempts.">
-  <section class="hero">
-    <div class="row-between" style="align-items:flex-start">
-      <div class="grow">
-        <p class="eyebrow">Paper I · Mathematics · Physics · Chemistry · Electrical &amp; Electronics</p>
-        <h1>Prepare for JELET on your own.</h1>
-        <p class="lead">
-          {totalQuestions} questions from {paperWord} previous-year papers, the board's own answer keys for{' '}
-          {officialYears}, the real marking rules, timed mocks and a
-          revision queue that follows the questions you actually got wrong.
-        </p>
-        <div class="hero-actions">
-          <a class="btn" href={`${base}plan/`}>What to do next <span aria-hidden="true">→</span></a>
-          <a class="btn ghost" href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
-          <a class="btn ghost" href={`${base}mock/`}>Build your own mock</a>
+  <section class="today-hero" aria-labelledby="today-title">
+    <div class="today-hero-copy">
+      <p class="eyebrow">JELET Paper I</p>
+      <h1 id="today-title">Smarter Study. Brighter Tomorrow.</h1>
+      <p class="today-subjects">Independent preparation, one clear step at a time.</p>
+    </div>
+    <div class="today-next">
+      <p class="today-next-label"><span aria-hidden="true">✦</span><span data-next-eyebrow>Start here</span></p>
+      <h2 data-next-heading>Parallel circuits</h2>
+      <p data-next-copy>Electrical · Original lesson · 8 min</p>
+      <a class="today-primary-action" data-next-action href={`${base}learn/parallel-circuits/`}><span data-next-label>Start the lesson</span><span aria-hidden="true">↗</span></a>
+      <details class="today-more-options">
+        <summary>More ways to study <span aria-hidden="true">＋</span></summary>
+        <div class="today-quick-links">
+          <a href={`${base}plan/`}>Build today’s plan</a>
+          <a href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
+          <a href={`${base}mock/`}>Build your own mock</a>
         </div>
-        <p class="micro">No account. Everything is marked on your device. Nothing is uploaded.</p>
-      </div>
-      <div class="hero-panel">
-        <strong>{sitTotal}</strong>
-        <span>questions you can sit</span>
-        <div class="micro" style="margin-top:.6rem;opacity:.85">
-          {scorableQuestions} marked against a key · {boardAwardedQuestions} awarded by the board · {officialPapers.length} official key{officialPapers.length === 1 ? '' : 's'} · {derivedPapers.length} derived · {readOnlyPapers.length} read-only papers
-        </div>
-      </div>
+      </details>
     </div>
   </section>
 
-  <section class="card" style="margin-top:var(--gap)" aria-labelledby="today-stats">
+  <section class="today-actions today-section" aria-labelledby="quick-actions-heading">
     <div class="section-head">
-      <h2 id="today-stats" style="font-size:1.15rem">Your record on this device</h2>
+      <h2 id="quick-actions-heading">Quick actions</h2>
+      <span class="micro">Choose the kind of study that fits right now.</span>
+    </div>
+    <div class="today-action-grid">
+      <a class="today-action-card" href={`${base}learn/`}>
+        <span class="today-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.2C9.8 4.7 7.4 4 4.5 4v14.2c3 0 5.5.7 7.5 2.2 2-1.5 4.5-2.2 7.5-2.2V4c-2.9 0-5.3.7-7.5 2.2Z"/><path d="M12 6.5v13.7"/></svg>
+        </span>
+        <span><strong>Learn</strong><small>Explore topics</small></span>
+        <span class="today-action-arrow" aria-hidden="true">›</span>
+      </a>
+      <a class="today-action-card" href={`${base}library/`}>
+        <span class="today-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h8l4 4V21H6z"/><path d="M14 3.5V8h4M9 12h6M9 16h6"/></svg>
+        </span>
+        <span><strong>Papers</strong><small>Search past papers</small></span>
+        <span class="today-action-arrow" aria-hidden="true">›</span>
+      </a>
+      <a class="today-action-card" href={`${base}mock/`}>
+        <span class="today-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span><strong>Mock</strong><small>Build a practice set</small></span>
+        <span class="today-action-arrow" aria-hidden="true">›</span>
+      </a>
+    </div>
+  </section>
+
+  <a class="today-review-card" href={`${base}review/`} aria-label="Open your review queue">
+    <span class="today-review-icon" aria-hidden="true">↻</span>
+    <span class="today-review-copy"><strong>Your review queue</strong><small data-review-detail>Questions you missed can be scheduled here after practice.</small></span>
+    <span class="today-review-total"><b data-review-count>—</b><small>due now</small></span>
+    <span class="today-review-arrow" aria-hidden="true">›</span>
+  </a>
+
+  <section class="today-record" aria-labelledby="today-stats" data-record-panel hidden>
+    <div class="section-head">
+      <h2 id="today-stats">Your record</h2>
       <span class="micro" data-storage-note>Loaded from this browser only.</span>
     </div>
-    <div class="stat-grid">
+    <div class="stat-grid today-stat-grid">
       <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableQuestions} you can answer · {sitTotal} sit-able, {boardAwardedQuestions} awarded by the board</em></div>
       <div class="stat"><b data-stat="accuracy">—</b><span>Independent accuracy</span><em data-stat-note="accuracy">correct on a first, unassisted attempt</em></div>
       <div class="stat"><b data-stat="due">—</b><span>Reviews due</span><em data-stat-note="due">wrong or blank questions, spaced by a fixed ladder</em></div>
@@ -73,71 +106,95 @@ const drills = mockPaper.subjects
     </div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="continue-heading">
+  <section class="today-section" aria-labelledby="continue-heading" data-resume-section hidden>
     <div class="section-head">
       <h2 id="continue-heading">Pick up where you stopped</h2>
     </div>
     <div id="continue-slot">
-      <div class="empty">Nothing started yet on this device. <a href={`${base}plan/`}>See what to do next</a>, or choose a paper below.</div>
+      <div class="empty today-empty">
+        <span class="today-empty-icon" aria-hidden="true">↗</span>
+        <span>Nothing started yet on this device.</span>
+        <a href={`${base}library/`}>Browse papers</a>
+      </div>
     </div>
-    <div id="lesson-slot" style="margin-top:.6rem"></div>
+    <div id="lesson-slot" class="today-lesson-slot"></div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="drills-heading">
+  <section class="today-section" aria-labelledby="drills-heading">
     <div class="section-head">
-      <h2 id="drills-heading">Subject drills · {mockPaper.year}</h2>
-      <a class="micro" href={`${base}library/${mockPaper.id}/`}>Read the whole paper →</a>
+      <h2 id="drills-heading">Your subjects</h2>
+      <a class="micro" href={`${base}learn/`}>Browse all lessons →</a>
     </div>
     <p class="micro">
-      Each drill holds only questions that carry a published key and a complete set of options. The count is the
-      real number of questions, not a target.
+      Choose a subject to practise questions with a published key. Counts show what is available in the {mockPaper.year} paper.
     </p>
-    <div class="card-grid">
+    <div class="today-subject-grid">
       {drills.map((subject) => (
-        <a class="linkrow" href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
-          <span>
+        <a class="today-subject-card" data-subject-card data-subject={subject.subjectKey} data-question-ids={JSON.stringify(subject.questionIds)} href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
+          <span class="today-subject-icon" aria-hidden="true">{subjectSymbols[subject.subjectKey] ?? '•'}</span>
+          <span class="today-subject-copy">
             <strong>{subjectLabels[subject.subjectKey as SubjectKey]}</strong>
-            <small>{subject.count} questions · {subject.marks} marks · {subject.categories.map((category) => `Cat ${category.category}`).join(' + ')}</small>
+            <small><span data-subject-count>0 / {subject.count} questions answered</span></small>
+            <span class="today-subject-meter" role="progressbar" aria-label={`${subjectLabels[subject.subjectKey as SubjectKey]} questions answered`} aria-valuemin="0" aria-valuemax={subject.count} aria-valuenow="0"><span data-subject-meter></span></span>
+            <small>{subject.count} scoreable questions · {subject.marks} marks</small>
           </span>
-          <span aria-hidden="true">→</span>
+          <span class="today-subject-arrow" aria-hidden="true">›</span>
         </a>
       ))}
     </div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="papers-heading">
+  <a class="today-encouragement" href={`${base}plan/`}>
+    <span class="today-encouragement-icon" aria-hidden="true">↗</span>
+    <span><strong>Small steps add up.</strong><small>Make a focused study plan from your own practice.</small></span>
+    <span class="today-encouragement-arrow" aria-hidden="true">›</span>
+  </a>
+
+  <section class="today-section" aria-labelledby="papers-heading">
     <div class="section-head">
       <h2 id="papers-heading">Previous-year papers</h2>
       <a class="micro" href={`${base}library/`}>All papers and what each one can do →</a>
     </div>
-    <div class="card-grid">
-      {papers.map((paper) => (
-        <a class="linkrow" href={`${base}library/${paper.id}/`}>
-          <span>
-            <strong>{paper.label}</strong>
-            <small>
-              {paper.questionCount} questions · {paper.hasKey ? `${paper.scoreableQuestions} scoreable` : 'read only (no key published)'} ·
-              {paper.boardAwardedQuestions > 0 && ` ${paper.boardAwardedQuestions} awarded by the board ·`}
-              {' '}{paper.gaps.length > 0 ? `${paper.gaps.length} missing in transcription` : 'complete numbering'}
-            </small>
-          </span>
-          <span aria-hidden="true">→</span>
-        </a>
-      ))}
-    </div>
+    <details class="today-papers-details">
+      <summary>Browse all {papers.length} papers <span aria-hidden="true">＋</span></summary>
+      <div class="card-grid">
+        {papers.map((paper) => (
+          <a class="linkrow" href={`${base}library/${paper.id}/`}>
+            <span>
+              <strong>{paper.label}</strong>
+              <small>
+                {paper.questionCount} questions · {paper.hasKey ? `${paper.scoreableQuestions} scoreable` : 'read only (no key published)'} ·
+                {paper.boardAwardedQuestions > 0 && ` ${paper.boardAwardedQuestions} awarded by the board ·`}
+                {' '}{paper.gaps.length > 0 ? `${paper.gaps.length} missing in transcription` : 'complete numbering'}
+              </small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </details>
   </section>
 
-  <section class="card" style="margin-top:2rem" aria-labelledby="honest-heading">
-    <h2 id="honest-heading" style="font-size:1.15rem">What this site does and does not claim</h2>
-    <ul class="small" style="color:var(--muted)">
-      <li>Marks follow the published JELET rules: Category I gives +1, −1/4 for a wrong or multiple answer; Category II gives +2, 0 when a wrong option is marked, and partial credit for a correct subset.</li>
-      <li>Questions that depend on a diagram the transcription does not reproduce are shown for reading but are never marked, and never counted in a total.</li>
-      <li>A question the board voided — published as "W", so no option is keyed — carries its full marks to every candidate. Those marks are in the totals, and the item is labelled wherever it appears.</li>
-      <li>Accuracy is reported with its denominator, and an assisted answer never counts as an independent one. There is no rank, no predicted score and no streak that survives without a submitted paper.</li>
-      <li>No account, no server and no tracking. Clearing site data loses this record — export it from the <a href={`${base}workspace/`}>workspace</a>.</li>
-      <li>You can keep a whole paper on your device with the <a href={`${base}offline/`}>offline packs</a>. Nothing is downloaded until you ask, and a failed download never replaces a pack that already works.</li>
-    </ul>
-  </section>
+  <details class="today-trust">
+    <summary>How sources, scoring and privacy work</summary>
+    <div class="details-body">
+      <p class="today-corpus">
+        <strong>{totalQuestions} questions</strong> across {paperWord} previous-year papers
+        <span aria-hidden="true">·</span> {scorableQuestions} marked against a key
+        <span aria-hidden="true">·</span> {boardAwardedQuestions} awarded by the board
+        <span aria-hidden="true">·</span> {officialPapers.length} official, {derivedPapers.length} derived, {readOnlyPapers.length} read-only papers
+      </p>
+      <h2>What this site does and does not claim</h2>
+      <ul class="small">
+        <li>Marks follow the published JELET rules: Category I gives +1, −1/4 for a wrong or multiple answer; Category II gives +2, 0 when a wrong option is marked, and partial credit for a correct subset.</li>
+        <li>Questions that depend on a diagram the transcription does not reproduce are shown for reading but are never marked, and never counted in a total.</li>
+        <li>A question the board voided — published as "W", so no option is keyed — carries its full marks to every candidate. Those marks are in the totals, and the item is labelled wherever it appears.</li>
+        <li>Accuracy is reported with its denominator, and an assisted answer never counts as an independent one. There is no rank, no predicted score and no streak that survives without a submitted paper.</li>
+        <li>No account, no server and no tracking. Clearing site data loses this record — export it from the <a href={`${base}workspace/`}>workspace</a>.</li>
+        <li>You can keep a whole paper on your device with the <a href={`${base}offline/`}>offline packs</a>. Nothing is downloaded until you ask, and a failed download never replaces a pack that already works.</li>
+      </ul>
+    </div>
+  </details>
 
   <span hidden data-scorable-total={scorableQuestions} data-sit-total={sitTotal} data-board-awarded-total={boardAwardedQuestions} data-base={base}></span>
   <script>
@@ -176,10 +233,49 @@ const drills = mockPaper.subjects
     set('due', String(stats.dueNow));
     setNote('due', stats.queueSize > 0 ? `${stats.queueSize} questions in the review queue` : 'nothing waiting for review');
     set('streak', String(stats.streak));
+    const reviewCount = document.querySelector<HTMLElement>('[data-review-count]');
+    const reviewDetail = document.querySelector<HTMLElement>('[data-review-detail]');
+    if (reviewCount) reviewCount.textContent = String(stats.dueNow);
+    if (reviewDetail) {
+      reviewDetail.textContent = stats.dueNow > 0
+        ? `${stats.dueNow} ${stats.dueNow === 1 ? 'question is' : 'questions are'} ready for another try.`
+        : stats.queueSize > 0
+          ? `Nothing is due today · ${stats.queueSize} ${stats.queueSize === 1 ? 'question is' : 'questions are'} scheduled for later.`
+          : 'Questions you miss in eligible practice can be scheduled here.';
+    }
+
+    // Show actual answered 2025 drill items, not a lesson-completion or mastery claim.
+    document.querySelectorAll<HTMLElement>('[data-subject-card]').forEach((card) => {
+      let questionIds: string[] = [];
+      try {
+        const parsed = JSON.parse(card.dataset.questionIds ?? '[]');
+        if (Array.isArray(parsed)) questionIds = parsed.filter((id): id is string => typeof id === 'string');
+      } catch { /* A malformed card renders as zero coverage, never an invented value. */ }
+      const eligible = new Set(questionIds);
+      const attempted = new Set<string>();
+      for (const attempt of attempts) {
+        for (const [questionId, selected] of Object.entries(attempt.responses ?? {})) {
+          if (Array.isArray(selected) && selected.length > 0 && eligible.has(questionId)) attempted.add(questionId);
+        }
+      }
+      const count = Math.min(attempted.size, eligible.size);
+      const countNode = card.querySelector<HTMLElement>('[data-subject-count]');
+      const meter = card.querySelector<HTMLElement>('[data-subject-meter]');
+      const progress = card.querySelector<HTMLElement>('[role="progressbar"]');
+      if (countNode) countNode.textContent = `${count} / ${eligible.size} questions answered`;
+      if (meter) meter.style.width = eligible.size > 0 ? `${Math.round(count / eligible.size * 100)}%` : '0%';
+      progress?.setAttribute('aria-valuenow', String(count));
+    });
 
     // The lesson's own reading position, if the learner started the chapter.
     const lessonSlot = document.querySelector('#lesson-slot');
     const { progress } = readProgress('parallel-circuits');
+    const hasLocalActivity = attempts.length > 0 || queue.length > 0 || Boolean(progress);
+    const recordPanel = document.querySelector<HTMLElement>('[data-record-panel]');
+    const resumeSection = document.querySelector<HTMLElement>('[data-resume-section]');
+    if (recordPanel) recordPanel.hidden = !hasLocalActivity;
+    if (resumeSection) resumeSection.hidden = !hasLocalActivity;
+
     if (lessonSlot && progress && isSection(progress.section)) {
       const row = document.createElement('div');
       row.className = 'card-flat';
@@ -226,19 +322,43 @@ const drills = mockPaper.subjects
       note.className = 'micro';
       note.textContent = `${status} · ${resume.paperLabel}`;
       info.append(title, note);
-      const link = document.createElement('a');
-      link.className = 'btn small';
-      link.href = isQuiz
+      const resumeHref = isQuiz
         ? `${base}quiz/?${resume.quizSpec}`
         : isMock
           ? `${base}mock/run/?${resume.mockSpec}`
           : `${base}practice/${paperSlug}/${resume.subjectKey ? `${resume.subjectKey}/` : ''}`;
+      const link = document.createElement('a');
+      link.className = 'btn small';
+      link.href = resumeHref;
       link.textContent = resume.submittedAt ? 'Review this attempt' : 'Continue';
+
+      const heroAction = document.querySelector<HTMLAnchorElement>('[data-next-action]');
+      const heroActionLabel = document.querySelector<HTMLElement>('[data-next-label]');
+      const heroHeading = document.querySelector<HTMLElement>('[data-next-heading]');
+      const heroCopy = document.querySelector<HTMLElement>('[data-next-copy]');
+      const heroEyebrow = document.querySelector<HTMLElement>('[data-next-eyebrow]');
+      if (heroAction) heroAction.href = resumeHref;
+      if (heroActionLabel) heroActionLabel.textContent = resume.submittedAt ? 'Review your latest attempt' : 'Resume this practice';
+      if (heroHeading) heroHeading.textContent = resume.submittedAt ? 'Your latest attempt is ready.' : 'Pick up where you stopped.';
+      if (heroCopy) heroCopy.textContent = `${status}. Your work is stored on this device.`;
+      if (heroEyebrow) heroEyebrow.textContent = 'Continue';
+
       const row = document.createElement('div');
       row.className = 'row-between';
       row.append(info, link);
       card.append(row);
       slot.replaceChildren(card);
+    } else if (!resume && progress && isSection(progress.section)) {
+      const heroAction = document.querySelector<HTMLAnchorElement>('[data-next-action]');
+      const heroActionLabel = document.querySelector<HTMLElement>('[data-next-label]');
+      const heroHeading = document.querySelector<HTMLElement>('[data-next-heading]');
+      const heroCopy = document.querySelector<HTMLElement>('[data-next-copy]');
+      const heroEyebrow = document.querySelector<HTMLElement>('[data-next-eyebrow]');
+      if (heroAction) heroAction.href = `${base}learn/parallel-circuits/?resume=1#${progress.section}`;
+      if (heroActionLabel) heroActionLabel.textContent = 'Continue your lesson';
+      if (heroHeading) heroHeading.textContent = 'Welcome back to your lesson.';
+      if (heroCopy) heroCopy.textContent = `Resume at ${progress.section.replaceAll('-', ' ')}. Your reading place is saved on this device.`;
+      if (heroEyebrow) heroEyebrow.textContent = 'Continue';
     }
   </script>
 </Site>
