@@ -2,6 +2,7 @@
 import Site from '../../layouts/Site.astro';
 import Question from '../../components/Question.astro';
 import OriginalPaper from '../../components/OriginalPaper.astro';
+import { provisionalQuestions } from '../../lib/provisional-practice.mjs';
 import { papers, paperById, keyFor, keyTierLabel, answerLetters, subjectLabels, type SubjectKey } from '../../lib/content';
 
 export function getStaticPaths() {
@@ -22,7 +23,8 @@ const grouped = paper.subjects
   }))
   .filter((group) => group.questions.length > 0);
 
-const canPractice = paper.scoreableQuestions > 0;
+const hasProvisionalPractice = provisionalQuestions(paper).length > 0;
+const canPractice = paper.scoreableQuestions > 0 || hasProvisionalPractice;
 ---
 <Site title={paper.label} active="library" description={`${paper.label}: ${paper.questionCount} questions with ${tierLabel.toLowerCase()}.`}>
   <nav class="crumbs" aria-label="Breadcrumb">
@@ -42,20 +44,20 @@ const canPractice = paper.scoreableQuestions > 0;
       <div class="chip-row">
         {key?.tier === 'official' && <span class="chip official">Official WBJEEB key · {key.documentRef}</span>}
         {key?.tier === 'derived' && <span class="chip derived">Derived key · no board key exists for {paper.year}</span>}
-        {!key && <span class="chip">Read only · no key published for {paper.year}</span>}
+        {!key && <span class="chip">{hasProvisionalPractice ? "Provisional practice · no official key" : `Read only · no key published for ${paper.year}`}</span>}
         {paper.voidedQuestions.length > 0 && <span class="chip info">Board voided Q{paper.voidedQuestions.join(', Q')}</span>}
         {paper.gaps.length > 0 && <span class="chip held">Not in the transcription: Q{paper.gaps.join(', Q')}</span>}
       </div>
     </div>
     <div class="btn-row">
-      {canPractice && <a class="btn" href={`${base}practice/${paper.id}/`}>Practise this paper</a>}
+      {canPractice && <a class="btn" href={`${base}practice/${paper.id}/`}>{hasProvisionalPractice ? "Provisional practice" : "Practise this paper"}</a>}
       <a class="btn ghost" href={`${base}practice/`}>Other sets</a>
     </div>
   </div>
 
   <OriginalPaper year={paper.year} />
   {paper.questions.some(q => q.provisionalAid) && (
-    <p class="notice">Read-only study aids are available below. Open each question’s provisional-answer panel deliberately. Disputed answers are withheld and unsolved entries remain unanswered. These aids are not an official key and do not enable marking or timed practice.</p>
+    <p class="notice">Read-only study aids are available below. Open each question’s provisional-answer panel deliberately. Disputed answers are withheld and unsolved entries remain unanswered. These aids are not an official key. Separate provisional practice offers selectable answers and clearly labelled comparison scores; they do not enter normal exam results.</p>
   )}
 
   {paper.notes.length > 0 && (

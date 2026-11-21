@@ -1324,3 +1324,50 @@ test('historical provisional aids reveal deliberately and disputed answers stay 
   assert.doesNotMatch(await disputed.textContent(), /Imported provisional label/);
   assert.match(await page.locator('#q2 [data-provisional-aid]').textContent(), /No integrated answer yet/);
 });
+
+test('historical years offer selectable provisional practice without normal history writes', async(t)=>{
+ const page=await context(t);
+ for(const year of [2021,2019,2018,2017]){
+  await go(page,`practice/jelet-et-p1-${year}/`);
+  assert.equal(await page.locator('[data-provisional-practice]').count(),1);
+ }
+ const before=await page.evaluate(()=>JSON.stringify(localStorage));
+ const items=await page.locator('[data-provisional-items]').evaluate(el=>JSON.parse(el.textContent));
+ const first=items[0];
+ await page.locator(`button[data-question="${first.id}"][data-option="${first.answer}"]`).click();
+ assert.equal(await page.locator('[data-provisional-feedback]').count(),0);
+ await page.locator('[data-provisional-submit]').click();
+ assert.match(await page.locator('[data-provisional-result]').textContent(),/score: 1 \/.*Agreed: 1/);
+ await page.locator('[data-provisional-reset]').click();
+ assert.equal(await page.locator('button[aria-pressed="true"]').count(),0);
+ assert.equal(await page.locator('[data-provisional-feedback]').count(),0);
+ assert.equal(await page.evaluate(()=>JSON.stringify(localStorage)),before);
+ assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+});
+test('paper list and year selector run newest to oldest',async(t)=>{
+ const page=await context(t);await go(page,'library/');
+ const expected=['2025','2024','2023','2022','2021','2019','2018','2017'];
+ assert.deepEqual(await page.locator('[data-paper-row]').evaluateAll(es=>es.map(e=>e.getAttribute('data-year'))),expected);
+ assert.deepEqual(await page.locator('#filter-year option').evaluateAll(es=>es.map(e=>e.value).filter(v=>v!=='all')),expected);
+ await go(page,'practice/');
+ const links=await page.locator('#mocks').locator('..').locator('..').locator('a').evaluateAll(es=>es.map(e=>e.getAttribute('href')).filter(v=>/practice\/jelet-et-p1-\d{4}\/$/.test(v)));
+ assert.deepEqual(links.map(v=>v.match(/(\d{4})\/$/)[1]),expected);
+});
+
+test('historical provisional pack works offline and paper packs are newest first', async(t)=>{
+ const ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'allow'});
+ t.after(()=>ctx.close());const page=await ctx.newPage();page.setDefaultTimeout(20000);
+ await page.goto(origin+base+'offline/');
+ await page.waitForSelector('[data-pack-download="paper-2017"]');
+ const packs=JSON.parse(await readFile('public/data/packs.json','utf8'));
+ assert.deepEqual(packs.packs.filter(p=>p.id.startsWith('paper-')).map(p=>p.id),[2025,2024,2023,2022,2021,2019,2018,2017].map(y=>`paper-${y}`));
+ await page.locator('[data-pack-download="paper-2017"]').click();
+ await page.waitForFunction(()=>document.querySelector('[data-pack-state="paper-2017"]')?.textContent?.startsWith('Ready'),null,{timeout:90000});
+ await ctx.setOffline(true);
+ await page.goto(origin+base+'practice/jelet-et-p1-2017/');
+ await page.locator('button[data-option]').first().click();
+ await page.locator('[data-provisional-submit]').click();
+ assert.match(await page.locator('[data-provisional-result]').textContent(),/Provisional practice score/);
+ await page.reload();
+ assert.equal(await page.locator('button[aria-pressed="true"]').count(),0);
+});

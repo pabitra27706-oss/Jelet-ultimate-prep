@@ -548,7 +548,7 @@ export function composeMock(
     requested,
     shortfall: Math.max(0, requested - taken.length),
     bySubject,
-    byYear: [...yearMap.entries()].map(([year, entry]) => ({ year, ...entry })).sort((a, b) => a.year - b.year),
+    byYear: [...yearMap.entries()].map(([year, entry]) => ({ year, ...entry })).sort((a, b) => b.year - a.year),
     categoryI: categoryICount,
     categoryII: taken.length - categoryICount,
     notes,

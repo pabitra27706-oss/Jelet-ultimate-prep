@@ -1,5 +1,6 @@
 ---
 import Site from '../../layouts/Site.astro';
+import { provisionalQuestions } from '../../lib/provisional-practice.mjs';
 import { loadTeaching } from '../../teaching';
 import { papers, rehearsableQuestions, subjectLabels, type SubjectKey } from '../../lib/content';
 
@@ -7,16 +8,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const { practice } = await loadTeaching();
 const items = practice.map((entry) => entry.data);
 const keyed = papers.filter((paper) => paper.scoreableQuestions > 0);
-const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
+const available = papers.filter(paper => paper.scoreableQuestions > 0 || provisionalQuestions(paper).length > 0);
+const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && provisionalQuestions(paper).length === 0);
 ---
 <Site title="Practice" active="practice" description="Timed JELET Paper I practice: full-paper rehearsals, subject drills from real previous-year papers, original checks and a spaced review queue.">
   <div class="row-between" style="align-items:flex-start;margin-bottom:1.4rem">
     <div class="grow">
       <p class="eyebrow">Paper I · Practice</p>
-      <h1>Practice with the real marking.</h1>
+      <h1>Choose a year to practise.</h1>
       <p class="lead">
-        Every set below is built from a previous-year paper that carries a published answer key. Marks follow the
-        board's own rules, and a question whose diagram was never transcribed is never marked.
+        Official and existing derived-key rehearsals are separate from provisional historical practice.
+        Provisional comparisons are labelled, exclude disputed or unavailable answers, and do not enter your normal results.
       </p>
     </div>
     <a class="btn ghost" href={`${base}review/`}>Review desk</a>
@@ -24,8 +26,8 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
 
   <section aria-labelledby="mocks">
     <div class="section-head">
-      <h2 id="mocks">Full-paper rehearsal</h2>
-      <span class="micro">Same clock, same marks, same rules.</span>
+      <h2 id="mocks">Papers · newest first</h2>
+      <span class="micro">Choose a keyed rehearsal or clearly labelled provisional practice.</span>
     </div>
     <div class="card-grid">
       <div class="card-flat">
@@ -42,27 +44,27 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0);
           <a class="btn small" href={`${base}mock/`}>Build a mock</a>
         </div>
       </div>
-      {keyed.map((paper) => (
+      {available.map((paper) => (
         <div class="card-flat">
           <div class="row-between" style="align-items:flex-start">
             <div>
               <strong>{paper.label}</strong>
               <div class="micro">
-                {paper.scoreableQuestions} questions · {paper.scoreableMarks} marks · {paper.durationMinutes} minutes
+                {provisionalQuestions(paper).length ? `${provisionalQuestions(paper).length} provisional questions · untimed` : `${paper.scoreableQuestions} questions · ${paper.scoreableMarks} marks · ${paper.durationMinutes} minutes`}
               </div>
             </div>
             {paper.keyTier === 'official'
               ? <span class="chip official">Official</span>
-              : <span class="chip derived">Derived</span>}
+              : <span class="chip derived">{provisionalQuestions(paper).length ? "Provisional · not verified" : "Derived"}</span>}
           </div>
-          {paper.heldQuestions > 0 && (
+          {paper.heldQuestions > 0 && provisionalQuestions(paper).length === 0 && (
             <p class="micro">Labelled incomplete: {paper.heldQuestions} questions are readable but not markable.</p>
           )}
           {paper.boardAwardedQuestions > 0 && (
             <p class="micro">{paper.boardAwardedQuestions} voided by the board — awarded to every candidate.</p>
           )}
           <div class="btn-row" style="margin-top:.6rem">
-            <a class="btn small" href={`${base}practice/${paper.id}/`}>Start the full paper</a>
+            <a class="btn small" href={`${base}practice/${paper.id}/`}>{provisionalQuestions(paper).length ? "Start provisional practice" : "Start the full paper"}</a>
             <a class="btn small ghost" href={`${base}library/${paper.id}/`}>Read it</a>
           </div>
         </div>

@@ -10,13 +10,13 @@ for (const paper of papers) {
   }
 }
 ---
-<Site title="Paper library" active="library" description="Seven JELET previous-year papers: mathematics, physics, chemistry and electrical questions with board answer keys where they exist.">
+<Site title="Paper library" active="library" description="Eight JELET previous-year papers: mathematics, physics, chemistry and electrical questions with board answer keys where they exist.">
   <div class="page-intro" style="margin-bottom:1.4rem">
     <p class="eyebrow">Paper I · Previous years</p>
     <h1>Paper library.</h1>
     <p class="lead">
       Every paper below is a preserved transcription with its source file hash. Papers that carry a published
-      answer key can be marked exactly like the real exam; the rest are for reading only, and say so.
+      answer key offer keyed practice; older papers also offer separate, clearly labelled provisional practice.
     </p>
   </div>
 
@@ -41,7 +41,7 @@ for (const paper of papers) {
           <option value="all">Any</option>
           <option value="official">Official board key</option>
           <option value="derived">Derived key</option>
-          <option value="none">Read only</option>
+          <option value="none">Provisional study aids</option>
         </select>
       </label>
     </div>
@@ -61,7 +61,7 @@ for (const paper of papers) {
             <span class="chip-row" style="margin-top:.4rem">
               {paper.keyTier === 'official' && <span class="chip official">Official board key</span>}
               {paper.keyTier === 'derived' && <span class="chip derived">Derived key</span>}
-              {!paper.hasKey && <span class="chip">Read only · no key published</span>}
+              {!paper.hasKey && <span class="chip">No official key · provisional practice available</span>}
               <span class="chip">{paper.scoreableQuestions} markable</span>
               {paper.boardAwardedQuestions > 0 && <span class="chip info">{paper.boardAwardedQuestions} voided by the board · awarded to everyone</span>}
               {paper.heldQuestions > 0 && <span class="chip held">{paper.heldQuestions} not markable</span>}

@@ -1,11 +1,13 @@
 ---
 import Site from '../../../layouts/Site.astro';
 import Runner from '../../../components/Runner.astro';
+import ProvisionalPractice from '../../../components/ProvisionalPractice.astro';
+import { provisionalQuestions } from '../../../lib/provisional-practice.mjs';
 import { papers, paperById, keyFor, keyTierLabel, rehearsableQuestions } from '../../../lib/content';
 
 export function getStaticPaths() {
   return papers
-    .filter((paper) => paper.scoreableQuestions > 0)
+    .filter((paper) => paper.scoreableQuestions > 0 || provisionalQuestions(paper).length > 0)
     .map((paper) => ({ params: { paper: paper.id } }));
 }
 
@@ -15,17 +17,26 @@ if (!paper) throw new Error(`Unknown paper: ${paperId}`);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 const key = keyFor(paper);
 const tierLabel = keyTierLabel(key);
+const provisional = provisionalQuestions(paper);
 const questions = rehearsableQuestions(paper);
 const limitSeconds = paper.durationMinutes * 60;
 const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
 ---
-<Site title={`${paper.label} · full paper`} active="practice" description={`A timed full-paper rehearsal of ${paper.label} with the real JELET marking rules.`}>
+<Site title={`${paper.label} · full paper`} active="practice" description={provisional.length ? `Provisional practice for ${paper.label}; not an official score.` : `A timed full-paper rehearsal of ${paper.label} with the real JELET marking rules.`}>
   <nav class="crumbs" aria-label="Breadcrumb">
     <a href={base}>Today</a> <span aria-hidden="true">›</span>
     <a href={`${base}practice/`}>Practice</a> <span aria-hidden="true">›</span>
     <span>{paper.label}</span>
   </nav>
 
+  {provisional.length > 0 ? (
+    <>
+      <h1>{paper.label} · provisional practice</h1>
+      <p class="lead">{provisional.length} questions available for provisional comparison.</p>
+      <p><a href={`${base}library/${paper.id}/`}>Read all {paper.questionCount} questions</a> · <a href={`${base}practice/`}>Other years</a></p>
+      <ProvisionalPractice paper={paper} questions={provisional} />
+    </>
+  ) : (<>
   <div class="row-between" style="align-items:flex-start;margin-bottom:1rem">
     <div class="grow">
       <p class="eyebrow">Full paper rehearsal</p>
@@ -61,4 +72,5 @@ const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
   )}
 
   <Runner paper={paper} questions={questions} mode="mock" scope="full" limitSeconds={limitSeconds} />
+  </>)}
 </Site>
