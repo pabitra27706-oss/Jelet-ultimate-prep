@@ -4,10 +4,9 @@
 
 **Gate:** begin after the Papers screen review. Keep this phase to the submitted-result/review surface; the practice chooser is Phase 18.
 
-**Status (2026-11-21):** built and agent-verified on branch
-`arena/61a4f729-jelet-ultimate-prep` and awaiting the owner's visual review —
-see the [evidence record](2026-11-21-phase-17-results.md) and
-[screenshots](screenshots/). Phase 18 must not start until this is accepted.
+**Status (2026-11-21):** built, agent-verified and **accepted by the owner**
+(“Ok continue”) — see the [evidence record](2026-11-21-phase-17-results.md) and
+[screenshots](screenshots/).
 
 ## Goal
 

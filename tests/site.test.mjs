@@ -863,6 +863,88 @@ test('the practice page explains its held items in complete sentences', async (t
   assert.doesNotMatch(text, /\{[a-zA-Z]+\}/, 'no template placeholder reaches the page');
 });
 
+test('the Practice chooser offers only real modes, with real destinations', async (t) => {
+  const page = await context(t);
+  await go(page, 'practice/');
+  await page.waitForSelector('[data-mode-switch]');
+
+  assert.equal((await page.locator('h1').first().textContent())?.trim(), 'Practice');
+  const modes = page.locator('[data-mode]');
+  assert.equal(await modes.count(), 2, 'independent and with assistance');
+  assert.equal(await page.locator('[data-mode="independent"]').getAttribute('aria-pressed'), 'true');
+
+  // Five independent cards, each a link with a title, a description and a fact.
+  const cards = page.locator('[data-mode-panel="independent"] .practice-choice');
+  assert.equal(await cards.count(), 5);
+  for (const choice of ['paper', 'drill', 'original', 'mock', 'review']) {
+    const card = page.locator(`[data-choice="${choice}"]`);
+    assert.equal(await card.count(), 1, `${choice} is a single card`);
+    assert.ok((await card.locator('.choice-copy strong').textContent())?.trim().length, `${choice} has a title`);
+    assert.ok((await card.locator('.choice-text').textContent())?.trim().length, `${choice} explains itself`);
+    assert.ok((await card.locator('.choice-meta').textContent())?.trim().length, `${choice} states a real fact`);
+  }
+
+  // Every destination is a page that exists, or an anchor that exists here.
+  const links = await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href') ?? ''));
+  for (const href of links) {
+    if (href.startsWith('#')) {
+      assert.equal(await page.locator(href).count(), 1, `${href} exists on this page`);
+    } else {
+      const response = await page.request.get(origin + href);
+      assert.equal(response.status(), 200, `${href} is a live page`);
+    }
+  }
+
+  // The unsupported modes of the mock are not present.
+  const body = await page.locator('main').innerText();
+  assert.doesNotMatch(body, /Live Study Room|daily challenge|matchmaking|doubt solver/i);
+  assert.doesNotMatch(body, /AI |artificial intelligence/i);
+
+  // The queue card states the real, empty first-run state.
+  assert.match(await page.locator('[data-choice-queue]').textContent(), /Nothing waiting yet/);
+});
+
+test('the independent/assisted switch changes the panel and keeps everything reachable', async (t) => {
+  const page = await context(t);
+  await go(page, 'practice/');
+  await page.waitForSelector('[data-mode-switch]');
+  const independent = page.locator('[data-mode-panel="independent"]');
+  const assisted = page.locator('[data-mode-panel="assisted"]');
+  assert.equal(await independent.isVisible(), true);
+  assert.equal(await assisted.isVisible(), false);
+
+  // Keyboard: focus the second mode and press Enter.
+  await page.locator('[data-mode="assisted"]').focus();
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => document.querySelector('[data-mode="assisted"]')?.getAttribute('aria-pressed') === 'true');
+  assert.equal(await independent.isVisible(), false, 'the independent panel steps aside');
+  assert.equal(await assisted.isVisible(), true);
+  assert.match(await page.locator('[data-mode-note]').textContent(), /only assisted mode/i);
+
+  // The only assisted mode is the notebook quiz, and its card leads there.
+  const quiz = page.locator('[data-choice="quiz"]');
+  assert.equal(await quiz.count(), 1);
+  assert.match(await quiz.textContent(), /assisted/);
+  assert.match(await quiz.getAttribute('href'), /\/quiz\/$/);
+  assert.equal(await assisted.locator('a[href*="quiz/?s="]').count(), 4, 'each subject quiz is linked');
+
+  await page.locator('[data-mode="independent"]').click();
+  assert.equal(await independent.isVisible(), true);
+  assert.equal(await assisted.isVisible(), false);
+  assert.equal(await page.locator('[data-mode="assisted"]').getAttribute('aria-pressed'), 'false');
+});
+
+test('without JavaScript the Practice chooser shows every mode instead of a dead switch', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  await page.goto(origin + base + 'practice/', { waitUntil: 'load' });
+  assert.equal(await page.locator('[data-mode-switch]').isVisible(), false, 'the switch needs JavaScript and is not shown');
+  assert.equal(await page.locator('[data-mode-panel="independent"]').isVisible(), true);
+  assert.equal(await page.locator('[data-mode-panel="assisted"]').isVisible(), true, 'no mode is hidden behind a dead control');
+  assert.equal(await page.locator('.practice-choice').count(), 6, 'every card is present');
+});
+
 test('a mock is a link: the same specification always composes the same paper', async (t) => {
   const page = await context(t);
   await go(page, 'mock/run/?s=chemistry&n=8&m=paper&d=0&seed=77');

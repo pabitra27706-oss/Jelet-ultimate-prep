@@ -1,5 +1,18 @@
 ---
+/**
+ * The Practice chooser.
+ *
+ * One screen from the reference: a bold title, a short independent / with
+ * assistance switch, and large high-touch cards for the ways this site can
+ * actually be practised. Every card leads to a real, tested flow; there is no
+ * live study room, no daily challenge and no invented mode.
+ *
+ * The supporting lists below the chooser keep every existing route reachable:
+ * each paper, each subject drill, the notebook quiz, the revision notes, the
+ * review queue, the original practice cards and the read-only years.
+ */
 import Site from '../../layouts/Site.astro';
+import Icon from '../../components/Icon.astro';
 import { provisionalQuestions } from '../../lib/provisional-practice.mjs';
 import { loadTeaching } from '../../teaching';
 import { papers, rehearsableQuestions, subjectLabels, type SubjectKey } from '../../lib/content';
@@ -10,40 +23,126 @@ const items = practice.map((entry) => entry.data);
 const keyed = papers.filter((paper) => paper.scoreableQuestions > 0);
 const available = papers.filter(paper => paper.scoreableQuestions > 0 || provisionalQuestions(paper).length > 0);
 const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && provisionalQuestions(paper).length === 0);
+const newest = keyed[0];
+const quizSubjects: SubjectKey[] = ['mathematics', 'physics', 'chemistry', 'electrical'];
+const drillCount = keyed.reduce((sum, paper) => sum
+  + paper.subjects.filter((subject) => rehearsableQuestions(paper, subject.subjectKey).length > 0).length, 0);
 ---
 <Site title="Practice" active="practice" description="Timed JELET Paper I practice: full-paper rehearsals, subject drills from real previous-year papers, original checks and a spaced review queue.">
-  <div class="row-between" style="align-items:flex-start;margin-bottom:1.4rem">
-    <div class="grow">
-      <p class="eyebrow">Paper I · Practice</p>
-      <h1>Choose a year to practise.</h1>
-      <p class="lead">
-        Official and existing derived-key rehearsals are separate from provisional historical practice.
-        Provisional comparisons are labelled, exclude disputed or unavailable answers, and do not enter your normal results.
-      </p>
+  <noscript>
+    <style is:inline>
+      /* Without JavaScript the switch cannot work, so it is hidden and both
+         panels are shown; no mode is trapped behind a dead control. */
+      [data-mode-switch] { display: none !important; }
+      [data-mode-panel][hidden] { display: block !important; }
+    </style>
+  </noscript>
+
+  <section class="practice-choose" aria-labelledby="practice-heading">
+    <p class="eyebrow">Paper I · Practice</p>
+    <h1 id="practice-heading">Practice</h1>
+    <p class="lead practice-lead">Choose a way to work, then a paper or a subject. Every set is real.</p>
+
+    <div class="mode-switch" role="group" aria-label="Practise independently or with assistance" data-mode-switch hidden>
+      <button class="mode-option" type="button" data-mode="independent" aria-pressed="true">Independent</button>
+      <button class="mode-option" type="button" data-mode="assisted" aria-pressed="false">With assistance</button>
     </div>
-    <a class="btn ghost" href={`${base}review/`}>Review desk</a>
+    <p class="micro practice-mode-note" data-mode-note>
+      Papers, drills and mocks are unaided. Only the notebook quiz offers help.
+    </p>
+  </section>
+
+  <div class="mode-panel" data-mode-panel="independent">
+    <div class="practice-choices" aria-label="Independent practice">
+      <a class="practice-choice" href={`${base}practice/${newest.id}/`} data-choice="paper">
+        <span class="choice-icon" aria-hidden="true"><Icon name="papers" size="md" /></span>
+        <span class="choice-copy">
+          <strong>Exam-style paper</strong>
+          <span class="choice-text">A whole past paper under its clock, marked with the board's rules.</span>
+          <span class="choice-meta">{newest.label} · {newest.scoreableQuestions} questions · {keyed.length} papers markable</span>
+        </span>
+        <span class="choice-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </a>
+
+      <a class="practice-choice" href="#drills" data-choice="drill">
+        <span class="choice-icon" aria-hidden="true"><Icon name="bolt" size="md" /></span>
+        <span class="choice-copy">
+          <strong>Topic drill</strong>
+          <span class="choice-text">One subject of one paper at a time, at its real size.</span>
+          <span class="choice-meta">{drillCount} drills · real counts, no padding</span>
+        </span>
+        <span class="choice-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </a>
+
+      <a class="practice-choice" href="#original" data-choice="original">
+        <span class="choice-icon" aria-hidden="true"><Icon name="help" size="md" /></span>
+        <span class="choice-copy">
+          <strong>Single question</strong>
+          <span class="choice-text">Original checks written for this site, one at a time.</span>
+          <span class="choice-meta">{items.length} card{items.length === 1 ? '' : 's'} · not past exam questions</span>
+        </span>
+        <span class="choice-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </a>
+
+      <a class="practice-choice" href={`${base}mock/`} data-choice="mock">
+        <span class="choice-icon" aria-hidden="true"><Icon name="sliders" size="md" /></span>
+        <span class="choice-copy">
+          <strong>Custom mock</strong>
+          <span class="choice-text">Pick the subjects, topics, length and clock; the questions stay real.</span>
+          <span class="choice-meta">Built in this browser · board marking</span>
+        </span>
+        <span class="choice-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </a>
+
+      <a class="practice-choice" href={`${base}review/`} data-choice="review">
+        <span class="choice-icon" aria-hidden="true"><Icon name="history" size="md" /></span>
+        <span class="choice-copy">
+          <strong>Review queue</strong>
+          <span class="choice-text">Wrong and blank questions come back on a spaced ladder.</span>
+          <span class="choice-meta" data-choice-queue>Checking this browser…</span>
+        </span>
+        <span class="choice-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </a>
+    </div>
   </div>
 
-  <section aria-labelledby="mocks">
+  <div class="mode-panel" data-mode-panel="assisted" hidden>
+    <div class="practice-choices" aria-label="Practice with assistance">
+      <a class="practice-choice" href={`${base}quiz/`} data-choice="quiz">
+        <span class="choice-icon" aria-hidden="true"><Icon name="check-circle" size="md" /></span>
+        <span class="choice-copy">
+          <strong>Notebook quiz</strong>
+          <span class="choice-text">Untimed, one at a time; “Show the answer” reveals the key first.</span>
+          <span class="choice-meta">{quizSubjects.length} subjects · assisted checks are labelled</span>
+        </span>
+        <span class="choice-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </a>
+    </div>
+    <p class="micro practice-mode-note">
+      An assisted check is stored as assisted, so it never counts as an independent answer on Today, in Your activity
+      or in the statistics.
+    </p>
+    <ul class="linklist practice-assisted-links">
+      {quizSubjects.map((subject) => (
+        <li>
+          <a href={`${base}quiz/?s=${subject}&n=10`}>
+            <span>
+              <strong>{subjectLabels[subject]} · ten questions</strong>
+              <small>Marked as you answer them, with the paper each question came from</small>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <section class="practice-section" id="papers" aria-labelledby="mocks">
     <div class="section-head">
-      <h2 id="mocks">Papers · newest first</h2>
-      <span class="micro">Choose a keyed rehearsal or clearly labelled provisional practice.</span>
+      <h2 id="mocks">Every paper</h2>
+      <span class="micro">Newest first. A markable rehearsal or a paper you can only read.</span>
     </div>
     <div class="card-grid">
-      <div class="card-flat">
-        <div class="row-between" style="align-items:flex-start">
-          <div>
-            <strong>Your own mock</strong>
-            <div class="micro">
-              Choose the subjects, the topics, the length, the category mix and the clock. The questions come from the
-              same previous-year papers, and the marking is the board's own.
-            </div>
-          </div>
-        </div>
-        <div class="btn-row" style="margin-top:.6rem">
-          <a class="btn small" href={`${base}mock/`}>Build a mock</a>
-        </div>
-      </div>
       {available.map((paper) => (
         <div class="card-flat">
           <div class="row-between" style="align-items:flex-start">
@@ -72,9 +171,9 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
     </div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="drills">
+  <section class="practice-section" id="drills" aria-labelledby="drills-heading">
     <div class="section-head">
-      <h2 id="drills">Subject drills</h2>
+      <h2 id="drills-heading">Subject drills</h2>
       <span class="micro">The real size is shown. Nothing is padded with repeats.</span>
     </div>
     {keyed.map((paper) => {
@@ -105,7 +204,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
     })}
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="quiz-heading">
+  <section class="practice-section" id="quiz" aria-labelledby="quiz-heading">
     <div class="section-head">
       <h2 id="quiz-heading">Notebook quiz</h2>
       <span class="micro">Untimed · one question at a time · marked as you go</span>
@@ -116,7 +215,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
       come back.
     </p>
     <ul class="linklist">
-      {(['mathematics', 'physics', 'chemistry', 'electrical'] as SubjectKey[]).map((subject) => (
+      {quizSubjects.map((subject) => (
         <li>
           <a href={`${base}quiz/?s=${subject}&n=10`}>
             <span>
@@ -130,13 +229,13 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
     </ul>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="notes-heading">
+  <section class="practice-section" aria-labelledby="notes-heading">
     <div class="section-head">
       <h2 id="notes-heading">Revision notes</h2>
       <span class="micro">Every topic, every past question, your own results beside them.</span>
     </div>
     <ul class="linklist">
-      {(['mathematics', 'physics', 'chemistry', 'electrical'] as SubjectKey[]).map((subject) => (
+      {quizSubjects.map((subject) => (
         <li>
           <a href={`${base}notes/${subject}/`}>
             <span>
@@ -150,7 +249,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
     </ul>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="queue-heading">
+  <section class="practice-section" id="review" aria-labelledby="queue-heading">
     <div class="section-head">
       <h2 id="queue-heading">Your review queue</h2>
     </div>
@@ -159,7 +258,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
     </div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="original-heading">
+  <section class="practice-section" id="original" aria-labelledby="original-heading">
     <div class="section-head">
       <h2 id="original-heading">Original practice cards</h2>
       <span class="micro">Written for this site. Not past exam questions.</span>
@@ -180,7 +279,7 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
   </section>
 
   {readOnly.length > 0 && (
-    <section class="card" style="margin-top:2rem">
+    <section class="card practice-section">
       <h2 style="font-size:1.05rem">Papers you can read but not mark</h2>
       <p class="micro">
         No answer key has been published for these years, and this site does not invent one. They are still worth
@@ -203,10 +302,48 @@ const readOnly = papers.filter((paper) => paper.scoreableQuestions === 0 && prov
     import { readQueue, dueItems } from '../../lib/review';
 
     const base = document.querySelector<HTMLElement>('[data-base]')?.dataset.base ?? '/';
+
+    /* ---- the independent / with assistance switch ---- */
+    const modeSwitch = document.querySelector<HTMLElement>('[data-mode-switch]');
+    const modeButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-mode]')];
+    const modePanels = [...document.querySelectorAll<HTMLElement>('[data-mode-panel]')];
+    const modeNote = document.querySelector<HTMLElement>('[data-mode-note]');
+
+    if (modeSwitch && modeButtons.length > 0 && modePanels.length > 0) {
+      // The switch is only revealed when it can work; without JavaScript both
+      // panels are shown, so no mode is hidden behind a dead control.
+      modeSwitch.hidden = false;
+      const showMode = (mode: string) => {
+        for (const button of modeButtons) {
+          button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
+        }
+        for (const panel of modePanels) {
+          panel.hidden = panel.dataset.modePanel !== mode;
+        }
+        if (modeNote) {
+          modeNote.textContent = mode === 'assisted'
+            ? 'The notebook quiz is the only assisted mode: “Show the answer” reveals the key, and the check is recorded as assisted.'
+            : 'Papers, drills and mocks are unaided. Only the notebook quiz offers help.';
+        }
+      };
+      for (const button of modeButtons) {
+        button.addEventListener('click', () => showMode(button.dataset.mode ?? 'independent'));
+      }
+      showMode('independent');
+    }
+
+    /* ---- the review queue ---- */
     const card = document.querySelector('#queue-card');
     const status = document.querySelector<HTMLElement>('[data-queue-status]');
+    const choiceQueue = document.querySelector<HTMLElement>('[data-choice-queue]');
     const queue = readQueue();
     const due = dueItems(queue);
+
+    if (choiceQueue) {
+      choiceQueue.textContent = queue.length === 0
+        ? 'Nothing waiting yet · wrong or blank questions land here'
+        : `${due.length} of ${queue.length} questions due now`;
+    }
 
     const drawQueue = () => {
       if (!card) return;

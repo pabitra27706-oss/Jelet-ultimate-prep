@@ -252,3 +252,27 @@ than invent a second settings style.
 - **Actions:** `[data-retry-wrong]` (a new attempt, `?retry=<attemptId>`, wrong
   and blank only), a review-desk link, and a quiet back link. The original
   attempt is never written to again.
+
+## 12. Phase 18 — the Practice chooser contract
+
+- **Structure:** `.practice-choose` holds the title, one sentence, the
+  `.mode-switch` (two `aria-pressed` buttons) and a live note. Two
+  `[data-mode-panel]` blocks follow: `independent` with five
+  `.practice-choice` links and `assisted` with the notebook quiz plus its four
+  subject links.
+- **Cards:** every card is an `<a>` with an icon tile, a bold title, one short
+  description and one **fact** line (real counts, marks or route identity).
+  There is no card for a mode that does not exist, and no promise of mastery or
+  a predicted score.
+- **Switch:** presentation only. `aria-pressed` marks the current mode, the
+  inactive panel is `hidden`, and the note changes to state what assistance
+  means. It never changes how anything is marked.
+- **No-JS:** the switch starts `hidden` in the markup and is revealed by the
+  script; a `<noscript>` rule shows both panels and keeps the dead switch out
+  of sight.
+- **Kept below:** the paper cards (with an `id="mocks"` heading, which an
+  existing ordering test reads), the drills, quiz links, revision notes, queue
+  card, original cards and the read-only years — so no earlier route moved or
+  disappeared.
+- **Icons:** `bolt`, `help` and `sliders` were added to the shared set for the
+  drill, single-question and mock cards; each still has text beside it.

@@ -99,6 +99,11 @@
   implementation commit; stored attempts remain valid because the schema did
   not change.
 
+- **Owner acceptance:** the owner replied “Ok continue” on 2026-11-21 after
+  the result screen was presented, which is recorded as acceptance of the
+  screen and a direction to continue to Phase 18. No device details were
+  supplied with that reply.
+
 - **Blockers, unresolved risks, next action and decision needed:** no code
   blocker. Risks: the ring percentage is rounded for display while the marks
   are exact, and the +/− marks still dominate the headline — both are stated in
