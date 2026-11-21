@@ -153,3 +153,39 @@ Each capture is a headless Chromium render of `dist/` at the site's real
 subpath. The script fails on a console/page error or a non-200 response. The
 phone bezel, OS status bar and home indicator are not part of the page, so they
 do not appear.
+
+## 9. Phase 15 — the You screen contract (for Phases 16–21)
+
+Phase 15 refined `/you/` against `01-settings.png` without changing any route,
+store key or export contract. Later screens should reuse this vocabulary rather
+than invent a second settings style.
+
+- **Layout:** `.you` is a 40 rem centred column; `.you-hero` is the tinted
+  privacy card; `.you-heading` labels a group; `.settings-card` groups rows;
+  `.settings-row` is one 62 px full-row link or control; `.settings-icon` is
+  the teal 22 px glyph slot; `.settings-copy`, `.settings-label` and
+  `.settings-sub` hold the text; `.settings-chevron` is decorative. The
+  optional disclosure is `details.settings-disclosure` with `.settings-body`.
+- **Activity:** `.you-activity` is a two-column grid above `22rem` and a single
+  column below it; `.activity-card` is a link with `.activity-icon`,
+  `.activity-label`, `.activity-value` and a decorative `.activity-go`
+  chevron. Never populate `.activity-value` with a sample number.
+- **Motion preference:** `src/lib/motion.ts` mirrors the theme contract. One key
+  `jelet:motion:v1` (`full` | `reduce`); the pre-paint script in `Site.astro`
+  sets `html[data-motion]`; the device's `prefers-reduced-motion` is the
+  default; `[data-motion-toggle]` is the control; `[data-motion-state]` and
+  `[data-motion-status]` are the word state and explanation;
+  `html[data-motion="reduce"]` disables transitions and smooth scrolling.
+  Storage-blocked browsers still get a working switch for the page.
+- **Status text:** `.settings-sub.visually-hidden[data-blocked="true"]` becomes
+  visible when storage is refused, so a limitation is never silent; otherwise
+  the explanation is available to assistive technology through
+  `aria-describedby` without adding a line the reference does not have.
+- **Shell measurement:** the phone tab bar is 24 px icons / 11.5 px labels with
+  no active pill, and `--tabbar-h` is 4.9 rem. Any page that scrolls to the
+  bottom must keep the footer above it (the keyboard/geometry test enforces
+  this).
+- **Screenshots:** `docs/phases/15-you/screenshots/` holds the 390×844 and
+  1280×900 light/dark captures, 320×700, 375×812 and the About-open state,
+  produced with the same `scripts/capture-screens.mjs` command documented in
+  §8.

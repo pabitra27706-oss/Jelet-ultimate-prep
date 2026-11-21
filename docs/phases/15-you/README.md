@@ -4,6 +4,12 @@
 
 **Gate:** implement this image only after Phase 14 shared foundation is owner-reviewed. This phase must not redesign other page families.
 
+**Status (2026-11-21):** built and agent-verified on branch
+`arena/61a4f729-jelet-ultimate-prep` (commit `589bb41`) and awaiting the
+owner's visual review — see the
+[evidence record](2026-11-21-phase-15-you.md) and
+[screenshots](screenshots/). Phase 16 must not start until this is accepted.
+
 ## Goal
 
 Create the real local-only “You” destination suggested by the settings concept: a calm privacy statement, supported preferences, visible personal study activity, offline-pack management, backup and source information. It is a local study hub, **not an account or sign-in page**.
