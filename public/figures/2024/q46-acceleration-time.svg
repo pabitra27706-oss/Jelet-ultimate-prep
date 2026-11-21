@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2024-46-title fig-2024-46-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 12, printed page 12, Q46. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The printed intercepts and straight line are retained without calculating a velocity. Source options have been restored separately from the owner-supplied page-12 screenshot; no option is selected in this drawing. -->
+<title id="fig-2024-46-title">Acceleration declining linearly with time</title>
+<desc id="fig-2024-46-desc">The vertical axis is acceleration a in metres per second squared; the horizontal axis is time t in seconds. A straight segment descends from acceleration 10 at time zero to acceleration zero at time 25.</desc>
+<defs><marker id="fig-2024-46-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="100" y1="230" x2="360" y2="230" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-46-arrow)"/><line x1="100" y1="230" x2="100" y2="60" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-46-arrow)"/><text x="75" y="55">a (m s⁻²)</text><text x="368" y="235">t (s)</text><line x1="100" y1="80" x2="290" y2="230" stroke="currentColor" stroke-width="2"/><text x="69" y="85">10</text><text x="280" y="252">25</text>
+</g></svg>

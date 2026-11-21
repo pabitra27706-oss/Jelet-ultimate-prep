@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 535 300" role="img" aria-labelledby="fig-2025-62-title fig-2025-62-desc" width="535" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 15, printed page 16, Q62. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: All five labelled points and horizontal/rising segments are retained. No phase labels or interpretation of the DE slope is added. -->
+<title id="fig-2025-62-title">Temperature versus heat input with two plateaux</title>
+<desc id="fig-2025-62-desc">A temperature versus heat-input plot rises from the origin to A, stays horizontal from A to B, rises from B to C, stays horizontal from C to D, then rises from D to E. No numerical temperatures or heat inputs are marked.</desc>
+<defs><marker id="fig-2025-62-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="95" y1="250" x2="400" y2="250" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-62-arrow)"/><line x1="95" y1="250" x2="95" y2="50" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-62-arrow)"/><text x="73" y="43">Temperature</text><text x="407" y="256">Heat input</text><path d="M95 250L150 200H220L270 150H330L380 95" fill="none" stroke="currentColor" stroke-width="2"/><text x="145" y="220">A</text><text x="210" y="220">B</text><text x="265" y="171">C</text><text x="323" y="171">D</text><text x="388" y="98">E</text>
+</g></svg>

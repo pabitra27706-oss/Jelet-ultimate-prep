@@ -1,6 +1,7 @@
 ---
 import Site from '../../layouts/Site.astro';
 import Question from '../../components/Question.astro';
+import OriginalPaper from '../../components/OriginalPaper.astro';
 import { papers, paperById, keyFor, keyTierLabel, answerLetters, subjectLabels, type SubjectKey } from '../../lib/content';
 
 export function getStaticPaths() {
@@ -51,6 +52,8 @@ const canPractice = paper.scoreableQuestions > 0;
       <a class="btn ghost" href={`${base}practice/`}>Other sets</a>
     </div>
   </div>
+
+  <OriginalPaper year={paper.year} />
 
   {paper.notes.length > 0 && (
     <div class="notice" style="margin-bottom:1.2rem">

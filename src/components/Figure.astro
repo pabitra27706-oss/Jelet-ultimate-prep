@@ -22,7 +22,8 @@ const assets = import.meta.glob<string>('../../editorial/figures/**/*.svg', {
 });
 
 /** The authored asset, looked up by its file name. */
-const key = Object.keys(assets).find((path) => path.endsWith(`/${asset.svg}`));
+// Match the year-qualified path: different papers may reuse a filename.
+const key = Object.keys(assets).find((path) => path.endsWith(`/${asset.url}`));
 const raw = key ? assets[key] : null;
 const markup = typeof raw === 'string' ? raw : null;
 ---

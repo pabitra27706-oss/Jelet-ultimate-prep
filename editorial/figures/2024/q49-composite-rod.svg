@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 230" role="img" aria-labelledby="fig-2024-49-title fig-2024-49-desc" width="460" height="230">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 13, printed page 13, Q49. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: Lengths are drawn in the stated one-to-two ratio rather than the near-equal boxes of the scan. Labels and series connection are unchanged; no heat current is calculated. -->
+<title id="fig-2024-49-title">Two-part rod for heat conduction</title>
+<desc id="fig-2024-49-desc">Two equal-cross-section rod segments are joined end to end. The left segment has length l and thermal conductivity k; the right has length 2l and conductivity 2k. End temperatures are t1 on the left and t2 on the right.</desc>
+<defs><marker id="fig-2024-49-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<rect x="100" y="110" width="85" height="65" fill="none" stroke="currentColor" stroke-width="2"/><rect x="185" y="110" width="170" height="65" fill="none" stroke="currentColor" stroke-width="2"/><text x="137" y="97">l</text><text x="262" y="97">2l</text><text x="137" y="148">k</text><text x="262" y="148">2k</text><text x="65" y="147">t₁</text><text x="368" y="147">t₂</text>
+</g></svg>

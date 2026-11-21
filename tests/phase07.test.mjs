@@ -276,11 +276,11 @@ test('the map does not count the questions outside the syllabus as coverage', ()
 });
 
 test('the corpus was not modified to make the coverage look better', () => {
-  // Every paper must keep the question count it was published with. The 2023
+  // Counts include source-backed restoration of 2019 Q78/Q79. The 2023
   // paper is a new transcription of a year that had a key but no paper, so it
   // adds a paper rather than changing one.
   const expected = {
-    2017: 100, 2018: 100, 2019: 98, 2021: 100, 2022: 95, 2023: 100, 2024: 97, 2025: 100,
+    2017: 100, 2018: 100, 2019: 100, 2021: 100, 2022: 95, 2023: 100, 2024: 97, 2025: 100,
   };
   for (const paper of papers) {
     assert.equal(paper.questions.length, expected[paper.year], `${paper.year} changed size`);
@@ -315,7 +315,10 @@ test('the baseline term lists reproduce the recorded starting figures exactly', 
   const { mapCorpus } = await import('../scripts/topic-mapping.mjs');
   const terms = {};
   for (const [topic, synonyms] of Object.entries(baselineTerms)) terms[topic] = { synonyms };
-  const phase07Papers = papers.filter((paper) => paper.year !== 2023);
+  // Q78/Q79 were restored from owner-supplied source images after this baseline.
+  const phase07Papers = papers.filter((paper) => paper.year !== 2023).map(paper => ({
+    ...paper, questions: paper.questions.filter(q => !(paper.year === 2019 && [78,79].includes(q.n))),
+  }));
   const baseline = mapCorpus({ papers: phase07Papers, syllabus, terms });
 
   assert.equal(baseline.mappedQuestions, 212, 'the baseline maps a different number of questions');

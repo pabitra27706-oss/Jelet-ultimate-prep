@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 300" role="img" aria-labelledby="fig-2025-46-title fig-2025-46-desc" width="490" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 11, printed page 12, Q46. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The source straight and curved segments and point order are preserved. No acceleration region is identified as the response and no numerical scale is supplied. -->
+<title id="fig-2025-46-title">Displacement-time graph labelled A to E</title>
+<desc id="fig-2025-46-desc">A displacement-time graph runs from A low on the left to B higher up by a straight rising segment. BC is a curved dip ending at high point C. CD is a straight falling segment to lower point D. DE is a rising curve that becomes flatter toward E.</desc>
+<defs><marker id="fig-2025-46-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="90" y1="250" x2="380" y2="250" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-46-arrow)"/><line x1="90" y1="250" x2="90" y2="50" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-46-arrow)"/><text x="68" y="43">Displacement</text><text x="387" y="256">Time</text><path d="M120 225L165 115Q190 180 245 115L290 200Q290 120 345 115" fill="none" stroke="currentColor" stroke-width="2"/><text x="110" y="242">A</text><text x="155" y="105">B</text><text x="237" y="105">C</text><text x="285" y="219">D</text><text x="350" y="117">E</text>
+</g></svg>

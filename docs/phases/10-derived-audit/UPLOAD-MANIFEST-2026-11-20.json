@@ -1,0 +1,84 @@
+{
+  "scope": "All seven files opened and every PDF sheet rendered; visual cover and selected-page checks, not exhaustive question/answer audit. 2017 was visually inspected in full in the preceding turn.",
+  "githubUpload": "FAILED: uploads.github.com returned EOF; zero assets uploaded; empty draft release deleted.",
+  "localStorage": "private-audit-inputs/2026-11-20/ (gitignored; not public or a remote backup)",
+  "files": [
+    {
+      "file": "2023111594.pdf",
+      "bytes": 2436145,
+      "sha256": "721aa20ff4c1791dd8733df3adfd317af1bdca4aca6f5c44b20827aa08947c72",
+      "renderErrors": [],
+      "pages": 32,
+      "encrypted": false,
+      "textPages": 0,
+      "renderedPages": 32,
+      "year": 2017
+    },
+    {
+      "file": "2023111538-1.pdf",
+      "bytes": 1271317,
+      "sha256": "dd290133dc7dea9afc8b8908c1e2a416bc0cc90e65d1fa21ee679217a4ce8666",
+      "renderErrors": [],
+      "pages": 32,
+      "encrypted": false,
+      "textPages": 0,
+      "renderedPages": 32,
+      "year": 2018
+    },
+    {
+      "file": "2023111582-1.pdf",
+      "bytes": 1826295,
+      "sha256": "7deb86b699fe06e9410404c47a2a37aae5c382d7a379c24840c125cbebfb882e",
+      "renderErrors": [],
+      "pages": 22,
+      "encrypted": false,
+      "textPages": 0,
+      "renderedPages": 22,
+      "year": 2019
+    },
+    {
+      "file": "2023111536-1.pdf",
+      "bytes": 9932634,
+      "sha256": "9006f90c2c3e8fc8e34beca6ec0c08257b681b54c7911b61c9787c93a1f32f77",
+      "renderErrors": [],
+      "pages": 24,
+      "encrypted": false,
+      "textPages": 0,
+      "renderedPages": 24,
+      "year": 2021
+    },
+    {
+      "file": "2023111591-3.pdf",
+      "bytes": 3739434,
+      "sha256": "68fb0a904586af3a3d2e504e45ab8ee4a2e2a52a0e6228aab2e987d6dc5a3de3",
+      "renderErrors": [],
+      "pages": 24,
+      "encrypted": false,
+      "textPages": 0,
+      "renderedPages": 24,
+      "year": 2022
+    },
+    {
+      "file": "2024120234.pdf",
+      "bytes": 7249660,
+      "sha256": "f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d",
+      "renderErrors": [],
+      "pages": 24,
+      "encrypted": false,
+      "textPages": 0,
+      "renderedPages": 24,
+      "year": 2024
+    },
+    {
+      "file": "202512161802442791.pdf",
+      "bytes": 5775076,
+      "sha256": "07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861",
+      "renderErrors": [],
+      "pages": 25,
+      "encrypted": false,
+      "textPages": 13,
+      "renderedPages": 25,
+      "year": 2025
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 475" role="img" aria-labelledby="fig-2024-79-title fig-2024-79-desc" width="460" height="475">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 20, printed page 20, Q79. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: Panels are stacked for phone readability instead of the source two-column layout. Single, double and triple bond orders and terminal groups are retained without naming a response. -->
+<title id="fig-2024-79-title">Four hydrocarbon structural alternatives</title>
+<desc id="fig-2024-79-desc">A: CH3–C≡C–CH=CH2. B: CH3–C≡C–CH2–CH3. C: CH3–CH=CH–C≡CH, shown as a bent skeletal chain with the triple bond at the open end. D: CH3–CH=C=CH–CH3. All four alternatives are retained in their printed order.</desc>
+<defs><marker id="fig-2024-79-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<text x="30" y="80">(A)</text><text x="75" y="80">H₃C</text><line x1="115" y1="75" x2="300" y2="75" stroke="currentColor" stroke-width="2"/><line x1="160" y1="70" x2="210" y2="70" stroke="currentColor" stroke-width="2"/><line x1="160" y1="80" x2="210" y2="80" stroke="currentColor" stroke-width="2"/><line x1="300" y1="75" x2="330" y2="120" stroke="currentColor" stroke-width="2"/><line x1="306" y1="72" x2="336" y2="117" stroke="currentColor" stroke-width="2"/><text x="30" y="190">(B)</text><text x="75" y="190">H₃C</text><line x1="115" y1="185" x2="300" y2="185" stroke="currentColor" stroke-width="2"/><line x1="160" y1="180" x2="210" y2="180" stroke="currentColor" stroke-width="2"/><line x1="160" y1="190" x2="210" y2="190" stroke="currentColor" stroke-width="2"/><line x1="300" y1="185" x2="325" y2="220" stroke="currentColor" stroke-width="2"/><text x="327" y="239">CH₃</text><text x="30" y="310">(C)</text><line x1="120" y1="345" x2="120" y2="300" stroke="currentColor" stroke-width="2"/><line x1="120" y1="300" x2="160" y2="275" stroke="currentColor" stroke-width="2"/><line x1="125" y1="305" x2="163" y2="281" stroke="currentColor" stroke-width="2"/><line x1="160" y1="275" x2="245" y2="325" stroke="currentColor" stroke-width="2"/><line x1="204" y1="294" x2="247" y2="319" stroke="currentColor" stroke-width="2"/><line x1="198" y1="304" x2="241" y2="329" stroke="currentColor" stroke-width="2"/><text x="107" y="366">CH₃</text><text x="30" y="430">(D)</text><text x="85" y="430">H₃C — HC = C = CH — CH₃</text>
+</g></svg>

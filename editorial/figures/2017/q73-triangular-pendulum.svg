@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 285" role="img" aria-labelledby="fig-2017-73-title fig-2017-73-desc" width="420" height="285">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2017, main Engineering/Paper I stream, PDF sheet 15, printed page 15, Q73.
+Visually compared with owner-supplied 2023111594.pdf on 2026-11-20.
+SHA-256: 721aa20ff4c1791dd8733df3adfd317af1bdca4aca6f5c44b20827aa08947c72
+Standard: ADR-0002. Original vector primitives; no official pixels. Scoring unchanged.
+Deviation: The triangle is drawn equilateral to match the two printed 60-degree angles. Support hatching and angle arcs are simplified; the damaged question number is identified by its position before Q74. -->
+<title id="fig-2017-73-title">Equilateral triangular plate pivoted at its upper vertex</title>
+<desc id="fig-2017-73-desc">A triangular plate hangs from a pivot at its upper vertex. Both base angles are labelled 60 degrees. The horizontal base is dimensioned a. A support above the pivot holds the upper vertex.</desc>
+<defs><marker id="fig-2017-73-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" font-family="system-ui,sans-serif" font-size="15" fill="currentColor">
+<line x1="160" y1="10" x2="160" y2="32" stroke="currentColor" stroke-width="2"/><line x1="148" y1="20" x2="160" y2="10" stroke="currentColor" stroke-width="2"/><line x1="160" y1="25" x2="210" y2="60" stroke="currentColor" stroke-width="2"/><line x1="260" y1="25" x2="210" y2="60" stroke="currentColor" stroke-width="2"/><line x1="160" y1="25" x2="260" y2="25" stroke="currentColor" stroke-width="2"/><path d="M210 60L110 233.2H310Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="210" cy="60" r="4"/><path d="M145 233.2A35 35 0 0 0 127.5 202.9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M275 233.2A35 35 0 0 1 292.5 202.9" fill="none" stroke="currentColor" stroke-width="2"/><text x="137" y="218">60°</text><text x="254" y="218">60°</text><line x1="110" y1="260" x2="310" y2="260" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2017-73-arrow)"/><line x1="310" y1="260" x2="110" y2="260" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2017-73-arrow)"/><text x="202.0" y="252">a</text>
+</g></svg>

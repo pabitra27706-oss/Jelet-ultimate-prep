@@ -1,0 +1,4062 @@
+{
+  "sourceCommit": "6a14ac1d6b0e4ac0774ba1934b3e534244e5eaf9",
+  "sourcePR": 9,
+  "scope": "Structural inventory only. No answer correctness verdicts. No keys imported into application.",
+  "files": [
+    "docs/phases/09-derived-keys/DECISION-adr-0003-accepted.md",
+    "docs/phases/09-derived-keys/EVIDENCE.md",
+    "docs/phases/09-derived-keys/OPEN-DOUBTS.md",
+    "docs/phases/09-derived-keys/OWNER-PRACTICE-LOOP.md",
+    "docs/phases/09-derived-keys/README.md",
+    "docs/phases/09-derived-keys/RUNBOOK.md",
+    "docs/phases/09-derived-keys/SCHEMA.md",
+    "docs/phases/09-derived-keys/STOP-CONDITIONS.md",
+    "docs/phases/09-derived-keys/years/2017.md",
+    "docs/phases/09-derived-keys/years/2018.md",
+    "docs/phases/09-derived-keys/years/2019.md",
+    "docs/phases/09-derived-keys/years/2021.md",
+    "editorial/derived-keys/2017/2017-keys.json",
+    "editorial/derived-keys/2017/2017-preflight.md",
+    "editorial/derived-keys/2017/2017-slice-record.md",
+    "editorial/derived-keys/2017/checks/engg-q21-100.py",
+    "editorial/derived-keys/2017/checks/math-q01-20.py",
+    "editorial/derived-keys/2018/2018-keys.json",
+    "editorial/derived-keys/2018/2018-preflight.md",
+    "editorial/derived-keys/2018/2018-slice-record.md",
+    "editorial/derived-keys/2018/checks/computable-2018.py",
+    "editorial/derived-keys/2019/2019-keys.json",
+    "editorial/derived-keys/2019/2019-preflight.md",
+    "editorial/derived-keys/2019/2019-slice-record.md",
+    "editorial/derived-keys/2019/checks/computable-2019.py",
+    "editorial/derived-keys/2021/2021-keys.json",
+    "editorial/derived-keys/2021/2021-preflight.md",
+    "editorial/derived-keys/2021/2021-slice-record.md",
+    "editorial/derived-keys/2021/checks/computable-2021.py",
+    "editorial/derived-keys/README.md",
+    "editorial/derived-keys/second-pass-2026-11-20.json"
+  ],
+  "validation": [
+    {
+      "year": 2017,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "year": 2018,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "year": 2019,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "year": 2021,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "records": [
+    {
+      "year": 2017,
+      "q": 1,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=1]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 2,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=2]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 3,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=3]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 4,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=4]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 5,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=5]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 6,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=6]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 7,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=7]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 8,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=8]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 9,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=9]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 10,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=10]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 11,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=11]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 12,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=12]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 13,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=13]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 14,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=14]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 15,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=15]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 16,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=16]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 17,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=17]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 18,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=18]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 19,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=19]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 20,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=20]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 21,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=21]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 22,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=22]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 23,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=23]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 24,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=24]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 25,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=25]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 26,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=26]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 27,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=27]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 28,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=28]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 29,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=29]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 30,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=30]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 31,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=31]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 32,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=32]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 33,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=33]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 34,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=34]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 35,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=35]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 36,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=36]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 37,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=37]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 38,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=38]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 39,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=39]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 40,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=40]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 41,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=41]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 42,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=42]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 43,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=43]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 44,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=44]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 45,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=45]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 46,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=46]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 47,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=47]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 48,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=48]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 49,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=49]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 50,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=50]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 51,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=51]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 52,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=52]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 53,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=53]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 54,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=54]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 55,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=55]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 56,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=56]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 57,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=57]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 58,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=58]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 59,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=59]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 60,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=60]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 61,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=61]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 62,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=62]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 63,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=63]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 64,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=64]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 65,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=65]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 66,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=66]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 67,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=67]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 68,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=68]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 69,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=69]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 70,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=70]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 71,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=71]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 72,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=72]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 73,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=73]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 74,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=74]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 75,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=75]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 76,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=76]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 77,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=77]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 78,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=78]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 79,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=79]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 80,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=80]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 81,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=81]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 82,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=82]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 83,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=83]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 84,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=84]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 85,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=85]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 86,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=86]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 87,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=87]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 88,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=88]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 89,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=89]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 90,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=90]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 91,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=91]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 92,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=92]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 93,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=93]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 94,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=94]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 95,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=95]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 96,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=96]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 97,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=97]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 98,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=98]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 99,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=99]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2017,
+      "q": 100,
+      "source": "editorial/derived-keys/2017/2017-keys.json#entries[q=100]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 1,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=1]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 2,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=2]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 3,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=3]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 4,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=4]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 5,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=5]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 6,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=6]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 7,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=7]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 8,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=8]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 9,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=9]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 10,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=10]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 11,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=11]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 12,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=12]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 13,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=13]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 14,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=14]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 15,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=15]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 16,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=16]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 17,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=17]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 18,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=18]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 19,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=19]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 20,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=20]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 21,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=21]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 22,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=22]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 23,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=23]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 24,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=24]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 25,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=25]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 26,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=26]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 27,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=27]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 28,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=28]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 29,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=29]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 30,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=30]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 31,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=31]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 32,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=32]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 33,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=33]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 34,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=34]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 35,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=35]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 36,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=36]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 37,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=37]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 38,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=38]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 39,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=39]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 40,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=40]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 41,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=41]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 42,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=42]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 43,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=43]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 44,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=44]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 45,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=45]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 46,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=46]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 47,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=47]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 48,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=48]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 49,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=49]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 50,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=50]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 51,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=51]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 52,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=52]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 53,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=53]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 54,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=54]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 55,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=55]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 56,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=56]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 57,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=57]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 58,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=58]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 59,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=59]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 60,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=60]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 61,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=61]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 62,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=62]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 63,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=63]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 64,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=64]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 65,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=65]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 66,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=66]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 67,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=67]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 68,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=68]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 69,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=69]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 70,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=70]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 71,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=71]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 72,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=72]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 73,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=73]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 74,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=74]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 75,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=75]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 76,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=76]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 77,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=77]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 78,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=78]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 79,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=79]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 80,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=80]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 81,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=81]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 82,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=82]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 83,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=83]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 84,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=84]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 85,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=85]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 86,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=86]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 87,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=87]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 88,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=88]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 89,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=89]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 90,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=90]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 91,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=91]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 92,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=92]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 93,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=93]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 94,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=94]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 95,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=95]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 96,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=96]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 97,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=97]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 98,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=98]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 99,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=99]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2018,
+      "q": 100,
+      "source": "editorial/derived-keys/2018/2018-keys.json#entries[q=100]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 1,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=1]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 2,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=2]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 3,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=3]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 4,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=4]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 5,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=5]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 6,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=6]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 7,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=7]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 8,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=8]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 9,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=9]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 10,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=10]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 11,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=11]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 12,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=12]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 13,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=13]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 14,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=14]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 15,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=15]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 16,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=16]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 17,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=17]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 18,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=18]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 19,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=19]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 20,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=20]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 21,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=21]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 22,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=22]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 23,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=23]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 24,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=24]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 25,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=25]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 26,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=26]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 27,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=27]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 28,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=28]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 29,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=29]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 30,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=30]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 31,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=31]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 32,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=32]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 33,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=33]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 34,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=34]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 35,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=35]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 36,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=36]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 37,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=37]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 38,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=38]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 39,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=39]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 40,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=40]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 41,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=41]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 42,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=42]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 43,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=43]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 44,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=44]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 45,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=45]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 46,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=46]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 47,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=47]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 48,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=48]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 49,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=49]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 50,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=50]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 51,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=51]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 52,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=52]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 53,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=53]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 54,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=54]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 55,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=55]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 56,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=56]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 57,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=57]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 58,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=58]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 59,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=59]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 60,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=60]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 61,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=61]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 62,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=62]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 63,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=63]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 64,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=64]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 65,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=65]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 66,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=66]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 67,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=67]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 68,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=68]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 69,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=69]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 70,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=70]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 71,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=71]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 72,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=72]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 73,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=73]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 74,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=74]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 75,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=75]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 76,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=76]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 77,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=77]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 78,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=78]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "absent-from-corpus",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 79,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=79]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "absent-from-corpus",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 80,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=80]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 81,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=81]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 82,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=82]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 83,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=83]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 84,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=84]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 85,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=85]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 86,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=86]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 87,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=87]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 88,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=88]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 89,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=89]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 90,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=90]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 91,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=91]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 92,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=92]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 93,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=93]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 94,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=94]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 95,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=95]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 96,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=96]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 97,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=97]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 98,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=98]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 99,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=99]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2019,
+      "q": 100,
+      "source": "editorial/derived-keys/2019/2019-keys.json#entries[q=100]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 1,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=1]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 2,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=2]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 3,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=3]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 4,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=4]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 5,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=5]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 6,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=6]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 7,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=7]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 8,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=8]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 9,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=9]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 10,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=10]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 11,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=11]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 12,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=12]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 13,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=13]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 14,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=14]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 15,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=15]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 16,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=16]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "corpus-defect",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 17,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=17]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 18,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=18]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 19,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=19]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 20,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=20]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 21,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=21]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 22,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=22]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 23,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=23]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 24,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=24]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 25,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=25]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 26,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=26]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 27,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=27]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 28,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=28]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 29,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=29]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 30,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=30]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 31,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=31]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 32,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=32]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 33,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=33]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 34,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=34]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 35,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=35]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 36,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=36]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 37,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=37]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 38,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=38]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 39,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=39]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 40,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=40]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 41,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=41]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 42,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=42]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 43,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=43]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 44,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=44]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 45,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=45]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 46,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=46]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 47,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=47]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 48,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=48]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 49,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=49]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 50,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=50]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 51,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=51]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 52,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=52]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 53,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=53]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 54,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=54]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 55,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=55]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 56,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=56]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 57,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=57]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 58,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=58]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 59,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=59]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 60,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=60]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 61,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=61]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 62,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=62]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 63,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=63]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 64,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=64]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 65,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=65]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 66,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=66]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 67,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=67]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 68,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=68]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 69,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=69]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 70,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=70]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 71,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=71]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 72,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=72]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 73,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=73]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 74,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=74]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 75,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=75]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 76,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=76]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 77,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=77]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 78,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=78]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "ambiguous-input",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 79,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=79]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 80,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=80]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "ambiguous-input",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 81,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=81]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 82,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=82]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 83,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=83]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 84,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=84]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 85,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=85]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "options-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 86,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=86]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 87,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=87]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 88,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=88]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 89,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=89]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 90,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=90]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 91,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=91]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 92,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=92]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 93,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=93]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 94,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=94]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 95,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=95]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 96,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=96]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 97,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=97]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 98,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=98]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": true,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 99,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=99]",
+      "recordedTier": "unsolved",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "figure-not-reproduced",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    },
+    {
+      "year": 2021,
+      "q": 100,
+      "source": "editorial/derived-keys/2021/2021-keys.json#entries[q=100]",
+      "recordedTier": "derived-provisional",
+      "recordedEligibility": "held",
+      "recordedHoldReason": "no-approved-tier",
+      "hasRecordedMachineCheck": false,
+      "answerAudit": "pending"
+    }
+  ]
+}

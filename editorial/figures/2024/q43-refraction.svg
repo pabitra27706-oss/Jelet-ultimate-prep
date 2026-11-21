@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 290" role="img" aria-labelledby="fig-2024-43-title fig-2024-43-desc" width="420" height="290">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, main Engineering/Paper I stream, PDF sheet 11, printed page 11, Q43.
+Visually compared with owner-supplied 2024120234.pdf on 2026-11-20.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Standard: ADR-0002. Original vector primitives; no official pixels. Scoring unchanged.
+Deviation: Angles are schematic: no numerical angles are specified in the source. The redraw preserves alpha 2 larger than alpha 1 and propagation toward then away from the crossing. The normal is dashed for clarity. -->
+<title id="fig-2024-43-title">Refraction at the boundary of two media</title>
+<desc id="fig-2024-43-desc">A horizontal boundary separates medium 1 below from medium 2 above. A dashed vertical normal crosses the boundary. The incident ray travels from the lower left toward the crossing in medium 1; the refracted ray travels toward the upper right in medium 2. Alpha 1 is between the lower normal and incident ray; alpha 2 is between the upper normal and refracted ray. Alpha 2 is drawn larger than alpha 1.</desc>
+<defs><marker id="fig-2024-43-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" font-family="system-ui,sans-serif" font-size="15" fill="currentColor">
+<line x1="50" y1="145" x2="370" y2="145" stroke="currentColor" stroke-width="2"/><line x1="210" y1="30" x2="210" y2="265" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><line x1="140" y1="255" x2="210" y2="145" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-43-arrow)"/><line x1="210" y1="145" x2="350" y2="47" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-43-arrow)"/><path d="M210 190A45 45 0 0 1 185.8 183" fill="none" stroke="currentColor" stroke-width="2"/><path d="M210 100A45 45 0 0 1 246.9 119.2" fill="none" stroke="currentColor" stroke-width="2"/><text x="180" y="208">α₁</text><text x="222" y="96">α₂</text><text x="352" y="210">1</text><text x="360" y="65">2</text>
+</g></svg>

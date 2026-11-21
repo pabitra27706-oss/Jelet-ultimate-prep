@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 330" role="img" aria-labelledby="fig-2022-93-title fig-2022-93-desc" width="460" height="330">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2022, Engineering and Technology main stream, booklet 2091013057,
+PDF sheet 22, printed page 22, Q93. Owner-supplied 2023111591-3.pdf.
+SHA-256: 68fb0a904586af3a3d2e504e45ab8ee4a2e2a52a0e6228aab2e987d6dc5a3de3
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The relative locations of W, X, Y, Z and the axes are retained. No numeric speed or torque scale is supplied and no slip region is identified as the response. -->
+<title id="fig-2022-93-title">Induction motor torque-speed curve with four marked points</title>
+<desc id="fig-2022-93-desc">Torque T is vertical and speed N horizontal. The curve has positive torque to the left of zero speed, rises to a positive peak, then falls through the speed axis and becomes negative. W lies left of the vertical axis at positive torque. X is on the rising positive-speed branch. Y is on the falling branch above the horizontal axis. Z is below that axis on the negative-torque portion.</desc>
+<defs><marker id="fig-2022-93-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="130" y1="255" x2="410" y2="255" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2022-93-arrow)"/><line x1="130" y1="255" x2="130" y2="30" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2022-93-arrow)"/><text x="108" y="35">T</text><text x="414" y="260">N</text><path d="M75 167C100 162 125 150 145 130C170 105 178 70 198 61C225 45 237 115 250 145C274 197 290 241 320 278C333 291 350 291 366 286" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="95" cy="160" r="4" fill="currentColor" stroke="currentColor" stroke-width="2"/><circle cx="172" cy="90" r="4" fill="currentColor" stroke="currentColor" stroke-width="2"/><circle cx="250" cy="145" r="4" fill="currentColor" stroke="currentColor" stroke-width="2"/><circle cx="329" cy="285" r="4" fill="currentColor" stroke="currentColor" stroke-width="2"/><text x="75" y="150">W</text><text x="151" y="80">X</text><text x="261" y="145">Y</text><text x="340" y="282">Z</text>
+</g></svg>

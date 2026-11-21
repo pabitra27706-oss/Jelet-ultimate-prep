@@ -1,0 +1,84 @@
+{
+  "reviewed": "2026-11-20",
+  "scope": "Visual source findings; not answer verification or permission to change scoring",
+  "entries": [
+    {
+      "id": "jelet-et-p1-2019:q94",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 21,
+      "printedPage": 22,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The printed question has no diagram. Its four formula options are A: M, B: square root of M, C: M to the power 3/2, D: M to the power 5/2. The corpus incorrectly labels it diagram based and omits the options.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "source-correction-needed-no-diagram",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked.",
+      "pageEvidence": "Printed page 22 explicitly confirmed by the owner; screenshot crop has no page footer."
+    },
+    {
+      "id": "jelet-et-p1-2019:q77",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 15,
+      "printedPage": 16,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The supplied source contains Q77 with a rectangular block on an incline and labelled dimensions a and h. The corpus has a blank stem and options and does not flag a figure.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "missing-transcription-with-source-diagram",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked."
+    },
+    {
+      "id": "jelet-et-p1-2019:q78",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 15,
+      "printedPage": 16,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The supplied source contains the question and formula options; the corpus note saying Q77\u201379 are missing is not true of this supplied PDF.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "missing-transcription-source-present",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked."
+    },
+    {
+      "id": "jelet-et-p1-2019:q79",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 15,
+      "printedPage": 16,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The supplied source contains the question and formula options; the corpus note saying Q77\u201379 are missing is not true of this supplied PDF.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "missing-transcription-source-present",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked."
+    },
+    {
+      "id": "jelet-et-p1-2022:q6",
+      "status": "transcription-corrected-key-unchanged",
+      "pdfPage": 4,
+      "printedPage": 4,
+      "sourceFile": "2023111591-3.pdf",
+      "finding": "The printed question contains a determinant expression, not a diagram. The current corpus stem is empty although the question is already marked scorable. The old archived figure manifest misclassified it as a figure item.",
+      "disposition": "Missing-stem correction applied locally. Existing derived-key tier is unchanged; independent answer review and release remain separate.",
+      "previousStatus": "source-correction-needed-missing-math-stem",
+      "resolution": "Restored the determinant stem from the owner-supplied Q6 screenshot, printed page 4. Third row is ca, bc, -c^2. Existing options, derived key and scoring eligibility remain unchanged; this correction does not establish an official key."
+    },
+    {
+      "id": "jelet-et-p1-2024:q46",
+      "status": "transcription-corrected-key-unchanged",
+      "pdfPage": 12,
+      "printedPage": 12,
+      "sourceFile": "2024120234.pdf",
+      "finding": "The supplied paper prints acceleration intercepts 10 m/s\u00b2 and 25 s, and options A: 225 m/s, B: 120 m/s, C: 100 m/s, D: 125 m/s. The current corpus instead stores A: 225 m/s, B: 100 m/s, C: 150 m/s, D: 200 m/s, while already scorable with key label D. The graph is now attached but the option mismatch remains unresolved.",
+      "disposition": "Option mismatch corrected locally; independent review and release remain separate. This transcription correction does not establish a new key.",
+      "previousStatus": "source-correction-needed-option-mismatch",
+      "resolution": "Restored full stem and source options A 225, B 120, C 100, D 125 m/s from the owner-supplied page-12 screenshot. Existing graph, key label D and scoring eligibility preserved."
+    },
+    {
+      "id": "jelet-et-p1-2025:q95",
+      "status": "transcription-corrected-key-unchanged",
+      "pdfPage": 24,
+      "printedPage": 25,
+      "sourceFile": "202512161802442791.pdf",
+      "finding": "The supplied source stem and diagram use currents I, I1 and I2, asking when I1, I2 and I are in the same phase. The current corpus stem instead names I1, I2 and I3. The reconstructed figure retains the source labels.",
+      "disposition": "Corrected locally from the owner screenshot. Existing key B and scoring hold retained; no answer verification or scoring promotion.",
+      "previousStatus": "source-correction-needed-current-labels",
+      "resolution": "Full stem restored with source currents I, I1 and I2; option D expanded to None of these. Owner identifies PDF viewer page 24 (penultimate sheet); prior PDF review records printed page 25. Screenshot has no footer."
+    }
+  ]
+}

@@ -3,10 +3,10 @@
   "edition": "JELET-2026 Syllabus & Essential Information",
   "bulletinDate": "2026-03-18",
   "totalTopics": 42,
-  "mappedQuestions": 349,
-  "unmappedQuestions": 183,
+  "mappedQuestions": 350,
+  "unmappedQuestions": 182,
   "conflictCount": 0,
-  "outsideSyllabusQuestions": 258,
+  "outsideSyllabusQuestions": 260,
   "topics": [
     {
       "id": "mathematics-ta",
@@ -4783,6 +4783,18 @@
           "terms": [
             "impedance"
           ]
+        },
+        {
+          "questionId": "jelet-et-p1-2025:q95",
+          "paperId": "jelet-et-p1-2025",
+          "year": 2025,
+          "n": 95,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "alternating current"
+          ]
         }
       ],
       "coveredQuestions": 1,
@@ -6539,15 +6551,6 @@
       "reason": "no approved term for this question matched a topic in its subject"
     },
     {
-      "questionId": "jelet-et-p1-2025:q95",
-      "paperId": "jelet-et-p1-2025",
-      "year": 2025,
-      "n": 95,
-      "subjectKey": "electrical",
-      "held": true,
-      "reason": "no approved term for this question matched a topic in its subject"
-    },
-    {
       "questionId": "jelet-et-p1-2025:q99",
       "paperId": "jelet-et-p1-2025",
       "year": 2025,
@@ -8103,6 +8106,24 @@
       "paperId": "jelet-et-p1-2019",
       "year": 2019,
       "n": 77,
+      "subjectKey": "computer",
+      "held": true,
+      "reason": "the 2026 syllabus has no computer subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2019:q78",
+      "paperId": "jelet-et-p1-2019",
+      "year": 2019,
+      "n": 78,
+      "subjectKey": "computer",
+      "held": true,
+      "reason": "the 2026 syllabus has no computer subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2019:q79",
+      "paperId": "jelet-et-p1-2019",
+      "year": 2019,
+      "n": 79,
       "subjectKey": "computer",
       "held": true,
       "reason": "the 2026 syllabus has no computer subject"

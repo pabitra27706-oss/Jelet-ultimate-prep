@@ -60,6 +60,7 @@ They are the [editorial collection rules](../README.md), restated for the key wo
 
 ## Status
 
-No key exists yet. Phase 09 is designed; the first solving session has not run. See
-the [phase folder](../../docs/phases/09-derived-keys/) for the procedure and the
-per-year packages.
+Imported the owner's requested source-branch records: 400 entries across 2017,
+2018, 2019 and 2021, including 321 candidate answers and 79 unsolved entries.
+Source records retain their derived-provisional tiers and scoring holds. They are
+not yet integrated into the public question bank. See [import provenance](IMPORT-2026-11-20.md).

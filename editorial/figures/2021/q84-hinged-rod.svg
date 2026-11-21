@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 265" role="img" aria-labelledby="fig-2021-84-title fig-2021-84-desc" width="460" height="265">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2021, Engineering and Technology main stream, booklet 1091007537,
+PDF sheet 16, printed page 16, Q84. Owner-supplied 2023111536-1.pdf.
+SHA-256: 9006f90c2c3e8fc8e34beca6ec0c08257b681b54c7911b61c9787c93a1f32f77
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The hinge, rod and support force are simplified. W remains a label as in the source rather than an added point-load arrow; no reaction after release is shown. -->
+<title id="fig-2021-84-title">Horizontal hinged rod held by an upward force at its free end</title>
+<desc id="fig-2021-84-desc">A uniform rod labelled weight W extends horizontally from a wall hinge at its left end. Its length is L. A vertical force F points upward at the right free end.</desc>
+<defs><marker id="fig-2021-84-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="75" y1="70" x2="75" y2="210" stroke="currentColor" stroke-width="2"/><line x1="65" y1="79" x2="75" y2="70" stroke="currentColor" stroke-width="2"/><line x1="65" y1="92" x2="75" y2="83" stroke="currentColor" stroke-width="2"/><line x1="65" y1="105" x2="75" y2="96" stroke="currentColor" stroke-width="2"/><line x1="65" y1="118" x2="75" y2="109" stroke="currentColor" stroke-width="2"/><line x1="65" y1="131" x2="75" y2="122" stroke="currentColor" stroke-width="2"/><line x1="65" y1="144" x2="75" y2="135" stroke="currentColor" stroke-width="2"/><line x1="65" y1="157" x2="75" y2="148" stroke="currentColor" stroke-width="2"/><line x1="65" y1="170" x2="75" y2="161" stroke="currentColor" stroke-width="2"/><line x1="65" y1="183" x2="75" y2="174" stroke="currentColor" stroke-width="2"/><line x1="65" y1="196" x2="75" y2="187" stroke="currentColor" stroke-width="2"/><line x1="65" y1="209" x2="75" y2="200" stroke="currentColor" stroke-width="2"/><line x1="75" y1="130" x2="375" y2="130" stroke="currentColor" stroke-width="2"/><circle cx="90" cy="130" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="375" y1="200" x2="375" y2="130" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2021-84-arrow)"/><text x="390" y="182">F</text><text x="230" y="110">W</text><line x1="90" y1="225" x2="375" y2="225" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2021-84-arrow)"/><line x1="375" y1="225" x2="90" y2="225" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2021-84-arrow)"/><text x="237.5" y="217.0">L</text>
+</g></svg>

@@ -1,0 +1,901 @@
+{
+  "scope": "Existing corpus figure flags for the seven supplied years, not exhaustive PDF completeness certification",
+  "entries": [
+    {
+      "id": "jelet-et-p1-2017:q72",
+      "year": 2017,
+      "question": 72,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q72-bar-cord.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q73",
+      "year": 2017,
+      "question": 73,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q73-triangular-pendulum.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q75",
+      "year": 2017,
+      "question": 75,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q75-two-cables.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q81",
+      "year": 2017,
+      "question": 81,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q81-force-time.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q89",
+      "year": 2017,
+      "question": 89,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q89-axial-bar.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q90",
+      "year": 2017,
+      "question": 90,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q90-cantilever-bracket.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q91",
+      "year": 2017,
+      "question": 91,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q91-cantilever-point-load.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q97",
+      "year": 2017,
+      "question": 97,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q97-shear-load-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q98",
+      "year": 2017,
+      "question": 98,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q98-plane-stress.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2017:q100",
+      "year": 2017,
+      "question": 100,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2017/q100-mohr-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q27",
+      "year": 2018,
+      "question": 27,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q27-current-source-circuit.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q73",
+      "year": 2018,
+      "question": 73,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q73-table-pulley.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q74",
+      "year": 2018,
+      "question": 74,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q74-sphere-wall.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q78",
+      "year": 2018,
+      "question": 78,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q78-projectile-incline.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q79",
+      "year": 2018,
+      "question": 79,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q79-incline-pulley.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q80",
+      "year": 2018,
+      "question": 80,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q80-plane-truss.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q82",
+      "year": 2018,
+      "question": 82,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q82-ball-rebound.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q85",
+      "year": 2018,
+      "question": 85,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q85-particle-in-sphere.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q89",
+      "year": 2018,
+      "question": 89,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q89-shear-distribution-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q90",
+      "year": 2018,
+      "question": 90,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q90-stepped-shaft.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2018:q91",
+      "year": 2018,
+      "question": 91,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2018/q91-hollow-shaft-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2019:q75",
+      "year": 2019,
+      "question": 75,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2019/q75-square-lamina.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2019:q76",
+      "year": 2019,
+      "question": 76,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2019/q76-cone-centre.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2019:q84",
+      "year": 2019,
+      "question": 84,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2019/q84-three-pulleys.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2019:q90",
+      "year": 2019,
+      "question": 90,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2019/q90-moment-shear-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2019:q91",
+      "year": 2019,
+      "question": 91,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2019/q91-loaded-beam-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2019:q94",
+      "year": 2019,
+      "question": 94,
+      "status": "transcription-corrected-no-key-promotion",
+      "asset": null,
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q26",
+      "year": 2021,
+      "question": 26,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q26-generator-curves.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q33",
+      "year": 2021,
+      "question": 33,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q33-galvanometer-bridge.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q35",
+      "year": 2021,
+      "question": 35,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q35-tube-wiring-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q72",
+      "year": 2021,
+      "question": 72,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q72-wall-truss.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q73",
+      "year": 2021,
+      "question": 73,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q73-incline-pulley.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q74",
+      "year": 2021,
+      "question": 74,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q74-trapezoid-centroid.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q75",
+      "year": 2021,
+      "question": 75,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q75-spur-gears.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q77",
+      "year": 2021,
+      "question": 77,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q77-projectile-incline.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q81",
+      "year": 2021,
+      "question": 81,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q81-unwinding-cylinder.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q84",
+      "year": 2021,
+      "question": 84,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q84-hinged-rod.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q89",
+      "year": 2021,
+      "question": 89,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q89-internal-hinge-beam.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q93",
+      "year": 2021,
+      "question": 93,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q93-cantilever-crossarm.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q94",
+      "year": 2021,
+      "question": 94,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q94-shear-moment.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q95",
+      "year": 2021,
+      "question": 95,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q95-partial-shear.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2021:q99",
+      "year": 2021,
+      "question": 99,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q99-cantilever-cases.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q49",
+      "year": 2022,
+      "question": 49,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q49-potential-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q57",
+      "year": 2022,
+      "question": 57,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q57-apparent-depth-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q62",
+      "year": 2022,
+      "question": 62,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q62-thermodynamic-cycles.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q93",
+      "year": 2022,
+      "question": 93,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q93-torque-speed.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q96",
+      "year": 2022,
+      "question": 96,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q96-diode-rectifier.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q97",
+      "year": 2022,
+      "question": 97,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q97-comparator.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q98",
+      "year": 2022,
+      "question": 98,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q98-switch-network.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2022:q99",
+      "year": 2022,
+      "question": 99,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q99-transistor-bias.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q42",
+      "year": 2024,
+      "question": 42,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q42-projectile-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q43",
+      "year": 2024,
+      "question": 43,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q43-refraction.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q45",
+      "year": 2024,
+      "question": 45,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q45-circular-motion.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q49",
+      "year": 2024,
+      "question": 49,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q49-composite-rod.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q54",
+      "year": 2024,
+      "question": 54,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q54-four-mass-pulley.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q57",
+      "year": 2024,
+      "question": 57,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q57-potential-energy.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q65",
+      "year": 2024,
+      "question": 65,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q65-shifted-potential.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q66",
+      "year": 2024,
+      "question": 66,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q66-velocity-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q67",
+      "year": 2024,
+      "question": 67,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q67-block-plate.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q68",
+      "year": 2024,
+      "question": 68,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q68-three-rods.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q70",
+      "year": 2024,
+      "question": 70,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q70-adiabatic-curves.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q78",
+      "year": 2024,
+      "question": 78,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q78-carbolic-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q79",
+      "year": 2024,
+      "question": 79,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q79-hydrocarbon-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q89",
+      "year": 2024,
+      "question": 89,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q89-iodoform-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q94",
+      "year": 2024,
+      "question": 94,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q94-voltage-cells.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q96",
+      "year": 2024,
+      "question": 96,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q96-two-diode-network.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q97",
+      "year": 2024,
+      "question": 97,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q97-feedback-amplifier.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2024:q98",
+      "year": 2024,
+      "question": 98,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q98-logic-network.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q44",
+      "year": 2025,
+      "question": 44,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q44-kinematic-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q46",
+      "year": 2025,
+      "question": 46,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q46-displacement-segments.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q51",
+      "year": 2025,
+      "question": 51,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q51-viscous-velocity-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q54",
+      "year": 2025,
+      "question": 54,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q54-rolling-disc.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q55",
+      "year": 2025,
+      "question": 55,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q55-extension-load.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q57",
+      "year": 2025,
+      "question": 57,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q57-thermodynamic-paths.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q58",
+      "year": 2025,
+      "question": 58,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q58-pressure-volume-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q62",
+      "year": 2025,
+      "question": 62,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q62-heating-curve.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q66",
+      "year": 2025,
+      "question": 66,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q66-displacement-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q81",
+      "year": 2025,
+      "question": 81,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q81-branched-hydrocarbon.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q82",
+      "year": 2025,
+      "question": 82,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q82-isomer-pair.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q85",
+      "year": 2025,
+      "question": 85,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q85-reaction-options.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q88",
+      "year": 2025,
+      "question": 88,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q88-bromo-products.svg",
+      "optionsComplete": false,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q95",
+      "year": 2025,
+      "question": 95,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q95-parallel-rl.svg",
+      "optionsComplete": true,
+      "scorable": false
+    },
+    {
+      "id": "jelet-et-p1-2025:q100",
+      "year": 2025,
+      "question": 100,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q100-nand-network.svg",
+      "optionsComplete": true,
+      "scorable": false
+    }
+  ],
+  "additionalSourceFindings": [
+    {
+      "id": "jelet-et-p1-2019:q77",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 15,
+      "printedPage": 16,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The supplied source contains Q77 with a rectangular block on an incline and labelled dimensions a and h. The corpus has a blank stem and options and does not flag a figure.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "missing-transcription-with-source-diagram",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked."
+    },
+    {
+      "id": "jelet-et-p1-2019:q78",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 15,
+      "printedPage": 16,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The supplied source contains the question and formula options; the corpus note saying Q77–79 are missing is not true of this supplied PDF.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "missing-transcription-source-present",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked."
+    },
+    {
+      "id": "jelet-et-p1-2019:q79",
+      "status": "transcription-corrected-no-key-promotion",
+      "pdfPage": 15,
+      "printedPage": 16,
+      "sourceFile": "2023111582-1.pdf",
+      "finding": "The supplied source contains the question and formula options; the corpus note saying Q77–79 are missing is not true of this supplied PDF.",
+      "disposition": "Transcription correction applied locally; independent review and release remain pending.",
+      "previousStatus": "missing-transcription-source-present",
+      "resolution": "Restored stem and four options in editorial/pyq-md/2019.md from owner-supplied screenshots; Q77 also has an original SVG. No answer key supplied or scoring unlocked."
+    },
+    {
+      "id": "jelet-et-p1-2022:q6",
+      "status": "transcription-corrected-key-unchanged",
+      "pdfPage": 4,
+      "printedPage": 4,
+      "sourceFile": "2023111591-3.pdf",
+      "finding": "The printed question contains a determinant expression, not a diagram. The current corpus stem is empty although the question is already marked scorable. The old archived figure manifest misclassified it as a figure item.",
+      "disposition": "Missing-stem correction applied locally. Existing derived-key tier is unchanged; independent answer review and release remain separate.",
+      "previousStatus": "source-correction-needed-missing-math-stem",
+      "resolution": "Restored the determinant stem from the owner-supplied Q6 screenshot, printed page 4. Third row is ca, bc, -c^2. Existing options, derived key and scoring eligibility remain unchanged; this correction does not establish an official key."
+    },
+    {
+      "id": "jelet-et-p1-2024:q46",
+      "status": "transcription-corrected-key-unchanged",
+      "pdfPage": 12,
+      "printedPage": 12,
+      "sourceFile": "2024120234.pdf",
+      "finding": "The supplied paper prints acceleration intercepts 10 m/s² and 25 s, and options A: 225 m/s, B: 120 m/s, C: 100 m/s, D: 125 m/s. The current corpus instead stores A: 225 m/s, B: 100 m/s, C: 150 m/s, D: 200 m/s, while already scorable with key label D. The graph is now attached but the option mismatch remains unresolved.",
+      "disposition": "Option mismatch corrected locally; independent review and release remain separate. This transcription correction does not establish a new key.",
+      "previousStatus": "source-correction-needed-option-mismatch",
+      "resolution": "Restored full stem and source options A 225, B 120, C 100, D 125 m/s from the owner-supplied page-12 screenshot. Existing graph, key label D and scoring eligibility preserved."
+    }
+  ],
+  "additionalAttachedFigures": [
+    {
+      "id": "jelet-et-p1-2019:q77",
+      "year": 2019,
+      "question": 77,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2019/q77-block-incline.svg",
+      "scorable": false,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2021:q21",
+      "year": 2021,
+      "question": 21,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q21-voltage-sources.svg",
+      "scorable": false,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2021:q71",
+      "year": 2021,
+      "question": 71,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q71-pulled-block.svg",
+      "scorable": false,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2021:q87",
+      "year": 2021,
+      "question": 87,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2021/q87-fixed-shaft.svg",
+      "scorable": false,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2022:q55",
+      "year": 2022,
+      "question": 55,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2022/q55-isobaric-process.svg",
+      "scorable": true,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2024:q46",
+      "year": 2024,
+      "question": 46,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q46-acceleration-time.svg",
+      "scorable": true,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2024:q52",
+      "year": 2024,
+      "question": 52,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q52-lens-rearrangement.svg",
+      "scorable": true,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2024:q55",
+      "year": 2024,
+      "question": 55,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q55-photoelectric-graph.svg",
+      "scorable": true,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2025:q61",
+      "year": 2025,
+      "question": 61,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q61-liquid-mixtures.svg",
+      "scorable": true,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
+      "id": "jelet-et-p1-2025:q67",
+      "year": 2025,
+      "question": 67,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2025/q67-pulley-force.svg",
+      "scorable": true,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    }
+  ]
+}

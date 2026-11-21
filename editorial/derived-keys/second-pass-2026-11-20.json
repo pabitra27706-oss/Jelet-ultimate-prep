@@ -1,0 +1,326 @@
+{
+ "schemaVersion": "1.0",
+ "pass": "second-pass",
+ "ranOn": "2026-11-20",
+ "method": "Stems and options were printed from each year's key file with the recorded answer stripped, then every solved item was re-answered before any comparison.",
+ "independence": "NOT independent: the same solver and the same corpus text produced both passes. Agreement is a consistency signal only and promotes nothing; it satisfies neither branch of ADR-0003's derived-verified test.",
+ "verdict": "48 raw disagreements across 321 re-answered items; all 48 adjudicated by re-derivation in favour of the recorded answer; zero key entries changed.",
+ "years": {
+  "2017": {
+   "solved": 83,
+   "reAnswered": 83,
+   "disagreements": 3,
+   "adjudication": {
+    "60": {
+     "secondPass": "B",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Algal bloom is driven by N, P and K, option A. The second pass answered on the classic carbon/nitrogen/phosphorus formulation, which the option set does not offer."
+    },
+    "63": {
+     "secondPass": "A",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Aircraft noise uses the L10(18-hour) index, option C. The second pass picked Lepm, a different metric."
+    },
+    "65": {
+     "secondPass": "B",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Stability is DALR > ELR, option C. The second pass had the inequality backwards."
+    }
+   }
+  },
+  "2018": {
+   "solved": 83,
+   "reAnswered": 83,
+   "disagreements": 19,
+   "adjudication": {
+    "7": {
+     "secondPass": "B",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Pair of lines: expanding (m1 y + n1)(l2 x + n2) gives 2fg = ch, option C. Verified on 2,000 random factorisations: zero violations of C and zero cases where B held. An earlier claim in prose that the key was wrong is retracted here."
+    },
+    "8": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "The segment runs z = 5 to z = 3, so z = 0 lies beyond the far point: the division is external, 5:3, option B."
+    },
+    "10": {
+     "secondPass": "D",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "y = 5 + sin(x - 5) lies in [4, 6] and never reaches zero: option A, it does not cut the axis."
+    },
+    "16": {
+     "secondPass": "A",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "The normal at (a/2, sqrt3 a/2) is the radial line through the origin, y = sqrt3 x, i.e. sqrt3 x - y = 0, option D."
+    },
+    "20": {
+     "secondPass": "B",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "AB = (1,2,-1) and CD = (-3,-6,3) = -3 AB, so the lines are parallel, option D."
+    },
+    "23": {
+     "secondPass": "B",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Ampere turns are H_iron l_iron + (B/mu0) l_gap = 219 + 1273.2 = 1492.2 AT, which is option A; the second pass answered 1942, which is option B's printed value."
+    },
+    "25": {
+     "secondPass": "B",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Peak current is sqrt2 A, so stored energy is 0.5 x 0.1 x 2 = 0.1 J, option A."
+    },
+    "59": {
+     "secondPass": "C",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Sound intensity is measured in W/m^2, option A; the decibel is a level, not an intensity unit."
+    },
+    "69": {
+     "secondPass": "C",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Incineration runs at 900-1200 C, option A."
+    },
+    "72": {
+     "secondPass": "B",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "With the 300 N weight at d from the man end, moments about the boy end give d = 0.556 m, option C."
+    },
+    "76": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "The diagonal of a square plate is a centroidal axis, so I = a^4/12, option B."
+    },
+    "83": {
+     "secondPass": "B",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Rectangle about its base bh^3/3; triangle about its base bh^3/12; ratio 4:1, option C."
+    },
+    "84": {
+     "secondPass": "B",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "Closing speed is 10 km per 8 min = 75 km/h, so the third car's own speed is 75 - 40 = 35 km/h, option D."
+    },
+    "87": {
+     "secondPass": "C",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "E = 9GK/(3K + G), which is option D. The second pass picked option C, whose denominator 3K + 2G is a different elastic relation; substituting G = 3K/2 makes only D satisfy the standard identity E = 2G(1 + nu)."
+    },
+    "88": {
+     "secondPass": "A",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Volumetric strain of a thin closed cylinder is pD(5 - 4nu)/(4tE), which is option C; the second pass used the (2 - nu) open-cylinder form in option A."
+    },
+    "93": {
+     "secondPass": "D",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "For equal cross-sectional area the square section has the larger second moment about its bending axis (1.18x the circle), so the square beam is stronger, option C."
+    },
+    "95": {
+     "secondPass": "D",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "A mid-span load gives end slope W a^2/(2EI) with a = L/2, i.e. W L^2/(8EI), option C."
+    },
+    "96": {
+     "secondPass": "C",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "E2/E1 = L^2 A/(3I). For a 4 cm square section, A = a^2 and I = a^4/12, so the ratio is 12 L^2/(3 a^2) = 12/(3 x 0.0016) = 2500, which is option D. The second pass answered 1000, a value that follows only from a different section assumption."
+    },
+    "97": {
+     "secondPass": "B",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Most conservative first: maximum principal stress, maximum shear, total strain energy, distortion energy, option A."
+    }
+   }
+  },
+  "2019": {
+   "solved": 79,
+   "reAnswered": 79,
+   "disagreements": 16,
+   "adjudication": {
+    "3": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "alpha = 2 beta, verified on three numeric triples with the ratio exactly 2.000000 each time."
+    },
+    "11": {
+     "secondPass": "A",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "x = (y-1) + e^-y with x(0) = 0 gives alpha = x(1) = e^-1, option C."
+    },
+    "17": {
+     "secondPass": "B",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "Simpson with h = 1: (1/3)(1 + 32 + 4(2+8) + 2(4)) = 65/3, option D."
+    },
+    "20": {
+     "secondPass": "C",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "(1 + delta)(1 - nabla) is the identity operator, so it returns the sequence unchanged, option B."
+    },
+    "34": {
+     "secondPass": "D",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Indian 230 V convention: phase red, neutral black, option C. Flagged in OPEN-DOUBTS B2 as convention-dependent."
+    },
+    "44": {
+     "secondPass": "B",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Option C is the standard definition of context switching."
+    },
+    "56": {
+     "secondPass": "C",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "An audit covers monitoring, safety provisions and regulatory scrutiny; storing toxic chemicals is an operating activity, option B."
+    },
+    "58": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "Stability requires the dry adiabatic lapse rate to exceed the ambient lapse rate, option B. The second pass chose option A (equality), which describes the neutral case, not a stable one."
+    },
+    "71": {
+     "secondPass": "C",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "With level unloaded arms the true weight is the geometric mean sqrt(W1 W2), option B."
+    },
+    "72": {
+     "secondPass": "B",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "W = 2^n P - (2^n - 1)w = 400 - 35 = 365 N, option C."
+    },
+    "80": {
+     "secondPass": "C",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "Projectile speed is least at the apex, half the range, option B."
+    },
+    "82": {
+     "secondPass": "C",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Polar second moment is A^2/(2pi) for the circle and A^2/6 for the square: ratio 3/pi, option A."
+    },
+    "83": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "Each impact scales relative speed by e, so the same arc is retraced in t/e, option B."
+    },
+    "88": {
+     "secondPass": "D",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "sigma_h = 2 sigma with zero radial stress at the outer surface gives in-plane maximum shear sigma, option C."
+    },
+    "99": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "sigma_x = sigma_y with no shear is isotropic, so every direction carries sigma_0, option B."
+    },
+    "100": {
+     "secondPass": "A",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "Same maximum shear stress gives strain energy 16 parts solid to 15 hollow, option D."
+    }
+   }
+  },
+  "2021": {
+   "solved": 76,
+   "reAnswered": 76,
+   "disagreements": 10,
+   "adjudication": {
+    "5": {
+     "secondPass": "C",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "Sum of i.(j x k) over cyclic permutations is 3, so option B is the untrue statement."
+    },
+    "9": {
+     "secondPass": "A",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "Bisection halves the bracket, so the error is at most (b-a)/2^n, option D."
+    },
+    "24": {
+     "secondPass": "C",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "At 50 Hz the same voltage needs more flux, so the core saturates slightly and efficiency falls marginally, option D."
+    },
+    "27": {
+     "secondPass": "C",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "The rotor follows the field because induced current opposes relative motion: Lenz's law, option B."
+    },
+    "30": {
+     "secondPass": "B",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "Flux does not flow as current does, so option D is the false claim."
+    },
+    "31": {
+     "secondPass": "D",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "The three-point starter is for shunt motors, option B."
+    },
+    "36": {
+     "secondPass": "B",
+     "recorded": "A",
+     "verdict": "recorded-stands",
+     "note": "Closure of AC is only AC, so AC is not a candidate key, option A."
+    },
+    "41": {
+     "secondPass": "A",
+     "recorded": "B",
+     "verdict": "recorded-stands",
+     "note": "Infix to postfix needs one operator stack, option B. Flagged in OPEN-DOUBTS B1: option A's two-stack reading is also defensible."
+    },
+    "50": {
+     "secondPass": "C",
+     "recorded": "D",
+     "verdict": "recorded-stands",
+     "note": "printf with %d on a pointer prints the pointer value, i.e. an address, option D. Flagged in OPEN-DOUBTS B3: expected behaviour, not guaranteed."
+    },
+    "59": {
+     "secondPass": "A",
+     "recorded": "C",
+     "verdict": "recorded-stands",
+     "note": "Symmetric N2 and O2 develop no changing dipole moment in vibration, option C."
+    }
+   }
+  }
+ }
+}

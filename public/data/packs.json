@@ -10,15 +10,15 @@
       "files": [
         {
           "path": "index.html",
-          "bytes": 11847
+          "bytes": 11840
         },
         {
           "path": "practice/index.html",
-          "bytes": 16302
+          "bytes": 16303
         },
         {
           "path": "library/index.html",
-          "bytes": 11423
+          "bytes": 11368
         },
         {
           "path": "search/index.html",
@@ -30,7 +30,7 @@
         },
         {
           "path": "workspace/index.html",
-          "bytes": 128898
+          "bytes": 129214
         },
         {
           "path": "manifest.webmanifest",
@@ -42,11 +42,11 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 439267
+          "bytes": 441627
         },
         {
           "path": "practice/jelet-et-p1-2025/index.html",
-          "bytes": 726657
+          "bytes": 733940
         },
         {
           "path": "practice/jelet-et-p1-2025/mathematics/index.html",
@@ -54,7 +54,7 @@
         },
         {
           "path": "practice/jelet-et-p1-2025/physics/index.html",
-          "bytes": 205605
+          "bytes": 212888
         },
         {
           "path": "practice/jelet-et-p1-2025/chemistry/index.html",
@@ -66,15 +66,15 @@
         },
         {
           "path": "practice/jelet-et-p1-2025/print/index.html",
-          "bytes": 96083
+          "bytes": 97118
         },
         {
           "path": "practice/jelet-et-p1-2025/reconciliation/index.html",
-          "bytes": 55643
+          "bytes": 56678
         },
         {
           "path": "library/jelet-et-p1-2025/index.html",
-          "bytes": 695980
+          "bytes": 775070
         },
         {
           "path": "data/keys.json",
@@ -261,7 +261,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3392197,
+      "bytes": 3490538,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -273,15 +273,15 @@
       "files": [
         {
           "path": "index.html",
-          "bytes": 11847
+          "bytes": 11840
         },
         {
           "path": "practice/index.html",
-          "bytes": 16302
+          "bytes": 16303
         },
         {
           "path": "library/index.html",
-          "bytes": 11423
+          "bytes": 11368
         },
         {
           "path": "search/index.html",
@@ -293,7 +293,7 @@
         },
         {
           "path": "workspace/index.html",
-          "bytes": 128898
+          "bytes": 129214
         },
         {
           "path": "manifest.webmanifest",
@@ -305,7 +305,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 439267
+          "bytes": 441627
         },
         {
           "path": "practice/jelet-et-p1-2023/index.html",
@@ -337,7 +337,7 @@
         },
         {
           "path": "library/jelet-et-p1-2023/index.html",
-          "bytes": 845278
+          "bytes": 846769
         },
         {
           "path": "data/keys.json",
@@ -568,7 +568,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3749996,
+      "bytes": 3754102,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -580,15 +580,15 @@
       "files": [
         {
           "path": "index.html",
-          "bytes": 11847
+          "bytes": 11840
         },
         {
           "path": "practice/index.html",
-          "bytes": 16302
+          "bytes": 16303
         },
         {
           "path": "library/index.html",
-          "bytes": 11423
+          "bytes": 11368
         },
         {
           "path": "search/index.html",
@@ -600,7 +600,7 @@
         },
         {
           "path": "workspace/index.html",
-          "bytes": 128898
+          "bytes": 129214
         },
         {
           "path": "manifest.webmanifest",
@@ -612,11 +612,11 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 439267
+          "bytes": 441627
         },
         {
           "path": "practice/jelet-et-p1-2024/index.html",
-          "bytes": 574108
+          "bytes": 587118
         },
         {
           "path": "practice/jelet-et-p1-2024/mathematics/index.html",
@@ -624,7 +624,7 @@
         },
         {
           "path": "practice/jelet-et-p1-2024/physics/index.html",
-          "bytes": 89655
+          "bytes": 102665
         },
         {
           "path": "practice/jelet-et-p1-2024/chemistry/index.html",
@@ -636,15 +636,15 @@
         },
         {
           "path": "practice/jelet-et-p1-2024/print/index.html",
-          "bytes": 93581
+          "bytes": 94745
         },
         {
           "path": "practice/jelet-et-p1-2024/reconciliation/index.html",
-          "bytes": 53629
+          "bytes": 54793
         },
         {
           "path": "library/jelet-et-p1-2024/index.html",
-          "bytes": 542762
+          "bytes": 635611
         },
         {
           "path": "data/keys.json",
@@ -831,7 +831,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 2929344,
+      "bytes": 3053156,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -843,15 +843,15 @@
       "files": [
         {
           "path": "index.html",
-          "bytes": 11847
+          "bytes": 11840
         },
         {
           "path": "practice/index.html",
-          "bytes": 16302
+          "bytes": 16303
         },
         {
           "path": "library/index.html",
-          "bytes": 11423
+          "bytes": 11368
         },
         {
           "path": "search/index.html",
@@ -863,7 +863,7 @@
         },
         {
           "path": "workspace/index.html",
-          "bytes": 128898
+          "bytes": 129214
         },
         {
           "path": "manifest.webmanifest",
@@ -875,19 +875,19 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 439267
+          "bytes": 441627
         },
         {
           "path": "practice/jelet-et-p1-2022/index.html",
-          "bytes": 773786
+          "bytes": 784066
         },
         {
           "path": "practice/jelet-et-p1-2022/mathematics/index.html",
-          "bytes": 405038
+          "bytes": 412208
         },
         {
           "path": "practice/jelet-et-p1-2022/physics/index.html",
-          "bytes": 211615
+          "bytes": 214725
         },
         {
           "path": "practice/jelet-et-p1-2022/chemistry/index.html",
@@ -899,15 +899,15 @@
         },
         {
           "path": "practice/jelet-et-p1-2022/print/index.html",
-          "bytes": 90876
+          "bytes": 91427
         },
         {
           "path": "practice/jelet-et-p1-2022/reconciliation/index.html",
-          "bytes": 53461
+          "bytes": 54012
         },
         {
           "path": "library/jelet-et-p1-2022/index.html",
-          "bytes": 726423
+          "bytes": 784685
         },
         {
           "path": "data/keys.json",
@@ -1094,7 +1094,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3509434,
+      "bytes": 3591973,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1106,15 +1106,15 @@
       "files": [
         {
           "path": "index.html",
-          "bytes": 11847
+          "bytes": 11840
         },
         {
           "path": "practice/index.html",
-          "bytes": 16302
+          "bytes": 16303
         },
         {
           "path": "library/index.html",
-          "bytes": 11423
+          "bytes": 11368
         },
         {
           "path": "search/index.html",
@@ -1126,7 +1126,7 @@
         },
         {
           "path": "workspace/index.html",
-          "bytes": 128898
+          "bytes": 129214
         },
         {
           "path": "manifest.webmanifest",
@@ -1138,7 +1138,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 439267
+          "bytes": 441627
         },
         {
           "path": "learn/parallel-circuits/index.html",
@@ -1329,7 +1329,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1047226,
+      "bytes": 1049841,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1341,15 +1341,15 @@
       "files": [
         {
           "path": "index.html",
-          "bytes": 11847
+          "bytes": 11840
         },
         {
           "path": "practice/index.html",
-          "bytes": 16302
+          "bytes": 16303
         },
         {
           "path": "library/index.html",
-          "bytes": 11423
+          "bytes": 11368
         },
         {
           "path": "search/index.html",
@@ -1361,7 +1361,7 @@
         },
         {
           "path": "workspace/index.html",
-          "bytes": 128898
+          "bytes": 129214
         },
         {
           "path": "manifest.webmanifest",
@@ -1373,7 +1373,7 @@
         },
         {
           "path": "search-index.json",
-          "bytes": 439267
+          "bytes": 441627
         },
         {
           "path": "mock/index.html",
@@ -1393,11 +1393,11 @@
         },
         {
           "path": "data/mock-pool/mathematics.json",
-          "bytes": 1724906
+          "bytes": 1732530
         },
         {
           "path": "data/mock-pool/physics.json",
-          "bytes": 715013
+          "bytes": 739626
         },
         {
           "path": "data/mock-pool/chemistry.json",
@@ -1588,7 +1588,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 4052581,
+      "bytes": 4087433,
       "offlineComplete": true,
       "onlineOnly": []
     }

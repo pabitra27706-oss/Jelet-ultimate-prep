@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 330" role="img" aria-labelledby="fig-2024-67-title fig-2024-67-desc" width="460" height="330">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 18, printed page 18, Q67. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: Perspective and surface hatching are simplified while contact, mass label and leftward acceleration are preserved. No force vector or friction condition is inferred. -->
+<title id="fig-2024-67-title">Block pressed against an accelerating rough vertical plate</title>
+<desc id="fig-2024-67-desc">A perspective drawing shows a vertical plate and a small block touching its front face. The block is labelled 1 kg. A horizontal arrow labelled a points left from near the plate, showing the plate acceleration direction.</desc>
+<defs><marker id="fig-2024-67-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<path d="M150 65L330 145V295L150 215ZM150 65l20 -15 180 80 -20 15M330 145l20 -15v150l-20 15" fill="none" stroke="currentColor" stroke-width="2"/><path d="M180 150l20 -12 28 15v30l-16 12 -32 -15ZM180 150l32 15 16 -12M212 165v30" fill="none" stroke="currentColor" stroke-width="2"/><text x="225" y="213">1 kg</text><line x1="180" y1="110" x2="105" y2="110" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-67-arrow)"/><text x="85" y="115">a</text>
+</g></svg>
