@@ -3,7 +3,7 @@
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 16, Papers
   library screen. **Built and agent-verified; owner visual review pending.**
   2026-11-21. Branch `arena/61a4f729-jelet-ultimate-prep` (branched from
-  `main` `475e817`), implementation commit `4d3fe09`. Owner is the reviewer;
+  `main` `475e817`), implementation commits `4d3fe09` and `d52cda6`. Owner is the reviewer;
   Phase 17 has **not** started.
 
 - **Inputs and pre-change evidence; reused/adapted/rejected reference and
@@ -71,7 +71,7 @@
 
 - **CI run, build size, published URL and browser/device:** the branch's
   `pilot` job passed on pull request #14
-  (`actions/runs/44944756446`, 1 m 42 s). Nothing is deployed or merged by this
+  (`actions/runs/44947087178`, 1 m 15 s, on `d52cda6`). Nothing is deployed or merged by this
   phase; the published site still serves the Phase 14 build until the owner
   merges, and pushing this branch runs no Pages workflow. Build size:
   26,660 KB of packs, `dist/` ≈ 18 MB. Browser: headless Chromium 153.0.8010.0;
