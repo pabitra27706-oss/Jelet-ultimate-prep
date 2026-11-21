@@ -1,6 +1,6 @@
 # Phase 14 — shared UI foundation
 
-**Status:** planned before the per-image screen phases. The owner explicitly requested one shared, reusable foundation phase first, followed by one independently reviewable phase for each of the seven supplied images. Existing teal tokens and the in-progress Today prototype are exploratory inputs, not evidence that this phase or any screen is complete.
+**Status:** **built and agent-verified on 2026-11-21; awaiting the owner's visual review.** The shared tokens, typed icon set, app shell, five-destination navigation, shared controls and the working local-only `/you/` hub are in place. Evidence: [Phase 14 record](2026-11-21-phase-14-foundation.md) and [implementation notes](IMPLEMENTATION-NOTES.md). Screenshots: [`screenshots/`](screenshots/). The seven screen phases have not started; Phase 15 is the next step only after this foundation is accepted.
 
 ## Owner intent
 

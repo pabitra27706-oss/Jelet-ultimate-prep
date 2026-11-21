@@ -1,5 +1,17 @@
 ---
+/**
+ * The shared app shell.
+ *
+ * One header, one five-destination navigation and one footer are used by
+ * every route. The five global destinations are Today, Learn, Practice,
+ * Papers and You; Review, Plan, Search, Syllabus, Offline, Coverage,
+ * Workspace and the revision notes stay reachable from the footer, from the
+ * pages that own them and from the You hub. No route was removed.
+ */
 import '../styles/site.css';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../lib/icons';
+
 const {
   title,
   active = '',
@@ -7,24 +19,44 @@ const {
   description = 'Free, independent JELET Paper I preparation: previous-year papers with board answer keys, timed practice, marking rules and spaced revision.',
 } = Astro.props as {
   title: string;
-  active?: 'today' | 'learn' | 'practice' | 'library' | 'review' | 'search' | 'workspace' | 'syllabus' | 'offline' | 'coverage' | '';
+  active?:
+    | 'today'
+    | 'learn'
+    | 'practice'
+    | 'library'
+    | 'you'
+    | 'review'
+    | 'search'
+    | 'workspace'
+    | 'syllabus'
+    | 'offline'
+    | 'coverage'
+    | '';
   canonical?: string;
   description?: string;
 };
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const nav = [
-  { key: 'today', label: 'Today', href: base },
-  { key: 'learn', label: 'Learn', href: `${base}learn/` },
-  { key: 'practice', label: 'Practice', href: `${base}practice/` },
-  { key: 'library', label: 'Papers', href: `${base}library/` },
-  { key: 'review', label: 'Review', href: `${base}review/` },
+
+/** The five global destinations, in the order the references show them. */
+const primary: { key: string; label: string; icon: IconName; href: string }[] = [
+  { key: 'today', label: 'Today', icon: 'home', href: base },
+  { key: 'learn', label: 'Learn', icon: 'book', href: `${base}learn/` },
+  { key: 'practice', label: 'Practice', icon: 'target', href: `${base}practice/` },
+  { key: 'library', label: 'Papers', icon: 'papers', href: `${base}library/` },
+  { key: 'you', label: 'You', icon: 'user', href: `${base}you/` },
 ];
-const tabs = [
-  { key: 'today', label: 'Today', icon: '◎', href: base },
-  { key: 'learn', label: 'Learn', icon: '◍', href: `${base}learn/` },
-  { key: 'practice', label: 'Practice', icon: '✎', href: `${base}practice/` },
-  { key: 'library', label: 'Papers', icon: '☰', href: `${base}library/` },
-  { key: 'review', label: 'Review', icon: '↻', href: `${base}review/` },
+
+/** Routes that kept their addresses but are no longer primary tabs. */
+const secondary: { label: string; href: string }[] = [
+  { label: 'Review', href: `${base}review/` },
+  { label: 'Plan', href: `${base}plan/` },
+  { label: 'Search', href: `${base}search/` },
+  { label: 'Syllabus', href: `${base}syllabus/` },
+  { label: 'Offline packs', href: `${base}offline/` },
+  { label: 'Coverage', href: `${base}coverage/` },
+  { label: 'Workspace', href: `${base}workspace/` },
+  { label: 'Revision notes', href: `${base}notes/mathematics/` },
 ];
 ---
 <!doctype html>
@@ -33,7 +65,8 @@ const tabs = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#087e78" />
+    <meta name="theme-color" content="#087e78" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101a1a" media="(prefers-color-scheme: dark)" />
     <link rel="manifest" href={`${base}manifest.webmanifest`} />
     <link rel="icon" href={`${base}icon.svg`} type="image/svg+xml" />
     <link rel="stylesheet" href={`${base}vendor/katex/katex.min.css`} />
@@ -45,9 +78,12 @@ const tabs = [
         try {
           const stored = localStorage.getItem('jelet:theme');
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (stored === 'dark' || stored === 'light') document.documentElement.dataset.theme = stored;
-          else if (prefersDark) document.documentElement.dataset.theme = 'dark';
-        } catch { /* storage blocked: keep the default light theme */ }
+          document.documentElement.dataset.theme = stored === 'dark' || stored === 'light'
+            ? stored
+            : (prefersDark ? 'dark' : 'light');
+        } catch { /* storage blocked: match the device instead */
+          try { document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch { /* default light */ }
+        }
       })();
     </script>
   </head>
@@ -55,12 +91,37 @@ const tabs = [
     <a class="skip" href="#main">Skip to content</a>
     <header class="appbar">
       <div class="wrap appbar-inner">
-        <a href={base} class="brand"><span aria-hidden="true" class="mark">J</span><span>JELET <small>Ultimate Prep</small></span></a>
+        <a href={base} class="brand" aria-label="JELET Ultimate Prep — Today">
+          <span aria-hidden="true" class="mark">J</span>
+          <span class="brand-text">JELET <small>Ultimate Prep</small></span>
+        </a>
         <nav class="appnav" aria-label="Main">
-          {nav.map((item) => <a href={item.href} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
-          <a href={`${base}search/`} aria-current={active === 'search' ? 'page' : undefined}>Search</a>
+          {primary.map((item) => (
+            <a
+              href={item.href}
+              class="appnav-link"
+              aria-label={item.label}
+              aria-current={active === item.key ? 'page' : undefined}
+            >
+              <Icon name={item.icon} size="sm" />
+              <span class="appnav-label">{item.label}</span>
+            </a>
+          ))}
         </nav>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark"><span data-theme-icon aria-hidden="true">☾</span></button>
+        <div class="appbar-tools">
+          <a
+            class="iconbtn"
+            href={`${base}search/`}
+            aria-label="Search questions and pages"
+            aria-current={active === 'search' ? 'page' : undefined}
+          >
+            <Icon name="search" size="md" />
+          </a>
+          <button class="iconbtn theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme">
+            <span class="theme-icon" data-theme-icon="moon"><Icon name="moon" size="md" /></span>
+            <span class="theme-icon" data-theme-icon="sun"><Icon name="sun" size="md" /></span>
+          </button>
+        </div>
       </div>
     </header>
     <main class:list={['wrap', 'main']} id="main" tabindex="-1">
@@ -79,41 +140,33 @@ const tabs = [
       )}
       <slot />
     </main>
-    <footer>
+    <footer class="site-footer">
       <div class="wrap footer-inner">
-        <div>
-          <strong>JELET Ultimate Prep</strong> · Independent study site · Not affiliated with WBJEEB
-          <div class="micro">
-            <a href={`${base}workspace/`}>Workspace</a> · <a href={`${base}search/`}>Search</a> ·
-            <a href={`${base}syllabus/`}>Syllabus</a> · <a href={`${base}library/`}>Paper library</a> ·
-            <a href={`${base}coverage/`}>Coverage</a> · <a href={`${base}notes/mathematics/`}>Revision notes</a>
-          </div>
+        <div class="footer-brand">
+          <strong>JELET Ultimate Prep</strong>
+          <span class="micro">Independent study site · Not affiliated with WBJEEB</span>
         </div>
-        <div class="micro">Your answers, bookmarks and notes stay in this browser. No account, no upload.</div>
+        <nav class="footer-nav" aria-label="More destinations">
+          {secondary.map((item) => <a href={item.href}>{item.label}</a>)}
+          <a href={`${base}you/`} aria-current={active === 'you' ? 'page' : undefined}>You</a>
+        </nav>
+        <p class="micro footer-privacy">
+          Your answers, bookmarks and notes stay in this browser. No account, no upload.
+        </p>
       </div>
     </footer>
     <nav class="tabbar" aria-label="Main">
-      {tabs.map((tab) => (
+      {primary.map((tab) => (
         <a href={tab.href} aria-current={active === tab.key ? 'page' : undefined}>
-          <span aria-hidden="true">{tab.icon}</span><span>{tab.label}</span>
+          <span class="tab-icon"><Icon name={tab.icon} size="md" /></span>
+          <span class="tab-label">{tab.label}</span>
         </a>
       ))}
     </nav>
     <script>
-      const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
-      const themeIcon = toggle?.querySelector<HTMLElement>('[data-theme-icon]');
-      const currentTheme = document.documentElement.dataset.theme
-        ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      const showNextTheme = (theme: string) => { if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☀' : '☾'; };
-      showNextTheme(currentTheme);
-      toggle?.addEventListener('click', () => {
-        const current = document.documentElement.dataset.theme
-          ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.documentElement.dataset.theme = next;
-        showNextTheme(next);
-        try { localStorage.setItem('jelet:theme', next); } catch { /* storage blocked: the choice lasts this page only */ }
-      });
+      import { initTheme } from '../lib/theme';
+
+      initTheme();
 
       // Offline support. The worker only caches this site's own files.
       if ('serviceWorker' in navigator) {

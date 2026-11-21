@@ -51,8 +51,37 @@
   --wrap: 76rem;
   --gap: clamp(.7rem, 2vw, 1.1rem);
   --tap: 44px;
+  --tap-lg: 48px;
   --font: 100%/1.62 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-math: "KaTeX_Main", "Times New Roman", serif;
+
+  /* ---------- shared foundation tokens (Phase 14) ----------
+     The palette above is the semantic layer every existing page already
+     reads. These add the shape, space and elevation scales the shared shell
+     and controls use, so a card, a row and a tab line up on one grid. */
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --text-xs: .75rem;
+  --text-sm: .86rem;
+  --text-base: 1rem;
+  --text-md: 1.15rem;
+  --text-lg: clamp(1.3rem, 3vw, 1.75rem);
+  --text-xl: clamp(1.7rem, 5vw, 2.5rem);
+  --display: clamp(2rem, 6.4vw, 3.8rem);
+  --radius-pill: 999px;
+  --radius-xs: 8px;
+  --shadow-sm: 0 1px 2px rgba(25, 49, 50, .06);
+  --icon-stroke: 1.75;
+  --shell-h: 4rem;
+  --tabbar-h: 4.15rem;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --z-header: 30;
+  --z-tabbar: 40;
+  --z-toast: 60;
 }
 
 html[data-theme="dark"] {
@@ -140,25 +169,117 @@ ul, ol { padding-left: 1.3rem; }
 .skip:focus { transform: none; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* ---------- app bar ---------- */
-.appbar { background: var(--card); background: color-mix(in srgb, var(--card) 90%, transparent); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-.appbar-inner { display: flex; align-items: center; justify-content: space-between; gap: .8rem; min-height: 4rem; }
-.brand { display: inline-flex; align-items: center; gap: .7rem; font-weight: 850; text-decoration: none; color: var(--ink); line-height: 1.1; }
+/* ---------- app bar ----------
+   The shell is one header on every route: the brand, the five global
+   destinations and two icon controls. Below the phone breakpoint the five
+   destinations move to the bottom bar and the header keeps the brand and
+   the controls. */
+.appbar { background: var(--card); background: color-mix(in srgb, var(--card) 92%, transparent); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: var(--z-header); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.appbar-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: var(--shell-h); }
+.brand { display: inline-flex; align-items: center; gap: .7rem; font-weight: 850; text-decoration: none; color: var(--ink); line-height: 1.1; min-width: 0; }
+.brand-text { min-width: 0; }
 .brand small { display: block; font-size: .68rem; color: var(--muted); font-weight: 650; letter-spacing: .06em; }
 .mark { display: grid; place-items: center; width: 2.45rem; height: 2.45rem; border-radius: 14px; background: linear-gradient(145deg, var(--teal), var(--teal-2)); color: var(--button-ink); font-weight: 900; flex: none; box-shadow: var(--shadow); }
-.appnav { display: flex; gap: .25rem; }
-.appnav a { display: inline-flex; align-items: center; min-height: var(--tap); padding: .45rem .85rem; border-radius: 999px; text-decoration: none; color: var(--ink-2); font-weight: 700; font-size: .92rem; transition: background .18s var(--ease), color .18s var(--ease), transform .18s var(--ease); }
-.appnav a:hover { background: var(--paper-2); color: var(--ink); }
-.appnav a[aria-current="page"] { background: var(--teal-soft); color: var(--teal); }
-.theme-toggle { border: 1px solid var(--line); background: var(--card); color: var(--ink-2); border-radius: 14px; min-width: 46px; min-height: 46px; cursor: pointer; font-size: 1.3rem; line-height: 1; transition: transform .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease); }
-.theme-toggle:hover { transform: translateY(-2px); border-color: var(--teal); background: var(--teal-soft); }
+.appnav { display: flex; gap: .15rem; }
+.appnav-link { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; min-height: var(--tap); min-width: var(--tap); padding: .4rem .65rem; border-radius: var(--radius-pill); text-decoration: none; color: var(--ink-2); font-weight: 700; font-size: .92rem; transition: background .18s var(--ease), color .18s var(--ease); }
+.appnav-link .icon { color: currentColor; }
+.appnav-link:hover { background: var(--paper-2); color: var(--ink); }
+.appnav-link[aria-current="page"] { background: var(--teal-soft); color: var(--teal); }
+.appnav-label { display: none; }
+.appbar-tools { display: flex; align-items: center; gap: var(--space-2); flex: none; }
+
+/* ---------- icon-only controls ----------
+   An icon-only button or link always carries its own accessible name; the
+   glyph inside is hidden from assistive technology. */
+.icon { flex: none; display: inline-block; vertical-align: middle; }
+.iconbtn { display: inline-grid; place-items: center; min-width: var(--tap); min-height: var(--tap); padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink-2); cursor: pointer; text-decoration: none; transition: transform .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease); }
+.iconbtn:hover { transform: translateY(-1px); border-color: var(--teal); background: var(--teal-soft); color: var(--teal); }
+.iconbtn[aria-current="page"] { border-color: var(--teal); background: var(--teal-soft); color: var(--teal); }
+.theme-toggle { cursor: pointer; }
+.theme-icon { display: inline-grid; place-items: center; }
+.theme-icon[data-theme-icon="sun"] { display: none; }
+html[data-theme="dark"] .theme-icon[data-theme-icon="sun"] { display: inline-grid; }
+html[data-theme="dark"] .theme-icon[data-theme-icon="moon"] { display: none; }
 
 /* ---------- bottom tab bar (mobile) ---------- */
-.tabbar { position: fixed; inset: auto 0 0 0; z-index: 40; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100vw; max-width: 100vw; background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
-.tabbar a { display: grid; justify-items: center; gap: .1rem; margin: .25rem .1rem; padding: .45rem .15rem .5rem; border-radius: 14px; text-decoration: none; color: var(--muted); font-size: .68rem; font-weight: 750; min-height: var(--tap); min-width: 0; overflow: hidden; transition: color .16s var(--ease), background .16s var(--ease); }
-.tabbar a span { min-width: 0; max-width: 100%; overflow-wrap: anywhere; text-align: center; }
-.tabbar a span:first-child { font-size: 1.2rem; line-height: 1; }
+.tabbar { position: fixed; inset: auto 0 0 0; z-index: var(--z-tabbar); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; max-width: 100%; background: var(--card); border-top: 1px solid var(--line); padding-bottom: var(--safe-bottom); box-shadow: 0 -8px 24px -18px rgba(19, 69, 68, .35); }
+.tabbar a { display: grid; justify-items: center; align-content: center; gap: .15rem; margin: .3rem .15rem; padding: .35rem .15rem .4rem; border-radius: 14px; text-decoration: none; color: var(--muted); font-size: .68rem; font-weight: 750; min-height: var(--tap); min-width: 0; overflow: hidden; transition: color .16s var(--ease), background .16s var(--ease); }
+.tabbar a:hover { color: var(--ink-2); background: var(--paper-2); }
 .tabbar a[aria-current="page"] { color: var(--teal); background: var(--teal-soft); }
+.tab-icon { display: grid; place-items: center; line-height: 1; }
+.tab-label { min-width: 0; max-width: 100%; overflow-wrap: anywhere; text-align: center; letter-spacing: .01em; }
+
+/* ---------- shared page head ---------- */
+.page-head { margin-bottom: var(--space-5); }
+.page-head h1 { font-size: var(--text-xl); margin: 0 0 var(--space-2); }
+.page-head .lead { margin: 0; }
+
+/* ---------- shared rows, tiles and cards ----------
+   A row list groups related destinations with one hairline between them; a
+   tile is a large tappable destination with an icon, a title and one line of
+   honest supporting text. */
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(.9rem, 2.4vw, 1.35rem); box-shadow: var(--shadow); }
+.panel > h2 { font-size: var(--text-md); margin: 0 0 var(--space-3); }
+.rowlist { list-style: none; margin: 0; padding: 0; display: grid; }
+/* Rows wrap rather than push the page wider when the text is enlarged: the
+   label column is allowed to take the next line before any control does. */
+.rowlist-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); min-height: 60px; padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.rowlist-row:first-child { border-top: 0; }
+.rowlist-row > a.rowlist-link { display: flex; align-items: center; gap: var(--space-3); flex: 1 1 auto; min-width: 0; min-height: var(--tap); color: var(--ink); text-decoration: none; font-weight: 700; }
+.rowlist-row > a.rowlist-link:hover { color: var(--teal); }
+.rowlist-icon { display: grid; place-items: center; flex: none; width: 2.4rem; height: 2.4rem; border-radius: 13px; background: var(--teal-soft); color: var(--teal); }
+.rowlist-copy { min-width: 0; flex: 1 1 10rem; }
+.rowlist-copy strong, .rowlist-copy small { display: block; overflow-wrap: anywhere; }
+.rowlist-copy small { margin-top: .15rem; color: var(--muted); font-size: var(--text-sm); font-weight: 500; }
+.rowlist-chevron { flex: none; color: var(--muted); margin-left: auto; }
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: var(--gap); }
+.action-tile { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); min-height: 76px; padding: var(--space-3) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--ink); text-decoration: none; box-shadow: var(--shadow); transition: border-color .18s var(--ease), transform .18s var(--ease), box-shadow .18s var(--ease); }
+.action-tile:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.action-tile-icon { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 14px; background: var(--teal-soft); color: var(--teal); }
+.action-tile-copy { min-width: 0; }
+.action-tile-copy strong, .action-tile-copy small { display: block; overflow-wrap: anywhere; }
+.action-tile-copy small { margin-top: .15rem; color: var(--muted); font-size: var(--text-sm); }
+.action-tile-value { font-size: 1.5rem; font-weight: 850; line-height: 1; color: var(--teal); font-variant-numeric: tabular-nums; }
+.action-tile-chevron { color: var(--muted); }
+
+/* A disclosure that is also a panel: the summary is a full-width row, so the
+   whole row is the target and the marker is drawn by the chevron icon. */
+details.panel { padding: 0; }
+details.panel > summary { display: flex; align-items: center; gap: var(--space-3); min-height: 64px; padding: var(--space-3) clamp(.9rem, 2.4vw, 1.35rem); color: var(--ink); border: 0; list-style: none; }
+details.panel > summary::-webkit-details-marker { display: none; }
+details.panel > summary::marker { content: ''; }
+details.panel > summary:hover { background: var(--paper-2); }
+details.panel > summary .rowlist-copy strong { color: var(--ink); }
+details.panel[open] > summary { border-bottom: 1px solid var(--line); }
+details.panel > .details-body { padding: var(--space-3) clamp(.9rem, 2.4vw, 1.35rem) var(--space-4); }
+
+/* ---------- compact privacy and source notes ---------- */
+.privacy-note { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start; padding: clamp(1rem, 2.6vw, 1.35rem); border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(135deg, var(--teal-soft), var(--card)); color: var(--ink); }
+.privacy-note > * { min-width: 0; }
+.privacy-note h2, .privacy-note p { overflow-wrap: anywhere; }
+.privacy-note-icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--card); color: var(--teal); border: 1px solid var(--line); }
+.privacy-note h2 { font-size: var(--text-md); margin: 0 0 var(--space-1); }
+.privacy-note p { margin: 0; color: var(--ink-2); font-size: var(--text-sm); }
+.source-note { border-left: 4px solid var(--line-2); padding: .15rem 0 .15rem var(--space-3); color: var(--muted); font-size: var(--text-sm); }
+.status-badge { gap: .3rem; }
+.status-badge .icon { width: 14px; height: 14px; }
+
+/* ---------- switch ----------
+   A labelled switch for a preference that really exists. The state is in the
+   text and in aria-checked, not only in the thumb position. */
+.switch { display: inline-flex; align-items: center; gap: var(--space-2); flex: none; margin-left: auto; min-height: var(--tap); padding: .2rem .25rem; border: 0; background: transparent; color: var(--ink-2); font: inherit; font-size: var(--text-sm); font-weight: 700; cursor: pointer; }
+.switch-track { position: relative; display: inline-block; width: 3.1rem; height: 1.8rem; border-radius: var(--radius-pill); background: var(--line-2); transition: background .18s var(--ease); }
+.switch-thumb { position: absolute; top: .18rem; left: .18rem; width: 1.44rem; height: 1.44rem; border-radius: 50%; background: var(--card); box-shadow: var(--shadow-sm); transition: transform .18s var(--ease); }
+.switch[aria-checked="true"] .switch-track { background: var(--teal); }
+.switch[aria-checked="true"] .switch-thumb { transform: translateX(1.3rem); }
+.switch-state { min-width: 2ch; text-align: left; }
+
+/* ---------- empty state card ---------- */
+.empty-state-card { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: 1px dashed var(--line-2); border-radius: var(--radius-sm); background: var(--card); color: var(--ink-2); }
+.empty-state-icon { display: grid; place-items: center; flex: none; width: 2.3rem; height: 2.3rem; border-radius: 12px; background: var(--paper-2); color: var(--muted); }
+.empty-state-copy { flex: 1 1 12rem; min-width: 0; }
+.empty-state-copy strong, .empty-state-copy small { display: block; overflow-wrap: anywhere; }
+.empty-state-copy small { margin-top: .1rem; color: var(--muted); font-size: var(--text-sm); }
 
 /* ---------- cards + surfaces ---------- */
 .card { background: var(--card); background: linear-gradient(150deg, var(--card), color-mix(in srgb, var(--teal-soft) 18%, var(--card))); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1rem, 2.6vw, 1.5rem); box-shadow: var(--shadow); }
@@ -613,8 +734,16 @@ html[data-theme="dark"] .btn.amber { color: var(--ink); }
 .crumbs { display: flex; flex-wrap: wrap; gap: .35rem; font-size: .85rem; color: var(--muted); margin-bottom: .8rem; }
 .crumbs a { color: var(--ink-2); }
 
-footer { border-top: 1px solid var(--line); background: var(--card); color: var(--muted); font-size: .85rem; margin-top: 2rem; }
-.footer-inner { min-height: 4.2rem; display: flex; flex-direction: column; gap: .25rem; justify-content: center; padding-block: 1rem; }
+footer.site-footer { border-top: 1px solid var(--line); background: var(--card); color: var(--muted); font-size: .85rem; margin-top: var(--space-6); }
+.footer-inner { display: flex; flex-direction: column; gap: var(--space-2); padding-block: var(--space-4) calc(var(--space-4) + var(--safe-bottom)); }
+.footer-brand { display: flex; flex-wrap: wrap; gap: .2rem .5rem; align-items: baseline; min-width: 0; }
+.footer-brand strong { color: var(--ink); }
+.footer-brand .micro { margin: 0; }
+.footer-nav { display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
+.footer-nav a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--ink-2); font-weight: 650; text-decoration: none; }
+.footer-nav a:hover { color: var(--teal); text-decoration: underline; }
+.footer-nav a[aria-current="page"] { color: var(--teal); }
+.footer-privacy { margin: 0; max-width: 46ch; }
 
 .toast { position: fixed; left: 50%; bottom: 5.2rem; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: .6rem .9rem; border-radius: 999px; font-size: .86rem; font-weight: 650; box-shadow: var(--shadow-lg); z-index: 60; max-width: 90vw; text-align: center; }
 
@@ -626,16 +755,29 @@ footer { border-top: 1px solid var(--line); background: var(--card); color: var(
 @media (min-width: 46rem) {
   .runner { grid-template-columns: minmax(0, 1fr) 17rem; }
   .runner-side { position: sticky; top: 4.6rem; }
-  .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; }
   .filters { grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr)); align-items: end; }
   .stat-grid.today-stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .today-subject-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
+@media (min-width: 46rem) {
+  .footer-inner { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: var(--space-5); }
+  .footer-brand { flex: 1 1 14rem; }
+  .footer-nav { flex: 1 1 auto; justify-content: center; }
+  .footer-privacy { flex: 1 1 100%; max-width: none; }
+}
+
+/* The bottom bar is the phone navigation. It is removed from the document
+   flow above the phone breakpoint, where the header carries all five. */
+@media (min-width: 62rem) {
+  .appnav-label { display: inline; }
+  .appnav-link { padding-inline: .8rem; }
+}
+
 @media (max-width: 45.99rem) {
   .appnav { display: none; }
   .tabbar { display: grid; }
-  body { padding-bottom: 4.4rem; }
+  body { padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom)); }
   .today-hero { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
   .today-hero-copy h1 { max-width: none; font-size: clamp(1.25rem, 4.8vw, 1.55rem); line-height: 1.2; }
   .today-subjects { font-size: .9rem; }

@@ -1,0 +1,41 @@
+---
+/**
+ * One icon from the shared set.
+ *
+ * The icon is decorative by default: it is hidden from assistive technology
+ * and takes its colour from the surrounding text. Pass `label` only when the
+ * icon carries meaning that is not already in text, and remember that an
+ * icon-only button still needs its own accessible name.
+ */
+import { ICONS, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: 'sm' | 'md' | 'lg' | number;
+  /** Optional accessible name. Omit for decorative icons. */
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 'md', label, class: className } = Astro.props;
+const pixels = typeof size === 'number' ? size : { sm: 16, md: 20, lg: 24 }[size];
+const geometry = ICONS[name];
+---
+<svg
+  class:list={['icon', className]}
+  width={pixels}
+  height={pixels}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  focusable="false"
+  role={label ? 'img' : undefined}
+  aria-hidden={label ? undefined : 'true'}
+  aria-label={label}
+>
+  {label && <title>{label}</title>}
+  <Fragment set:html={geometry} />
+</svg>

@@ -65,6 +65,7 @@ test('built artifact contains only the published routes and vendored assets', as
   assert(files.includes('practice/jelet-et-p1-2025/index.html'));
   assert(files.includes('library/jelet-et-p1-2025/index.html'));
   assert(files.includes('review/index.html'));
+  assert(files.includes('you/index.html'));
   assert(files.includes('syllabus/index.html'));
   assert(files.includes('cards/orig-parallel-independent-v1/index.html'));
   assert(!files.some((file) => file.startsWith('archive/')));
@@ -883,7 +884,7 @@ test('workspace saves a bookmark, note and resume, then survives reload', async 
 
 test('320px viewport and 200% text: no page-wide overflow on any route', async (t) => {
   const page = await context(t, { viewport: { width: 320, height: 700 } });
-  for (const path of ['', 'learn/', chapter + '#revision-sheet', 'practice/', `library/${paper2025}/`, `practice/${paper2025}/`, 'review/', 'syllabus/', 'search/', card]) {
+  for (const path of ['', 'you/', 'learn/', chapter + '#revision-sheet', 'practice/', `library/${paper2025}/`, `practice/${paper2025}/`, 'review/', 'syllabus/', 'search/', card]) {
     assert.equal((await go(page, path)).status(), 200);
     await page.addStyleTag({ content: ':root { font-size: 200% !important; }' });
     const width = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
@@ -895,15 +896,17 @@ test('the theme toggle switches the palette and remembers the choice', async (t)
   const page = await context(t);
   await go(page);
   const before = await page.evaluate(() => document.documentElement.dataset.theme ?? 'light');
-  const beforeIcon = await page.locator('[data-theme-icon]').textContent();
-  assert.equal(beforeIcon, before === 'dark' ? '☀' : '☾');
+  const beforeLabel = await page.locator('[data-theme-toggle]').getAttribute('aria-label');
+  assert.equal(beforeLabel, before === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  assert.equal(await page.locator('[data-theme-icon="sun"]').isVisible(), before === 'dark', 'the icon shows the theme the button switches to');
   await page.locator('[data-theme-toggle]').click();
   const after = await page.evaluate(() => document.documentElement.dataset.theme ?? 'light');
   assert.notEqual(before, after);
-  assert.equal(await page.locator('[data-theme-icon]').textContent(), after === 'dark' ? '☀' : '☾');
+  assert.equal(await page.locator('[data-theme-icon="sun"]').isVisible(), after === 'dark');
+  assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), after);
   await page.reload();
   assert.equal(await page.evaluate(() => document.documentElement.dataset.theme ?? 'light'), after);
-  assert.equal(await page.locator('[data-theme-icon]').textContent(), after === 'dark' ? '☀' : '☾');
+  assert.equal(await page.locator('[data-theme-icon="sun"]').isVisible(), after === 'dark');
 });
 
 test('the site keeps working with the network switched off', async () => {
@@ -916,7 +919,7 @@ test('the site keeps working with the network switched off', async () => {
     await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
     await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller), null, { timeout: 15000 });
     // Visit the routes the worker precaches so they land in the cache.
-    for (const path of ['library/', 'practice/', 'review/', 'search/', 'syllabus/', 'data/keys.json']) {
+    for (const path of ['library/', 'practice/', 'review/', 'search/', 'syllabus/', 'you/', 'data/keys.json']) {
       await page.goto(origin + base + path, { waitUntil: 'load' });
     }
     await page.goto(origin + base, { waitUntil: 'load' });
@@ -929,6 +932,9 @@ test('the site keeps working with the network switched off', async () => {
     await page.goto(origin + base + 'syllabus/', { waitUntil: 'domcontentloaded' });
     assert.match(await page.locator('h1').first().textContent(), /Syllabus/i);
     assert.match(await page.locator('.lead').first().textContent(), /2026/, 'the cached syllabus keeps its real content');
+    await page.goto(origin + base + 'you/', { waitUntil: 'domcontentloaded' });
+    assert.match(await page.locator('h1').first().textContent(), /You/, 'the You hub opens offline from the shell cache');
+    assert.match(await page.locator('[data-privacy-heading], #privacy-heading').first().textContent(), /stays on this device/i);
     await page.goto(origin + base + 'search/', { waitUntil: 'domcontentloaded' });
     assert.equal(await page.locator('#library-search input[name="q"]').count(), 1, 'search works offline from the cached index');
     await page.locator('#library-search input[name="q"]').fill('parallel branches');
@@ -1450,4 +1456,315 @@ test('historical provisional pack works offline and paper packs are newest first
  assert.match(await page.locator('[data-provisional-result]').textContent(),/Provisional practice score/);
  await page.reload();
  assert.equal(await page.locator('button[aria-pressed="true"]').count(),0);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 14 — the shared UI foundation
+ * ------------------------------------------------------------------ */
+
+const sharedDestinations = [
+  ['Today', ''],
+  ['Learn', 'learn/'],
+  ['Practice', 'practice/'],
+  ['Papers', 'library/'],
+  ['You', 'you/'],
+];
+
+test('the shared shell offers exactly five real destinations on phone and desktop', async (t) => {
+  const page = await context(t);
+  await go(page);
+
+  const tabs = page.locator('.tabbar a');
+  assert.equal(await tabs.count(), 5, 'the phone bar holds the five global destinations');
+  const seen = [];
+  for (let index = 0; index < 5; index += 1) {
+    const tab = tabs.nth(index);
+    const box = await tab.boundingBox();
+    seen.push({
+      label: (await tab.innerText()).trim(),
+      href: await tab.getAttribute('href'),
+      current: await tab.getAttribute('aria-current'),
+      icons: await tab.locator('svg.icon').count(),
+      hiddenIcon: await tab.locator('svg.icon').getAttribute('aria-hidden'),
+      height: box.height,
+      width: box.width,
+    });
+  }
+  for (const [index, [label, path]] of sharedDestinations.entries()) {
+    const tab = seen[index];
+    assert.equal(tab.label, label, `tab ${index} is ${label}`);
+    assert.match(tab.label, /^[A-Za-z]+$/, 'tab labels are words, not emoji');
+    assert.equal(tab.href, `/Jelet-ultimate-prep/${path}`, `${label} points at a real route`);
+    assert.equal(tab.icons, 1, `${label} uses one shared icon`);
+    assert.equal(tab.hiddenIcon, 'true', `${label} icon is decorative, the label is the name`);
+    assert.ok(tab.height >= 44 && tab.width >= 40, `${label} meets the touch target: ${JSON.stringify(tab)}`);
+  }
+  assert.equal(seen[0].current, 'page', 'Today is marked as the current page');
+  assert.equal(seen[4].current, null, 'only the current destination is marked');
+
+  // Each destination resolves and marks its own tab.
+  for (const [index, [label, path]] of sharedDestinations.entries()) {
+    assert.equal((await go(page, path)).status(), 200, `${label} resolves`);
+    assert.equal(await page.locator('.tabbar a').nth(index).getAttribute('aria-current'), 'page', `${label} marks its tab`);
+    assert.equal(await page.locator('.tabbar a[aria-current="page"]').count(), 1, 'exactly one current tab');
+  }
+
+  // The desktop header carries the same five and the bottom bar goes away.
+  await go(page);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  assert.equal(await page.locator('.tabbar').evaluate((el) => getComputedStyle(el).display), 'none');
+  const links = page.locator('.appnav a');
+  assert.equal(await links.count(), 5);
+  for (let index = 0; index < 5; index += 1) {
+    assert.equal(await links.nth(index).getAttribute('aria-label'), sharedDestinations[index][0]);
+    assert.equal(await links.nth(index).locator('svg.icon').count(), 1, 'the header destinations use the shared icons');
+  }
+
+  // Review, Plan, Search, Syllabus, Offline, Coverage and Workspace kept their
+  // addresses and stay reachable from the shared footer.
+  const footer = page.getByRole('navigation', { name: 'More destinations' });
+  assert.equal(await footer.count(), 1);
+  const hrefs = await footer.locator('a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
+  for (const name of ['review', 'plan', 'search', 'syllabus', 'offline', 'coverage', 'workspace', 'notes/mathematics', 'you']) {
+    assert.ok(hrefs.some((href) => href.includes(`/${name}/`)), `${name} is linked from the footer`);
+  }
+  for (const href of hrefs) assert.equal((await fetch(origin + href)).status, 200, `${href} resolves`);
+});
+
+test('the shared icons are one consistent, accessible set', async (t) => {
+  const page = await context(t);
+  for (const path of ['', 'you/', 'library/', 'offline/']) {
+    await go(page, path);
+    const icons = await page.locator('svg.icon').evaluateAll((nodes) => nodes.map((node) => ({
+      viewBox: node.getAttribute('viewBox'),
+      stroke: node.getAttribute('stroke-width'),
+      hidden: node.getAttribute('aria-hidden'),
+      role: node.getAttribute('role'),
+      label: node.getAttribute('aria-label'),
+      color: node.getAttribute('stroke'),
+    })));
+    assert.ok(icons.length > 0, `${path} renders shared icons`);
+    for (const icon of icons) {
+      assert.equal(icon.viewBox, '0 0 24 24', `${path}: one viewBox`);
+      assert.equal(icon.stroke, '1.75', `${path}: one stroke weight`);
+      assert.equal(icon.color, 'currentColor', `${path}: icons follow the theme`);
+      assert.ok(icon.hidden === 'true' || (icon.role === 'img' && icon.label), `${path}: an icon is either decorative or named`);
+    }
+  }
+
+  await go(page, 'you/');
+  // Icon-only controls carry their own names.
+  assert.equal(await page.getByRole('link', { name: 'Search questions and pages' }).count(), 1);
+  assert.equal(await page.getByRole('button', { name: /Switch to (dark|light) theme/ }).count(), 1);
+  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).count(), 1);
+  // The switch's state is in aria-checked and in text, not colour alone.
+  const state = await page.getByRole('switch', { name: 'Dark theme' }).evaluate((el) => ({
+    checked: el.getAttribute('aria-checked'),
+    text: el.textContent?.trim(),
+  }));
+  assert.ok(['true', 'false'].includes(state.checked));
+  assert.ok(['On', 'Off'].includes(state.text), `the switch states its state in words: ${state.text}`);
+});
+
+test('the You hub is a local study hub, not a sign-in screen', async (t) => {
+  const page = await context(t);
+  await go(page, 'you/');
+  assert.match(await page.locator('h1').first().textContent(), /You/);
+  assert.match(await page.locator('#privacy-heading').textContent(), /stays on this device/i);
+
+  const body = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
+  assert.match(body, /no account, no sign-in and nothing uploaded/i);
+  assert.doesNotMatch(body, /create an account|forgot password|notification bell|focus timer|live study room|auto-download/i);
+  assert.equal(await page.locator('main img, header img').count(), 0, 'no avatar or profile image stands in for the learner');
+  assert.equal(await page.locator('[data-notification], .notification-badge, [data-badge]').count(), 0);
+
+  // A fresh browser shows honest zeros, not sample counts.
+  await page.waitForFunction(() => /Read from this browser|Nothing is stored/.test(document.querySelector('[data-you-status]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-you-attempts]').textContent(), '0');
+  assert.equal(await page.locator('[data-you-review]').textContent(), '0');
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '0');
+  assert.match(await page.locator('[data-you-packs]').textContent(), /Nothing downloaded yet/);
+  assert.equal(await page.locator('[data-you-empty]').isVisible(), true, 'the empty state is offered, not a fabricated number');
+  assert.match(await page.locator('[data-you-status]').textContent(), /Reading a page does not count as activity/);
+
+  // The management rows reach the existing flows, and nothing downloads on load.
+  assert.equal(await page.getByRole('link', { name: /Manage offline packs/ }).getAttribute('href'), '/Jelet-ultimate-prep/offline/');
+  assert.equal(await page.getByRole('link', { name: /Export my study record/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
+  assert.equal(await page.evaluate(() => localStorage.getItem('jelet:packs:v1')), null, 'opening You downloads nothing');
+});
+
+test('the You hub reports the learner\u2019s own local activity and keeps it after reload', async (t) => {
+  const page = await context(t);
+
+  // One wrong answer on the 2025 paper: an attempt and a review queue.
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.locator('.pane.active .opt[data-option="B"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-runner-results] .score-hero', { timeout: 15000 });
+
+  // A bookmark and a note through the existing workspace flow.
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => /loaded on this device|Storage is unavailable/.test(document.querySelector('[data-workspace-status]')?.textContent ?? ''));
+  await page.locator('#workspace-item').selectOption('practice:orig-parallel-independent-v1');
+  await page.locator('#workspace-note').fill('Retry the 9 V circuit');
+  await page.getByRole('button', { name: 'Bookmark & resume here' }).click();
+  await page.waitForFunction(() => (document.querySelector('[data-workspace-status]')?.textContent ?? '').includes('Saved'));
+  await page.getByRole('button', { name: 'Save note' }).click();
+  await page.waitForFunction(() => (document.querySelector('#workspace-list')?.textContent ?? '').includes('Retry the 9 V circuit'));
+
+  await go(page, 'you/');
+  await page.waitForFunction(() => document.querySelector('[data-you-attempts]')?.textContent === '1');
+  assert.equal(await page.locator('[data-you-attempts]').textContent(), '1');
+  assert.match(await page.locator('[data-you-attempts-note]').textContent(), /1 submitted/);
+  assert.equal(await page.locator('[data-you-review]').textContent(), '82', 'every answerable item missed is queued');
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '2', 'one bookmark and one note');
+  assert.equal(await page.locator('[data-you-empty]').isVisible(), false);
+
+  await page.reload();
+  await page.waitForFunction(() => document.querySelector('[data-you-attempts]')?.textContent === '1');
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '2', 'the hub reads the same store after a reload');
+});
+
+test('the You preference and the header control drive one stored theme', async (t) => {
+  const page = await context(t);
+  await go(page, 'you/');
+  const toggle = page.getByRole('switch', { name: 'Dark theme' });
+  assert.equal(await toggle.getAttribute('aria-checked'), 'false');
+  assert.equal(await toggle.locator('[data-theme-state]').textContent(), 'Off');
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+
+  await toggle.click();
+  assert.equal(await toggle.getAttribute('aria-checked'), 'true');
+  assert.equal(await toggle.locator('[data-theme-state]').textContent(), 'On');
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+  assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), 'dark');
+  assert.equal(await page.getByRole('button', { name: 'Switch to light theme' }).count(), 1, 'the header shows the same state');
+
+  await page.reload();
+  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'), 'true');
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+
+  // The header control changes the same preference, and the hub follows it.
+  await page.getByRole('button', { name: 'Switch to light theme' }).click();
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+  assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), 'light');
+  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'), 'false');
+});
+
+test('blocked storage leaves the You hub usable and honest', async (t) => {
+  const page = await context(t);
+  await page.addInitScript(() => {
+    const blocked = () => { throw new DOMException('Storage is blocked', 'SecurityError'); };
+    Storage.prototype.getItem = blocked;
+    Storage.prototype.setItem = blocked;
+    Storage.prototype.removeItem = blocked;
+  });
+  await go(page, 'you/');
+  assert.match(await page.locator('h1').first().textContent(), /You/);
+  await page.waitForFunction(() => /blocking local storage/i.test(document.querySelector('[data-you-status]')?.textContent ?? ''));
+  assert.match(await page.locator('[data-you-status]').textContent(), /nothing will be saved/i);
+  assert.equal(await page.locator('[data-you-attempts]').textContent(), '\u2014');
+  assert.match(await page.locator('[data-theme-status]').textContent(), /not saving/i, 'the preference says it cannot be saved');
+  assert.equal(await page.locator('[data-you-empty]').isVisible(), false, 'an unavailable store is not reported as an empty one');
+
+  // The theme still works for the page in hand; only the saving is refused.
+  await page.getByRole('switch', { name: 'Dark theme' }).click();
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+  assert.match(await page.locator('[data-theme-status]').textContent(), /not saving/i);
+});
+
+test('the shared tokens keep readable contrast in light and dark', async (t) => {
+  const page = await context(t);
+  await go(page, 'you/');
+  const channelsOf = (color) => {
+    const hex = color.match(/^#([0-9a-f]{6}|[0-9a-f]{3})$/i);
+    if (hex) {
+      const digits = hex[1].length === 3 ? [...hex[1]].map((digit) => digit + digit).join('') : hex[1];
+      return [0, 2, 4].map((offset) => Number.parseInt(digits.slice(offset, offset + 2), 16));
+    }
+    return (color.match(/[\d.]+/g) ?? []).map(Number).slice(0, 3);
+  };
+  const luminance = (color) => {
+    const channels = channelsOf(color);
+    assert.equal(channels.length, 3, `could not read a colour: ${color}`);
+    const [r, g, b] = channels.map((value) => {
+      const c = value / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a, b) => {
+    const [high, low] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (high + 0.05) / (low + 0.05);
+  };
+  const tokens = () => page.evaluate(() => {
+    const style = getComputedStyle(document.documentElement);
+    const read = (name) => style.getPropertyValue(name).trim();
+    return { paper: read('--paper'), card: read('--card'), ink: read('--ink'), muted: read('--muted'), teal: read('--teal'), focus: read('--focus') };
+  });
+
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate((value) => localStorage.setItem('jelet:theme', value), theme);
+    await page.reload({ waitUntil: 'load' });
+    const value = await tokens();
+    assert.ok(contrast(value.ink, value.paper) >= 7, `${theme}: body text is AAA against the canvas (${contrast(value.ink, value.paper).toFixed(2)})`);
+    assert.ok(contrast(value.muted, value.card) >= 4.5, `${theme}: supporting text is AA against a card (${contrast(value.muted, value.card).toFixed(2)})`);
+    assert.ok(contrast(value.teal, value.card) >= 3, `${theme}: the accent is visible against a card (${contrast(value.teal, value.card).toFixed(2)})`);
+    assert.ok(contrast(value.focus, value.paper) >= 3, `${theme}: the focus ring is visible against the canvas (${contrast(value.focus, value.paper).toFixed(2)})`);
+  }
+});
+
+test('the shared shell is keyboard reachable and never hidden behind the tab bar', async (t) => {
+  const page = await context(t);
+  await go(page, 'you/');
+
+  // The skip link is the first stop and moves focus to the main landmark.
+  await page.keyboard.press('Tab');
+  assert.equal(await page.evaluate(() => document.activeElement?.className), 'skip');
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => location.hash === '#main');
+  assert.equal(await page.evaluate(() => document.activeElement?.id), 'main');
+
+  // An icon-only control gets a visible focus ring after keyboard use.
+  await page.locator('[data-theme-toggle]').first().focus();
+  const ring = await page.evaluate(() => {
+    const style = getComputedStyle(document.activeElement);
+    return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) };
+  });
+  assert.equal(ring.style, 'solid', 'a focused control draws a visible ring');
+  assert.ok(ring.width >= 2, `the focus ring is thick enough: ${ring.width}px`);
+
+  // Scrolling to the end leaves the footer above the fixed tab bar.
+  await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+  await page.waitForTimeout(300);
+  const geometry = await page.evaluate(() => {
+    const footer = document.querySelector('.site-footer')?.getBoundingClientRect();
+    const bar = document.querySelector('.tabbar')?.getBoundingClientRect();
+    return { footerBottom: footer?.bottom ?? 0, barTop: bar?.top ?? 0, viewport: innerHeight };
+  });
+  assert.ok(geometry.footerBottom <= geometry.barTop + 1, `the footer is not covered by the tab bar: ${JSON.stringify(geometry)}`);
+});
+
+test('the shell follows the operating-system theme until a choice is stored', async (t) => {
+  for (const [scheme, expected] of [['dark', 'dark'], ['light', 'light']]) {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: scheme });
+    t.after(() => ctx.close());
+    const page = await ctx.newPage();
+    await page.goto(origin + base + 'you/', { waitUntil: 'load' });
+    assert.equal(await page.locator('html').getAttribute('data-theme'), expected, `the page starts in the ${expected} theme`);
+    assert.equal(
+      await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'),
+      String(expected === 'dark'),
+      'the preference row shows the theme in use',
+    );
+    assert.match(await page.locator('[data-theme-status]').textContent(), /Following this device/, 'no choice has been stored yet');
+    // A deliberate choice is stored and wins over the system preference.
+    await page.getByRole('switch', { name: 'Dark theme' }).click();
+    const chosen = expected === 'dark' ? 'light' : 'dark';
+    assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), chosen);
+    await page.reload({ waitUntil: 'load' });
+    assert.equal(await page.locator('html').getAttribute('data-theme'), chosen, 'the stored choice outranks the system preference');
+    assert.match(await page.locator('[data-theme-status]').textContent(), /Saved in this browser/);
+  }
 });

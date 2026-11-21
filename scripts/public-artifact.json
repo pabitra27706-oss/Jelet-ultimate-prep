@@ -181,7 +181,8 @@
     "vendor/katex/MANIFEST.sha256",
     "vendor/katex/katex.min.css",
     "workspace/index.html",
-    "workspace/topics/index.html"
+    "workspace/topics/index.html",
+    "you/index.html"
   ],
   "assetDirectories": [
     "_astro/",

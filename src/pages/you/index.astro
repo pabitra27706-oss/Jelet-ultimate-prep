@@ -1,0 +1,338 @@
+---
+/**
+ * You — the local study and settings hub.
+ *
+ * This is **not** an account: there is no sign-in, no profile, no avatar and
+ * no server. It is the one page that collects the things a learner can
+ * change or take with them: the theme, the optional offline packs, the
+ * manual study-record export and a truthful summary of what is stored on
+ * this device right now.
+ *
+ * Every number on this page is read from local storage at runtime. There is
+ * no invented bookmark count, no fabricated "recently viewed" history and no
+ * activity the site cannot observe. When storage is blocked the page says so
+ * and stays usable.
+ *
+ * Phase 14 builds the shared foundation and a working destination. The
+ * reference settings screen is Phase 15, and it will refine this page rather
+ * than replace its data contracts.
+ */
+import Site from '../../layouts/Site.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import Icon from '../../components/Icon.astro';
+import { papers, scorablePapers } from '../../lib/content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const officialPapers = scorablePapers.filter((paper) => paper.keyTier === 'official');
+const derivedPapers = scorablePapers.filter((paper) => paper.keyTier === 'derived');
+const readOnlyPapers = papers.filter((paper) => !paper.hasKey);
+const boardAwarded = papers.reduce((sum, paper) => sum + paper.boardAwardedQuestions, 0);
+const totalQuestions = papers.reduce((sum, paper) => sum + paper.questionCount, 0);
+---
+<Site
+  title="You"
+  active="you"
+  description="Your local JELET study hub: the theme preference, real on-device activity, offline packs and the study-record backup. No account and nothing uploaded."
+>
+  <header class="page-head">
+    <p class="eyebrow">On this device only</p>
+    <h1>You.</h1>
+    <p class="lead">
+      Preferences and a factual read-out of what this browser is keeping for you, plus the routes that
+      manage it. There is no account, no sign-in and nothing uploaded.
+    </p>
+  </header>
+
+  <section class="privacy-note" aria-labelledby="privacy-heading">
+    <span class="privacy-note-icon" aria-hidden="true"><Icon name="lock" size="lg" /></span>
+    <div>
+      <h2 id="privacy-heading">Your study data stays on this device.</h2>
+      <p>
+        Answers, bookmarks, notes and the review queue live in this browser's own storage. No account is
+        created, nothing is sent to a server and there is no analytics script. Clearing site data removes
+        the record, so keep an <a href={`${base}workspace/#record-backup`}>export file</a> if it matters to you.
+      </p>
+    </div>
+  </section>
+
+  <noscript>
+    <p class="micro">This page reads your local activity with JavaScript. The theme control and the links still work without it.</p>
+  </noscript>
+
+  <section class="panel" style="margin-top:1rem" aria-labelledby="preferences-heading">
+    <h2 id="preferences-heading">Preferences</h2>
+    <ul class="rowlist">
+      <li class="rowlist-row">
+        <span class="rowlist-icon" aria-hidden="true"><Icon name="moon" size="md" /></span>
+        <span class="rowlist-copy">
+          <strong id="theme-label">Dark theme</strong>
+          <small>Changes every page. Follows your device until you choose.</small>
+        </span>
+        <button
+          class="switch"
+          type="button"
+          role="switch"
+          aria-checked="false"
+          aria-labelledby="theme-label"
+          data-theme-toggle
+          data-theme-switch
+        >
+          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          <span class="switch-state" data-theme-state>Off</span>
+        </button>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}offline/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="download" size="md" /></span>
+          <span class="rowlist-copy">
+            <strong>Offline packs</strong>
+            <small data-you-packs>Reading this device…</small>
+          </span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <span class="rowlist-icon" aria-hidden="true"><Icon name="info" size="md" /></span>
+        <span class="rowlist-copy">
+          <strong>Motion and text size</strong>
+          <small>Follow your phone and browser settings; this site adds no animation of its own.</small>
+        </span>
+      </li>
+    </ul>
+    <p class="micro" role="status" aria-live="polite" data-theme-status>Following this device’s setting until you choose.</p>
+  </section>
+
+  <section aria-labelledby="activity-heading" style="margin-top:1.4rem">
+    <div class="section-head">
+      <h2 id="activity-heading" style="font-size:var(--text-md)">Your activity</h2>
+      <span class="micro">Read from this browser only.</span>
+    </div>
+    <div class="tile-grid">
+      <a class="action-tile" href={`${base}workspace/`}>
+        <span class="action-tile-icon" aria-hidden="true"><Icon name="bookmark" size="md" /></span>
+        <span class="action-tile-copy">
+          <strong>Bookmarks and notes</strong>
+          <small data-you-saved-note>Reading this device…</small>
+        </span>
+        <span class="action-tile-value" data-you-saved>—</span>
+      </a>
+      <a class="action-tile" href={`${base}practice/`}>
+        <span class="action-tile-icon" aria-hidden="true"><Icon name="target" size="md" /></span>
+        <span class="action-tile-copy">
+          <strong>Practice attempts</strong>
+          <small data-you-attempts-note>Reading this device…</small>
+        </span>
+        <span class="action-tile-value" data-you-attempts>—</span>
+      </a>
+      <a class="action-tile" href={`${base}review/`}>
+        <span class="action-tile-icon" aria-hidden="true"><Icon name="refresh" size="md" /></span>
+        <span class="action-tile-copy">
+          <strong>Questions to review</strong>
+          <small data-you-review-note>Reading this device…</small>
+        </span>
+        <span class="action-tile-value" data-you-review>—</span>
+      </a>
+    </div>
+    <div style="margin-top:.75rem" data-you-empty hidden>
+      <EmptyState
+        icon="history"
+        title="Nothing studied on this device yet."
+        body="Reading a page does not count as activity. A lesson opened or an attempt submitted will appear here."
+        href={`${base}learn/`}
+        linkLabel="Start a lesson"
+      />
+    </div>
+    <p class="micro" role="status" aria-live="polite" data-you-status>Reading this browser…</p>
+  </section>
+
+  <section class="panel" style="margin-top:1.4rem" aria-labelledby="manage-heading">
+    <h2 id="manage-heading">Manage your record</h2>
+    <ul class="rowlist">
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}offline/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="download" size="md" /></span>
+          <span class="rowlist-copy">
+            <strong>Manage offline packs</strong>
+            <small>Downloads only start when you ask for one.</small>
+          </span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}workspace/#record-backup`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="upload" size="md" /></span>
+          <span class="rowlist-copy">
+            <strong>Export my study record</strong>
+            <small>Attempts, review dates, bookmarks and notes in one file you hold.</small>
+          </span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}workspace/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="bookmark" size="md" /></span>
+          <span class="rowlist-copy">
+            <strong>Workspace and backup history</strong>
+            <small>Bookmarks, notes, and import or replace with a preview.</small>
+          </span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="panel" style="margin-top:1.4rem" aria-labelledby="destinations-heading">
+    <h2 id="destinations-heading">Other destinations</h2>
+    <ul class="rowlist">
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}review/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="refresh" size="md" /></span>
+          <span class="rowlist-copy"><strong>Review desk</strong><small>Wrong and blank questions, spaced by a fixed ladder.</small></span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}plan/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="home" size="md" /></span>
+          <span class="rowlist-copy"><strong>Study plan</strong><small>Today's steps, built from your own record.</small></span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}search/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="search" size="md" /></span>
+          <span class="rowlist-copy"><strong>Search</strong><small>Search the published papers and lessons on this device.</small></span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}syllabus/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="book" size="md" /></span>
+          <span class="rowlist-copy"><strong>Syllabus</strong><small>The Paper I topic groups and the exam pattern.</small></span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+      <li class="rowlist-row">
+        <a class="rowlist-link" href={`${base}coverage/`}>
+          <span class="rowlist-icon" aria-hidden="true"><Icon name="papers" size="md" /></span>
+          <span class="rowlist-copy"><strong>Coverage</strong><small>Which syllabus topics the corpus actually reaches.</small></span>
+        </a>
+        <span class="rowlist-chevron" aria-hidden="true"><Icon name="chevron-right" size="sm" /></span>
+      </li>
+    </ul>
+  </section>
+
+  <details class="panel" style="margin-top:1.4rem" data-about>
+    <summary>
+      <span class="rowlist-icon" aria-hidden="true"><Icon name="info" size="md" /></span>
+      <span class="rowlist-copy"><strong>About, sources and limits</strong><small>An independent site, not a board publication.</small></span>
+    </summary>
+    <div class="details-body">
+      <div class="chip-row" style="margin-bottom:.75rem">
+        <StatusBadge tone="official" icon="check-circle" label={`${officialPapers.length} papers with official keys`} />
+        <StatusBadge tone="derived" icon="alert-triangle" label={`${derivedPapers.length} with derived keys`} />
+        <StatusBadge tone="neutral" icon="papers" label={`${readOnlyPapers.length} read-only`} />
+      </div>
+      <p class="source-note">
+        {totalQuestions} questions across {papers.length} previous-year papers. {boardAwarded} items were voided by
+        the board and carry their marks to every candidate.
+      </p>
+      <ul class="small">
+        <li>This site is not affiliated with or endorsed by the West Bengal Joint Entrance Examinations Board, and it does not host official question papers.</li>
+        <li>Official key labels come from the board's own notices. Derived answers are provisional practice labels, not board keys, and agreement between AI reviews does not certify them.</li>
+        <li>Nothing here predicts a rank or a score, and no answer is graded by AI. There is no analytics script, no account and no sync.</li>
+        <li>The archived earlier site is kept locally for provenance and is never published.</li>
+      </ul>
+      <p class="micro" style="margin-bottom:0">
+        Read the <a href={`${base}syllabus/`}>syllabus</a>, the <a href={`${base}coverage/`}>coverage dashboard</a>
+        and the accuracy note on every paper for the full position.
+      </p>
+    </div>
+  </details>
+
+  <script>
+    import { readAttempts } from '../../lib/attempts';
+    import { readQueue, dueItems } from '../../lib/review';
+    import { readInstalled } from '../../lib/offline';
+    import { readWorkspaceSafe } from '../../workspace';
+
+    const text = (selector: string, value: string) => {
+      const node = document.querySelector<HTMLElement>(selector);
+      if (node) node.textContent = value;
+    };
+
+    /** Whether this browser is actually keeping local state. */
+    const storageWorks = (() => {
+      try {
+        const probe = '__jelet_you_probe__';
+        localStorage.setItem(probe, '1');
+        localStorage.removeItem(probe);
+        return true;
+      } catch {
+        return false;
+      }
+    })();
+
+    const attempts = readAttempts();
+    const submitted = attempts.filter((attempt) => Boolean(attempt.submittedAt)).length;
+    const queue = readQueue();
+    const due = dueItems(queue).length;
+    const packs = readInstalled();
+
+    text('[data-you-attempts]', String(attempts.length));
+    text(
+      '[data-you-attempts-note]',
+      attempts.length === 0
+        ? 'No attempt started yet'
+        : `${submitted} submitted · ${attempts.length - submitted} open`,
+    );
+    text('[data-you-review]', String(queue.length));
+    text(
+      '[data-you-review-note]',
+      queue.length === 0 ? 'Nothing waiting' : `${due} due now`,
+    );
+    text(
+      '[data-you-packs]',
+      packs.length === 0
+        ? 'Nothing downloaded yet'
+        : `${packs.length} ${packs.length === 1 ? 'pack is' : 'packs are'} ready on this device`,
+    );
+
+    const workspace = await readWorkspaceSafe();
+    let saved = 0;
+    if (workspace.available && workspace.data) {
+      const bookmarks = workspace.data.items.bookmarks.length;
+      const notes = workspace.data.items.notes.length;
+      saved = bookmarks + notes;
+      text('[data-you-saved]', String(saved));
+      text(
+        '[data-you-saved-note]',
+        saved === 0
+          ? 'Nothing saved yet'
+          : `${bookmarks} ${bookmarks === 1 ? 'bookmark' : 'bookmarks'} · ${notes} ${notes === 1 ? 'note' : 'notes'}`,
+      );
+    } else {
+      text('[data-you-saved]', '—');
+      text('[data-you-saved-note]', 'Bookmarks are unavailable');
+    }
+
+    const empty = document.querySelector<HTMLElement>('[data-you-empty]');
+    if (empty) empty.hidden = !(storageWorks && workspace.available && attempts.length === 0 && queue.length === 0 && saved === 0);
+
+    if (!storageWorks) {
+      text('[data-you-status]', 'This browser is blocking local storage. You can still study, but nothing will be saved on this device.');
+      text('[data-you-attempts]', '—');
+      text('[data-you-attempts-note]', 'Local storage is unavailable');
+      text('[data-you-review]', '—');
+      text('[data-you-review-note]', 'Local storage is unavailable');
+      text('[data-you-packs]', 'Local storage is unavailable');
+    } else if (!workspace.available) {
+      text('[data-you-status]', `Read from this browser. ${attempts.length} ${attempts.length === 1 ? 'attempt' : 'attempts'} and ${queue.length} review ${queue.length === 1 ? 'item' : 'items'} on this device.`);
+    } else if (attempts.length === 0 && queue.length === 0 && saved === 0) {
+      text('[data-you-status]', 'Nothing is stored on this device yet. Reading a page does not count as activity.');
+    } else {
+      text('[data-you-status]', `Read from this browser. ${attempts.length} ${attempts.length === 1 ? 'attempt' : 'attempts'}, ${queue.length} review ${queue.length === 1 ? 'item' : 'items'} and ${saved} saved ${saved === 1 ? 'item' : 'items'} on this device.`);
+    }
+  </script>
+</Site>
