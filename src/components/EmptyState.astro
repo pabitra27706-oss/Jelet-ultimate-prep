@@ -1,0 +1,33 @@
+---
+/**
+ * The shared empty state.
+ *
+ * Used where a list or a panel genuinely has nothing on this device. The
+ * wording has to describe the local truth — "nothing started yet" is an
+ * observation, not a zero that pretends to be a measurement.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from '../lib/icons';
+
+const {
+  title,
+  body,
+  icon = 'info',
+  href,
+  linkLabel,
+} = Astro.props as {
+  title: string;
+  body?: string;
+  icon?: IconName;
+  href?: string;
+  linkLabel?: string;
+};
+---
+<div class="empty-state-card" data-empty-state>
+  <span class="empty-state-icon" aria-hidden="true"><Icon name={icon} size="md" /></span>
+  <div class="empty-state-copy">
+    <strong>{title}</strong>
+    {body && <small>{body}</small>}
+  </div>
+  {href && linkLabel && <a class="btn ghost small" href={href}>{linkLabel}</a>}
+</div>

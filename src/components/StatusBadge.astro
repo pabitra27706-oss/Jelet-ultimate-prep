@@ -1,0 +1,25 @@
+---
+/**
+ * A status chip.
+ *
+ * A status always carries a word, never colour alone: the icon is decorative
+ * and the text is the meaning. The tones reuse the existing `.chip` palette
+ * so a paper's key tier looks the same wherever it is shown.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from '../lib/icons';
+
+const {
+  label,
+  tone = 'neutral',
+  icon,
+} = Astro.props as {
+  label: string;
+  tone?: 'neutral' | 'official' | 'derived' | 'held' | 'info';
+  icon?: IconName;
+};
+---
+<span class:list={['chip', 'status-badge', tone !== 'neutral' ? tone : undefined]}>
+  {icon && <Icon name={icon} size="sm" />}
+  <span>{label}</span>
+</span>
