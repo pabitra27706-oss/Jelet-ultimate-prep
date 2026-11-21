@@ -2,7 +2,7 @@
 
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 14 — shared UI foundation;
   **built and agent-verified, awaiting owner visual review**; 2026-11-21; branch
-  `arena/14f27fdd-jelet-ultimate-prep` (Phase 14 commit on that branch); owner is the reviewer.
+  `arena/14f27fdd-jelet-ultimate-prep`, implementation commit `aa158e0`; owner is the reviewer.
   Phase 15 has **not** started.
 - **Inputs and pre-change evidence; reused/adapted/rejected reference and licence:**
   [Phase 14 plan](README.md), [cross-image analysis](IMAGE-ANALYSIS.md),
