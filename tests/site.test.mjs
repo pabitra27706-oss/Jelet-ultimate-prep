@@ -655,6 +655,203 @@ test('a composed mock sits, marks with the board rules and lands in the review d
   assert.match(link, /\/library\/jelet-et-p1-20\d\d\/#q\d+$/, 'a queued question links to the paper that holds it');
 });
 
+test('the result screen states its denominator, every outcome and the next actions', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  // Q1 correct (key D), Q2 wrong (key C, mark A), the rest blank.
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('.pane.active [data-jump="next"]').click();
+  await page.waitForFunction(() => document.querySelector('.pane.active')?.dataset.n === '2');
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+
+  // A headline score, a ring whose meaning is stated, and the exact denominator.
+  const hero = page.locator('[data-result-view] .result-hero');
+  assert.equal(await hero.locator('.score-hero b').textContent(), '3.75');
+  assert.match(await hero.textContent(), /of 103 marks/, 'the denominator is the marks this set can award');
+  assert.match(await page.locator('.result-ring').getAttribute('aria-label'), /percent of the markable total/);
+  assert.match(await hero.textContent(), /1 correct/);
+  assert.match(await hero.textContent(), /1 wrong/);
+  assert.match(await hero.textContent(), /80 blank/);
+  assert.match(await hero.textContent(), /3 voided by the board/);
+  assert.match(await page.locator('.result-note').textContent(), /85 questions were in scope/);
+
+  // The outcome chips are words, counted from the attempt.
+  const chips = page.locator('.result-count');
+  assert.equal(await chips.count(), 4, 'correct, wrong, blank and board-awarded');
+  const chipText = (await chips.allTextContents()).join(' | ');
+  for (const label of ['Correct', 'Wrong', 'Blank', 'Board-awarded']) assert.ok(chipText.includes(label), `${label} is spelled out`);
+
+  // One row per question, each with a worded status and a glyph.
+  assert.equal(await page.locator('[data-result-row]').count(), 85);
+  const firstRow = await page.locator('[data-result-row="jelet-et-p1-2025:q1"]').textContent();
+  assert.match(firstRow, /Question 1/);
+  assert.match(firstRow, /Mathematics · 1 mark/);
+  assert.match(firstRow, /Correct/);
+  const voided = await page.locator('[data-result-row="jelet-et-p1-2025:q41"] .pill').textContent();
+  assert.match(voided, /Board-awarded/, 'a board-voided item is named, not guessed');
+
+  // The reference actions, in its order, with the honest retry count.
+  const retry = page.locator('[data-retry-wrong]');
+  assert.equal(await retry.textContent(), 'Retry the 81 wrong or blank', 'every wrong or blank item is offered, and none of the board-awarded ones');
+  const review = page.locator('[data-result-view] .result-actions a.btn.ghost');
+  assert.equal(await review.textContent(), 'Review answers');
+  assert.match(await review.getAttribute('href'), /\/review\/$/);
+  assert.equal(await page.locator('[data-result-view] .result-action-back').count(), 1, 'a way back to Today');
+
+  // The sitting controls step aside, and nothing pretends to be an AI diagnosis.
+  assert.equal(await page.locator('.runner-bar').isVisible(), false, 'the submit bar is done');
+  const text = await page.locator('[data-result-view]').textContent();
+  assert.doesNotMatch(text, /AI |Artificial intelligence|focus on KVL/i);
+  assert.doesNotMatch(text, /60%|6 of 10/, 'the mock numbers are not in our content');
+});
+
+test('a result row opens by keyboard to show the answer, key, marks and paper', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+
+  const row = page.locator('[data-result-row="jelet-et-p1-2025:q1"]');
+  assert.equal(await row.locator('.result-item-body').isVisible(), false, 'rows start closed');
+  await row.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"]')?.open === true);
+  const facts = await row.locator('.result-facts').textContent();
+  assert.match(facts, /Your answerD/, 'the marked option is shown');
+  assert.match(facts, /KeyD/, 'the key letter is shown');
+  assert.match(facts, /\+1 of 1/, 'the mark calculation is shown');
+  assert.match(await row.textContent(), /official board answer key/i, 'the key tier is named');
+  const link = row.locator('.result-item-link');
+  assert.equal(await link.getAttribute('href'), `${base}library/${paper2025}/#subject-mathematics`, 'the row links back to the real paper');
+});
+
+test('a submitted result is recorded: a reload shows the same score without recalculating', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  const first = await page.locator('.score-hero b').textContent();
+
+  await page.reload();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  assert.equal(await page.locator('.score-hero b').textContent(), first, 'the recorded score is shown unchanged');
+  assert.match(await page.locator('[data-result-view] .eyebrow').textContent(), /Recorded result/);
+  assert.match(await page.locator('.result-note').textContent(), /not recalculated/);
+  assert.equal(await page.locator('[data-result-row]').count(), 85, 'every recorded outcome is still listed');
+  assert.equal(await page.locator('.runner-bar').isVisible(), false, 'the paper cannot be re-submitted from here');
+});
+
+test('the result keeps per-question provenance and a truthful gap when the key is not stored', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  const row = page.locator('[data-result-row="jelet-et-p1-2025:q1"]');
+  await row.locator('summary').click();
+  await page.waitForFunction(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"]')?.open === true);
+  const recorded = await page.evaluate(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"] .result-facts')?.textContent ?? '');
+  assert.match(recorded, /Your answerA/, 'the recorded option is read from the stored attempt');
+
+  // Reload: the saved result keeps the outcome but not the key text, and says so.
+  await page.reload();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  const reloaded = page.locator('[data-result-row="jelet-et-p1-2025:q1"]');
+  await reloaded.locator('summary').click();
+  await page.waitForFunction(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"]')?.open === true);
+  const facts = await reloaded.locator('.result-facts').textContent();
+  assert.match(facts, /Your answerA/);
+  assert.match(facts, /no key recorded/, 'the missing key text is admitted, not invented');
+});
+
+test('retrying builds a new attempt from the wrong and blank items and leaves the original alone', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('.pane.active [data-jump="next"]').click();
+  await page.waitForFunction(() => document.querySelector('.pane.active')?.dataset.n === '2');
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+
+  const before = await page.evaluate(() => {
+    const attempt = JSON.parse(localStorage.getItem('jelet:attempts:v1')).attempts[0];
+    return { id: attempt.id, submittedAt: attempt.submittedAt, results: attempt.results.length, answered: attempt.responses['jelet-et-p1-2025:q1'] };
+  });
+
+  await page.locator('[data-retry-wrong]').click();
+  await page.waitForSelector('[data-runner]');
+  await page.waitForFunction(() => new URLSearchParams(location.search).has('retry'));
+
+  // The retry loads only the items that were wrong or blank: 81 of 85 here.
+  const visible = await page.evaluate(() => document.querySelectorAll('.pane[data-question]:not([hidden])').length);
+  assert.equal(visible, 81, 'the correct question is not repeated');
+  const retried = await page.evaluate(() => document.querySelectorAll('.pane[data-question]:not([hidden])')[0]?.dataset.n);
+  assert.equal(retried, '2', 'the first repeated question is the one that was wrong');
+
+  // The submitted attempt is untouched, and the retry is its own attempt.
+  const after = await page.evaluate(() => {
+    const attempts = JSON.parse(localStorage.getItem('jelet:attempts:v1')).attempts;
+    const original = attempts.find((entry) => entry.id === 'jelet-et-p1-2025::full');
+    const retry = attempts.find((entry) => /retry-/.test(entry.id));
+    return {
+      count: attempts.length,
+      submittedAt: original?.submittedAt,
+      results: original?.results?.length,
+      answered: original?.responses['jelet-et-p1-2025:q1'],
+      retryId: retry?.id ?? '',
+      retryQuestions: retry?.questionIds?.length ?? 0,
+    };
+  });
+  assert.equal(after.count, 2, 'a retry is a new attempt, not an overwrite');
+  assert.equal(after.submittedAt, before.submittedAt, 'the original submission time is unchanged');
+  assert.equal(after.results, before.results, 'the original result is unchanged');
+  assert.deepEqual(after.answered, before.answered, 'the original answers are unchanged');
+  assert.match(after.retryId, /::full::retry-/);
+  assert.equal(after.retryQuestions, 81, 'the new attempt carries only the eligible questions');
+});
+
+test('an attempt marked submitted without a saved result shows a gap, never a score', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  await page.addInitScript(() => {
+    // An older or damaged record: submitted, but the marked result is missing.
+    const now = Date.now();
+    localStorage.setItem('jelet:attempts:v1', JSON.stringify({
+      schema: 1,
+      attempts: [{
+        id: 'jelet-et-p1-2025::full', paperId: 'jelet-et-p1-2025', paperYear: 2025,
+        paperLabel: 'JELET 2025 · Paper I', title: 'JELET 2025', mode: 'mock',
+        subjectKey: null, subjectLabel: null, questionIds: [], startedAt: now - 60000, updatedAt: now,
+        submittedAt: now - 1000, submissionId: 'sub-legacy', timeSpentSeconds: 60, deadlineAt: null,
+        responses: {}, responseTimes: {}, marked: [], visited: [], assisted: [],
+        limitSeconds: 7200, scopeMarks: 103, scopeQuestions: 85, results: [],
+      }],
+    }));
+  });
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.waitForFunction(() => /no marked result was saved/.test(document.querySelector('[data-runner-results]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-result-view]').count(), 0, 'no score is invented');
+  assert.equal(await page.locator('[data-runner-results] .notice').count(), 1, 'the gap is stated plainly');
+  assert.match(await page.locator('[data-runner-results]').textContent(), /Nothing is invented here/);
+});
+
 test('a mock is a link: the same specification always composes the same paper', async (t) => {
   const page = await context(t);
   await go(page, 'mock/run/?s=chemistry&n=8&m=paper&d=0&seed=77');

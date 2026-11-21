@@ -222,3 +222,33 @@ than invent a second settings style.
   layout renders it under the header for Practice and Review, and Papers passes
   `caution="inline"` to render it itself after the chips and before the cards,
   so the title and search field open the screen.
+
+## 11. Phase 17 — the practice result contract
+
+- **Where it lives:** the result is rendered into `[data-runner-results]` by
+  `renderResults()` in `src/lib/runner.ts` and replaces the question panes.
+  Once a paper is marked, `focusResult()` hides the sitting bar, the navigator
+  and the storage note, and the outcome scrolls into view; the page keeps its
+  route, header and history.
+- **Hero:** `.result-hero` holds a CSS-conic `.result-ring` (clamped 0–100,
+  value in `--result-value`), the exact `<b>` score inside `.score-hero`, the
+  written denominator, and the counts sentence as the **first `.micro`** —
+  existing tests read that node.
+- **Denominator:** `summarise()` runs over items whose status is not
+  `unmarked`; unmarkable questions are counted separately and excluded from
+  the maximum. Nothing is added to the maximum that could not be awarded.
+- **Statuses:** `Correct`, `Partial`, `Wrong`, `Blank`, `Board-awarded`,
+  `Not marked`, each with a glyph and a `.pill`; colour is never the only
+  signal. The old “Voided” wording is gone from the result.
+- **Rows:** `<details class="result-item" data-result-row="…">` keeps the row
+  count and adds a disclosure. The body shows category and marks, marked
+  option, key, `Marks awarded +1 of 1`, the explanation, the key tier and a
+  link to `library/<paper>/<#subject-…>` for the paper that actually holds the
+  question.
+- **Recorded result:** `restoreRecordedResult()` runs when the stored attempt
+  is already submitted. It renders the stored `results` and `responses`
+  without recalculating, keeps the key text out (and says so), and shows a
+  plain gap if the record has no saved result.
+- **Actions:** `[data-retry-wrong]` (a new attempt, `?retry=<attemptId>`, wrong
+  and blank only), a review-desk link, and a quiet back link. The original
+  attempt is never written to again.

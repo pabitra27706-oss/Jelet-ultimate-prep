@@ -4,12 +4,11 @@
 
 **Gate:** start only after Phase 15 is visually reviewed. This phase covers the Papers landing/list only; question-reader layout is changed only where necessary to keep the listing-to-reader journey coherent and must be called out for review.
 
-**Status (2026-11-21):** built and agent-verified on branch
-`arena/61a4f729-jelet-ultimate-prep` (commit `4d3fe09`) and awaiting the
-owner's visual review — see the
+**Status (2026-11-21):** built, agent-verified and **accepted by the owner**
+(the owner reported the device pass on 2026-11-21/22 and asked for the next
+phase) on branch `arena/61a4f729-jelet-ultimate-prep` — see the
 [evidence record](2026-11-21-phase-16-papers.md) and
-[screenshots](screenshots/). The reader layout was not changed. Phase 17 must
-not start until this is accepted.
+[screenshots](screenshots/). The reader layout was not changed.
 
 ## Goal
 

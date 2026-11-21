@@ -4,6 +4,11 @@
 
 **Gate:** begin after the Papers screen review. Keep this phase to the submitted-result/review surface; the practice chooser is Phase 18.
 
+**Status (2026-11-21):** built and agent-verified on branch
+`arena/61a4f729-jelet-ultimate-prep` and awaiting the owner's visual review —
+see the [evidence record](2026-11-21-phase-17-results.md) and
+[screenshots](screenshots/). Phase 18 must not start until this is accepted.
+
 ## Goal
 
 Present a real attempt’s outcome in the hierarchy of the reference—headline result, per-question status and clear next steps—while making JELET scoring/provenance more trustworthy than the illustrative mock.

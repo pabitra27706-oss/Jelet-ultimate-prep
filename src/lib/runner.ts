@@ -7,7 +7,7 @@
  */
 import { readAttempts, upsertAttempt, type Attempt, type AttemptItemResult } from './attempts';
 import { applyAttemptToQueue, readQueue, writeQueue } from './review';
-import { scoreItem, summarise, formatMarks, type ScoredItem } from './scoring';
+import { scoreItem, summarise, formatMarks, toNumber, type ScoredItem, type AttemptSummary, type ItemStatus } from './scoring';
 
 export type RunnerConfig = {
   attemptId: string;
@@ -57,7 +57,15 @@ type KeyEntry = { key: string[]; tier: string; voided: boolean; reasoning?: stri
  * A full paper needs no source: it is the paper. A composed mock draws from
  * several, and the learner is told which one each question belongs to.
  */
-type RunnerItem = ScoredItem & { sourcePaperId: string; sourceYear: number; sourceN: number };
+type RunnerItem = ScoredItem & {
+  sourcePaperId: string;
+  sourceYear: number;
+  sourceN: number;
+  /** Where the key came from: `official`, `derived`, or empty when unknown. */
+  tier: string;
+  /** True when the learner used an assistance option on this item. */
+  assisted: boolean;
+};
 
 const readKeyFile = async (url: string): Promise<Record<string, KeyEntry>> => {
   const response = await fetch(url, { headers: { Accept: 'application/json' } });
@@ -475,7 +483,7 @@ export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | nu
       if (resultsNode && storedAttempt.results) {
         resultsNode.hidden = false;
         resultsNode.innerHTML = '<div class="notice">This paper was already submitted in another tab. That result has been kept, and nothing here was changed.</div>';
-        if (paperNode) paperNode.hidden = true;
+        focusResult();
       }
       return;
     }
@@ -531,11 +539,12 @@ export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | nu
         sourcePaperId: info.sourcePaperId,
         sourceYear: info.sourceYear,
         sourceN: info.sourceN,
+        tier: entry?.tier ?? '',
+        assisted: assisted.includes(questionId),
       });
       results.push({ questionId, subjectKey: info.subjectKey, status: scored.status, awarded: scored.awarded.n / scored.awarded.d, assisted: assisted.includes(questionId) });
     }
 
-    const summary = summarise(items);
     attempt.results = results;
     save();
 
@@ -554,12 +563,13 @@ export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | nu
         subjectKey: result.subjectKey,
         subjectLabel: info?.subject ?? '',
         stem: info?.stem ?? '',
-        status: result.status,
+        status: result.status as ItemStatus,
       };
     }));
     writeQueue(queue);
 
-    renderResults(resultsNode, items, summary, reason, config, queue.length);
+    renderResults(resultsNode, items, { reason, queueSize: queue.length }, config);
+    focusResult(true);
     paintNavigatorStates(items);
   }
 
@@ -588,59 +598,184 @@ export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | nu
     });
   }
 
+  /** The sitting is over: the result is the screen, so its controls step aside. */
+  function focusResult(scroll = false): void {
+    container.querySelector<HTMLElement>('.runner-bar')?.setAttribute('hidden', '');
+    if (navPanel) navPanel.hidden = true;
+    if (storageNote) storageNote.hidden = true;
+    if (paperNode) paperNode.hidden = true;
+    if (scroll && resultsNode) resultsNode.scrollIntoView({ block: 'start' });
+  }
+
+  type ResultOptions = {
+    reason?: string;
+    queueSize: number;
+    /** True when the result comes from the saved attempt instead of a fresh marking. */
+    recorded?: boolean;
+  };
+
+  const statusName = (status: string): string => ({
+    correct: 'Correct',
+    partial: 'Partial',
+    wrong: 'Wrong',
+    blank: 'Blank',
+    voided: 'Board-awarded',
+    unmarked: 'Not marked',
+  }[status] ?? status);
+
+  const statusGlyph = (status: string): string => ({
+    correct: '✓', partial: '~', wrong: '✕', blank: '○', voided: '–', unmarked: '?',
+  }[status] ?? '•');
+
+  const tierLine = (tier: string): string => ({
+    official: 'Key: official board answer key.',
+    derived: 'Key: derived key — not an official board key.',
+    none: 'Key: no published key for this question.',
+  }[tier] ?? 'Key: source tier not recorded for this item.');
+
   function renderResults(
     node: HTMLElement,
     items: RunnerItem[],
-    summary: ReturnType<typeof summarise>,
-    reason: string | undefined,
+    options: ResultOptions,
     cfg: RunnerConfig,
-    queueSize: number,
   ): void {
-    const wrongCount = items.filter((item) => item.status === 'wrong' || item.status === 'blank').length;
+    // A question with no published key cannot be marked, so it is outside the
+    // denominator rather than counted as wrong.
+    const scoreable = items.filter((item) => item.status !== 'unmarked');
+    const held = items.length - scoreable.length;
+    const summary: AttemptSummary = summarise(scoreable);
+    const maxMarks = summary.maxMarks;
+    const awardedNumber = toNumber(summary.awarded);
+    const percent = maxMarks > 0 ? Math.round((awardedNumber / maxMarks) * 100) : 0;
     const total = formatMarks(summary.awarded);
     const wrongIds = items.filter((item) => item.status === 'wrong' || item.status === 'blank').map((item) => item.id);
-    // A composed mock draws from several papers, so each result says which
-    // paper the question came from.
+    const wrongCount = wrongIds.length;
+    const assistedCount = items.filter((item) => item.assisted).length;
+    // A composed mock draws from several papers, so each result says which one.
     const showSource = items.some((item) => item.sourcePaperId && item.sourcePaperId !== cfg.paperId);
+
+    const subjectLabel = new Map(items.map((item) => [item.subjectKey, item.subject]));
     const subjectRows = Object.entries(summary.bySubject)
-      .map(([key, value]) => `<tr><td>${escapeHtml(key)}</td><td>${formatMarks(value.awarded)} / ${value.maxMarks}</td><td>${value.correct + value.partial} of ${value.count}</td></tr>`)
+      .map(([key, value]) => `<tr><td>${escapeHtml(subjectLabel.get(key) ?? key)}</td><td>${formatMarks(value.awarded)} / ${value.maxMarks}</td><td>${value.correct + value.partial} of ${value.count}</td></tr>`)
       .join('');
 
-    node.innerHTML = `
-      <div class="card" style="margin-bottom:1rem">
-        <p class="eyebrow">${reason === 'Time expired' ? 'Time expired · submitted automatically' : 'Result'}</p>
-        <div class="score-hero">
-          <b>${total}</b>
-          <div>
-            <strong>out of ${summary.maxMarks} marks</strong>
-            <p class="micro">${summary.correct} correct · ${summary.partial} partial · ${summary.wrong} wrong · ${summary.blank} blank${summary.voided > 0 ? ` · ${summary.voided} voided by the board` : ''}</p>
+    // The lowest-scoring subject is a fact, not a diagnosis: it is read from
+    // this attempt's own marks and never guessed.
+    const subjects = Object.entries(summary.bySubject)
+      .filter(([, value]) => value.maxMarks > 0 && value.correct + value.partial + value.wrong > 0);
+    const weakest = subjects.length > 1
+      ? subjects.reduce((low, entry) => (toNumber(entry[1].awarded) / entry[1].maxMarks < toNumber(low[1].awarded) / low[1].maxMarks ? entry : low))
+      : null;
+    const weakestLine = weakest
+      ? `<a class="result-focus" href="${cfg.base}review/">
+          <span class="result-focus-mark" aria-hidden="true">↓</span>
+          <span class="result-focus-copy">
+            <span class="result-focus-label">Where to look first</span>
+            <strong>${escapeHtml(subjectLabel.get(weakest[0]) ?? weakest[0])}: ${formatMarks(weakest[1].awarded)} of ${weakest[1].maxMarks} marks</strong>
+            <span class="result-focus-note">Lowest marks in this set · open the review desk</span>
+          </span>
+        </a>`
+      : '';
+
+    const counts = [
+      { key: 'correct', label: 'Correct', value: summary.correct },
+      { key: 'partial', label: 'Partial', value: summary.partial },
+      { key: 'wrong', label: 'Wrong', value: summary.wrong },
+      { key: 'blank', label: 'Blank', value: summary.blank },
+      { key: 'voided', label: 'Board-awarded', value: summary.voided },
+      { key: 'assisted', label: 'Assisted', value: assistedCount },
+    ].filter((entry) => entry.value > 0)
+      .map((entry) => `<li class="result-count" data-count="${entry.key}"><span class="dot" aria-hidden="true"></span><b>${entry.value}</b> ${entry.label}</li>`)
+      .join('');
+
+    const summarySentence = `${summary.correct} correct · ${summary.partial} partial · ${summary.wrong} wrong · ${summary.blank} blank`
+      + (summary.voided > 0 ? ` · ${summary.voided} voided by the board` : '')
+      + (assistedCount > 0 ? ` · ${assistedCount} assisted` : '');
+
+    const denominatorNote = `${maxMarks} mark${maxMarks === 1 ? '' : 's'} could be awarded by the ${scoreable.length} markable question${scoreable.length === 1 ? '' : 's'}, so the percentage is marks awarded ÷ ${maxMarks}. ${cfg.scopeQuestions} question${cfg.scopeQuestions === 1 ? '' : 's'} were in scope.`
+      + (held > 0 ? ` ${held} question${held === 1 ? ' has' : 's have'} no published key and ${held === 1 ? 'is' : 'are'} outside that total.` : '');
+
+    const recordedNote = options.recorded
+      ? 'This is the result saved when you submitted. It is shown as recorded, not recalculated, so a later key correction cannot change it.'
+      : '';
+
+    const itemRows = items.map((item) => {
+      const numeric = toNumber(item.awarded);
+      const marksText = formatMarks(item.awarded).replace('-', '−');
+      const signed = numeric > 0 ? `+${marksText}` : marksText;
+      const selected = item.selected.length ? item.selected.join(', ') : 'nothing marked';
+      const keyText = item.key.length ? item.key.join(', ') : 'no key recorded';
+      const reader = item.sourcePaperId
+        ? `${cfg.base}library/${item.sourcePaperId}/#subject-${item.subjectKey}`
+        : '';
+      const sourceLine = showSource && item.sourcePaperId
+        ? `<span class="result-item-source">${item.sourceYear} · Q${item.sourceN}</span>`
+        : '';
+      return `
+        <details class="result-item" data-result-row="${escapeHtml(item.id)}" data-status="${item.status}">
+          <summary>
+            <span class="result-item-main">
+              <strong>Question ${item.n}</strong>
+              <span class="result-item-sub">${escapeHtml(item.subject)} · ${item.marks} mark${item.marks === 1 ? '' : 's'}${sourceLine ? ` · ${sourceLine}` : ''}</span>
+            </span>
+            <span class="pill ${item.status}">${statusGlyph(item.status)} ${statusName(item.status)}</span>
+            <span class="result-chevron" aria-hidden="true">›</span>
+          </summary>
+          <div class="result-item-body">
+            <dl class="result-facts">
+              <div><dt>Category</dt><dd>${item.category} · ${item.marks} mark${item.marks === 1 ? '' : 's'}</dd></div>
+              <div><dt>Your answer</dt><dd>${escapeHtml(selected)}</dd></div>
+              <div><dt>Key</dt><dd>${escapeHtml(keyText)}</dd></div>
+              <div><dt>Marks awarded</dt><dd><strong>${signed}</strong> of ${item.marks}</dd></div>
+            </dl>
+            <p class="micro">${escapeHtml(item.explanation)}</p>
+            <p class="micro">${escapeHtml(tierLine(item.tier))}${item.assisted ? ' Assistance was used on this question.' : ''}</p>
+            ${reader ? `<a class="result-item-link" href="${reader}">Read this question in the paper</a>` : ''}
           </div>
-        </div>
-        <table class="table" style="margin-top:.8rem"><thead><tr><th>Subject</th><th>Marks</th><th>Correct or partial</th></tr></thead><tbody>${subjectRows}</tbody></table>
-        <p class="micro">
-          Category I: +1 for the correct option, −1/4 for a wrong or multiple answer. Category II: +2 for every correct
-          option with no wrong option, 0 when a wrong option is marked, and 2 × marked correct ÷ total correct for a
-          correct subset. This paper marked ${summary.scoredCount} questions worth ${summary.maxMarks} marks;
-          ${cfg.scopeQuestions} questions were in scope.
-        </p>
-        <div class="btn-row" style="margin-top:.8rem">
-          <button class="btn small" type="button" data-retry-wrong ${wrongIds.length > 0 ? '' : 'disabled'}>Retry the ${wrongCount} wrong or blank</button>
-          <a class="btn ghost small" href="${cfg.base}review/">Open the review desk</a>
-          <a class="btn ghost small" href="${cfg.base}">Back to Today</a>
-        </div>
-        ${queueSize > 0 ? `<p class="micro">${queueSize} question${queueSize === 1 ? '' : 's'} now wait for spaced review.</p>` : ''}
-      </div>
-      <h3 style="margin-top:1.2rem">Every item</h3>
-      <div class="stack">
-        ${items.map((item) => `
-          <div class="result-row" data-result-row="${escapeHtml(item.id)}">
-            <div class="row-between">
-              <span><strong>Q${item.n}</strong> · ${escapeHtml(item.subject)} · Category ${item.category} · ${item.marks} mark${item.marks === 1 ? '' : 's'}${showSource && item.sourcePaperId ? ` · ${item.sourceYear} Q${item.sourceN}` : ''}</span>
-              <span class="pill ${item.status}">${statusLabel(item.status)}</span>
+        </details>`;
+    }).join('');
+
+    node.innerHTML = `
+      <div class="result-view" data-result-view>
+        <section class="result-hero" aria-labelledby="result-heading">
+          <div class="result-ring" style="--result-value:${Math.max(0, Math.min(100, percent))}" role="img"
+               aria-label="Marks awarded: ${percent} percent of the markable total">
+            <span class="result-ring-value">${percent}%</span>
+          </div>
+          <div class="result-hero-copy">
+            <p class="eyebrow">${options.recorded ? 'Recorded result' : options.reason === 'Time expired' ? 'Time expired · submitted automatically' : 'Practice result'}</p>
+            <div class="score-hero">
+              <b>${total}</b>
+              <span class="result-denominator">of ${maxMarks} marks</span>
             </div>
-            <p class="small" style="margin:.2rem 0"><strong>${formatMarks(item.awarded)} mark${Math.abs(item.awarded.n / item.awarded.d) === 1 ? '' : 's'}</strong> · you marked ${item.selected.length ? item.selected.join(', ') : 'nothing'} · key ${item.key.length ? item.key.join(', ') : '—'}</p>
-            <p class="micro" style="margin:0">${escapeHtml(item.explanation)}</p>
-          </div>`).join('')}
+            <p class="micro result-summary">${summarySentence}</p>
+          </div>
+        </section>
+
+        <p class="micro result-note">${denominatorNote}${recordedNote ? ` ${recordedNote}` : ''}</p>
+
+        <ul class="result-counts" aria-label="Outcome of this attempt">${counts}</ul>
+
+        ${weakestLine}
+
+        <section class="result-list" aria-labelledby="result-list-heading">
+          <div class="result-list-head">
+            <h3 id="result-list-heading">Every question</h3>
+            <span class="micro">${items.length} question${items.length === 1 ? '' : 's'} · open one to review it</span>
+          </div>
+          ${itemRows}
+          ${subjectRows ? `<details class="result-subjects">
+            <summary>Marks by subject</summary>
+            <div class="table-wrap"><table class="table"><thead><tr><th>Subject</th><th>Marks</th><th>Correct or partial</th></tr></thead><tbody>${subjectRows}</tbody></table></div>
+          </details>` : ''}
+        </section>
+
+        <div class="result-actions">
+          <button class="btn" type="button" data-retry-wrong ${wrongCount > 0 ? '' : 'disabled'}>Retry the ${wrongCount} wrong or blank</button>
+          <a class="btn ghost" href="${cfg.base}review/">Review answers</a>
+          <a class="result-action-back" href="${cfg.base}">Back to Today</a>
+        </div>
+        ${options.queueSize > 0 ? `<p class="micro">${options.queueSize} question${options.queueSize === 1 ? '' : 's'} now wait${options.queueSize === 1 ? 's' : ''} for spaced review.</p>` : ''}
       </div>`;
 
     node.querySelector<HTMLButtonElement>('[data-retry-wrong]')?.addEventListener('click', () => {
@@ -652,9 +787,52 @@ export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | nu
     });
   }
 
-  const statusLabel = (status: string) => ({
-    correct: 'Correct', partial: 'Partial', wrong: 'Wrong', blank: 'Blank', voided: 'Voided', unmarked: 'Not marked',
-  }[status] ?? status);
+  /**
+   * Show the result that was saved when this attempt was submitted.
+   *
+   * Nothing is recalculated: the stored statuses and marks are the record. An
+   * attempt whose marked result was not saved says so instead of inventing a
+   * score.
+   */
+  function restoreRecordedResult(): void {
+    if (!resultsNode) return;
+    const stored = readAttempts().find((entry) => entry.id === config.attemptId);
+    if (!stored?.submittedAt) return;
+    submitted = true;
+    focusResult(true);
+    resultsNode.hidden = false;
+    const storedResults = stored.results ?? [];
+    if (storedResults.length === 0) {
+      resultsNode.innerHTML = '<div class="notice"><strong>This attempt is marked as submitted, but no marked result was saved on this device.</strong> Nothing is invented here: open the review desk to see what was recorded, or sit the paper again.</div>';
+      return;
+    }
+    const items: RunnerItem[] = [];
+    for (const result of storedResults) {
+      const info = meta.get(result.questionId);
+      if (!info) continue;
+      items.push({
+        id: result.questionId,
+        n: info.n,
+        subject: info.subject,
+        subjectKey: result.subjectKey || info.subjectKey,
+        category: info.category,
+        marks: info.marks,
+        status: result.status as ItemStatus,
+        // The stored value is a decimal number; a denominator of one keeps
+        // the totals exact enough for display without growing denominators.
+        awarded: { n: result.awarded, d: 1 },
+        selected: stored.responses?.[result.questionId] ?? [],
+        key: [],
+        explanation: 'Recorded when you submitted this attempt. The saved result keeps the outcome and the marks, not your marked options or the key text.',
+        tier: '',
+        assisted: Boolean(result.assisted),
+        sourcePaperId: info.sourcePaperId,
+        sourceYear: info.sourceYear,
+        sourceN: info.sourceN,
+      });
+    }
+    renderResults(resultsNode, items, { queueSize: readQueue().length, recorded: true }, config);
+  }
 
   const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -673,6 +851,7 @@ export function initRunner(config: RunnerConfig, rootOverride?: HTMLElement | nu
   paintNavigator();
   paintClock();
   show(0);
+  if (submitted) restoreRecordedResult();
   startClock();
   save();
   window.addEventListener('pagehide', save);

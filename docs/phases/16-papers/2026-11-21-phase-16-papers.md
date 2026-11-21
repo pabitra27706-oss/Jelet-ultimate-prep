@@ -90,6 +90,11 @@
   Rollback is a revert of the implementation commit; bookmarks written by the
   previous UI remain valid because the schema is unchanged.
 
+- **Owner acceptance:** the owner reported the device pass on 2026-11-21/22
+  (“Device pass next phase”) after the accuracy-note placement was adjusted at
+  their request (commit `d52cda6`). No device model or browser version was
+  supplied, so this is an owner-reported acceptance, not agent device evidence.
+
 - **Blockers, unresolved risks, next action and decision needed:** no code
   blocker. Risk: the mock's session names may be expected; the page explains
   the real one-paper-per-year corpus and shows each paper's tier. Decision
