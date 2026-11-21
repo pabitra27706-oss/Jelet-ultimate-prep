@@ -1,5 +1,19 @@
 ---
+/**
+ * The Papers library.
+ *
+ * One screen from the reference: a bold title, a rounded in-corpus search
+ * field, year chips and a bookmark filter, then one card per real paper. The
+ * mock-up's invented 2023 sessions and Full/Partial/No key labels are not
+ * reproduced: this corpus has eight papers with official, derived or no
+ * published key, and each card says exactly which.
+ *
+ * Everything below the search field still works without JavaScript: the cards
+ * are links and the statuses are text.
+ */
 import Site from '../../layouts/Site.astro';
+import Icon from '../../components/Icon.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
 import { papers, subjectOrder, subjectLabels, type SubjectKey } from '../../lib/content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
@@ -9,102 +23,426 @@ for (const paper of papers) {
     subjectCounts.set(question.subjectKey, (subjectCounts.get(question.subjectKey) ?? 0) + 1);
   }
 }
+const years = [...new Set(papers.map((paper) => paper.year))].sort((a, b) => b - a);
+const totalQuestions = papers.reduce((sum, paper) => sum + paper.questionCount, 0);
 ---
-<Site title="Paper library" active="library" description="Eight JELET previous-year papers: mathematics, physics, chemistry and electrical questions with board answer keys where they exist.">
-  <div class="page-intro" style="margin-bottom:1.4rem">
-    <p class="eyebrow">Paper I · Previous years</p>
-    <h1>Paper library.</h1>
-    <p class="lead">
-      Every paper below is a preserved transcription with its source file hash. Papers that carry a published
-      answer key offer keyed practice; older papers also offer separate, clearly labelled provisional practice.
+<Site
+  title="Papers"
+  active="library"
+  description="Eight JELET previous-year papers: mathematics, physics, chemistry and electrical questions with board answer keys where they exist."
+>
+  <div class="papers">
+    <h1 class="papers-title">Papers</h1>
+
+    <form class="papers-search" role="search" id="papers-search" data-index-url={`${base}search-index.json`}>
+      <label class="visually-hidden" for="paper-search">Search inside papers</label>
+      <span class="papers-search-icon" aria-hidden="true"><Icon name="search" size="md" /></span>
+      <input id="paper-search" name="q" type="search" autocomplete="off" placeholder="Search inside papers…" aria-describedby="filter-status" />
+    </form>
+    <p class="micro papers-helper">
+      Searches question text on this device · {papers.length} papers · {totalQuestions} questions.
     </p>
-  </div>
 
-  <div class="card" style="margin-bottom:1.4rem">
-    <div class="filters">
-      <label class="field">Year
-        <select id="filter-year">
-          <option value="all">All years</option>
-          {papers.map((paper) => <option value={String(paper.year)}>{paper.year}</option>)}
-        </select>
-      </label>
-      <label class="field">Subject
-        <select id="filter-subject">
-          <option value="all">All subjects</option>
-          {subjectOrder.filter((key) => subjectCounts.has(key)).map((key) => (
-            <option value={key}>{subjectLabels[key]} ({subjectCounts.get(key)})</option>
-          ))}
-        </select>
-      </label>
-      <label class="field">Key
-        <select id="filter-key">
-          <option value="all">Any</option>
-          <option value="official">Official board key</option>
-          <option value="derived">Derived key</option>
-          <option value="none">Provisional study aids</option>
-        </select>
-      </label>
+    <div class="papers-chips" role="group" aria-label="Filter papers">
+      <button class="filter-chip" type="button" data-chip-year="all" aria-pressed="true">All</button>
+      {years.map((year) => (
+        <button class="filter-chip" type="button" data-chip-year={String(year)} aria-pressed="false">{year}</button>
+      ))}
+      <button class="filter-chip" type="button" data-chip-bookmarked aria-pressed="false">
+        <Icon name="bookmark" size="sm" /> Bookmarked
+      </button>
     </div>
-  </div>
 
-  <ul class="linklist" id="paper-list">
-    {papers.map((paper) => (
-      <li data-paper-row data-year={paper.year} data-key={paper.keyTier ?? 'none'}
-          data-subjects={[...new Set(paper.questions.map((question) => question.subjectKey))].join(' ')}>
-        <a href={`${base}library/${paper.id}/`}>
-          <span>
-            <strong>{paper.label}</strong>
-            <small>
-              {paper.questionCount} questions · {paper.maxMarks} marks · {paper.durationMinutes} minutes ·
-              {' '}{paper.pattern === 'modern' ? 'four-subject 120-mark pattern' : 'older 100-mark pattern'}
-            </small>
-            <span class="chip-row" style="margin-top:.4rem">
-              {paper.keyTier === 'official' && <span class="chip official">Official board key</span>}
-              {paper.keyTier === 'derived' && <span class="chip derived">Derived key</span>}
-              {!paper.hasKey && <span class="chip">No official key · provisional practice available</span>}
-              <span class="chip">{paper.scoreableQuestions} markable</span>
-              {paper.boardAwardedQuestions > 0 && <span class="chip info">{paper.boardAwardedQuestions} voided by the board · awarded to everyone</span>}
-              {paper.heldQuestions > 0 && <span class="chip held">{paper.heldQuestions} not markable</span>}
-              {paper.gaps.length > 0 && <span class="chip held">{paper.gaps.length} missing in transcription</span>}
-            </span>
-          </span>
-          <span aria-hidden="true">→</span>
-        </a>
-      </li>
-    ))}
-  </ul>
-  <p class="micro" id="filter-status" aria-live="polite"></p>
+    <div class="papers-status-row">
+      <p class="micro" id="filter-status" aria-live="polite">Showing all {papers.length} papers.</p>
+      <button class="papers-clear" type="button" data-clear-filters hidden>Clear filters</button>
+    </div>
 
-  <section class="card" style="margin-top:1.6rem">
-    <h2 style="font-size:1.1rem">Where the numbers come from</h2>
-    <ul class="small" style="color:var(--muted)">
-      <li>Transcriptions and answer keys are preserved from the earlier <code>Jelet-prep</code> project and rebuilt by <code>scripts/build-content.mjs</code> on every build; the archive itself is never published.</li>
-      <li>2024 and 2025 use WBJEEB's own final answer-key notices (tier: official). The 2022 answers were solved independently because the board published no key for that year (tier: derived) and are labelled as such everywhere they appear.</li>
-      <li>"Not markable" means the item depends on a diagram or options that the transcription does not reproduce. Those items are shown for reading and excluded from every total.</li>
+    <details class="papers-more">
+      <summary>More filters <Icon name="chevron-down" size="sm" class="papers-more-chevron" /></summary>
+      <div class="filters">
+        <label class="field">Year
+          <select id="filter-year">
+            <option value="all">All years</option>
+            {papers.map((paper) => <option value={String(paper.year)}>{paper.year}</option>)}
+          </select>
+        </label>
+        <label class="field">Subject
+          <select id="filter-subject">
+            <option value="all">All subjects</option>
+            {subjectOrder.filter((key) => subjectCounts.has(key)).map((key) => (
+              <option value={key}>{subjectLabels[key]} ({subjectCounts.get(key)})</option>
+            ))}
+          </select>
+        </label>
+        <label class="field">Key
+          <select id="filter-key">
+            <option value="all">Any</option>
+            <option value="official">Official board key</option>
+            <option value="derived">Derived key</option>
+            <option value="none">No published key</option>
+          </select>
+        </label>
+      </div>
+    </details>
+
+    <ul class="papers-list" id="paper-list">
+      {papers.map((paper) => {
+        const subjects = [...new Set(paper.questions.map((question) => question.subjectKey))].join(' ');
+        return (
+          <li
+            class="paper-card"
+            data-paper-row
+            data-paper-card
+            data-paper-id={paper.id}
+            data-year={paper.year}
+            data-key={paper.keyTier ?? 'none'}
+            data-subjects={subjects}
+            data-search={`${paper.label} ${paper.year} paper i`.toLowerCase()}
+          >
+            <a class="paper-card-body" href={`${base}library/${paper.id}/`} aria-label={paper.label}>
+              <span class="paper-year">{paper.year}</span>
+              <span class="paper-title">JELET {paper.year}</span>
+              <span class="paper-provider">Paper I · WBJEEB</span>
+              <span class="paper-meta">
+                {paper.questionCount} questions · {paper.scoreableQuestions} markable
+                {paper.heldQuestions > 0 && ` · ${paper.heldQuestions} held`}
+                {paper.gaps.length > 0 && ` · ${paper.gaps.length} missing`}
+                {paper.boardAwardedQuestions > 0 && ` · ${paper.boardAwardedQuestions} board-voided`}
+              </span>
+              <span class="paper-status">
+                {paper.keyTier === 'official' && <StatusBadge tone="official" icon="check-circle" label="Official key" />}
+                {paper.keyTier === 'derived' && <StatusBadge tone="derived" icon="alert-triangle" label="Derived key" />}
+                {!paper.hasKey && <StatusBadge tone="neutral" icon="papers" label="No published key" />}
+              </span>
+              <span class="paper-match" data-paper-match hidden></span>
+            </a>
+            <button
+              class="paper-bookmark"
+              type="button"
+              aria-pressed="false"
+              aria-label={`Bookmark JELET ${paper.year}`}
+              data-bookmark-toggle
+              data-item-id={`paper:${paper.id}`}
+              data-item-title={`JELET ${paper.year}`}
+              data-item-url={`${base}library/${paper.id}/`}
+            >
+              <Icon name="bookmark" size={22} />
+            </button>
+          </li>
+        );
+      })}
     </ul>
-  </section>
+
+    <section class="papers-empty" data-papers-empty hidden aria-live="polite">
+      <span class="papers-empty-icon" aria-hidden="true"><Icon name="search" size="md" /></span>
+      <div class="papers-empty-copy">
+        <strong data-papers-empty-title>No paper matches that yet.</strong>
+        <small data-papers-empty-note>Search the question text, or choose another year.</small>
+      </div>
+      <button class="btn ghost" type="button" data-clear-filters>Clear search and filters</button>
+    </section>
+
+    <details class="papers-about">
+      <summary>Where the numbers come from <Icon name="chevron-down" size="sm" class="papers-more-chevron" /></summary>
+      <ul class="small">
+        <li>Transcriptions and answer keys are preserved from the earlier <code>Jelet-prep</code> project and rebuilt by <code>scripts/build-content.mjs</code> on every build; the archive itself is never published.</li>
+        <li>2024 and 2025 use WBJEEB's own final answer-key notices (tier: official). The 2022 answers were solved independently because the board published no key for that year (tier: derived) and are labelled as such everywhere they appear.</li>
+        <li>“Not markable” means the item depends on a diagram or options that the transcription does not reproduce. Those items are shown for reading and excluded from every total.</li>
+        <li>A bookmark is kept in this browser only. It changes no paper, key or score, and it can be removed from the card or from the workspace.</li>
+      </ul>
+    </details>
+  </div>
 
   <script>
-    const year = document.querySelector<HTMLSelectElement>('#filter-year');
-    const subject = document.querySelector<HTMLSelectElement>('#filter-subject');
-    const key = document.querySelector<HTMLSelectElement>('#filter-key');
+    import { matches, type IndexEntry } from '../../search';
+    import { makeBookmark, readWorkspace, readWorkspaceSafe, writeWorkspace } from '../../workspace';
+
+    type State = { q: string; year: string; key: string; subject: string; bookmarked: boolean };
+    type CompactEntry = { i: string; t: string; s: string; y: string | null; p: string | null; c: string | null; r: string; d: string; f: string; u: string; a: string | null; x: string };
+
+    const searchForm = document.querySelector<HTMLFormElement>('#papers-search');
+    const search = document.querySelector<HTMLInputElement>('#paper-search');
+    const yearSelect = document.querySelector<HTMLSelectElement>('#filter-year');
+    const subjectSelect = document.querySelector<HTMLSelectElement>('#filter-subject');
+    const keySelect = document.querySelector<HTMLSelectElement>('#filter-key');
     const status = document.querySelector<HTMLElement>('#filter-status');
-    const rows = [...document.querySelectorAll<HTMLElement>('[data-paper-row]')];
-    function apply() {
+    const empty = document.querySelector<HTMLElement>('[data-papers-empty]');
+    const emptyTitle = document.querySelector<HTMLElement>('[data-papers-empty-title]');
+    const emptyNote = document.querySelector<HTMLElement>('[data-papers-empty-note]');
+    const clearButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-clear-filters]')];
+    const yearChips = [...document.querySelectorAll<HTMLButtonElement>('[data-chip-year]')];
+    const cardNodes = [...document.querySelectorAll<HTMLElement>('[data-paper-card]')];
+    const bookmarkedChip = document.querySelector<HTMLButtonElement>('[data-chip-bookmarked]');
+    const bookmarkButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-bookmark-toggle]')];
+
+    const state: State = { q: '', year: 'all', key: 'all', subject: 'all', bookmarked: false };
+    let entries: IndexEntry[] | null = null;
+    let indexState: 'idle' | 'loading' | 'ready' | 'failed' = 'idle';
+    let bookmarks = new Set<string>();
+    let bookmarksAvailable = true;
+
+    const text = (node: HTMLElement | null, value: string) => {
+      if (node) node.textContent = value;
+    };
+    const itemIdOf = (card: HTMLElement) => `paper:${card.dataset.paperId}`;
+
+    /** Build a full index entry from the compact payload the site ships. */
+    const expand = (entry: CompactEntry): IndexEntry => ({
+      id: entry.i,
+      type: 'question',
+      title: entry.t,
+      summary: entry.s,
+      topic: entry.p ?? '',
+      year: entry.y,
+      paper: entry.p,
+      set: null,
+      category: entry.c,
+      readiness: entry.r,
+      status: '',
+      identity: entry.d,
+      figure: entry.f,
+      url: entry.u,
+      anchor: entry.a,
+      terms: entry.x,
+    });
+
+    /** Question matches per paper for the current query; null until loaded. */
+    const matchCounts = (): Map<string, number> | null => {
+      if (indexState !== 'ready' || !entries || state.q.trim().length < 2) return null;
+      const counts = new Map<string, number>();
+      for (const entry of entries) {
+        if (!matches(entry, state.q, 'question', 'all')) continue;
+        const found = /^question:([^:]+):/.exec(entry.id);
+        if (!found) continue;
+        counts.set(found[1], (counts.get(found[1]) ?? 0) + 1);
+      }
+      return counts;
+    };
+
+    async function loadIndex(): Promise<void> {
+      if (indexState !== 'idle') return;
+      indexState = 'loading';
+      apply();
+      try {
+        const url = searchForm?.dataset.indexUrl;
+        if (!url) throw new Error('No index URL');
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Index ${response.status}`);
+        const data = (await response.json()) as { entries: CompactEntry[] };
+        entries = data.entries.map(expand);
+        indexState = 'ready';
+      } catch {
+        indexState = 'failed';
+      }
+      apply();
+    }
+
+    function matchesMetadata(card: HTMLElement): boolean {
+      const tokens = state.q.toLowerCase().trim().split(/\s+/).filter((token) => /[\p{L}\p{N}]/u.test(token));
+      if (tokens.length === 0) return true;
+      const haystack = (card.dataset.search ?? '').toLowerCase();
+      return tokens.every((token) => haystack.includes(token));
+    }
+
+    function visibleState(): { visible: number; totalMatches: number } {
+      const counts = matchCounts();
       let visible = 0;
-      for (const row of rows) {
-        const yearOk = !year || year.value === 'all' || row.dataset.year === year.value;
-        const subjectOk = !subject || subject.value === 'all' || (row.dataset.subjects ?? '').split(' ').includes(subject.value);
-        const keyOk = !key || key.value === 'all' || row.dataset.key === key.value;
-        const show = yearOk && subjectOk && keyOk;
-        row.hidden = !show;
+      let totalMatches = 0;
+      for (const card of cardNodes) {
+        const id = card.dataset.paperId ?? '';
+        const questions = counts?.get(id) ?? 0;
+        totalMatches += questions;
+        const yearOk = state.year === 'all' || card.dataset.year === state.year;
+        const keyOk = state.key === 'all' || card.dataset.key === state.key;
+        const subjectOk = state.subject === 'all' || (card.dataset.subjects ?? '').split(' ').includes(state.subject);
+        const bookmarkOk = !state.bookmarked || bookmarks.has(itemIdOf(card));
+        const pending = state.q.trim().length >= 2 && (indexState === 'idle' || indexState === 'loading');
+        const queryOk = matchesMetadata(card) || questions > 0 || pending;
+        const show = yearOk && keyOk && subjectOk && bookmarkOk && queryOk;
+        card.hidden = !show;
+        const matchLabel = card.querySelector<HTMLElement>('[data-paper-match]');
+        if (matchLabel) {
+          const showCount = state.q.trim().length >= 2 && questions > 0;
+          matchLabel.hidden = !showCount;
+          matchLabel.textContent = showCount ? `${questions} matching ${questions === 1 ? 'question' : 'questions'}` : '';
+        }
         if (show) visible += 1;
       }
-      if (status) status.textContent = `${visible} of ${rows.length} papers shown.`;
+      return { visible, totalMatches };
     }
-    year?.addEventListener('change', apply);
-    subject?.addEventListener('change', apply);
-    key?.addEventListener('change', apply);
+
+    function syncUrl(): void {
+      const url = new URL(window.location.href);
+      const params = url.searchParams;
+      const set = (name: string, value: string) => {
+        if (value && value !== 'all') params.set(name, value);
+        else params.delete(name);
+      };
+      if (state.q.trim()) params.set('q', state.q.trim());
+      else params.delete('q');
+      set('year', state.year);
+      set('key', state.key);
+      set('subject', state.subject);
+      if (state.bookmarked) params.set('bookmarked', '1');
+      else params.delete('bookmarked');
+      const next = `${url.pathname}${params.toString() ? `?${params}` : ''}${url.hash}`;
+      try {
+        history.replaceState(null, '', next);
+      } catch {
+        /* A blocked history API leaves the page working; only the URL is stale. */
+      }
+    }
+
+    function paintChips(): void {
+      for (const chip of yearChips) {
+        chip.setAttribute('aria-pressed', String((chip.dataset.chipYear ?? 'all') === state.year));
+      }
+      bookmarkedChip?.setAttribute('aria-pressed', String(state.bookmarked));
+      if (yearSelect) yearSelect.value = state.year;
+      if (keySelect) keySelect.value = state.key;
+      if (subjectSelect) subjectSelect.value = state.subject;
+      if (search && search.value !== state.q) search.value = state.q;
+      const active = state.year !== 'all' || state.key !== 'all' || state.subject !== 'all' || state.bookmarked || state.q.trim() !== '';
+      for (const button of clearButtons) button.hidden = !active;
+    }
+
+    function apply(): void {
+      const { visible, totalMatches } = visibleState();
+      paintChips();
+      const parts = [`${visible} of ${cardNodes.length} papers shown`];
+      if (state.q.trim().length >= 2) {
+        if (indexState === 'ready') parts.push(`${totalMatches} matching ${totalMatches === 1 ? 'question' : 'questions'}`);
+        else if (indexState === 'loading') parts.push('loading question search…');
+        else if (indexState === 'failed') parts.push('question search unavailable offline — matching paper names only');
+      }
+      text(status, `${parts.join(' · ')}.`);
+      if (empty) {
+        empty.hidden = visible !== 0;
+        if (visible === 0) {
+          text(emptyTitle, state.bookmarked ? 'No bookmarked paper matches yet.' : 'No paper matches that yet.');
+          text(
+            emptyNote,
+            state.bookmarked
+              ? 'Bookmark a paper from its card, or clear the filter to see every paper.'
+              : 'Search the question text, choose another year, or clear the filters.',
+          );
+        }
+      }
+      syncUrl();
+    }
+
+    function clearFilters(): void {
+      state.q = '';
+      state.year = 'all';
+      state.key = 'all';
+      state.subject = 'all';
+      state.bookmarked = false;
+      if (search) search.value = '';
+      apply();
+      search?.focus();
+    }
+
+    function paintBookmarks(): void {
+      for (const button of bookmarkButtons) {
+        const itemId = button.dataset.itemId ?? '';
+        const saved = bookmarks.has(itemId);
+        button.setAttribute('aria-pressed', String(saved));
+        const title = button.dataset.itemTitle ?? 'this paper';
+        button.setAttribute('aria-label', saved ? `Remove bookmark: ${title}` : `Bookmark ${title}`);
+      }
+      if (bookmarkedChip) {
+        bookmarkedChip.disabled = !bookmarksAvailable;
+        bookmarkedChip.title = bookmarksAvailable ? '' : 'Bookmarks are unavailable in this browser';
+      }
+      for (const button of bookmarkButtons) button.disabled = !bookmarksAvailable;
+    }
+
+    async function toggleBookmark(button: HTMLButtonElement): Promise<void> {
+      const itemId = button.dataset.itemId;
+      if (!itemId) return;
+      try {
+        const current = await readWorkspace();
+        const exists = current.items.bookmarks.some((bookmark) => bookmark.itemId === itemId);
+        const bookmarksNext = exists
+          ? current.items.bookmarks.filter((bookmark) => bookmark.itemId !== itemId)
+          : [...current.items.bookmarks, makeBookmark({ id: itemId, title: button.dataset.itemTitle ?? 'Paper', url: button.dataset.itemUrl ?? '' })];
+        await writeWorkspace({ ...current, items: { ...current.items, bookmarks: bookmarksNext } });
+        if (exists) bookmarks.delete(itemId);
+        else bookmarks.add(itemId);
+        paintBookmarks();
+        apply();
+      } catch {
+        bookmarksAvailable = false;
+        paintBookmarks();
+        text(status, 'This browser is not saving bookmarks; the paper links still work.');
+      }
+    }
+
+    function restoreFromUrl(): void {
+      const params = new URLSearchParams(window.location.search);
+      state.q = params.get('q') ?? '';
+      state.year = params.get('year') ?? 'all';
+      state.key = params.get('key') ?? 'all';
+      state.subject = params.get('subject') ?? 'all';
+      state.bookmarked = params.get('bookmarked') === '1';
+      if (search) search.value = state.q;
+    }
+
+    yearChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        state.year = chip.dataset.chipYear ?? 'all';
+        apply();
+      });
+    });
+    bookmarkedChip?.addEventListener('click', () => {
+      state.bookmarked = !state.bookmarked;
+      apply();
+    });
+    yearSelect?.addEventListener('change', () => {
+      state.year = yearSelect.value;
+      apply();
+    });
+    subjectSelect?.addEventListener('change', () => {
+      state.subject = subjectSelect.value;
+      apply();
+    });
+    keySelect?.addEventListener('change', () => {
+      state.key = keySelect.value;
+      apply();
+    });
+    for (const button of clearButtons) button.addEventListener('click', clearFilters);
+    searchForm?.addEventListener('submit', (event) => event.preventDefault());
+
+    let debounce = 0;
+    search?.addEventListener('input', () => {
+      state.q = search.value;
+      window.clearTimeout(debounce);
+      debounce = window.setTimeout(() => {
+        if (state.q.trim().length >= 2 && indexState === 'idle') void loadIndex();
+        apply();
+      }, 140);
+    });
+
+    for (const button of bookmarkButtons) {
+      button.addEventListener('click', () => void toggleBookmark(button));
+    }
+
+    restoreFromUrl();
     apply();
+    if (state.q.trim().length >= 2) void loadIndex();
+
+    // Bookmarks live in IndexedDB; a blocked store leaves the links usable.
+    readWorkspaceSafe().then((workspace) => {
+      if (!workspace.available || !workspace.data) {
+        bookmarksAvailable = false;
+        paintBookmarks();
+        apply();
+        return;
+      }
+      bookmarks = new Set(workspace.data.items.bookmarks.map((bookmark) => bookmark.itemId));
+      paintBookmarks();
+      apply();
+    });
   </script>
 </Site>

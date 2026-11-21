@@ -169,12 +169,165 @@ test('the paper library lists every paper with its key tier and real counts', as
   await go(page, 'library/');
   const rows = page.locator('[data-paper-row]');
   assert.equal(await rows.count(), 8);
+  await page.locator('details.papers-more > summary').click();
   await page.selectOption('#filter-key', 'official');
   await page.waitForFunction(() => /3 of 8 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
   assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 3);
   await page.selectOption('#filter-key', 'none');
   await page.waitForFunction(() => /4 of 8 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
   assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 4);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 16 — the Papers screen against 02-papers-library.png
+ * ------------------------------------------------------------------ */
+
+test('the Papers screen matches the reference composition without invented sessions', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+
+  // Title, one prominent search field, helper line.
+  assert.equal((await page.locator('h1').first().textContent())?.trim(), 'Papers');
+  const search = page.locator('#paper-search');
+  assert.equal(await search.count(), 1);
+  assert.equal(await search.getAttribute('placeholder'), 'Search inside papers…');
+  assert.equal(await search.getAttribute('type'), 'search');
+  assert.equal(await page.getByLabel('Search inside papers').count(), 1, 'the field has a real label');
+  assert.match(await page.locator('.papers-helper').textContent(), /800 questions/, 'the helper states the real corpus size');
+
+  // All chips are real filters, with a clear selected state.
+  const chips = page.locator('.filter-chip');
+  assert.equal(await chips.count(), 10, 'All + seven real years + Bookmarked');
+  assert.equal(await page.locator('[data-chip-year="all"]').getAttribute('aria-pressed'), 'true');
+  for (const year of ['2025', '2024', '2023', '2022', '2021', '2019', '2018']) {
+    assert.equal(await page.locator(`[data-chip-year="${year}"]`).count(), 1, `${year} is a chip`);
+  }
+  assert.equal(await page.locator('[data-chip-bookmarked]').getAttribute('aria-pressed'), 'false');
+
+  // One card per paper, with the real numbers and a truthful status.
+  const cards = page.locator('[data-paper-card]');
+  assert.equal(await cards.count(), 8);
+  const statuses = await page.locator('[data-paper-card] .status-badge').allInnerTexts();
+  assert.equal(statuses.filter((text) => /Official key/.test(text)).length, 3);
+  assert.equal(statuses.filter((text) => /Derived key/.test(text)).length, 1);
+  assert.equal(statuses.filter((text) => /No published key/.test(text)).length, 4);
+  for (const text of statuses) assert.match(text, /key/i, 'a status is words, not colour');
+
+  const body = await page.locator('.papers').innerText();
+  assert.doesNotMatch(body, /Shift 1|Shift 2|\(Evening\)|\(Morning\)|Late Shift/, 'no fictional sessions were imported');
+  assert.doesNotMatch(body, /Full Key|Partial Key|No Key\b/, 'the mock-up key labels are not claimed');
+  assert.match(body, /100 questions · 82 markable/, 'the real counts are shown');
+  assert.match(body, /15 held/, 'held items are stated');
+  assert.match(body, /3 board-voided/, 'board-voided items are stated');
+
+  // A real bookmark control per card, and the card still links to its reader.
+  assert.equal(await page.locator('[data-bookmark-toggle]').count(), 8);
+  const firstCard = page.locator('[data-paper-card]').first();
+  assert.match(await firstCard.locator('.paper-card-body').getAttribute('href'), /\/library\/jelet-et-p1-2025\/$/);
+  assert.equal(await firstCard.locator('[data-bookmark-toggle]').getAttribute('aria-pressed'), 'false');
+  assert.match(await firstCard.locator('[data-bookmark-toggle]').getAttribute('aria-label'), /Bookmark JELET 2025/);
+
+  // Keyboard: a chip is reachable and its pressed state is exposed.
+  await page.locator('[data-chip-year="2022"]').focus();
+  assert.equal(await page.evaluate(() => document.activeElement?.getAttribute('data-chip-year')), '2022');
+});
+
+test('the year chips, key filter and clear action narrow the real papers', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  const visible = () => page.locator('[data-paper-card]:not([hidden])').count();
+
+  await page.locator('[data-chip-year="2022"]').click();
+  assert.equal(await page.locator('[data-chip-year="2022"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-chip-year="all"]').getAttribute('aria-pressed'), 'false');
+  assert.equal(await visible(), 1);
+  assert.match(await page.locator('#filter-status').textContent(), /1 of 8 papers shown/);
+  assert.match(page.url(), /[?&]year=2022/);
+
+  // The same real filter remains available as a select for a longer list.
+  await page.locator('details.papers-more > summary').click();
+  assert.equal(await page.locator('#filter-year').inputValue(), '2022', 'chip and select stay in step');
+  await page.selectOption('#filter-key', 'official');
+  await page.waitForFunction(() => document.querySelector('[data-papers-empty]')?.hidden === false);
+  assert.equal(await visible(), 0, '2022 has no official key');
+  assert.match(await page.locator('[data-placard], [data-papers-empty]').first().innerText(), /No paper matches/);
+
+  await page.locator('[data-papers-empty] [data-clear-filters]').click();
+  assert.equal(await visible(), 8);
+  assert.equal(await page.locator('[data-chip-year="all"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-papers-empty]').isVisible(), false);
+  assert.equal(await page.locator('[data-clear-filters]').first().isVisible(), false, 'no clear button when nothing is filtered');
+});
+
+test('a card bookmark persists, drives the Bookmarked filter and agrees with You', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  const button = page.locator('[data-paper-card]').first().locator('[data-bookmark-toggle]');
+
+  await button.click();
+  await page.waitForFunction(() => document.querySelector('[data-bookmark-toggle]')?.getAttribute('aria-pressed') === 'true');
+  assert.match(await button.getAttribute('aria-label'), /Remove bookmark: JELET 2025/);
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForFunction(() => document.querySelector('[data-bookmark-toggle]')?.getAttribute('aria-pressed') === 'true');
+  assert.equal(await page.locator('[data-paper-card]').first().locator('[data-bookmark-toggle]').getAttribute('aria-pressed'), 'true', 'the bookmark is stored');
+
+  await page.locator('[data-chip-bookmarked]').click();
+  assert.equal(await page.locator('[data-chip-bookmarked]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 1, 'the filter reads the real store');
+  assert.match(await page.locator('#filter-status').textContent(), /1 of 8 papers shown/);
+
+  await go(page, 'you/');
+  await page.waitForFunction(() => !/Reading this device/.test(document.querySelector('[data-you-saved-note]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '1', 'You counts the same bookmark');
+
+  await go(page, 'library/');
+  await page.locator('[data-paper-card]').first().locator('[data-bookmark-toggle]').click();
+  await page.waitForFunction(() => document.querySelector('[data-bookmark-toggle]')?.getAttribute('aria-pressed') === 'false');
+  await page.locator('[data-chip-bookmarked]').click();
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 0);
+  assert.match(await page.locator('[data-papers-empty]').innerText(), /No bookmarked paper matches yet/);
+});
+
+test('the Papers search reads the real index, counts matches and survives Back', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  await page.locator('#paper-search').fill('semiconductor');
+  await page.waitForFunction(() => /matching questions?/.test(document.querySelector('#filter-status')?.textContent ?? ''), null, { timeout: 30000 });
+  const status = await page.locator('#filter-status').textContent();
+  assert.match(status, /2 of 8 papers shown · 2 matching questions/, `the index is searched: ${status}`);
+  assert.equal(await page.locator('[data-paper-match]:not([hidden])').first().textContent(), '1 matching question');
+  assert.match(page.url(), /[?&]q=semiconductor/);
+
+  // A query with no match offers a way out.
+  await page.locator('#paper-search').fill('zzzznotacorpusword');
+  await page.waitForFunction(() => document.querySelector('[data-papers-empty]')?.hidden === false);
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 0);
+  await page.locator('[data-papers-empty] [data-clear-filters]').click();
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 8);
+
+  // Back from a reader restores the search, not an empty list.
+  await page.locator('#paper-search').fill('semiconductor');
+  await page.waitForFunction(() => /matching questions?/.test(document.querySelector('#filter-status')?.textContent ?? ''), null, { timeout: 30000 });
+  await page.locator('[data-paper-card]:not([hidden]) .paper-card-body').first().click();
+  await page.waitForURL(/\/library\/jelet-et-p1-/);
+  await page.goBack({ waitUntil: 'load' });
+  await page.waitForFunction(() => /matching questions?/.test(document.querySelector('#filter-status')?.textContent ?? ''), null, { timeout: 30000 });
+  assert.equal(await page.locator('#paper-search').inputValue(), 'semiconductor');
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 2);
+});
+
+test('a blocked bookmark store leaves the Papers list usable', async (t) => {
+  const page = await context(t);
+  await page.addInitScript(() => {
+    IDBFactory.prototype.open = function open() { throw new DOMException('Blocked', 'SecurityError'); };
+  });
+  await go(page, 'library/');
+  assert.equal(await page.locator('[data-paper-card]').count(), 8, 'the papers still list');
+  assert.equal(await page.locator('[data-bookmark-toggle]').first().isDisabled(), true);
+  assert.equal(await page.locator('[data-chip-bookmarked]').isDisabled(), true);
+  await page.locator('[data-paper-card]').first().locator('.paper-card-body').click();
+  await page.waitForURL(/\/library\/jelet-et-p1-2025\//);
+  assert.match(await page.locator('h1').first().textContent(), /JELET 2025/i);
 });
 
 test('a paper reader renders typeset maths, the key and the honest hold note', async (t) => {
