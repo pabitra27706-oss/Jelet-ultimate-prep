@@ -2,8 +2,8 @@
 
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 18, the Practice
   chooser. **Built and agent-verified; owner visual review pending.** 2026-11-21.
-  Branch `arena/61a4f729-jelet-ultimate-prep`, commit `52e1d17`. Phase 19 has
-  not started.
+  Branch `arena/61a4f729-jelet-ultimate-prep`, commits `52e1d17` and `62881e7`.
+  Phase 19 has not started.
 
 - **Inputs and pre-change evidence; reused/adapted/rejected reference and
   licence:** the owner's concept
@@ -52,7 +52,10 @@
   0 hints. `npm run build` → 63 pages, 10 packs, 26,660 KB. `npm test` →
   **305 passed, 0 failed** (browser **91**, of which 3 are new for this screen).
   Headless Chromium 153.0.8010.0 at 390×844, 320×700 and 1280×900, light and
-  dark, with a no-JavaScript pass. `git diff --check` clean.
+  dark, with a no-JavaScript pass. `git diff --check` clean. The first CI run
+  failed in the browser suite on the Phase 17 retry test, which read the panes
+  before the retry page had filtered them; the test now waits for the filtered
+  document and the second attempt, and two consecutive local runs and CI pass.
 
 - **Residual physical gate:** **ANDROID CHECK NEEDED — pending.** No deployed
   URL for this branch. In Termux: `git fetch origin
@@ -64,9 +67,11 @@
   320 px plus phone text zoom keep the cards readable. TalkBack reading of the
   switch state is not tested.
 
-- **CI run, build size, published URL and browser/device:** reported on pull
-  request #14 after the push; nothing is deployed or merged by this phase.
-  Browser: headless Chromium 153.0.8010.0; no physical device.
+- **CI run, build size, published URL and browser/device:** the branch's
+  `pilot` job passed on pull request #14
+  (`actions/runs/44951093244`, 1 m 56 s, on `62881e7`). Nothing is deployed or
+  merged by this phase. Browser: headless Chromium 153.0.8010.0; no physical
+  device.
 
 - **Privacy, accessibility, cost, editorial and rollback checks:** every card
   is a plain link or anchor, so keyboard order follows the page and each target
