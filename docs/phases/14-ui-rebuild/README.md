@@ -1,6 +1,6 @@
 # Phase 14 — whole-site visual rebuild
 
-**Status:** in progress; seven references are captured in Git, and the first shared light/dark teal palette update is underway. Page-family redesign, owner visual review, physical-device check and deployment are not complete or claimed.
+**Status:** in progress; seven references are captured in Git, the shared light/dark teal palette is updated, and the Today dashboard's first visual rebuild is underway. The remaining page families, owner visual review, physical-device check and deployment are not complete or claimed.
 
 ## Owner request and target
 
@@ -33,21 +33,29 @@ The canonical reference set and screen-by-screen interpretation is [`docs/refere
 
 Document reference-derived visual tokens and component states, then converge global type scale, spacing, surfaces, cards, buttons, status labels, disclosures, bottom navigation and light/dark treatments. Validate these changes across representative existing routes before applying page-specific styling. Do not remove warnings that carry essential accuracy or provenance information; reduce repetition and improve presentation instead.
 
-**In progress:** the global light/dark palette is being shifted from indigo/lavender to the references' cool neutral surfaces and teal/green accents, including the browser theme color. This is only the first shared-system step; page-specific screenshots and acceptance review are still outstanding.
+**Complete for the first pass:** the shared light/dark palette now uses the references' cool neutral surfaces and teal/green accents, including the browser theme color. Global component refinement and full visual review remain outstanding.
 
-### 14.2 — Learn and lesson family
+### 14.2 — Today dashboard
+
+Rebuild the first-visit and returning-student home view around an honest resume card, real quick routes, the local review queue and available subject drills. Keep all counts derived from actual paper and device data; keep the full paper library, local record and source/scoring explanation discoverable. Verify 320px/200% text, light/dark, empty and returning states.
+
+**In progress:** the home now has reference-inspired quick-action cards, a review-queue card backed by actual due items, and subject cards backed by the real 2025 keyed drills. The redundant first-visit privacy banner was removed from the home fold; the local-first promise remains in the site copy and detailed trust disclosure. Astro check, static build and the complete 64-test suite pass; focused tests cover new routes, actual review counts, lesson resume, offline use and 320px/200% layout. This screen is not yet owner-reviewed or Android-tested.
+
+**Current render snapshots:** [390 × 844 mobile](today-current-mobile.png) and [1280 × 900 desktop](today-current-desktop.png), captured from the built static output in bundled headless Chromium. These show the implementation for comparison; they are not physical Android screenshots, a final visual match, or owner acceptance.
+
+### 14.3 — Learn and lesson family
 
 Bring the Learn catalog and lesson reading experience toward their references using only existing lesson/topic data. Verify correct subject names, visible availability, resume behavior, equation overflow and useful return paths.
 
-### 14.3 — Practice, runner and results family
+### 14.4 — Practice, runner and results family
 
 Align the practice-mode discovery, question runner and result/review screens. Exercise each scoring category, blanks, partial credit, held items, board awards, assistance labels, retries and offline behavior. Use real local attempts in every visual fixture; never hard-code the concept image's sample outcome.
 
-### 14.4 — Papers and You/settings family
+### 14.5 — Papers and You/settings family
 
 Refresh paper discovery, paper readers, local settings, workspace, offline management and backup. Validate actual library keys/source statuses and preserve export/import compatibility, route targets and storage-denied states.
 
-### 14.5 — Whole-site consistency and release evidence
+### 14.6 — Whole-site consistency and release evidence
 
 Review all routes in light and dark themes at narrow-phone, large-phone, tablet and desktop widths; test keyboard/high zoom, 320 CSS px, 200% text, safe-area/fixed navigation, offline, fresh and returning local states. Capture comparable screenshots against the seven references and run the complete verification contract. Request the owner's real Android review on the live preview. Update the phase record and roadmap with evidence and unresolved differences; no release/deployment without its separate approval.
 

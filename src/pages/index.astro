@@ -25,19 +25,22 @@ const drills = mockPaper.subjects
     return { ...subject, count: items.length, marks: items.reduce((sum, question) => sum + question.marks, 0) };
   })
   .filter((subject) => subject.count > 0);
+const subjectSymbols: Record<string, string> = {
+  mathematics: 'π', physics: '∿', chemistry: '⚗', electrical: 'EE',
+};
 ---
 <Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, previous-year papers with board answer keys, and spaced revision built from your own attempts.">
   <section class="today-hero" aria-labelledby="today-title">
     <div class="today-hero-copy">
-      <p class="eyebrow">Paper I · your study desk</p>
-      <h1 id="today-title">JELET Paper I, one clear step at a time.</h1>
-      <p class="today-subjects">Mathematics <span aria-hidden="true">·</span> Physics <span aria-hidden="true">·</span> Chemistry <span aria-hidden="true">·</span> Electrical &amp; Electronics</p>
-      <p class="micro">No account. Your answers stay on this device; nothing is uploaded.</p>
+      <p class="eyebrow">JELET Paper I · your study desk</p>
+      <h1 id="today-title">Smarter study. Brighter tomorrow.</h1>
+      <p class="today-subjects">Learn a concept, practise a question, and return to what needs work.</p>
+      <p class="micro">Free · No account needed.</p>
     </div>
     <div class="today-next">
       <p class="today-next-label"><span aria-hidden="true">✦</span> Start here</p>
       <h2 data-next-heading>Choose one subject to begin.</h2>
-      <p data-next-copy>No account or setup. Start with a subject drill; your progress stays on this device.</p>
+      <p data-next-copy>Pick a subject drill and start with a question.</p>
       <a class="today-primary-action" data-next-action href="#drills-heading"><span data-next-label>Choose a subject</span><span aria-hidden="true">↗</span></a>
       <details class="today-more-options">
         <summary>More ways to study <span aria-hidden="true">＋</span></summary>
@@ -48,18 +51,44 @@ const drills = mockPaper.subjects
         </div>
       </details>
     </div>
-    <p class="today-corpus">
-      <strong>{totalQuestions} questions</strong> across {paperWord} previous-year papers
-      <span aria-hidden="true">·</span> {scorableQuestions} marked against a key
-      <span aria-hidden="true">·</span> {boardAwardedQuestions} awarded by the board
-      <span aria-hidden="true">·</span> {officialPapers.length} official, {derivedPapers.length} derived, {readOnlyPapers.length} read-only papers
-    </p>
   </section>
 
-  <div class="today-first-visit" data-first-visit>
-    <span class="today-first-visit-mark" aria-hidden="true">01</span>
-    <span><strong>Your personal study record starts here.</strong><small>Finish a practice to see your progress. Nothing leaves this device.</small></span>
-  </div>
+  <section class="today-actions today-section" aria-labelledby="quick-actions-heading">
+    <div class="section-head">
+      <h2 id="quick-actions-heading">Quick actions</h2>
+      <span class="micro">Choose the kind of study that fits right now.</span>
+    </div>
+    <div class="today-action-grid">
+      <a class="today-action-card" href={`${base}learn/`}>
+        <span class="today-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.2C9.8 4.7 7.4 4 4.5 4v14.2c3 0 5.5.7 7.5 2.2 2-1.5 4.5-2.2 7.5-2.2V4c-2.9 0-5.3.7-7.5 2.2Z"/><path d="M12 6.5v13.7"/></svg>
+        </span>
+        <span><strong>Learn</strong><small>Explore topics</small></span>
+        <span class="today-action-arrow" aria-hidden="true">›</span>
+      </a>
+      <a class="today-action-card" href={`${base}library/`}>
+        <span class="today-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h8l4 4V21H6z"/><path d="M14 3.5V8h4M9 12h6M9 16h6"/></svg>
+        </span>
+        <span><strong>Papers</strong><small>Search past papers</small></span>
+        <span class="today-action-arrow" aria-hidden="true">›</span>
+      </a>
+      <a class="today-action-card" href={`${base}mock/`}>
+        <span class="today-action-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span><strong>Mock</strong><small>Build a practice set</small></span>
+        <span class="today-action-arrow" aria-hidden="true">›</span>
+      </a>
+    </div>
+  </section>
+
+  <a class="today-review-card" href={`${base}review/`} aria-label="Open your review queue">
+    <span class="today-review-icon" aria-hidden="true">↻</span>
+    <span class="today-review-copy"><strong>Your review queue</strong><small data-review-detail>Questions you missed can be scheduled here after practice.</small></span>
+    <span class="today-review-total"><b data-review-count>—</b><small>due now</small></span>
+    <span class="today-review-arrow" aria-hidden="true">›</span>
+  </a>
 
   <section class="today-record" aria-labelledby="today-stats" data-record-panel hidden>
     <div class="section-head">
@@ -94,21 +123,22 @@ const drills = mockPaper.subjects
 
   <section class="today-section" aria-labelledby="drills-heading">
     <div class="section-head">
-      <h2 id="drills-heading">Subject drills · {mockPaper.year}</h2>
-      <a class="micro" href={`${base}library/${mockPaper.id}/`}>Read the whole paper →</a>
+      <h2 id="drills-heading">Your subjects</h2>
+      <a class="micro" href={`${base}learn/`}>Browse all lessons →</a>
     </div>
     <p class="micro">
-      Each drill holds only questions that carry a published key and a complete set of options. The count is the
-      real number of questions, not a target.
+      Choose a subject to practise questions with a published key. Counts show what is available in the {mockPaper.year} paper.
     </p>
-    <div class="card-grid">
+    <div class="today-subject-grid">
       {drills.map((subject) => (
-        <a class="linkrow" href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
-          <span>
+        <a class="today-subject-card" data-subject={subject.subjectKey} href={`${base}practice/${mockPaper.id}/${subject.subjectKey}/`}>
+          <span class="today-subject-icon" aria-hidden="true">{subjectSymbols[subject.subjectKey] ?? '•'}</span>
+          <span class="today-subject-copy">
             <strong>{subjectLabels[subject.subjectKey as SubjectKey]}</strong>
-            <small>{subject.count} questions · {subject.marks} marks · {subject.categories.map((category) => `Cat ${category.category}`).join(' + ')}</small>
+            <small>{subject.count} questions · {subject.marks} marks</small>
+            <small>{subject.categories.map((category) => `Category ${category.category}`).join(' + ')}</small>
           </span>
-          <span aria-hidden="true">→</span>
+          <span class="today-subject-arrow" aria-hidden="true">›</span>
         </a>
       ))}
     </div>
@@ -142,6 +172,12 @@ const drills = mockPaper.subjects
   <details class="today-trust">
     <summary>How sources, scoring and privacy work</summary>
     <div class="details-body">
+      <p class="today-corpus">
+        <strong>{totalQuestions} questions</strong> across {paperWord} previous-year papers
+        <span aria-hidden="true">·</span> {scorableQuestions} marked against a key
+        <span aria-hidden="true">·</span> {boardAwardedQuestions} awarded by the board
+        <span aria-hidden="true">·</span> {officialPapers.length} official, {derivedPapers.length} derived, {readOnlyPapers.length} read-only papers
+      </p>
       <h2>What this site does and does not claim</h2>
       <ul class="small">
         <li>Marks follow the published JELET rules: Category I gives +1, −1/4 for a wrong or multiple answer; Category II gives +2, 0 when a wrong option is marked, and partial credit for a correct subset.</li>
@@ -191,16 +227,24 @@ const drills = mockPaper.subjects
     set('due', String(stats.dueNow));
     setNote('due', stats.queueSize > 0 ? `${stats.queueSize} questions in the review queue` : 'nothing waiting for review');
     set('streak', String(stats.streak));
+    const reviewCount = document.querySelector<HTMLElement>('[data-review-count]');
+    const reviewDetail = document.querySelector<HTMLElement>('[data-review-detail]');
+    if (reviewCount) reviewCount.textContent = String(stats.dueNow);
+    if (reviewDetail) {
+      reviewDetail.textContent = stats.dueNow > 0
+        ? `${stats.dueNow} ${stats.dueNow === 1 ? 'question is' : 'questions are'} ready for another try.`
+        : stats.queueSize > 0
+          ? `Nothing is due today · ${stats.queueSize} ${stats.queueSize === 1 ? 'question is' : 'questions are'} scheduled for later.`
+          : 'Questions you miss in eligible practice can be scheduled here.';
+    }
 
     // The lesson's own reading position, if the learner started the chapter.
     const lessonSlot = document.querySelector('#lesson-slot');
     const { progress } = readProgress('parallel-circuits');
     const hasLocalActivity = attempts.length > 0 || queue.length > 0 || Boolean(progress);
     const recordPanel = document.querySelector<HTMLElement>('[data-record-panel]');
-    const firstVisitPanel = document.querySelector<HTMLElement>('[data-first-visit]');
     const resumeSection = document.querySelector<HTMLElement>('[data-resume-section]');
     if (recordPanel) recordPanel.hidden = !hasLocalActivity;
-    if (firstVisitPanel) firstVisitPanel.hidden = hasLocalActivity;
     if (resumeSection) resumeSection.hidden = !hasLocalActivity;
 
     if (lessonSlot && progress && isSection(progress.section)) {

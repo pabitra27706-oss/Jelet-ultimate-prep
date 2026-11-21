@@ -102,13 +102,20 @@ test('a first-time learner sees one guided start and can expand optional routes'
   const page = await context(t);
   await go(page);
   assert.match(await page.title(), /^Today/);
-  assert.equal(await page.locator('[data-first-visit]').isVisible(), true);
+  assert.equal(await page.locator('[data-first-visit]').count(), 0, 'first visit stays focused on study actions rather than a redundant privacy notice');
   assert.equal(await page.locator('[data-record-panel]').isVisible(), false);
   assert.equal(await page.locator('[data-resume-section]').isVisible(), false);
   assert.match((await page.locator('.today-corpus').textContent()).replace(/\s+/g, ' '), /800 questions across eight previous-year papers/);
   const primary = page.getByRole('link', { name: /Choose a subject/ });
   assert.equal(await primary.getAttribute('href'), '#drills-heading');
   assert(await primary.isVisible());
+  assert.equal(await page.locator('.today-action-card').count(), 3, 'quick actions expose real Learn, Papers and Mock routes');
+  assert.equal(await page.locator('.today-action-card').nth(0).getAttribute('href'), '/Jelet-ultimate-prep/learn/');
+  assert.equal(await page.locator('.today-action-card').nth(1).getAttribute('href'), '/Jelet-ultimate-prep/library/');
+  assert.equal(await page.locator('.today-action-card').nth(2).getAttribute('href'), '/Jelet-ultimate-prep/mock/');
+  await page.waitForFunction(() => document.querySelector('[data-review-count]')?.textContent === '0');
+  assert.match(await page.locator('[data-review-detail]').textContent(), /miss in eligible practice/);
+  assert.equal(await page.locator('.today-subject-card').count(), 4, 'subject cards show the real 2025 keyed drills');
   const options = page.locator('.today-more-options');
   assert.equal(await options.getAttribute('open'), null);
   assert.equal(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible(), false);
@@ -813,6 +820,10 @@ test('hint and notebook progress survives returning and reload, without showing 
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.guidedHints.includes('hint-one'));
   assert(await closed(page, '[data-reveal="hint-two"]'));
   await go(page);
+  const dashboardResume = page.locator('[data-next-action]');
+  await page.waitForFunction(() => /Continue your lesson/.test(document.querySelector('[data-next-label]')?.textContent ?? ''));
+  assert.match(await dashboardResume.getAttribute('href'), /learn\/parallel-circuits\/\?resume=1#guided-practice$/);
+  assert.equal(await page.locator('[data-resume-section]').isVisible(), true);
   const resume = page.getByRole('link', { name: /Parallel circuits · the lesson/ });
   await resume.click();
   assert.equal(new URL(page.url()).hash, '#guided-practice');
@@ -895,7 +906,7 @@ test('the site keeps working with the network switched off', async () => {
 
     await ctx.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    assert.match(await page.locator('h1').first().textContent(), /JELET Paper I/i, 'the shell renders from the cache while offline');
+    assert.match(await page.locator('h1').first().textContent(), /Smarter study/i, 'the shell renders from the cache while offline');
     // Cached navigation must work too, not just the home page.
     await page.goto(origin + base + 'syllabus/', { waitUntil: 'domcontentloaded' });
     assert.match(await page.locator('h1').first().textContent(), /Syllabus/i);
