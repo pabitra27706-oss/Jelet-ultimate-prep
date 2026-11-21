@@ -794,8 +794,19 @@ test('retrying builds a new attempt from the wrong and blank items and leaves th
   });
 
   await page.locator('[data-retry-wrong]').click();
-  await page.waitForSelector('[data-runner]');
   await page.waitForFunction(() => new URLSearchParams(location.search).has('retry'));
+  // The retry page filters its panes while it starts; wait for that, not just
+  // for the URL, so a slow machine cannot read the unfiltered paper.
+  await page.waitForFunction(
+    () => document.querySelectorAll('.pane[data-question]:not([hidden])').length === 81,
+    null,
+    { timeout: 20000 },
+  );
+  await page.waitForFunction(
+    () => JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? '{"attempts":[]}').attempts.some((entry) => /retry-/.test(entry.id)),
+    null,
+    { timeout: 20000 },
+  );
 
   // The retry loads only the items that were wrong or blank: 81 of 85 here.
   const visible = await page.evaluate(() => document.querySelectorAll('.pane[data-question]:not([hidden])').length);
