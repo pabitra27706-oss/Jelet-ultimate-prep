@@ -2,7 +2,7 @@
 
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 17, practice
   result and review. **Built and agent-verified; owner visual review pending.**
-  2026-11-21. Branch `arena/61a4f729-jelet-ultimate-prep`, commit `TODO_HASH`.
+  2026-11-21. Branch `arena/61a4f729-jelet-ultimate-prep`, commit `f3ca604` plus the content repair noted below.
   Owner is the reviewer; Phase 18 has not started.
 
 - **Inputs and pre-change evidence; reused/adapted/rejected reference and
@@ -55,8 +55,9 @@
 - **Python/build/Chromium:** `python3 docs/phases/01-evidence/check_inventory.py`
   → PASS (42 rows). `npm run check` → 116 files, 0 errors / 0 warnings /
   0 hints. `npm run build` → 63 pages, 10 packs, 26,660 KB. `npm test` →
-  **301 passed, 0 failed** (browser **87**, of which 6 are new for this screen;
-  the five result tests plus the gap test). Headless Chromium 153.0.8010.0 at
+  **302 passed, 0 failed** (browser **88**, of which 7 are new for this screen:
+  five result tests, the saved-result gap, and one that pins the practice
+  page's held-item notice). Headless Chromium 153.0.8010.0 at
   390×844, 320×700 and 1280×900, light and dark. `git diff --check` clean.
 
 - **Residual physical gate:** **ANDROID CHECK NEEDED — pending.** No deployed
@@ -77,6 +78,13 @@
   physical device. The screenshots are a **seeded, test-only** attempt in a
   fresh browser profile (Q1 right, Q2 wrong, the rest blank); the numbers in
   the images are not site content.
+
+- **Content repair made with this screen:** the practice page's held-item notice
+  printed `100questions`, a literal `{scopeMarks}` and `answers.Read` — an
+  Astro whitespace and template-literal bug on the exact page that now carries
+  the result. It now reads “100 questions”, “3 of the 103 marks above” and
+  “answers. Read the held items”, with a test that fails on any leaked
+  placeholder.
 
 - **Privacy, accessibility, cost, editorial and rollback checks:** the result is
   computed in the browser from the local attempt and the shipped key file; no

@@ -852,6 +852,17 @@ test('an attempt marked submitted without a saved result shows a gap, never a sc
   assert.match(await page.locator('[data-runner-results]').textContent(), /Nothing is invented here/);
 });
 
+test('the practice page explains its held items in complete sentences', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  const text = await page.locator('.notice').first().textContent();
+  assert.match(text, /of the 100 questions in 2025/, 'the counts are separated by a space');
+  assert.match(text, /of the 103 marks above/, 'the scope marks are interpolated, not printed as a placeholder');
+  assert.match(text, /answers\.\s+Read the held items/, 'the sentences are separated');
+  assert.doesNotMatch(text, /\{[a-zA-Z]+\}/, 'no template placeholder reaches the page');
+});
+
 test('a mock is a link: the same specification always composes the same paper', async (t) => {
   const page = await context(t);
   await go(page, 'mock/run/?s=chemistry&n=8&m=paper&d=0&seed=77');

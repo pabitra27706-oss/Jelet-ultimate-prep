@@ -46,7 +46,7 @@
         },
         {
           "path": "practice/jelet-et-p1-2025/index.html",
-          "bytes": 740656
+          "bytes": 740651
         },
         {
           "path": "practice/jelet-et-p1-2025/mathematics/index.html",
@@ -81,7 +81,7 @@
           "bytes": 44491
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -91,6 +91,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -123,10 +127,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -173,16 +173,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -201,8 +201,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -289,7 +289,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3651410,
+      "bytes": 3661209,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -337,7 +337,7 @@
         },
         {
           "path": "practice/jelet-et-p1-2024/index.html",
-          "bytes": 625505
+          "bytes": 625499
         },
         {
           "path": "practice/jelet-et-p1-2024/mathematics/index.html",
@@ -372,7 +372,7 @@
           "bytes": 44491
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -382,6 +382,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -414,10 +418,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -464,16 +464,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -492,8 +492,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -580,7 +580,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3317828,
+      "bytes": 3327626,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -628,7 +628,7 @@
         },
         {
           "path": "practice/jelet-et-p1-2023/index.html",
-          "bytes": 811957
+          "bytes": 811952
         },
         {
           "path": "practice/jelet-et-p1-2023/mathematics/index.html",
@@ -707,7 +707,7 @@
           "bytes": 4399
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -717,6 +717,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -749,10 +753,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -799,16 +799,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -827,8 +827,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -915,7 +915,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3913309,
+      "bytes": 3923108,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -963,7 +963,7 @@
         },
         {
           "path": "practice/jelet-et-p1-2022/index.html",
-          "bytes": 817630
+          "bytes": 817632
         },
         {
           "path": "practice/jelet-et-p1-2022/mathematics/index.html",
@@ -998,7 +998,7 @@
           "bytes": 44491
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -1008,6 +1008,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -1040,10 +1044,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -1090,16 +1090,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -1118,8 +1118,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -1206,7 +1206,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 3836837,
+      "bytes": 3846643,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1261,7 +1261,7 @@
           "bytes": 288108
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -1271,6 +1271,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -1303,10 +1307,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -1353,16 +1353,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -1381,8 +1381,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -1469,7 +1469,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1923507,
+      "bytes": 1933311,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1524,7 +1524,7 @@
           "bytes": 233457
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -1534,6 +1534,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -1566,10 +1570,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -1616,16 +1616,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -1644,8 +1644,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -1732,7 +1732,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1750322,
+      "bytes": 1760126,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -1787,7 +1787,7 @@
           "bytes": 209768
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -1797,6 +1797,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -1829,10 +1833,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -1879,16 +1879,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -1907,8 +1907,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -1995,7 +1995,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1719297,
+      "bytes": 1729101,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -2050,7 +2050,7 @@
           "bytes": 234977
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -2060,6 +2060,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -2092,10 +2096,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -2142,16 +2142,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -2170,8 +2170,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -2258,7 +2258,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1741129,
+      "bytes": 1750933,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -2313,7 +2313,7 @@
           "bytes": 14169
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -2323,6 +2323,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -2355,10 +2359,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -2405,16 +2405,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -2433,8 +2433,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -2521,7 +2521,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 1168954,
+      "bytes": 1178758,
       "offlineComplete": true,
       "onlineOnly": []
     },
@@ -2600,7 +2600,7 @@
           "bytes": 102399
         },
         {
-          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.DjjUovkW.js",
+          "path": "_astro/Runner.astro_astro_type_script_index_0_lang.U4Uw9Be3.js",
           "bytes": 100
         },
         {
@@ -2610,6 +2610,10 @@
         {
           "path": "_astro/attempts.3fuGf95v.js",
           "bytes": 1765
+        },
+        {
+          "path": "_astro/index.astro_astro_type_script_index_0_lang.7-zu7Lz7.js",
+          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.B2D2ejjB.js",
@@ -2642,10 +2646,6 @@
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.DS2ATu71.js",
           "bytes": 1960
-        },
-        {
-          "path": "_astro/index.astro_astro_type_script_index_0_lang.DhzW0Sxh.js",
-          "bytes": 9811
         },
         {
           "path": "_astro/index.astro_astro_type_script_index_0_lang.F2oUfdF1.js",
@@ -2692,16 +2692,16 @@
           "bytes": 1802
         },
         {
-          "path": "_astro/run.astro_astro_type_script_index_0_lang.CdLu7s2D.js",
+          "path": "_astro/run.astro_astro_type_script_index_0_lang.29Jyv9j_.js",
           "bytes": 2177
         },
         {
-          "path": "_astro/runner.bB3FnkBu.js",
-          "bytes": 14009
+          "path": "_astro/runner.KkraWts1.js",
+          "bytes": 18720
         },
         {
-          "path": "_astro/scoring.I650gJKz.js",
-          "bytes": 2673
+          "path": "_astro/scoring.DbwMFpYr.js",
+          "bytes": 2680
         },
         {
           "path": "_astro/search.B4njMi6r.js",
@@ -2720,8 +2720,8 @@
           "bytes": 3150
         },
         {
-          "path": "_astro/Site.CklAko_k.css",
-          "bytes": 61204
+          "path": "_astro/Site.aovVvbul.css",
+          "bytes": 66290
         },
         {
           "path": "vendor/katex/katex.min.css",
@@ -2808,7 +2808,7 @@
           "bytes": 13568
         }
       ],
-      "bytes": 4276859,
+      "bytes": 4286663,
       "offlineComplete": true,
       "onlineOnly": []
     }
