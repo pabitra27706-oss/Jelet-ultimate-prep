@@ -60,7 +60,7 @@ const tabs = [
           {nav.map((item) => <a href={item.href} aria-current={active === item.key ? 'page' : undefined}>{item.label}</a>)}
           <a href={`${base}search/`} aria-current={active === 'search' ? 'page' : undefined}>Search</a>
         </nav>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark">◐</button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark"><span data-theme-icon aria-hidden="true">☾</span></button>
       </div>
     </header>
     <main class:list={['wrap', 'main']} id="main" tabindex="-1">
@@ -95,11 +95,17 @@ const tabs = [
     </nav>
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      const themeIcon = toggle?.querySelector<HTMLElement>('[data-theme-icon]');
+      const currentTheme = document.documentElement.dataset.theme
+        ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const showNextTheme = (theme: string) => { if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☀' : '☾'; };
+      showNextTheme(currentTheme);
       toggle?.addEventListener('click', () => {
         const current = document.documentElement.dataset.theme
           ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = next;
+        showNextTheme(next);
         try { localStorage.setItem('jelet:theme', next); } catch { /* storage blocked: the choice lasts this page only */ }
       });
 

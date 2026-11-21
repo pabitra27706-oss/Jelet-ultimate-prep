@@ -105,9 +105,43 @@ test('the dashboard shows real corpus numbers and an honest empty record', async
   const attempted = await page.locator('[data-stat="attempted"]').textContent();
   assert.equal(attempted, '0');
   assert.equal(await page.locator('[data-stat="accuracy"]').textContent(), '—');
-  assert(await page.getByText(/800 questions from eight previous-year papers/).isVisible());
+  assert.match((await page.locator('.today-corpus').textContent()).replace(/\s+/g, ' '), /800 questions across eight previous-year papers/);
   assert(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible());
   assert(await page.getByRole('link', { name: /JELET 2025 · Paper I/ }).first().isVisible());
+});
+
+test('the Today dashboard reflows on narrow phones, keeps its action tappable, and preserves desktop navigation', async (t) => {
+  const page = await context(t);
+  await go(page);
+  const primary = page.getByRole('link', { name: /Make today’s plan/ });
+  assert.equal(await primary.count(), 1);
+  assert(await primary.isVisible());
+  assert.equal(await page.locator('.today-stat-grid .stat').count(), 4);
+  assert.equal(await page.locator('.tabbar a').count(), 5);
+
+  for (const width of [320, 360, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    const metrics = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+      columns: getComputedStyle(document.querySelector('.today-stat-grid')).gridTemplateColumns.split(' ').length,
+      actionHeight: document.querySelector('.today-primary-action').getBoundingClientRect().height,
+      tabsDisplay: getComputedStyle(document.querySelector('.tabbar')).display,
+    }));
+    assert(metrics.document <= metrics.viewport, `no horizontal overflow at ${width}px: ${JSON.stringify(metrics)}`);
+    assert.equal(metrics.columns, 2, `phone stats use two readable columns at ${width}px`);
+    assert(metrics.actionHeight >= 44, `primary action meets the 44px touch target at ${width}px`);
+    assert.equal(metrics.tabsDisplay, 'grid', `bottom navigation remains visible at ${width}px`);
+  }
+
+  await page.locator('[data-theme-toggle]').click();
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+  assert((await page.evaluate(() => document.documentElement.scrollWidth)) <= 430, 'dark mode also fits the narrow dashboard');
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  assert.equal(await page.locator('.today-stat-grid').evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length), 4);
+  assert.equal(await page.locator('.tabbar').evaluate((el) => getComputedStyle(el).display), 'none');
+  assert.equal(await page.locator('.appnav').evaluate((el) => getComputedStyle(el).display), 'flex');
 });
 
 test('the paper library lists every paper with its key tier and real counts', async (t) => {
@@ -823,11 +857,15 @@ test('the theme toggle switches the palette and remembers the choice', async (t)
   const page = await context(t);
   await go(page);
   const before = await page.evaluate(() => document.documentElement.dataset.theme ?? 'light');
+  const beforeIcon = await page.locator('[data-theme-icon]').textContent();
+  assert.equal(beforeIcon, before === 'dark' ? '☀' : '☾');
   await page.locator('[data-theme-toggle]').click();
   const after = await page.evaluate(() => document.documentElement.dataset.theme ?? 'light');
   assert.notEqual(before, after);
+  assert.equal(await page.locator('[data-theme-icon]').textContent(), after === 'dark' ? '☀' : '☾');
   await page.reload();
   assert.equal(await page.evaluate(() => document.documentElement.dataset.theme ?? 'light'), after);
+  assert.equal(await page.locator('[data-theme-icon]').textContent(), after === 'dark' ? '☀' : '☾');
 });
 
 test('the site keeps working with the network switched off', async () => {
@@ -848,7 +886,7 @@ test('the site keeps working with the network switched off', async () => {
 
     await ctx.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    assert.match(await page.locator('h1').first().textContent(), /JELET/i, 'the shell renders from the cache while offline');
+    assert.match(await page.locator('h1').first().textContent(), /A little progress/i, 'the shell renders from the cache while offline');
     // Cached navigation must work too, not just the home page.
     await page.goto(origin + base + 'syllabus/', { waitUntil: 'domcontentloaded' });
     assert.match(await page.locator('h1').first().textContent(), /Syllabus/i);

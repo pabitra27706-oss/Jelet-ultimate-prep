@@ -1,5 +1,7 @@
 # Web UI reference and deep-link contract
 
+The source review of the owner's [Diploma Study Hub and related semester project](UI_REFRESH_RESEARCH.md), and the scoped Today-dashboard refresh, are recorded separately. They inform interaction patterns only; JELET's product, content, theme and exam rules remain authoritative here.
+
 Study the [Diploma Study Hub](https://github.com/pabitra27706-oss/Diploma-3rd-sem/tree/06656a9c3166ed86f0d3e05e965dfda068ec5a6e) for behaviour, not code, assets, styling or exam rules. Source reviewed; no visual/device pass is claimed. Use its Today focus, conditional Continue, exact-question share, local settings and [explicit topic routing](https://github.com/pabitra27706-oss/Diploma-3rd-sem/blob/06656a9c3166ed86f0d3e05e965dfda068ec5a6e/docs/phases/topic-map-standard.md).
 
 **Reference journey:** open a shared PYQ on a fresh phone → see its year, paper, booklet set, number, category, marks and source → Learn this concept jumps to the reviewed *section anchor* → Back restores the same question and tentative choices. The lesson lists all questions reviewed against that section. Multiple concepts may be linked with one teaching target marked primary. No confirmed match: keep the PYQ permalink, say “Lesson not mapped yet”; never guess silently. Old slugs/aliases should resolve after a title edit. Validate both anchor existence and teaching relevance.

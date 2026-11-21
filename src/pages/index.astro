@@ -19,8 +19,6 @@ const readOnlyPapers = papers.filter((paper) => !paper.hasKey);
 const paperWord = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][
   papers.length
 ] ?? String(papers.length);
-const officialYears = officialPapers.map((paper) => paper.year).join(', ').replace(/, ([^,]*)$/, ' and $1');
-
 const drills = mockPaper.subjects
   .map((subject) => {
     const items = rehearsableQuestions(mockPaper, subject.subjectKey);
@@ -29,39 +27,37 @@ const drills = mockPaper.subjects
   .filter((subject) => subject.count > 0);
 ---
 <Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, previous-year papers with board answer keys, and spaced revision built from your own attempts.">
-  <section class="hero">
-    <div class="row-between" style="align-items:flex-start">
-      <div class="grow">
-        <p class="eyebrow">Paper I · Mathematics · Physics · Chemistry · Electrical &amp; Electronics</p>
-        <h1>Prepare for JELET on your own.</h1>
-        <p class="lead">
-          {totalQuestions} questions from {paperWord} previous-year papers, the board's own answer keys for{' '}
-          {officialYears}, the real marking rules, timed mocks and a
-          revision queue that follows the questions you actually got wrong.
-        </p>
-        <div class="hero-actions">
-          <a class="btn" href={`${base}plan/`}>What to do next <span aria-hidden="true">→</span></a>
-          <a class="btn ghost" href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
-          <a class="btn ghost" href={`${base}mock/`}>Build your own mock</a>
-        </div>
-        <p class="micro">No account. Everything is marked on your device. Nothing is uploaded.</p>
-      </div>
-      <div class="hero-panel">
-        <strong>{sitTotal}</strong>
-        <span>questions you can sit</span>
-        <div class="micro" style="margin-top:.6rem;opacity:.85">
-          {scorableQuestions} marked against a key · {boardAwardedQuestions} awarded by the board · {officialPapers.length} official key{officialPapers.length === 1 ? '' : 's'} · {derivedPapers.length} derived · {readOnlyPapers.length} read-only papers
-        </div>
+  <section class="today-hero" aria-labelledby="today-title">
+    <div class="today-hero-copy">
+      <p class="eyebrow">Paper I · your study desk</p>
+      <h1 id="today-title">A little progress, every day.</h1>
+      <p class="today-subjects">Mathematics <span aria-hidden="true">·</span> Physics <span aria-hidden="true">·</span> Chemistry <span aria-hidden="true">·</span> Electrical &amp; Electronics</p>
+      <p class="micro">No account. Your answers stay on this device; nothing is uploaded.</p>
+    </div>
+    <div class="today-next">
+      <p class="today-next-label"><span aria-hidden="true">—</span> Your next step</p>
+      <h2>Choose what to study today</h2>
+      <p>Make a focused plan from your own practice, or start with a paper.</p>
+      <a class="today-primary-action" href={`${base}plan/`}>Make today’s plan <span aria-hidden="true">→</span></a>
+      <div class="today-quick-links" aria-label="More ways to begin">
+        <a href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
+        <a href={`${base}mock/`}>Build your own mock</a>
       </div>
     </div>
+    <p class="today-corpus">
+      <strong>{totalQuestions} questions</strong> across {paperWord} previous-year papers
+      <span aria-hidden="true">·</span> {scorableQuestions} marked against a key
+      <span aria-hidden="true">·</span> {boardAwardedQuestions} awarded by the board
+      <span aria-hidden="true">·</span> {officialPapers.length} official, {derivedPapers.length} derived, {readOnlyPapers.length} read-only papers
+    </p>
   </section>
 
-  <section class="card" style="margin-top:var(--gap)" aria-labelledby="today-stats">
+  <section class="today-record" aria-labelledby="today-stats">
     <div class="section-head">
-      <h2 id="today-stats" style="font-size:1.15rem">Your record on this device</h2>
+      <h2 id="today-stats">Your record</h2>
       <span class="micro" data-storage-note>Loaded from this browser only.</span>
     </div>
-    <div class="stat-grid">
+    <div class="stat-grid today-stat-grid">
       <div class="stat"><b data-stat="attempted">—</b><span>Questions attempted</span><em data-stat-note="attempted">of {scorableQuestions} you can answer · {sitTotal} sit-able, {boardAwardedQuestions} awarded by the board</em></div>
       <div class="stat"><b data-stat="accuracy">—</b><span>Independent accuracy</span><em data-stat-note="accuracy">correct on a first, unassisted attempt</em></div>
       <div class="stat"><b data-stat="due">—</b><span>Reviews due</span><em data-stat-note="due">wrong or blank questions, spaced by a fixed ladder</em></div>
@@ -73,17 +69,21 @@ const drills = mockPaper.subjects
     </div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="continue-heading">
+  <section class="today-section" aria-labelledby="continue-heading">
     <div class="section-head">
       <h2 id="continue-heading">Pick up where you stopped</h2>
     </div>
     <div id="continue-slot">
-      <div class="empty">Nothing started yet on this device. <a href={`${base}plan/`}>See what to do next</a>, or choose a paper below.</div>
+      <div class="empty today-empty">
+        <span class="today-empty-icon" aria-hidden="true">↗</span>
+        <span>Nothing started yet on this device.</span>
+        <a href={`${base}library/`}>Browse papers</a>
+      </div>
     </div>
-    <div id="lesson-slot" style="margin-top:.6rem"></div>
+    <div id="lesson-slot" class="today-lesson-slot"></div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="drills-heading">
+  <section class="today-section" aria-labelledby="drills-heading">
     <div class="section-head">
       <h2 id="drills-heading">Subject drills · {mockPaper.year}</h2>
       <a class="micro" href={`${base}library/${mockPaper.id}/`}>Read the whole paper →</a>
@@ -105,7 +105,7 @@ const drills = mockPaper.subjects
     </div>
   </section>
 
-  <section style="margin-top:2rem" aria-labelledby="papers-heading">
+  <section class="today-section" aria-labelledby="papers-heading">
     <div class="section-head">
       <h2 id="papers-heading">Previous-year papers</h2>
       <a class="micro" href={`${base}library/`}>All papers and what each one can do →</a>
@@ -127,7 +127,7 @@ const drills = mockPaper.subjects
     </div>
   </section>
 
-  <section class="card" style="margin-top:2rem" aria-labelledby="honest-heading">
+  <section class="card today-trust" aria-labelledby="honest-heading">
     <h2 id="honest-heading" style="font-size:1.15rem">What this site does and does not claim</h2>
     <ul class="small" style="color:var(--muted)">
       <li>Marks follow the published JELET rules: Category I gives +1, −1/4 for a wrong or multiple answer; Category II gives +2, 0 when a wrong option is marked, and partial credit for a correct subset.</li>
