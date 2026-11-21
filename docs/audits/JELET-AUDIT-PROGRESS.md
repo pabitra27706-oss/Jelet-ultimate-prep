@@ -1,6 +1,19 @@
 # JELET answer-audit progress ledger
 
-Last updated: 2026-11-21 (UTC). **Audit only. No bank/key corrections, scoring-eligibility changes, commits, merges or deployment.**
+Last updated: 2026-11-21 (UTC). **Audit only. No bank/key corrections, scoring-eligibility changes, merges or deployment.** Historical reports were committed/pushed at `546d97b`. The owner subsequently authorized committing/pushing this documentation update to the same working branch; no merge or deployment is authorized.
+
+## Current update — final keys and exact-commit reconciliation
+
+See the [current summary and report index](2026-11-21-jelet-audit-reconciliation-summary.md) for the authoritative latest checkpoint:
+
+- 2024/2025: all 200 PDF questions visually compared for transcription; all 200 final-key rows (including 800 series-number fields) match fetched official final tables. This is not a full independent solve. **2025 explicit-A mapping is supported; 2024 square-to-Set-A legend verification remains outstanding.**
+- 2017/2018/2019/2021: all 400 imported records at exact reference commit `7903a345c93d3434ff403260b2c8340bdf280b6c` now reconciled read-only: **262 qualified source agreements / 21 disagreements / 37 ambiguous / 1 not-checkable**, plus **73 proposed candidates among the 79 actual unsolved entries / 6 still held**. No entries filled.
+- 2022: exact-reference answers unchanged; key/PDF **87/4/9/0** transfers unchanged. New determinant/figure availability is recorded separately, not treated as blanket scoring or redraw approval.
+- New per-year reports preserve ten-question batches. No bank, key, figure, scoring or eligibility changes were applied; no branch switch, merge or deployment. Source-audit totals remain 441 qualified / 59 holds. The historical missing-import statements below describe the earlier checkpoint, **not** the completed reference comparison above.
+
+## Historical checkpoint preserved from commit 546d97b
+
+The remainder records the source-audit state before the exact-reference reconciliation. Its blocked-comparison totals and pending tasks are historical; use the linked current summary for present status.
 
 ## Sources and blocking condition
 
