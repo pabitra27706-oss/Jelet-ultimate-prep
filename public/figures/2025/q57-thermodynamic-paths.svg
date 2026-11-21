@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-labelledby="fig-2025-57-title fig-2025-57-desc" width="480" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 14, printed page 15, Q57. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: All corner labels and path directions, including the returning curved path, are preserved. No work, heat or energy result is calculated. -->
+<title id="fig-2025-57-title">Pressure-volume paths through four states</title>
+<desc id="fig-2025-57-desc">The P-V plot places a at lower left, c upper left, b upper right and d lower right. Arrows go a to c upward, c to b rightward, a to d rightward and d to b upward. A curved path connecting b to a has an arrow directed down and left toward a.</desc>
+<defs><marker id="fig-2025-57-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="100" y1="255" x2="380" y2="255" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><line x1="100" y1="255" x2="100" y2="45" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><text x="78" y="38">P</text><text x="387" y="261">V</text><text x="80" y="270">0</text><path d="M150 215V70H335V215Z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="150" y1="190" x2="150" y2="135" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><line x1="200" y1="70" x2="255" y2="70" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><line x1="200" y1="215" x2="265" y2="215" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><line x1="335" y1="180" x2="335" y2="115" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><path d="M150 215C190 135 295 155 335 70" fill="none" stroke="currentColor" stroke-width="2"/><line x1="253" y1="145" x2="230" y2="152" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-57-arrow)"/><text x="130" y="228">a</text><text x="340" y="68">b</text><text x="130" y="75">c</text><text x="340" y="230">d</text>
+</g></svg>

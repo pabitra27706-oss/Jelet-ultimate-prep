@@ -5,3 +5,6 @@ __pycache__/
 
 # Downloadable Android preview generated from dist/
 /downloads/jelet-android-preview.zip
+
+# Owner-supplied PDFs for local audit only; never publish or commit by default.
+/private-audit-inputs/

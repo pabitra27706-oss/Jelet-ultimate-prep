@@ -3,10 +3,10 @@
   "edition": "JELET-2026 Syllabus & Essential Information",
   "bulletinDate": "2026-03-18",
   "totalTopics": 42,
-  "mappedQuestions": 349,
-  "unmappedQuestions": 183,
+  "mappedQuestions": 354,
+  "unmappedQuestions": 186,
   "conflictCount": 0,
-  "outsideSyllabusQuestions": 258,
+  "outsideSyllabusQuestions": 260,
   "topics": [
     {
       "id": "mathematics-ta",
@@ -2162,6 +2162,18 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2024:q60",
+          "paperId": "jelet-et-p1-2024",
+          "year": 2024,
+          "n": 60,
+          "held": false,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "speed"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2024:q66",
           "paperId": "jelet-et-p1-2024",
           "year": 2024,
@@ -2259,8 +2271,8 @@
           ]
         }
       ],
-      "coveredQuestions": 15,
-      "coveredMarks": 18,
+      "coveredQuestions": 16,
+      "coveredMarks": 19,
       "coveredYears": 4
     },
     {
@@ -2449,6 +2461,20 @@
           "marks": 1,
           "terms": [
             "potential energy"
+          ]
+        },
+        {
+          "questionId": "jelet-et-p1-2024:q61",
+          "paperId": "jelet-et-p1-2024",
+          "year": 2024,
+          "n": 61,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "kinetic energy",
+            "potential energy",
+            "kinetic"
           ]
         },
         {
@@ -3358,6 +3384,18 @@
           ]
         },
         {
+          "questionId": "jelet-et-p1-2022:q90",
+          "paperId": "jelet-et-p1-2022",
+          "year": 2022,
+          "n": 90,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "covalent"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2023:q81",
           "paperId": "jelet-et-p1-2023",
           "year": 2023,
@@ -3407,8 +3445,8 @@
           ]
         }
       ],
-      "coveredQuestions": 5,
-      "coveredMarks": 6,
+      "coveredQuestions": 6,
+      "coveredMarks": 8,
       "coveredYears": 3
     },
     {
@@ -3594,6 +3632,18 @@
       "detail": "Redox balancing (ion‑electron method), redox titration, electrolysis, Faraday’s laws, electrolysis of CuSO₄, electroplating, electrorefining, electrochemical cells (dry cell, lead storage cell), electrochemical series.",
       "questions": [
         {
+          "questionId": "jelet-et-p1-2022:q87",
+          "paperId": "jelet-et-p1-2022",
+          "year": 2022,
+          "n": 87,
+          "held": false,
+          "voided": false,
+          "marks": 2,
+          "terms": [
+            "redox"
+          ]
+        },
+        {
           "questionId": "jelet-et-p1-2023:q74",
           "paperId": "jelet-et-p1-2023",
           "year": 2023,
@@ -3658,9 +3708,9 @@
           ]
         }
       ],
-      "coveredQuestions": 4,
-      "coveredMarks": 4,
-      "coveredYears": 3
+      "coveredQuestions": 5,
+      "coveredMarks": 6,
+      "coveredYears": 4
     },
     {
       "id": "chemistry-te",
@@ -4783,6 +4833,18 @@
           "terms": [
             "impedance"
           ]
+        },
+        {
+          "questionId": "jelet-et-p1-2025:q95",
+          "paperId": "jelet-et-p1-2025",
+          "year": 2025,
+          "n": 95,
+          "held": true,
+          "voided": false,
+          "marks": 1,
+          "terms": [
+            "alternating current"
+          ]
         }
       ],
       "coveredQuestions": 1,
@@ -5549,6 +5611,33 @@
       "reason": "no approved term for this question matched a topic in its subject"
     },
     {
+      "questionId": "jelet-et-p1-2022:q86",
+      "paperId": "jelet-et-p1-2022",
+      "year": 2022,
+      "n": 86,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2022:q88",
+      "paperId": "jelet-et-p1-2022",
+      "year": 2022,
+      "n": 88,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2022:q89",
+      "paperId": "jelet-et-p1-2022",
+      "year": 2022,
+      "n": 89,
+      "subjectKey": "chemistry",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
       "questionId": "jelet-et-p1-2022:q94",
       "paperId": "jelet-et-p1-2022",
       "year": 2022,
@@ -6080,6 +6169,15 @@
       "reason": "no approved term for this question matched a topic in its subject"
     },
     {
+      "questionId": "jelet-et-p1-2024:q62",
+      "paperId": "jelet-et-p1-2024",
+      "year": 2024,
+      "n": 62,
+      "subjectKey": "physics",
+      "held": false,
+      "reason": "no approved term for this question matched a topic in its subject"
+    },
+    {
       "questionId": "jelet-et-p1-2024:q64",
       "paperId": "jelet-et-p1-2024",
       "year": 2024,
@@ -6536,15 +6634,6 @@
       "n": 90,
       "subjectKey": "chemistry",
       "held": false,
-      "reason": "no approved term for this question matched a topic in its subject"
-    },
-    {
-      "questionId": "jelet-et-p1-2025:q95",
-      "paperId": "jelet-et-p1-2025",
-      "year": 2025,
-      "n": 95,
-      "subjectKey": "electrical",
-      "held": true,
       "reason": "no approved term for this question matched a topic in its subject"
     },
     {
@@ -8103,6 +8192,24 @@
       "paperId": "jelet-et-p1-2019",
       "year": 2019,
       "n": 77,
+      "subjectKey": "computer",
+      "held": true,
+      "reason": "the 2026 syllabus has no computer subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2019:q78",
+      "paperId": "jelet-et-p1-2019",
+      "year": 2019,
+      "n": 78,
+      "subjectKey": "computer",
+      "held": true,
+      "reason": "the 2026 syllabus has no computer subject"
+    },
+    {
+      "questionId": "jelet-et-p1-2019:q79",
+      "paperId": "jelet-et-p1-2019",
+      "year": 2019,
+      "n": 79,
       "subjectKey": "computer",
       "held": true,
       "reason": "the 2026 syllabus has no computer subject"

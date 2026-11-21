@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 565 310" role="img" aria-labelledby="fig-2024-68-title fig-2024-68-desc" width="565" height="310">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 18, printed page 18, Q68. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: Arm labels and end temperatures are retained. C is drawn longer and thicker to reflect the stem rather than the short scanned sketch; widths represent area schematically, not a specified cross-section shape. -->
+<title id="fig-2024-68-title">Three conducting rods meeting at a junction</title>
+<desc id="fig-2024-68-desc">Three rods meet at a junction: B extends upper left to a 100 degree Celsius end, A extends lower left to a 0 degree Celsius end, and C extends right to another 100 degree Celsius end. A and B have equal dimensions; the stem states C has twice their length and cross-sectional area.</desc>
+<defs><marker id="fig-2024-68-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<path d="M242 166L144 110L156 89L254 145L475 145V193L254 193L156 249L144 228L242 172Z" fill="none" stroke="currentColor" stroke-width="2"/><text x="125" y="92">B</text><text x="63" y="120">100 °C</text><text x="125" y="251">A</text><text x="117" y="275">0 °C</text><text x="375" y="135">C</text><text x="483" y="176">100 °C</text>
+</g></svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-labelledby="fig-2025-67-title fig-2025-67-desc" width="480" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 17, printed page 18, Q67. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The fixed support, string routing, mass and force direction are retained. Pulley size and string spacing are schematic; no acceleration or selected statement is supplied. -->
+<title id="fig-2025-67-title">Hanging block and a force applied to the other string end</title>
+<desc id="fig-2025-67-desc">A fixed ceiling pulley carries a string with a 2 kg block hanging on the left. The right string end extends downward with a downward arrow labelled F = 40 N. No velocity or displacement arrow is shown on the block.</desc>
+<defs><marker id="fig-2025-67-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="165" y1="45" x2="295" y2="45" stroke="currentColor" stroke-width="2"/><line x1="165" y1="45" x2="158" y2="53" stroke="currentColor" stroke-width="2"/><line x1="177" y1="45" x2="170" y2="53" stroke="currentColor" stroke-width="2"/><line x1="189" y1="45" x2="182" y2="53" stroke="currentColor" stroke-width="2"/><line x1="201" y1="45" x2="194" y2="53" stroke="currentColor" stroke-width="2"/><line x1="213" y1="45" x2="206" y2="53" stroke="currentColor" stroke-width="2"/><line x1="225" y1="45" x2="218" y2="53" stroke="currentColor" stroke-width="2"/><line x1="237" y1="45" x2="230" y2="53" stroke="currentColor" stroke-width="2"/><line x1="249" y1="45" x2="242" y2="53" stroke="currentColor" stroke-width="2"/><line x1="261" y1="45" x2="254" y2="53" stroke="currentColor" stroke-width="2"/><line x1="273" y1="45" x2="266" y2="53" stroke="currentColor" stroke-width="2"/><line x1="285" y1="45" x2="278" y2="53" stroke="currentColor" stroke-width="2"/><line x1="230" y1="45" x2="230" y2="95" stroke="currentColor" stroke-width="2"/><circle cx="230" cy="110" r="35" fill="none" stroke="currentColor" stroke-width="2"/><line x1="195" y1="110" x2="195" y2="205" stroke="currentColor" stroke-width="2"/><rect x="165" y="205" width="60" height="40" fill="none" stroke="currentColor" stroke-width="2"/><text x="177" y="230">2 kg</text><line x1="265" y1="110" x2="265" y2="255" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-67-arrow)"/><text x="280" y="248">F = 40 N</text>
+</g></svg>

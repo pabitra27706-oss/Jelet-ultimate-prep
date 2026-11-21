@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2024-45-title fig-2024-45-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 12, printed page 12, Q45. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The circle, reference diameter and tangent direction are retained. No numerical angle is imposed and the stem radius R is not added as a source label. -->
+<title id="fig-2024-45-title">Circular motion about a centre and a point on the circumference</title>
+<desc id="fig-2024-45-desc">A circle has centre C and point O at its leftmost edge. A dashed horizontal diameter passes through O and C. A radius from C goes to a particle in the upper-right quadrant, making angle theta with the rightward horizontal. Velocity v is tangent at the particle and points up and left.</desc>
+<defs><marker id="fig-2024-45-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<circle cx="230" cy="155" r="90" fill="none" stroke="currentColor" stroke-width="2"/><line x1="120" y1="155" x2="335" y2="155" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><circle cx="230" cy="155" r="3" fill="currentColor" stroke="currentColor" stroke-width="2"/><line x1="230" y1="155" x2="275" y2="77" stroke="currentColor" stroke-width="2"/><line x1="275" y1="77" x2="206" y2="37" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-45-arrow)"/><path d="M265 155A35 35 0 0 0 247.5 124.7" fill="none" stroke="currentColor" stroke-width="2"/><text x="258" y="137">θ</text><text x="225" y="180">C</text><text x="123" y="177">O</text><text x="281" y="75">v</text>
+</g></svg>

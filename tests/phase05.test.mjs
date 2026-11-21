@@ -239,9 +239,9 @@ test('phase 05: a paper with no key is never offered as a rehearsal', () => {
 
 test('phase 05: the gaps in the transcript are published, not hidden', () => {
   const expected = {
-    'jelet-et-p1-2019': [78, 79],
-    'jelet-et-p1-2022': [86, 87, 88, 89, 90],
-    'jelet-et-p1-2024': [60, 61, 62],
+    'jelet-et-p1-2019': [],
+    'jelet-et-p1-2022': [],
+    'jelet-et-p1-2024': [],
   };
   for (const [paperId, missing] of Object.entries(expected)) {
     const paper = paperById.get(paperId);

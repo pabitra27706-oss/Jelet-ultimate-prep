@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280" role="img" aria-labelledby="fig-2017-81-title fig-2017-81-desc" width="420" height="280">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2017, main Engineering/Paper I stream, PDF sheet 17, printed page 17, Q81.
+Visually compared with owner-supplied 2023111594.pdf on 2026-11-20.
+SHA-256: 721aa20ff4c1791dd8733df3adfd317af1bdca4aca6f5c44b20827aa08947c72
+Standard: ADR-0002. Original vector primitives; no official pixels. Scoring unchanged.
+Deviation: The time axis uses equal lengths for the two five-second intervals. Line weights, lettering and margins differ from the scan. -->
+<title id="fig-2017-81-title">Force versus time with an 80-newton plateau</title>
+<desc id="fig-2017-81-desc">Force in newtons is plotted against time in seconds. It stays at 80 N from zero to 5 seconds, then decreases linearly to zero at 10 seconds. A dashed vertical guide marks 5 seconds.</desc>
+<defs><marker id="fig-2017-81-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" font-family="system-ui,sans-serif" font-size="15" fill="currentColor">
+<line x1="65" y1="210" x2="345" y2="210" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2017-81-arrow)"/><line x1="65" y1="210" x2="65" y2="45" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2017-81-arrow)"/><path d="M65 90H185L305 210" fill="none" stroke="currentColor" stroke-width="2"/><line x1="185" y1="90" x2="185" y2="210" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><text x="30" y="95">80</text><text x="58" y="233">0</text><text x="180" y="233">5</text><text x="298" y="233">10</text><text x="65" y="30">Force (N)</text><text x="290" y="260">Time (s)</text>
+</g></svg>

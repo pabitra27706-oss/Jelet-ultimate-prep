@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300" role="img" aria-labelledby="fig-2024-52-title fig-2024-52-desc" width="560" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 13, printed page 13, Q52. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: All four piece labels and final orientations are retained. Curvatures and spacing are schematic; no focal length or selected option is added. -->
+<title id="fig-2024-52-title">Four lens pieces before and after rearrangement</title>
+<desc id="fig-2024-52-desc">An equiconvex lens is split by vertical and horizontal lines into A upper left, B upper right, C lower left and D lower right. An arrow marked Rearrangement leads to four upright pieces ordered A, B, C, D on a horizontal baseline. Each has a curved left boundary and straight right boundary.</desc>
+<defs><marker id="fig-2024-52-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<path d="M100 55Q30 150 100 245Q170 150 100 55Z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="100" y1="55" x2="100" y2="245" stroke="currentColor" stroke-width="2"/><line x1="65" y1="150" x2="135" y2="150" stroke="currentColor" stroke-width="2"/><text x="78" y="133">A</text><text x="108" y="133">B</text><text x="78" y="180">C</text><text x="108" y="180">D</text><line x1="160" y1="150" x2="300" y2="150" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-52-arrow)"/><text x="163" y="130">Rearrangement</text><line x1="310" y1="150" x2="530" y2="150" stroke="currentColor" stroke-width="2"/><path d="M320 150Q320 83 360 65V150Z" fill="none" stroke="currentColor" stroke-width="2"/><text x="338" y="132">A</text><path d="M368 150Q368 83 408 65V150Z" fill="none" stroke="currentColor" stroke-width="2"/><text x="386" y="132">B</text><path d="M416 150Q416 83 456 65V150Z" fill="none" stroke="currentColor" stroke-width="2"/><text x="434" y="132">C</text><path d="M464 150Q464 83 504 65V150Z" fill="none" stroke="currentColor" stroke-width="2"/><text x="482" y="132">D</text>
+</g></svg>

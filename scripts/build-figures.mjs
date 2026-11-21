@@ -34,9 +34,10 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
 
 /** The collections that carry a figure layer, and where each one lives. */
-const COLLECTIONS = [
-  { year: 2023, source: 'editorial/figures/2023', manifest: 'editorial/figures/2023/manifest.json' },
-];
+const COLLECTIONS = (await readdir(join(root, 'editorial/figures')))
+  .filter((year) => /^\d{4}$/.test(year))
+  .sort()
+  .map((year) => ({ year: Number(year), source: `editorial/figures/${year}`, manifest: `editorial/figures/${year}/manifest.json` }));
 
 /**
  * Every asset must satisfy these. A file that fails one is not published:

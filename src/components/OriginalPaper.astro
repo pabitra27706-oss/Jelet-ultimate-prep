@@ -1,0 +1,23 @@
+---
+import { originalPaperUrl, paperIndexUrl } from '../lib/original-papers.mjs';
+interface Props { year: number }
+const { year } = Astro.props;
+const url = originalPaperUrl(year);
+---
+{url && (
+  <aside class="notice original-paper" aria-label={`Original ${year} question paper`}>
+    <h2>Original paper & diagrams</h2>
+    <p>View the {year} booklet with its original diagrams and answer options. No ZIP or account needed.</p>
+    <div class="btn-row">
+      <a class="btn" href={url} target="_blank" rel="noopener noreferrer">Open original {year} paper (PDF) ↗</a>
+      <a class="btn ghost" href={paperIndexUrl} target="_blank" rel="noopener noreferrer">WBJEEB paper index ↗</a>
+    </div>
+    <p class="micro">Opens the board-hosted PDF in a new tab; internet required. Your browser may download it instead. PDF page numbers can differ from printed numbers. Older papers contain alternate streams with repeated question numbers—check the section heading.</p>
+    <p class="micro">Reference only: viewing the original does not verify an answer or unlock held questions. This is not an inline question-by-question image attachment.</p>
+  </aside>
+)}
+<style>
+  .original-paper { margin-bottom: 1.2rem; }
+  .original-paper h2 { font-size: 1.15rem; margin-top: 0; }
+  .original-paper .btn { white-space: normal; }
+</style>

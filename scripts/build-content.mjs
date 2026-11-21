@@ -23,6 +23,7 @@
  *   --check  regenerate in memory and fail if the committed files differ
  */
 import { createHash } from 'node:crypto';
+import { attachProvisionalAids } from './provisional-aids.mjs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -571,6 +572,21 @@ for (const paper of papers) {
         : 'The transcription does not reproduce the options of this item, and a reconstructed diagram does not supply them, so the item is not marked.';
     }
   }
+}
+
+// Import only a sanitised, read-only study aid, never a scored key.
+const auditLines = (await readFile(join(root, 'docs/audits/2026-11-21-jelet-2017-2022-reconciliation-7903a34.tsv'), 'utf8')).trim().split('\n');
+const auditFields = auditLines.shift().split('\t');
+const aidVerdicts = new Map();
+for (const line of auditLines) {
+  const row = Object.fromEntries(line.split('\t').map((value, i) => [auditFields[i], value]));
+  const id = `${row.year}:${row.q}`;
+  if (aidVerdicts.has(id)) throw new Error('Duplicate provisional audit row');
+  aidVerdicts.set(id, { stored: row.stored_answer, status: row.source_verdict });
+}
+for (const paper of papers.filter(p => [2017,2018,2019,2021].includes(p.year))) {
+  const record = JSON.parse(await readFile(join(root, `editorial/derived-keys/${paper.year}/${paper.year}-keys.json`), 'utf8'));
+  attachProvisionalAids(paper, record, aidVerdicts);
 }
 
 /* ---- invariants: fail loudly rather than publish a wrong dataset ---- */

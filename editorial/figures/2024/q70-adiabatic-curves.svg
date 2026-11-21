@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2024-70-title fig-2024-70-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 18, printed page 18, Q70. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The common starting point, relative steepness and gas labels are retained. No gas identity, exponent, numerical scale or selected option is added. -->
+<title id="fig-2024-70-title">Two pressure-volume curves from a common state</title>
+<desc id="fig-2024-70-desc">The vertical axis is P and the horizontal axis V. Two falling curves begin at the same high-pressure point. Gas 1 follows the more steeply falling lower curve; gas 2 follows the less steeply falling upper curve.</desc>
+<defs><marker id="fig-2024-70-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="110" y1="250" x2="370" y2="250" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-70-arrow)"/><line x1="110" y1="250" x2="110" y2="70" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-70-arrow)"/><text x="85" y="65">P</text><text x="378" y="255">V</text><path d="M200 80Q202 185 245 228" fill="none" stroke="currentColor" stroke-width="2"/><path d="M200 80Q225 145 295 175" fill="none" stroke="currentColor" stroke-width="2"/><text x="150" y="228">gas 1</text><text x="266" y="140">gas 2</text>
+</g></svg>

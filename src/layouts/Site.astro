@@ -63,7 +63,16 @@ const tabs = [
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch between light and dark">◐</button>
       </div>
     </header>
-    <main class:list={['wrap', 'main']} id="main" tabindex="-1"><slot /></main>
+    <main class:list={['wrap', 'main']} id="main" tabindex="-1">
+      {['library', 'practice', 'review'].includes(active) && (
+        <aside class="notice" aria-label="Question and answer accuracy notice" data-content-caution style="margin-bottom:1.2rem">
+          <strong>Some questions and answers have unresolved issues.</strong>
+          <p style="margin:.4rem 0 0">Known issues include transcription errors, ambiguous wording and disputed answers. Derived answers are not official board keys, and agreement between AI reviews does not guarantee correctness. Official key labels are retained, but a matching label does not verify the transcribed option text.</p>
+          <p style="margin:.4rem 0 0">Use scores as practice feedback, not a certified measure of exam readiness. If an item appears inconsistent, consult the original paper and the applicable final board key, where available. Further answer review is paused; this notice does not resolve the issues or change which questions are marked.</p>
+        </aside>
+      )}
+      <slot />
+    </main>
     <footer>
       <div class="wrap footer-inner">
         <div>

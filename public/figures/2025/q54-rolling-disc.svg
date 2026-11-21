@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-labelledby="fig-2025-54-title fig-2025-54-desc" width="480" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 13, printed page 14, Q54. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The rising curved ramp, two disc positions, initial velocity and height reference are retained. Sizes and curve shape are schematic; no height value is calculated. -->
+<title id="fig-2025-54-title">Disc rolling from a horizontal surface up a curved ramp</title>
+<desc id="fig-2025-54-desc">A disc starts on a horizontal surface on the left with rightward velocity V. The surface curves upward to the right, with a second disc position near the top. A dashed vertical line from the upper position to the baseline is labelled h.</desc>
+<defs><marker id="fig-2025-54-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="85" y1="245" x2="390" y2="245" stroke="currentColor" stroke-width="2"/><path d="M95 245Q285 245 350 65" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="110" cy="236" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="120" y1="235" x2="164" y2="235" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-54-arrow)"/><text x="133" y="221">V</text><circle cx="342" cy="63" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="350" y1="245" x2="350" y2="72" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><text x="361" y="162">h</text>
+</g></svg>

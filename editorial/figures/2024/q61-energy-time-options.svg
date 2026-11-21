@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 560" width="600" height="560" role="img" aria-labelledby="fig-2024-61-title fig-2024-61-desc">
+<!-- RECONSTRUCTED FIGURE; ADR-0002. JELET 2024 Q61, printed page 16. Owner screenshot Screenshot_20261121_140942_Drive.jpg SHA-256 f6f26513d818b08e2ae032e79bd95370846b62cffe34cf9f53e14dad71551b7a. Original vector primitives, no official pixels. Schematic curvature and spacing. Lower-case h on endpoint ticks preserved; no answer selected. -->
+<title id="fig-2024-61-title">Four potential and kinetic energy versus time options</title>
+<desc id="fig-2024-61-desc">Four energy-versus-time options, each with dashed guides at energy mgH and the endpoint time. A: V falls with increasing steepness while K rises with increasing steepness, ending at square root of 2h/g. B: V falls with increasing steepness while K rises with decreasing steepness, ending at square root of 2h/g. C: the descending curve flattens while the ascending curve steepens, ending at square root of 2h/g. D: the descending curve steepens while the ascending curve steepens, ending at square root of h/g. V and K are labelled only in A and B as in the source.</desc>
+<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<g transform="translate(15 10)">
+<path d="M65 205 V35 M60 44 L65 35 L70 44 M65 205 H260 M251 200 L260 205 L251 210"/>
+<path d="M65 75 H205 V205" stroke-dasharray="6 6"/>
+<path d="M65 75 Q135 75 205 205"/><path d="M65 205 Q135 205 205 75"/>
+<g fill="currentColor" stroke="none" font-family="system-ui,sans-serif" font-size="17"><text x="0" y="150">(A)</text><text x="8" y="80">mgH</text><text x="263" y="211">t</text>
+<text x="87" y="109">V</text>
+<text x="112" y="185">K</text>
+<text x="170" y="242">√(2h/g)</text></g></g>
+<g transform="translate(315 10)">
+<path d="M65 205 V35 M60 44 L65 35 L70 44 M65 205 H260 M251 200 L260 205 L251 210"/>
+<path d="M65 75 H205 V205" stroke-dasharray="6 6"/>
+<path d="M65 75 Q135 75 205 205"/><path d="M65 205 Q85 90 205 75"/>
+<g fill="currentColor" stroke="none" font-family="system-ui,sans-serif" font-size="17"><text x="0" y="150">(B)</text><text x="8" y="80">mgH</text><text x="263" y="211">t</text>
+<text x="87" y="109">V</text>
+<text x="96" y="178">K</text>
+<text x="170" y="242">√(2h/g)</text></g></g>
+<g transform="translate(15 285)">
+<path d="M65 205 V35 M60 44 L65 35 L70 44 M65 205 H260 M251 200 L260 205 L251 210"/>
+<path d="M65 75 H205 V205" stroke-dasharray="6 6"/>
+<path d="M65 75 Q85 190 205 205"/><path d="M65 205 Q135 205 205 75"/>
+<g fill="currentColor" stroke="none" font-family="system-ui,sans-serif" font-size="17"><text x="0" y="150">(C)</text><text x="8" y="80">mgH</text><text x="263" y="211">t</text>
+<text x="170" y="242">√(2h/g)</text></g></g>
+<g transform="translate(315 285)">
+<path d="M65 205 V35 M60 44 L65 35 L70 44 M65 205 H260 M251 200 L260 205 L251 210"/>
+<path d="M65 75 H205 V205" stroke-dasharray="6 6"/>
+<path d="M65 75 Q135 75 205 205"/><path d="M65 205 Q135 205 205 75"/>
+<g fill="currentColor" stroke="none" font-family="system-ui,sans-serif" font-size="17"><text x="0" y="150">(D)</text><text x="8" y="80">mgH</text><text x="263" y="211">t</text>
+<text x="170" y="242">√(h/g)</text></g></g>
+</g></svg>

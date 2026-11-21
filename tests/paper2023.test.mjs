@@ -250,8 +250,8 @@ test('the 2023 transcription is not inside the immutable archive', async () => {
   const fromEditorial = editorial.filter((paper) => paper.sourceFile.startsWith('editorial/'));
   assert.ok(fromEditorial.length > 0, 'at least one paper is transcribed after the capture');
   assert.ok(
-    fromEditorial.every((paper) => paper.year === 2023),
-    'only the 2023 paper is an editorial record so far',
+    fromEditorial.every((paper) => [2019, 2022, 2023, 2024, 2025].includes(paper.year)),
+    '2019/2022/2024/2025 source corrections and the 2023 transcription are editorial records',
   );
   for (const paper of fromArchive) {
     assert.ok(paper.sourceFile.startsWith('archive/jelet-prep/data/pyq-md/'));
@@ -275,7 +275,7 @@ test('the published corpus holds every paper it claims to', () => {
   const years = papers.map((paper) => paper.year).sort((a, b) => a - b);
   assert.deepEqual(years, [2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025]);
   const total = papers.reduce((sum, paper) => sum + paper.questions.length, 0);
-  assert.equal(total, 790, 'the corpus holds 790 question records');
+  assert.equal(total, 800, 'the corpus holds 800 question records');
 });
 
 test('no question id is used twice, so no mock can draw the same item twice', () => {

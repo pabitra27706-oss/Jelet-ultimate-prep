@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2019-76-title fig-2019-76-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2019, Engineering and Technology main stream, booklet not recorded,
+PDF sheet 14, printed page 15, Q76. Owner-supplied 2023111582-1.pdf.
+SHA-256: 7deb86b699fe06e9410404c47a2a37aae5c382d7a379c24840c125cbebfb882e
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The axial section is drawn with the stated 60-degree apex angle. G remains a schematic point, not a computed centre of gravity. The sphere is not invented or overlaid. -->
+<title id="fig-2019-76-title">Cone with apex angle 60 degrees and an axial point G</title>
+<desc id="fig-2019-76-desc">A right circular cone has apex A, base-edge points B and C, and base centre D. The apex angle is 60 degrees. The axis AD and base diameter BC are dashed. A point G is shown on the axis between A and D. The source drawing does not show the scooped-out sphere.</desc>
+<defs><marker id="fig-2019-76-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<path d="M100 245L220 37.15L340 245" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="220" cy="245" rx="120" ry="18" fill="none" stroke="currentColor" stroke-width="2"/><line x1="100" y1="245" x2="340" y2="245" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><line x1="220" y1="37.15" x2="220" y2="245" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><circle cx="220" cy="169" r="3" fill="currentColor" stroke="currentColor" stroke-width="2"/><path d="M200 71.79A40 40 0 0 0 240 71.79" fill="none" stroke="currentColor" stroke-width="2"/><text x="185" y="110">60°</text><text x="214" y="25">A</text><text x="80" y="250">B</text><text x="350" y="250">C</text><text x="230" y="246">D</text><text x="195" y="170">G</text>
+</g></svg>

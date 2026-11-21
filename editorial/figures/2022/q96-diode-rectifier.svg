@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 295" role="img" aria-labelledby="fig-2022-96-title fig-2022-96-desc" width="460" height="295">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2022, Engineering and Technology main stream, booklet 2091013057,
+PDF sheet 23, printed page 23, Q96. Owner-supplied 2023111591-3.pdf.
+SHA-256: 68fb0a904586af3a3d2e504e45ab8ee4a2e2a52a0e6228aab2e987d6dc5a3de3
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The source diode orientation and output polarity are preserved. Resistor and source symbols are simplified; no average output value is supplied. -->
+<title id="fig-2022-96-title">Sinusoidal source with a reverse-oriented series diode and load resistor</title>
+<desc id="fig-2022-96-desc">A source labelled Vm sin omega t connects through a diode in the top wire to the load. The diode triangle points left and its cathode bar is on the source side. A resistor joins the top output node to the bottom return wire. Output v0(t) is marked positive at the top and negative at the bottom.</desc>
+<defs><marker id="fig-2022-96-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="85" y1="90" x2="195" y2="90" stroke="currentColor" stroke-width="2"/><line x1="195" y1="72" x2="195" y2="108" stroke="currentColor" stroke-width="2"/><path d="M195 90L225 72V108Z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="225" y1="90" x2="365" y2="90" stroke="currentColor" stroke-width="2"/><line x1="85" y1="90" x2="85" y2="140" stroke="currentColor" stroke-width="2"/><circle cx="85" cy="165" r="25" fill="none" stroke="currentColor" stroke-width="2"/><text x="73" y="173">∿</text><line x1="85" y1="190" x2="85" y2="255" stroke="currentColor" stroke-width="2"/><line x1="85" y1="255" x2="365" y2="255" stroke="currentColor" stroke-width="2"/><line x1="300" y1="90" x2="300" y2="135" stroke="currentColor" stroke-width="2"/><path d="M300 135l-8 8 16 12 -16 12 16 12 -16 12 8 8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="300" y1="199" x2="300" y2="255" stroke="currentColor" stroke-width="2"/><circle cx="365" cy="90" r="3" fill="currentColor" stroke="currentColor" stroke-width="2"/><circle cx="365" cy="255" r="3" fill="currentColor" stroke="currentColor" stroke-width="2"/><text x="378" y="95">+</text><text x="378" y="260">−</text><text x="365" y="177">v₀(t)</text><text x="115" y="170">Vₘ sin ωt</text>
+</g></svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2024-65-title fig-2024-65-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 17, printed page 17, Q65. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The minimum above the x axis and V0 reference are preserved. No equation, force law, numeric scale or selected response is added. -->
+<title id="fig-2024-65-title">Symmetric potential curve with its minimum above zero</title>
+<desc id="fig-2024-65-desc">A symmetric upward-opening potential curve has its minimum on the vertical V axis, above the horizontal x axis. The minimum level is labelled V0. Both arms rise symmetrically away from x equal to zero.</desc>
+<defs><marker id="fig-2024-65-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="80" y1="240" x2="370" y2="240" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-65-arrow)"/><line x1="225" y1="240" x2="225" y2="50" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-65-arrow)"/><text x="380" y="245">x</text><text x="233" y="47">V</text><path d="M140 65Q150 205 225 205Q300 205 310 65" fill="none" stroke="currentColor" stroke-width="2"/><text x="235" y="225">V₀</text>
+</g></svg>

@@ -48,3 +48,17 @@ The rules these drawings follow are in
 `scripts/build-figures.mjs` validates the collection against these rules and publishes it to
 `public/figures/<year>/`. `tests/figures.test.mjs` checks the published result, including the rule
 that the figure layer must not move the set of scoreable questions.
+
+## Owner-supplied 2019 corrections
+
+[pyq-md/2019.md](pyq-md/2019.md) restores Q77–79 and Q94 without editing the archive or supplying an answer key. See [source provenance and limits](provenance/2019-corrections.md). Q94 is printed page 22, confirmed by the owner.
+
+[pyq-md/2022.md](pyq-md/2022.md) restores Q6's determinant from the owner-supplied page-4 image, preserving all options and the existing derived key. See [Q6 provenance](provenance/2022-q6-correction.md).
+
+[pyq-md/2024.md](pyq-md/2024.md) corrects Q46's full stem and option values from the owner's page-12 screenshot. See [Q46 provenance](provenance/2024-q46-correction.md); the existing key label and graph are preserved.
+
+[pyq-md/2025.md](pyq-md/2025.md) restores Q95's I/I1/I2 current labels and full source wording, retaining its scoring hold. See [Q95 provenance and page attribution](provenance/2025-q95-correction.md).
+
+2024 Q60–62 are restored from the owner's printed-page-16 screenshot, including Q61's four graphical options. See [restoration provenance](provenance/2024-q60-q62-restoration.md).
+
+2022 Q86–90 are restored from the owner's chemistry page-21 screenshot. See [restoration provenance](provenance/2022-q86-q90-restoration.md); existing derived labels and Category-II rules are retained.

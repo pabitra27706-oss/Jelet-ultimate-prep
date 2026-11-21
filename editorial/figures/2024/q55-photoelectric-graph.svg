@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2024-55-title fig-2024-55-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 14, printed page 14, Q55. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The negative vertical intercept, positive horizontal intercept and A/B/C/O labels are retained. No slope, intercept magnitude or work function is calculated. -->
+<title id="fig-2024-55-title">Stopping potential plotted against frequency</title>
+<desc id="fig-2024-55-desc">The vertical axis is stopping potential V0 and the horizontal axis frequency nu, meeting at O. A straight rising line starts at A below O on the vertical axis, crosses the positive frequency axis at B and extends to C in the first quadrant.</desc>
+<defs><marker id="fig-2024-55-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="130" y1="185" x2="370" y2="185" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-55-arrow)"/><line x1="130" y1="185" x2="130" y2="50" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-55-arrow)"/><text x="105" y="45">V₀</text><text x="378" y="190">ν</text><line x1="130" y1="185" x2="130" y2="250" stroke="currentColor" stroke-width="2"/><line x1="130" y1="235" x2="315" y2="80" stroke="currentColor" stroke-width="2"/><text x="108" y="240">A</text><text x="193" y="208">B</text><text x="320" y="78">C</text><text x="108" y="185">O</text>
+</g></svg>

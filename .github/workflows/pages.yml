@@ -45,6 +45,11 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run check
+      - name: Validate provisional answer integration
+        run: |
+          npm run validate:keys
+          npm run test:key-safety
+          node scripts/build-content.mjs --check
       # The figure layer is published from editorial/figures. The check runs
       # first so that a stale committed copy fails the gate instead of being
       # quietly overwritten by the publish step.

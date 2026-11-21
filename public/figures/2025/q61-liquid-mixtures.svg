@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-labelledby="fig-2025-61-title fig-2025-61-desc" width="480" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 15, printed page 16, Q61. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The source mass labels and both pairwise mixture temperatures are retained. Arcs are connectors, not time paths; no A/C mixture result is supplied. -->
+<title id="fig-2025-61-title">Equal masses and pairwise mixture temperatures</title>
+<desc id="fig-2025-61-desc">Three equal masses m of liquids A, B and C are shown left to right at 10, 15 and 20 degrees Celsius. An arc joins A and B with label 13 degrees Celsius. Another arc joins B and C with label 16 degrees Celsius.</desc>
+<defs><marker id="fig-2025-61-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<circle cx="100" cy="170" r="14" fill="none" stroke="currentColor" stroke-width="2"/><text x="95" y="175">A</text><text x="95" y="205">m</text><text x="77" y="235">10 °C</text><circle cx="240" cy="170" r="14" fill="none" stroke="currentColor" stroke-width="2"/><text x="235" y="175">B</text><text x="235" y="205">m</text><text x="217" y="235">15 °C</text><circle cx="380" cy="170" r="14" fill="none" stroke="currentColor" stroke-width="2"/><text x="375" y="175">C</text><text x="375" y="205">m</text><text x="357" y="235">20 °C</text><path d="M100 156Q170 20 240 156M240 156Q310 20 380 156" fill="none" stroke="currentColor" stroke-width="2"/><text x="150" y="78">13 °C</text><text x="290" y="78">16 °C</text>
+</g></svg>

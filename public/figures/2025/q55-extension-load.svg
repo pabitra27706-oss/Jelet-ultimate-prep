@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-labelledby="fig-2025-55-title fig-2025-55-desc" width="480" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2025, Engineering and Technology main stream,
+PDF sheet 13, printed page 14, Q55. Owner-supplied 202512161802442791.pdf.
+SHA-256: 07215719c4f67d963e014bbc91c4a16cf0671979caf384d595cdde29680be861
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The axis meanings and relative line slopes are retained without supplying a modulus comparison or numerical slope. -->
+<title id="fig-2025-55-title">Extension-load lines for two wires</title>
+<desc id="fig-2025-55-desc">Extension is on the vertical axis and load on the horizontal axis. Two straight lines start at their common origin. The line marked B rises more steeply than the line marked A. No numerical tick marks are shown.</desc>
+<defs><marker id="fig-2025-55-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="110" y1="250" x2="380" y2="250" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-55-arrow)"/><line x1="110" y1="250" x2="110" y2="60" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2025-55-arrow)"/><text x="88" y="53">Extension</text><text x="387" y="256">Load</text><line x1="110" y1="250" x2="310" y2="115" stroke="currentColor" stroke-width="2"/><line x1="110" y1="250" x2="250" y2="60" stroke="currentColor" stroke-width="2"/><text x="320" y="117">A</text><text x="255" y="60">B</text>
+</g></svg>

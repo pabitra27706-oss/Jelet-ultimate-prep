@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" role="img" aria-labelledby="fig-2024-57-title fig-2024-57-desc" width="460" height="300">
+<!-- RECONSTRUCTED FIGURE — not official WBJEEB artwork.
+Source: JELET 2024, Engineering and Technology main stream,
+PDF sheet 15, printed page 15, Q57. Owner-supplied 2024120234.pdf.
+SHA-256: f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d
+Agent source comparison: 2026-11-20. Standard: ADR-0002. Original vector primitives;
+no official pixels, no answer-key inference, no scoring promotion.
+Deviation: The two unequal peaks and intervening trough are retained. Curve proportions are schematic; equilibrium classifications are not supplied. -->
+<title id="fig-2024-57-title">Potential energy with two peaks and a trough</title>
+<desc id="fig-2024-57-desc">Potential energy V(x) is plotted vertically against position x. The smooth curve rises to a high first peak, descends to a trough above the x axis, rises to a lower second peak and then falls. No numerical ticks are shown.</desc>
+<defs><marker id="fig-2024-57-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="currentColor"/></marker></defs>
+<g style="color:var(--fig-ink,#12252f)" fill="currentColor" font-family="system-ui,sans-serif" font-size="15">
+<line x1="95" y1="245" x2="385" y2="245" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-57-arrow)"/><line x1="95" y1="245" x2="95" y2="55" stroke="currentColor" stroke-width="2" marker-end="url(#fig-2024-57-arrow)"/><text x="70" y="50">V(x)</text><text x="393" y="250">x</text><path d="M125 195C145 85 180 55 205 160C225 250 250 240 267 190C281 126 310 143 327 210" fill="none" stroke="currentColor" stroke-width="2"/>
+</g></svg>
