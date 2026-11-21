@@ -68,11 +68,13 @@
   scroll sideways, and the tab bar never covers a card. TalkBack reading of the
   chip pressed state and the bookmark label is not tested.
 
-- **CI run, build size, published URL and browser/device:** local evidence at
-  the time of writing; the branch's `pilot` job is reported on pull request
-  #14. Nothing is deployed or merged by this phase; the published site still
-  serves the Phase 14 build until the owner merges. Browser: headless Chromium
-  153.0.8010.0; no physical device.
+- **CI run, build size, published URL and browser/device:** the branch's
+  `pilot` job passed on pull request #14
+  (`actions/runs/44944756446`, 1 m 42 s). Nothing is deployed or merged by this
+  phase; the published site still serves the Phase 14 build until the owner
+  merges, and pushing this branch runs no Pages workflow. Build size:
+  26,660 KB of packs, `dist/` ≈ 18 MB. Browser: headless Chromium 153.0.8010.0;
+  no physical device.
 
 - **Privacy, accessibility, cost, editorial and rollback checks:** the search
   index is fetched from this site only, and typing nothing else leaves the
