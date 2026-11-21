@@ -880,6 +880,15 @@
       "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
     },
     {
+      "id": "jelet-et-p1-2024:q61",
+      "year": 2024,
+      "question": 61,
+      "status": "reconstructed-source-compared",
+      "asset": "figures/2024/q61-energy-time-options.svg",
+      "scorable": false,
+      "note": "Source diagram found despite absence of the original corpus figure flag; scoring unchanged."
+    },
+    {
       "id": "jelet-et-p1-2025:q61",
       "year": 2025,
       "question": 61,

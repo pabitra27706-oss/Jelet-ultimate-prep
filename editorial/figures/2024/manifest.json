@@ -175,6 +175,24 @@
       "sourceSha256": "f9de5246588259b260ba9a1d71c17041a9576443181d5074c18fe536efb4611d"
     },
     {
+      "id": "jelet-et-p1-2024:q61",
+      "year": 2024,
+      "question": 61,
+      "officialPage": 16,
+      "pdfPage": 16,
+      "stream": "main-engineering",
+      "figureKind": "graph-options",
+      "kindReviewed": true,
+      "optionsAreFigures": true,
+      "status": "reconstructed",
+      "svg": "q61-energy-time-options.svg",
+      "fidelity": "Agent compared curves, endpoint labels and printed V/K labels against the owner-supplied screenshot; no independent second review.",
+      "alt": "Four energy-versus-time options, each with dashed guides at energy mgH and the endpoint time. A: V falls with increasing steepness while K rises with increasing steepness, ending at square root of 2h/g. B: V falls with increasing steepness while K rises with decreasing steepness, ending at square root of 2h/g. C: the descending curve flattens while the ascending curve steepens, ending at square root of 2h/g. D: the descending curve steepens while the ascending curve steepens, ending at square root of h/g. V and K are labelled only in A and B as in the source.",
+      "description": "Four energy-versus-time options, each with dashed guides at energy mgH and the endpoint time. A: V falls with increasing steepness while K rises with increasing steepness, ending at square root of 2h/g. B: V falls with increasing steepness while K rises with decreasing steepness, ending at square root of 2h/g. C: the descending curve flattens while the ascending curve steepens, ending at square root of 2h/g. D: the descending curve steepens while the ascending curve steepens, ending at square root of h/g. V and K are labelled only in A and B as in the source.",
+      "deviations": "All four options retained without selecting one. Curves and spacing schematic; endpoint radicals written inline. Stem uses H but source ticks use h, preserved. V/K labels are printed only in A/B. Screenshot source and hash recorded in SVG and correction provenance.",
+      "sourceSha256": "f6f26513d818b08e2ae032e79bd95370846b62cffe34cf9f53e14dad71551b7a"
+    },
+    {
       "id": "jelet-et-p1-2024:q65",
       "year": 2024,
       "question": 65,

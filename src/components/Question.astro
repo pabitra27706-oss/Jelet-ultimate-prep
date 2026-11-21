@@ -101,6 +101,16 @@ const held = !question.scorable && !question.boardAwarded;
   {held && question.holdReason && (question.figureAsset || !question.figureNote) && (
     <p class="micro">{question.holdReason}</p>
   )}
+  {mode === 'reader' && question.provisionalAid && (
+    <details data-provisional-aid style="margin-top:1rem">
+      <summary>{question.provisionalAid.state === 'provisional' ? 'Reveal provisional answer aid · not scored' : question.provisionalAid.state === 'unsolved' ? 'Answer not yet available · not scored' : 'Answer under dispute · not scored'}</summary>
+      <div class="details-body">
+        {question.provisionalAid.answer && <p><strong>Imported provisional label: {question.provisionalAid.answer}</strong></p>}
+        <p>{question.provisionalAid.note}</p>
+        <p class="micro">{question.provisionalAid.source}</p>
+      </div>
+    </details>
+  )}
   {showKey && keyLetters.length > 0 && (
     <div class="keynote">
       <strong>Answer: {keyLetters.join(', ')}</strong> · {keyTier}

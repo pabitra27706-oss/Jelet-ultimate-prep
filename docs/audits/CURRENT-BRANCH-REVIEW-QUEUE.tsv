@@ -1,0 +1,501 @@
+year	q	stored_answer	source_candidate	source_verdict	next_action	current_record_present	current_figure_present	current_scorable	source_report
+2017	1	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	2	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	3	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	4	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	5	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	6	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	7	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	8	B	-	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	9	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	10	D	A	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2017-q01-q10.md
+2017	11	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	12	D	BD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	13	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	14	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	15	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	16	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	17	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	18	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	19	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	20	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	21	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	22	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	23	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	24	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	25	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	26	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	27	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	28	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	29	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	30	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q11-q30.md
+2017	31	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	32	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	33	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	34	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	35	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	36	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	37	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	38	B	D	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	39	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	40	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	41	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	42	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	43	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	44	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	45	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	46	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	47	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	48	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	49	C	C	ANSWER-NOT-CHECKABLE	retain hold; obtain checkable interpretation	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	50	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	51	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	52	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	53	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	54	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	55	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	56	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	57	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	58	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	59	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	60	A	B	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	61	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	62	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	63	C	A	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	64	A	AD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	65	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	66	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	67	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	68	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	69	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	70	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	71	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	72	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	73	-	B	UNSOLVED-REMAINS-HELD	retain unsolved hold	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	74	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	75	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	76	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	77	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	78	C	D	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	79	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	80	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	81	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	82	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	83	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	84	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	85	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	86	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	87	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	88	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	89	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	90	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	91	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	92	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	93	A	B	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	94	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	95	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	96	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	97	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	98	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2017	99	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2017-q31-q100.md
+2017	100	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2017-q31-q100.md
+2018	1	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	2	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	3	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	4	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	5	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	6	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	7	C	B	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	8	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	9	B	B	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	10	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	11	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	12	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	13	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	14	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	15	C	A	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	16	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	17	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	18	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	19	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	20	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	21	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	22	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	23	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	24	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	25	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	26	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	27	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q01-q50.md
+2018	28	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	29	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	30	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	31	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	32	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	33	D	C	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	34	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	35	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	36	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	37	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	38	B	D	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	39	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	40	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	41	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	42	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	43	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	44	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	45	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	46	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	47	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	48	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	49	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	50	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q01-q50.md
+2018	51	D	BD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	52	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	53	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	54	B	AB	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	55	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	56	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	57	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	58	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	59	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	60	D	AD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	61	C	ABC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	62	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	63	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	64	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	65	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	66	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	67	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	68	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	69	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	70	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	71	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	72	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	73	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	74	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	75	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	76	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	77	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	78	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	79	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	80	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	81	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	82	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	83	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	84	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	85	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	86	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	87	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	88	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	89	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	90	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	91	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2018-q51-q100.md
+2018	92	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	93	C	D	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	94	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	95	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	96	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	97	A	B	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	98	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	99	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2018	100	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2018-q51-q100.md
+2019	1	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	2	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	3	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	4	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	5	D	D	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	6	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	7	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	8	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	9	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	10	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	11	C	C	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	12	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	13	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	14	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	15	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	16	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	17	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	18	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	19	-	-	UNSOLVED-REMAINS-HELD	retain unsolved hold	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	20	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	21	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	22	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	23	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	24	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	25	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	26	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	27	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	28	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	29	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	30	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	31	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	32	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	33	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	34	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	35	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	36	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	37	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	38	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	39	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	40	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	41	-	-	UNSOLVED-REMAINS-HELD	retain unsolved hold	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	42	A	ABC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	43	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	44	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	45	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	46	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	47	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	48	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	49	-	B	UNSOLVED-REMAINS-HELD	retain unsolved hold	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	50	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q01-q50.md
+2019	51	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	52	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	53	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	54	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	55	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	56	B	C	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	57	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	58	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	59	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	60	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	61	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	62	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	63	B	BC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	64	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	65	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	66	A	-	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	67	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	68	A	A	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	69	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	70	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	71	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	72	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	73	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	74	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	75	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2019-q51-q100.md
+2019	76	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2019-q51-q100.md
+2019	77	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2019-q51-q100.md
+2019	78	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	79	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	80	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	81	-	-	UNSOLVED-REMAINS-HELD	retain unsolved hold	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	82	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	83	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	84	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2019-q51-q100.md
+2019	85	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	86	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	87	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	88	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	89	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	90	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2019-q51-q100.md
+2019	91	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2019-q51-q100.md
+2019	92	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	93	B	D	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	94	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	95	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	96	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	97	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	98	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	99	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2019	100	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2019-q51-q100.md
+2021	1	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	2	-	-	UNSOLVED-REMAINS-HELD	retain unsolved hold	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	3	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	4	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	5	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	6	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	7	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	8	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	9	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	10	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	11	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	12	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	13	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	14	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	15	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	16	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	17	C	C	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	18	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	19	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	20	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	21	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q01-q50.md
+2021	22	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	23	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	24	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	25	A	B	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	26	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q01-q50.md
+2021	27	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	28	C	D	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	29	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	30	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	31	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	32	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	33	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q01-q50.md
+2021	34	B	AB	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	35	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q01-q50.md
+2021	36	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	37	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	38	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	39	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	40	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	41	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	42	D	-	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	43	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	44	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	45	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	46	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	47	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	48	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	49	A	B	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	50	D	A	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2021-q01-q50.md
+2021	51	A	A	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	52	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	53	D	D	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	54	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	55	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	56	C	CD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	57	B	ABC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	58	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	59	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	60	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	61	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	62	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	63	C	C	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	64	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	65	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	66	D	C	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	67	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	68	B	A	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	69	A	A	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	70	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	71	C	A	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	72	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	73	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	74	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	75	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	76	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	77	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	78	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	79	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	80	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	81	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	82	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	83	D	C	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	84	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	85	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	86	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	87	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	88	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	89	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	90	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	91	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	92	B	B	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	93	-	D	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	94	-	C	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	95	-	A	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	96	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	97	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	98	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2021	99	-	B	UNSOLVED-CANDIDATE-PROPOSED	review candidate against current options and source working	True	True	False	2026-11-21-jelet-2021-q51-q100.md
+2021	100	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	False	2026-11-21-jelet-2021-q51-q100.md
+2022	1	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	2	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	3	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	4	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	5	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	6	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	7	B	-	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	8	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	9	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	10	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	11	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	12	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	13	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	14	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	15	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	16	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	17	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	18	C	AC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	19	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	20	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	21	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	22	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	23	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	24	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	25	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	26	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	27	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	28	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	29	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	30	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	31	AB	AB	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	32	AB	ABD	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	33	AC	AC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	34	AC	AC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	35	BC	BC	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	36	ABD	ABD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	37	AD	AD	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	38	CD	CD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	39	AB	AB	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	40	AC	AC	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	41	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	42	A	A	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	43	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	44	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	45	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	46	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	47	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	48	D	-	ANSWER-WRONG	adjudicate disagreement; do not auto-replace	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	49	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q01-q50.md
+2022	50	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q01-q50.md
+2022	51	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	52	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	53	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	54	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	55	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	True	2026-11-21-jelet-2022-q51-q100.md
+2022	56	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	57	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	58	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	59	C	C	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	60	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	61	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	62	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	63	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	64	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	65	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	66	ABD	ABD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	67	AB	AB	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	68	ABD	ABD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	69	ABCD	ABCD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	70	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	71	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	72	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	73	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	74	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	75	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	76	A	A	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	77	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	78	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	79	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	80	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	81	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	82	B	BD	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	83	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	84	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	85	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	86	CD	CD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	87	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	88	AB	AB	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	89	CD	CD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	90	BCD	BCD	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	91	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	92	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	93	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	94	A	A	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	95	D	D	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	False	True	2026-11-21-jelet-2022-q51-q100.md
+2022	96	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	97	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	98	C	C	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	99	B	B	ANSWER-CONFIRMED	check option-text and reasoning fidelity before integration	True	True	False	2026-11-21-jelet-2022-q51-q100.md
+2022	100	B	B	ANSWER-AMBIGUOUS	retain hold; resolve assumptions	True	False	True	2026-11-21-jelet-2022-q51-q100.md

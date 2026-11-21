@@ -105,7 +105,7 @@ test('the dashboard shows real corpus numbers and an honest empty record', async
   const attempted = await page.locator('[data-stat="attempted"]').textContent();
   assert.equal(attempted, '0');
   assert.equal(await page.locator('[data-stat="accuracy"]').textContent(), '—');
-  assert(await page.getByText(/792 questions from eight previous-year papers/).isVisible());
+  assert(await page.getByText(/800 questions from eight previous-year papers/).isVisible());
   assert(await page.getByRole('link', { name: /Start the 2025 full paper/ }).isVisible());
   assert(await page.getByRole('link', { name: /JELET 2025 · Paper I/ }).first().isVisible());
 });
@@ -941,7 +941,7 @@ test('the search index ships the whole corpus in a compact payload', async () =>
   const data = JSON.parse(raw);
   assert.equal(data.version, 2);
   const questions = data.entries.filter((entry) => entry.i.startsWith('question:'));
-  assert.equal(questions.length, 792);
+  assert.equal(questions.length, 800);
   assert(raw.length < 500 * 1024, `index too large: ${raw.length}`);
 });
 
@@ -1197,7 +1197,7 @@ test('original paper references work in every bank reader without embedding priv
 test('new inline figures belong to the right questions and retain scoring holds on mobile and desktop', async (t) => {
   for (const width of [390, 1280]) {
     const page = await context(t, { viewport: { width, height: 900 } });
-    for (const [year, numbers] of [[2017, [72,73,75,81,89,90,91,97,98,100]], [2018, [27,73,74,78,79,80,82,85,89,90,91]], [2019, [75,76,77,84,90,91]], [2021, [21,26,33,35,71,72,73,74,75,77,81,84,87,89,93,94,95,99]], [2022, [49,55,57,62,93,96,97,98,99]], [2024, [42,43,45,46,49,52,54,55,57,65,66,67,68,70,78,79,89,94,96,97,98]], [2025, [44,46,51,54,55,57,58,61,62,66,67,81,82,85,88,95,100]]]) {
+    for (const [year, numbers] of [[2017, [72,73,75,81,89,90,91,97,98,100]], [2018, [27,73,74,78,79,80,82,85,89,90,91]], [2019, [75,76,77,84,90,91]], [2021, [21,26,33,35,71,72,73,74,75,77,81,84,87,89,93,94,95,99]], [2022, [49,55,57,62,93,96,97,98,99]], [2024, [42,43,45,46,49,52,54,55,57,61,65,66,67,68,70,78,79,89,94,96,97,98]], [2025, [44,46,51,54,55,57,58,61,62,66,67,81,82,85,88,95,100]]]) {
       await go(page, `library/jelet-et-p1-${year}/`);
       for (const n of numbers) {
         const card = page.locator(`#q${n}`);
@@ -1262,4 +1262,65 @@ test('2025 Q95 renders corrected current labels with its circuit and scoring hol
   assert.match(text, /following circuit carries alternating currents/);
   assert.match(text, /None of these/);
   assert.doesNotMatch(text, /I_3/);
+});
+
+test('2024 page-16 restoration shows four energy graph options and source mathematics on mobile', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/jelet-et-p1-2024/');
+  for (const n of [60,61,62]) {
+    const card = page.locator(`#q${n}`);
+    assert.equal(await card.count(), 1);
+    assert.equal(await card.locator('.katex-error').count(), 0);
+  }
+  const q61 = page.locator('#q61');
+  assert.equal(await q61.getAttribute('data-scorable'), 'no');
+  assert.equal(await q61.locator('[data-figure] svg').count(), 1);
+  for (const label of ['(A)','(B)','(C)','(D)']) assert.ok((await q61.locator('svg').textContent()).includes(label));
+  assert.equal(await page.locator('#q60').getAttribute('data-scorable'), 'yes');
+  assert.equal(await page.locator('#q62').getAttribute('data-scorable'), 'yes');
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+});
+
+test('2022 restored chemistry questions render complete multi-answer inputs and mathematics', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/jelet-et-p1-2022/');
+  for (const n of [86,87,88,89,90]) {
+    const card = page.locator(`#q${n}`);
+    assert.equal(await card.count(), 1);
+    assert.equal(await card.getAttribute('data-scorable'), 'yes');
+    assert.equal(await card.locator('.katex-error').count(), 0);
+  }
+  assert.ok(await page.locator('#q88 .katex').count() >= 4);
+  assert.match(await page.locator('#q87').textContent(), /Borax to diborane/);
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+});
+
+test('papers, practice and review show the unresolved-content notice', async (t) => {
+  const page = await context(t);
+  for (const path of ['library/', 'library/jelet-et-p1-2022/', 'practice/', 'review/']) {
+    await go(page, path);
+    const notice = page.locator('[data-content-caution]');
+    assert.equal(await notice.count(), 1);
+    assert.ok(await notice.isVisible());
+    assert.match(await notice.textContent(), /Further answer review is paused/);
+    assert.match(await notice.textContent(), /does not.*change which questions are marked/);
+  }
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+});
+
+test('historical provisional aids reveal deliberately and disputed answers stay withheld', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/jelet-et-p1-2017/');
+  const aid = page.locator('#q1 [data-provisional-aid]');
+  assert.equal(await aid.getAttribute('open'), null);
+  await aid.locator('summary').click();
+  assert.match(await aid.textContent(), /Imported provisional label: B/);
+  assert.match(await aid.textContent(), /Not used for scoring/);
+  assert.equal(await page.locator('#q1').getAttribute('data-scorable'), 'no');
+  assert.equal(await page.locator('#q1 [data-state="correct"]').count(), 0);
+  const disputed = page.locator('#q8 [data-provisional-aid]');
+  await disputed.locator('summary').click();
+  assert.match(await disputed.textContent(), /Imported answer withheld/);
+  assert.doesNotMatch(await disputed.textContent(), /Imported provisional label/);
+  assert.match(await page.locator('#q2 [data-provisional-aid]').textContent(), /No integrated answer yet/);
 });

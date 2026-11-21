@@ -275,7 +275,7 @@ test('the published corpus holds every paper it claims to', () => {
   const years = papers.map((paper) => paper.year).sort((a, b) => a - b);
   assert.deepEqual(years, [2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025]);
   const total = papers.reduce((sum, paper) => sum + paper.questions.length, 0);
-  assert.equal(total, 792, 'the corpus holds 792 question records');
+  assert.equal(total, 800, 'the corpus holds 800 question records');
 });
 
 test('no question id is used twice, so no mock can draw the same item twice', () => {

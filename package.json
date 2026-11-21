@@ -19,7 +19,7 @@
     "coverage:baseline": "node scripts/find-baseline-split.mjs",
     "preview": "node scripts/preview.mjs",
     "test": "npm run test:key-safety && npm run test:rules && npm run test:figures && npm run test:phase05 && npm run test:phase06 && npm run test:phase07 && npm run test:phase08 && npm run test:mock && npm run test:remediation && npm run test:quiz && npm run test:browser",
-    "test:key-safety": "node --test tests/derived-key-safety.test.mjs",
+    "test:key-safety": "node --test tests/derived-key-safety.test.mjs tests/provisional-aids.test.mjs",
     "validate:keys": "node scripts/validate-keys.mjs",
     "test:rules": "node --test tests/rules.test.mjs tests/original-papers.test.mjs",
     "test:phase05": "node --test tests/phase05.test.mjs",

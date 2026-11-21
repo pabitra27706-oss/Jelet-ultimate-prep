@@ -120,7 +120,7 @@ test('2022 covers eight original holds and an already-scoreable supplementary gr
 test('2024 covers all eighteen flags plus three supplementary source diagrams without scoring promotion', async () => {
   const p = papers.find(p => p.year === 2024);
   const manifest = JSON.parse(await readFile('editorial/figures/2024/manifest.json', 'utf8'));
-  assert.deepEqual(manifest.entries.map(e => e.question), [42,43,45,46,49,52,54,55,57,65,66,67,68,70,78,79,89,94,96,97,98]);
+  assert.deepEqual(manifest.entries.map(e => e.question), [42,43,45,46,49,52,54,55,57,61,65,66,67,68,70,78,79,89,94,96,97,98]);
   for (const q of p.questions.filter(q => q.figure)) {
     assert.ok(q.figureAsset);
     assert.equal(q.scorable, false);
@@ -231,4 +231,49 @@ test('2025 Q95 source current labels match the circuit and remain unscored', asy
   assert.equal(entry.status, 'transcription-corrected-key-unchanged');
   assert.equal(entry.pdfPage, 24);
   assert.equal(entry.printedPage, 25);
+});
+
+test('2024 page 16 restores Q60–62 with existing keys and graphical option hold', () => {
+  const p = papers.find(p => p.year === 2024);
+  assert.equal(p.questionCount, 100);
+  assert.deepEqual(p.gaps, []);
+  const [q60,q61,q62] = [60,61,62].map(n => p.questions.find(q => q.n === n));
+  assert.deepEqual([q60,q61,q62].map(q => q.keyAnswer), ['A','A','D']);
+  assert.deepEqual([q60,q61,q62].map(q => q.scorable), [true,false,true]);
+  assert.match(q60.stem, /30° with the vertical/);
+  assert.match(q60.options[0].text, /10\\sqrt\{3\}/);
+  assert.match(q62.stem, /X\(t\)=At\^4\+Bt/);
+  assert.match(q62.options[3].text, /26/);
+  assert.equal(q61.figureAsset.url, 'figures/2024/q61-energy-time-options.svg');
+  for (const label of ['A:', 'B:', 'C:', 'D:']) assert.ok(q61.figureAsset.description.includes(label));
+  assert.match(q61.figureAsset.description, /square root of h\/g/);
+  assert.doesNotMatch(p.questions.find(q => q.n === 100).options[3].text, /missing|97|Note/);
+});
+
+test('2022 page 21 restores all five Category-II chemistry records without inventing keys', () => {
+  const p = papers.find(p => p.year === 2022);
+  assert.equal(p.questionCount, 100);
+  assert.deepEqual(p.gaps, []);
+  const restored = [86,87,88,89,90].map(n => p.questions.find(q => q.n === n));
+  assert.deepEqual(restored.map(q => q.keyAnswer), ['CD','A','AB','CD','BCD']);
+  for (const q of restored) {
+    assert.equal(q.category, 'II');
+    assert.equal(q.marks, 2);
+    assert.equal(q.subjectKey, 'chemistry');
+    assert.equal(q.optionsComplete, true);
+    assert.equal(q.scorable, true);
+    assert.equal(q.figure, false);
+    assert.equal(q.figureAsset, null);
+    assert.equal(q.boardAwarded, false);
+    assert.deepEqual(q.options.map(o => o.label), ['A','B','C','D']);
+  }
+  assert.deepEqual(restored[0].options.map(o => o.text), ['AlCl_3','BeCl_2','BaCl_2','RbCl'].map(s => `\\(\\mathrm{${s}}\\)`));
+  assert.deepEqual(restored[1].options.map(o => o.text), ['Phosphoric acid to phosphine.','Nitric acid to molecular nitrogen.','Sulphuric acid to elemental sulphur.','Borax to diborane']);
+  assert.match(restored[2].options[0].text, /\|>\|/);
+  assert.match(restored[2].options[1].text, /\|<\|/);
+  assert.match(restored[2].options[2].text, /\|=\|/);
+  assert.match(restored[2].options[3].text, /\|>\|/);
+  assert.match(restored[3].options[3].text, /decrease with decrease.*endothermic/);
+  assert.equal(restored[4].options[3].text, '\\(\\mathrm{CaCO_3}\\)');
+  assert.doesNotMatch(p.questions.find(q => q.n === 100).options[3].text, /missing|Note|95/);
 });

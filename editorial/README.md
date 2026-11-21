@@ -58,3 +58,7 @@ that the figure layer must not move the set of scoreable questions.
 [pyq-md/2024.md](pyq-md/2024.md) corrects Q46's full stem and option values from the owner's page-12 screenshot. See [Q46 provenance](provenance/2024-q46-correction.md); the existing key label and graph are preserved.
 
 [pyq-md/2025.md](pyq-md/2025.md) restores Q95's I/I1/I2 current labels and full source wording, retaining its scoring hold. See [Q95 provenance and page attribution](provenance/2025-q95-correction.md).
+
+2024 Q60–62 are restored from the owner's printed-page-16 screenshot, including Q61's four graphical options. See [restoration provenance](provenance/2024-q60-q62-restoration.md).
+
+2022 Q86–90 are restored from the owner's chemistry page-21 screenshot. See [restoration provenance](provenance/2022-q86-q90-restoration.md); existing derived labels and Category-II rules are retained.

@@ -25,19 +25,19 @@
     "moderate": 17,
     "thin": 14,
     "none": 2,
-    "mappedQuestions": 350,
-    "unmappedQuestions": 442,
+    "mappedQuestions": 354,
+    "unmappedQuestions": 446,
     "conflicts": 0,
     "outsideSyllabusQuestions": 260
   },
   "delta": {
-    "questionsMapped": 138,
+    "questionsMapped": 142,
     "topicsCovered": 6,
     "broadTopics": 5,
     "moderateTopics": 10,
     "thinTopics": -9,
     "uncoveredTopics": -6,
-    "unmappedQuestions": -36,
+    "unmappedQuestions": -32,
     "conflicts": -7
   },
   "moved": [
@@ -108,8 +108,8 @@
       "topicId": "physics-t02",
       "name": "Kinematics",
       "from": 10,
-      "to": 15,
-      "delta": 5
+      "to": 16,
+      "delta": 6
     },
     {
       "topicId": "physics-t03",
@@ -171,8 +171,8 @@
       "topicId": "chemistry-tb",
       "name": "Chemical Bonding",
       "from": 4,
-      "to": 5,
-      "delta": 1
+      "to": 6,
+      "delta": 2
     },
     {
       "topicId": "chemistry-tc",
@@ -185,8 +185,8 @@
       "topicId": "chemistry-td",
       "name": "Oxidation, Reduction, Electrochemistry",
       "from": 3,
-      "to": 4,
-      "delta": 1
+      "to": 5,
+      "delta": 2
     },
     {
       "topicId": "chemistry-te",
@@ -413,7 +413,7 @@
     }
   ],
   "totals": {
-    "questionsAddedToTopics": 96,
+    "questionsAddedToTopics": 99,
     "topicsWithAnyChange": 28
   },
   "limits": [

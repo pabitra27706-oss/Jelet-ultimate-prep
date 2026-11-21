@@ -119,7 +119,7 @@ for (const [topic, synonyms] of Object.entries(baselineTerms)) {
 const BASELINE_EXCLUDED_PAPERS = [2023];
 // Restored 2019 Q78/Q79 were absent at the historical baseline, but belong in the current map.
 const baselinePapers = papers.filter((paper) => !BASELINE_EXCLUDED_PAPERS.includes(paper.year)).map(paper => ({
-  ...paper, questions: paper.questions.filter(q => !(paper.year === 2019 && [78,79].includes(q.n))),
+  ...paper, questions: paper.questions.filter(q => !(paper.year === 2019 && [78,79].includes(q.n)) && !(paper.year === 2024 && [60,61,62].includes(q.n)) && !(paper.year === 2022 && [86,87,88,89,90].includes(q.n))),
 }));
 const baseline = mapCorpus({ papers: baselinePapers, syllabus, terms });
 

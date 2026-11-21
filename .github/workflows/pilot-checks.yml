@@ -28,6 +28,11 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run check
+      - name: Validate provisional answer integration
+        run: |
+          npm run validate:keys
+          npm run test:key-safety
+          node scripts/build-content.mjs --check
       - run: npm run build
       - run: python3 docs/phases/01-evidence/check_inventory.py
       - name: Run the scoring and review rules

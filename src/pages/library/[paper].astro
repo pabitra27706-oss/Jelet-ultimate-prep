@@ -54,6 +54,9 @@ const canPractice = paper.scoreableQuestions > 0;
   </div>
 
   <OriginalPaper year={paper.year} />
+  {paper.questions.some(q => q.provisionalAid) && (
+    <p class="notice">Read-only study aids are available below. Open each question’s provisional-answer panel deliberately. Disputed answers are withheld and unsolved entries remain unanswered. These aids are not an official key and do not enable marking or timed practice.</p>
+  )}
 
   {paper.notes.length > 0 && (
     <div class="notice" style="margin-bottom:1.2rem">

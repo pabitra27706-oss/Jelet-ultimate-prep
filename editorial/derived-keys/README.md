@@ -64,3 +64,7 @@ Imported the owner's requested source-branch records: 400 entries across 2017,
 2018, 2019 and 2021, including 321 candidate answers and 79 unsolved entries.
 Source records retain their derived-provisional tiers and scoring holds. They are
 not yet integrated into the public question bank. See [import provenance](IMPORT-2026-11-20.md).
+
+### Subsequent read-only integration
+
+The earlier import-only status is historical. Sanitized provisional study aids are now attached to the reader: 262 revealable source-agreement labels, 59 withheld disputed/ambiguous/uncheckable answers, 79 unsolved entries. Full records remain editorial; no imported item is scored. See [integration evidence](../../docs/phases/11-derived-integration/README.md).

@@ -29,3 +29,19 @@ Only explicitly approved, independently supported, complete items may enter scor
 No new accounts, backend, telemetry, live AI, paid service, alternate-stream support or lesson prose. Do not silently change the existing 2022 provisional-scoring behaviour: record a separate migration/owner decision, test its effect, and preserve old attempts.
 
 **Execute:** [RUNBOOK.md](RUNBOOK.md). **Upstream:** [Phase 10](../10-derived-audit/README.md). **Downstream:** [Phase 12](../12-derived-release/README.md).
+
+## Current implementation — owner-requested read-only integration
+
+Implemented provisional study aids in the paper reader for the 400 imported 2017/2018/2019/2021 records. This is bounded Path A, not verified scoring or release approval. Further answer adjudication remains paused at the owner's request. Existing source/rights and transcription limitations remain open.
+
+- 262 source-agreement records expose their imported labels only after opening a labelled provisional-answer panel. The label is explicitly not a verified answer and may not match corrupted current option text.
+- 59 disputed/ambiguous/not-checkable answer records show a withholding explanation, not a candidate label.
+- 79 unsolved records remain unanswered; the 73 proposed candidates have not been silently applied.
+- The sanitized `provisionalAid` field is separate from `keyAnswer`, `hasKey`, keyed option styling, scored keys and eligibility. No imported reasoning, private evidence or source images are published.
+- All 800 previous question fields compared unchanged except the added aid. Existing keys, scoring, pools, board awards and submitted-attempt behavior unchanged. 2022 policy is not migrated.
+- Generated paper data and built reader pages/offline artifacts carry the aids; scored consumers cannot consume them as keys. Existing build/pack generation keeps revision hashes current.
+- Import fails on paper/schema/tier/eligibility mismatches, invalid answers, duplicate/missing records or stale audit labels. It uses the pinned imported historical comparison, not new AI votes or mathematical research.
+- Checks: Astro check/build, full suite (272 tests), separate 2023 suite (22 tests), four key validators, content freshness and whitespace checks passed. Tests cover state counts, invalid imports, deliberate reveal, no correct-option styling and no scored key/board award for all 400 aids.
+- No independent content/rights/device certification; no commit, push, merge or deployment in this integration turn.
+
+Remaining planned phases/tasks above are not all complete: verified scoring, full transcription reconciliation and release approval are separate. See the current roadmap for the owner pause on further answer research.

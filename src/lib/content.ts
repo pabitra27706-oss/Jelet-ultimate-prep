@@ -42,6 +42,7 @@ export type FigureAsset = {
   reviewed: boolean;
 };
 export type Question = {
+  provisionalAid?: { state: string; answer: string | null; note: string; source: string };
   id: string;
   n: number;
   subject: string;
