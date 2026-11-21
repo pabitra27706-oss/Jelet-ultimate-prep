@@ -1,76 +1,70 @@
-# Phase 14 — whole-site visual rebuild
+# Phase 14 — shared UI foundation
 
-**Status:** in progress; seven references are captured in Git, the shared light/dark teal palette is updated, and the Today dashboard's first visual rebuild is underway. The remaining page families, owner visual review, physical-device check and deployment are not complete or claimed.
+**Status:** planned before the per-image screen phases. The owner explicitly requested one shared, reusable foundation phase first, followed by one independently reviewable phase for each of the seven supplied images. Existing teal tokens and the in-progress Today prototype are exploratory inputs, not evidence that this phase or any screen is complete.
 
-## Owner request and target
+## Owner intent
 
-On 2026-11-21, the owner supplied seven mobile screen concepts and requested that they be added to GitHub as references, then used to guide a much more modern and engaging UI throughout the site. The stated goal is a very close visual match, with effort and time not being the limiting factor.
+Create the common visual and interaction system that all seven screen implementations can share, then stop after each screen phase so the owner can inspect that screen before the next begins. The owner is open to CSS, TypeScript and other fitting implementation techniques, and explicitly requests Chromium-based visual validation where useful.
 
-The canonical reference set and screen-by-screen interpretation is [`docs/references/ui-concepts/README.md`](../../references/ui-concepts/README.md). Treat it as the visual direction—not a source of exam facts or authorization to pretend that illustrative features in the images already exist. The target is the website content within the device frame, not the phone hardware/OS chrome. Pixel-identical rendering cannot be guaranteed across browsers, installed fonts, device sizes and OS controls; compare at specified viewport sizes and aim for high fidelity while preserving robust responsive behavior.
+The reference index and constraints are in [`docs/references/ui-concepts/README.md`](../../references/ui-concepts/README.md). Images are visual concepts, not verified JELET data or a feature list. See the [cross-image visual analysis](IMAGE-ANALYSIS.md), [exact screen sequence and review gate](PHASE-SEQUENCE.md), and [Termux check](TERMUX-CHECK.md).
 
-## Screens in scope
+## Foundation scope — shared by every page
 
-1. Today dashboard — first-visit entry, real resume state and discovery routes.
-2. Learn catalog — Paper I subjects, honest lesson availability and search.
-3. Lesson page — readable explanations, equations/examples, progress and relevant practice links.
-4. Practice chooser and practice runner — actual supported practice modes, clear independent/assisted states, preserved exam behavior.
-5. Practice result/review — actual attempt values, accurate scoring and transparent item statuses.
-6. Papers library/readers — real paper identities, search/filter/browse, provenance, key readiness and bookmark behavior only if supported.
-7. You/settings/workspace — real preferences, local activity, offline-pack controls, backup and source/about information.
+### 1. Reference analysis and visual specification
 
-## Non-negotiable constraints
+- Record shared properties: white/cool-neutral canvas, teal primary actions, deep teal feature panels, rounded card groups, restrained shadows, high-contrast type, soft subject/status accents, consistent mobile bottom navigation and compact page headers.
+- Record the per-image layout and interaction inventory before implementing the first screen. The image-specific acceptance criteria live in Phases 15–21.
+- Specify design tokens for light/dark surfaces, text, line, brand, focus, status, spacing, type scale, radii, elevation, tap targets and safe-area spacing. Compare token choices against screenshots at fixed CSS viewport sizes.
+- Use CSS and TypeScript already present in the static Astro project. Avoid adding a UI framework, font download, icon library, external request or runtime service when local CSS and inline SVG are sufficient.
 
-- Follow [`AGENTS.md`](../../../AGENTS.md), [`docs/PRODUCT.md`](../../PRODUCT.md), [`docs/UI_REFERENCE.md`](../../UI_REFERENCE.md), [`docs/TESTING.md`](../../TESTING.md), and the active roadmap. Work in bounded screen families with review checkpoints; keep the public study path static, free to operate, accountless and private by default.
-- Preserve all existing content, behavior, route/deep-link contracts, per-year scoring, key tiers, provenance and uncertainty. No visual refactor may silently change a learner's marks or imply that a held/read-only item is gradeable.
-- Do not fabricate the example scores, 2023 shifts, key completeness, subject completion values or activity counts in the concepts. Use the site's real data.
-- The mockups depict AI analyses/tutors, live study rooms, audio, auto-download, focus timers and notification/profile ideas. Do not ship these as working affordances unless the capability exists and is separately approved, privacy-safe and tested. A visual placeholder must not masquerade as functionality.
-- Phone-first; keyboard, screen-reader, high-zoom, reduced-motion, contrast, touch target, offline and desktop behavior remain acceptance requirements.
-- No new runtime service/dependency or deployment is authorized by this reference request.
+### 2. Shared icon set
 
-## Staged approach
+Add a small typed local SVG icon component or equivalent reusable implementation for only icons that have real destinations/meaning:
 
-### 14.1 — Shared visual system and navigation
+- Today/home, Learn/book, Practice/target, Papers/document, You/person;
+- search, bookmark, recent activity/history, review/refresh, chevron/external link;
+- download/manage offline, backup/export, source/about/info;
+- sun/moon theme control, close/back, and clear semantic status icons.
 
-Document reference-derived visual tokens and component states, then converge global type scale, spacing, surfaces, cards, buttons, status labels, disclosures, bottom navigation and light/dark treatments. Validate these changes across representative existing routes before applying page-specific styling. Do not remove warnings that carry essential accuracy or provenance information; reduce repetition and improve presentation instead.
+Use consistent stroke weight, viewBox, size variants and current-color theming. Decorative icons are hidden from assistive technology; icon-only buttons need an accessible name and visible focus. Status meaning must also have text and may not depend on color alone. Avoid emoji as the shared icon system and do not draw a fake notification badge or fake account avatar.
 
-**Complete for the first pass:** the shared light/dark palette now uses the references' cool neutral surfaces and teal/green accents, including the browser theme color. Global component refinement and full visual review remain outstanding.
+### 3. Shared app shell and navigation
 
-### 14.2 — Today dashboard
+- Align mobile and desktop navigation around five destinations: Today, Learn, Practice, Papers, You. Preserve existing deep links and retain Review, Workspace, Search, Syllabus, Offline and Coverage as reachable destinations from relevant pages/You rather than deleting routes.
+- Make each tab point to a real route. The You route is a local study/settings hub, not a sign-in screen. Do not create accounts, passwords, avatars, cloud sync or an account backend.
+- Standardize the site header, brand lockup, theme control, page content width, footer, mobile bottom bar and safe-area padding. The browser/OS status bar, phone bezel and home indicator in the concepts are not part of the web page.
+- Support active-route state, touch targets, keyboard focus and an accessible current-page indication. No decorative notification bell unless a real user-controlled notification capability is separately approved.
 
-Rebuild the first-visit and returning-student home view around an honest resume card, real quick routes, the local review queue and available subject drills. Keep all counts derived from actual paper and device data; keep the full paper library, local record and source/scoring explanation discoverable. Verify 320px/200% text, light/dark, empty and returning states.
+### 4. Shared interaction and content primitives
 
-**In progress:** the home now leads with the real parallel-circuits lesson for a first-time learner and resumes its saved section for a returning learner. Quick-action tiles, a local review-queue card, and four subject cards follow the reference structure. Subject bars count distinct non-empty answers in the real 2025 keyed drill; they do not claim lesson completion or mastery. Astro check, static build and the complete 64-test suite pass; focused tests cover the real lesson route, answered-item counts, resume, offline use and 320px/200% layout. This screen is not yet owner-reviewed or Android-tested.
+Review and refine reusable cards, action tiles, subject cards, status badges, search/filter controls, section headings, disclosures, meters, buttons, empty/loading/storage-denied/offline states and compact privacy/source notes. Keep light and dark mode readable. Keep long mathematical content scrollable inside its own container rather than widening the document.
 
-**Current render snapshots:** [390 × 844 mobile](today-current-mobile.png) and [1280 × 900 desktop](today-current-desktop.png), captured from the built static output in bundled headless Chromium. These show the implementation for comparison; they are not physical Android screenshots, a final visual match, or owner acceptance.
+### 5. Local state and product boundaries
 
-### 14.3 — Learn and lesson family
+- Keep progress, answers, bookmarks, theme and any supported preferences on-device. Preserve existing storage formats and backup compatibility.
+- A local-only You hub is allowed; no cloud account or sync. The supplied “account” look is interpreted as a personal/settings destination, not an authentication feature.
+- No auto-download switch: the established offline flow is explicit and user initiated. No notification badge, focus timer, AI tutor/analysis, audio service or live study room may appear as working behavior without a separate product decision and real implementation.
+- Do not fabricate bookmarked/recent counts, scores, progress percentages, lesson availability, paper sessions, key coverage or analytics. If no equivalent state exists, provide a truthful empty state or omit the control.
 
-Bring the Learn catalog and lesson reading experience toward their references using only existing lesson/topic data. Verify correct subject names, visible availability, resume behavior, equation overflow and useful return paths.
+## Implementation sequence inside Phase 14
 
-### 14.4 — Practice, runner and results family
-
-Align the practice-mode discovery, question runner and result/review screens. Exercise each scoring category, blanks, partial credit, held items, board awards, assistance labels, retries and offline behavior. Use real local attempts in every visual fixture; never hard-code the concept image's sample outcome.
-
-### 14.5 — Papers and You/settings family
-
-Refresh paper discovery, paper readers, local settings, workspace, offline management and backup. Validate actual library keys/source statuses and preserve export/import compatibility, route targets and storage-denied states.
-
-### 14.6 — Whole-site consistency and release evidence
-
-Review all routes in light and dark themes at narrow-phone, large-phone, tablet and desktop widths; test keyboard/high zoom, 320 CSS px, 200% text, safe-area/fixed navigation, offline, fresh and returning local states. Capture comparable screenshots against the seven references and run the complete verification contract. Request the owner's real Android review on the live preview. Update the phase record and roadmap with evidence and unresolved differences; no release/deployment without its separate approval.
-
-## Visual review method
-
-For each screen family, record (a) the reference image, (b) a matching viewport and state, (c) the implementation screenshot, (d) a short list of visible differences and (e) the tested behavior behind each control. Judge hierarchy, alignment, spacing, typography, color, borders, card proportions, icon meaning and navigation consistency. Do not optimize a screenshot at the cost of fluid layout, accessible reflow, truthful data or real interactions.
+1. Inventory all existing route, interaction and local-storage contracts touched by the shared shell.
+2. Define the token and icon API in a short implementation note; select real route targets for all five tabs.
+3. Implement icon primitives and shared app shell; refactor duplicated styling without changing page-specific information architecture yet.
+4. Add route/keyboard/theme/contrast/safe-area tests. Verify a representative set of existing pages in both themes before moving to screen work.
+5. Run Astro check, static build, the complete automated suite, Chromium route/viewport screenshots, offline checks and `git diff --check`.
+6. Capture a shared-shell screenshot set and request the owner’s review. Do not start Phase 15 until the shared foundation is accepted.
 
 ## Acceptance gates
 
-A screen family is not complete merely because it builds or resembles a static mock. It must:
+- All five global destinations resolve; old URLs and lower-level destinations remain usable.
+- No false “account”, avatar, notification, automatic download, sync, tutor or activity claims.
+- Icons are coherent, accessible and consistent in light/dark themes; icon-only controls have accessible names.
+- No horizontal overflow at 320 CSS px or 200% text; focus, touch, safe-area and reduced-motion behavior remain valid.
+- No changed exam data, scoring, key tier, privacy, offline storage protocol or existing export/import contract.
+- Astro check/build and all test suites pass; Chromium checks cover representative routes, mobile/desktop widths, dark mode, offline and storage-denied states.
+- Shared-shell screenshots are shown to the owner. This phase is not physically tested until the owner checks on Android.
 
-- render actual JELET content and reachable working actions;
-- maintain route, content, privacy, scoring and offline contracts;
-- pass the relevant Astro check, automated tests, screenshot/viewport checks and `git diff --check`;
-- receive owner visual review for that family; and
-- remain explicitly marked as not physically tested until the owner checks it on Android.
+## Handoff rule
 
-No later stage is assumed complete by planning this one. No deployment is authorized by this document.
+Finish and push Phase 14 to the **current Arena branch**. Ask the owner to review it, then implement only Phase 15 (the You/settings reference). After each image phase, stop for the owner’s visual review before beginning the following image. See [`docs/phases/15-you/README.md`](../15-you/README.md) through [`docs/phases/21-today/README.md`](../21-today/README.md).
