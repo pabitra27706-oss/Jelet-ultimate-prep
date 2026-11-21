@@ -42,9 +42,10 @@ export const ICON_NAMES = [
   'download',
   'upload',
   'info',
-  // Theme.
+  // Preferences.
   'sun',
   'moon',
+  'motion',
   // Meaningful status.
   'check-circle',
   'alert-triangle',
@@ -78,6 +79,7 @@ export const ICONS: Record<IconName, string> = {
   info: '<circle cx="12" cy="12" r="8.2"/><path d="M12 11.2v5"/><circle cx="12" cy="7.9" r=".9" fill="currentColor" stroke="none"/>',
   sun: '<circle cx="12" cy="12" r="4.1"/><path d="M12 2.6v2.2M12 19.2v2.2M4.6 12H2.4M21.6 12h-2.2M6.7 6.7 5.2 5.2M18.8 18.8l-1.5-1.5M17.3 6.7l1.5-1.5M5.2 18.8l1.5-1.5"/>',
   moon: '<path d="M20.4 13.7A8.5 8.5 0 0 1 10.3 3.6a8.6 8.6 0 1 0 10.1 10.1Z"/>',
+  motion: '<path d="M3.8 9.2h9.4a2.7 2.7 0 1 0-2.7-2.7"/><path d="M3.8 12.4h6.4"/><path d="M3.8 15.6h11.6a2.5 2.5 0 1 1-2.5 2.5"/>',
   'check-circle': '<circle cx="12" cy="12" r="8.2"/><path d="m8.2 12.3 2.7 2.7 4.9-5.1"/>',
   'alert-triangle': '<path d="M12 4.4 3.6 19.4h16.8z"/><path d="M12 9.6v4.2"/><circle cx="12" cy="16.7" r=".9" fill="currentColor" stroke="none"/>',
   lock: '<rect x="4.8" y="10.4" width="14.4" height="9.8" rx="2.4"/><path d="M8.4 10.4V8a3.6 3.6 0 0 1 7.2 0v2.4"/><circle cx="12" cy="15.3" r="1.1" fill="currentColor" stroke="none"/>',

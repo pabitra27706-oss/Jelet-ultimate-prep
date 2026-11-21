@@ -77,7 +77,7 @@
   --shadow-sm: 0 1px 2px rgba(25, 49, 50, .06);
   --icon-stroke: 1.75;
   --shell-h: 4rem;
-  --tabbar-h: 4.15rem;
+  --tabbar-h: 4.9rem;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --z-header: 30;
   --z-tabbar: 40;
@@ -203,7 +203,7 @@ html[data-theme="dark"] .theme-icon[data-theme-icon="moon"] { display: none; }
 
 /* ---------- bottom tab bar (mobile) ---------- */
 .tabbar { position: fixed; inset: auto 0 0 0; z-index: var(--z-tabbar); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; max-width: 100%; background: var(--card); border-top: 1px solid var(--line); padding-bottom: var(--safe-bottom); box-shadow: 0 -8px 24px -18px rgba(19, 69, 68, .35); }
-.tabbar a { display: grid; justify-items: center; align-content: center; gap: .15rem; margin: .3rem .15rem; padding: .35rem .15rem .4rem; border-radius: 14px; text-decoration: none; color: var(--muted); font-size: .68rem; font-weight: 750; min-height: var(--tap); min-width: 0; overflow: hidden; transition: color .16s var(--ease), background .16s var(--ease); }
+.tabbar a { display: grid; justify-items: center; align-content: center; gap: .15rem; margin: .4rem .15rem; padding: .45rem .15rem .5rem; border-radius: 14px; text-decoration: none; color: var(--muted); font-size: .68rem; font-weight: 750; min-height: var(--tap); min-width: 0; overflow: hidden; transition: color .16s var(--ease), background .16s var(--ease); }
 .tabbar a:hover { color: var(--ink-2); background: var(--paper-2); }
 .tabbar a[aria-current="page"] { color: var(--teal); background: var(--teal-soft); }
 .tab-icon { display: grid; place-items: center; line-height: 1; }
@@ -1011,3 +1011,83 @@ code {
 .linkrow strong, .linkrow small, .linklist strong, .linklist small, .result-list a, .result-list small { overflow-wrap: anywhere; }
 .lesson-body, .lesson-body * { overflow-wrap: anywhere; }
 .lesson-body table, .lesson-body pre { max-width: 100%; overflow-x: auto; display: block; }
+
+/* ==========================================================================
+   You — the local study/settings destination (Phase 15)
+
+   The reference is a phone screen: a tinted privacy card, a Preferences card
+   of labelled switches, two activity cards and one card of destination rows.
+   The same block is centred at a readable width on a desktop, where the
+   reference has no counterpart. Every number shown here is read from this
+   browser at runtime; nothing is filled in to look like the mock-up.
+   ========================================================================== */
+.you { max-width: 40rem; margin-inline: auto; }
+
+.you-hero { display: flex; align-items: center; gap: .85rem; padding: 12px 18px; border: 1px solid transparent; border-radius: 20px; background: var(--teal-soft); }
+.you-hero-icon { display: grid; place-items: center; flex: none; width: 54px; height: 54px; border-radius: 50%; background: color-mix(in srgb, var(--card) 38%, var(--teal-soft)); color: var(--teal); }
+.you-hero-copy { min-width: 0; }
+.you-hero h2 { margin: 0; font-size: clamp(1.16rem, 4.6vw, 1.34rem); font-weight: 650; line-height: 1.32; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.you-hero p { margin: .3rem 0 0; font-size: .78rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+.you-hero p a { font-weight: 650; }
+
+.you-heading { margin: 1.1rem 0 .5rem; font-size: 1.02rem; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
+
+.settings-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+.settings-row { display: flex; align-items: center; gap: 14px; min-height: 62px; padding: 7px 18px; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; min-width: 0; }
+.settings-card > :first-child { border-top: 0; }
+a.settings-row:hover, .settings-disclosure > summary:hover { background: var(--paper-2); }
+.settings-icon { display: grid; place-items: center; flex: none; width: 26px; color: var(--teal); }
+.settings-copy { display: block; flex: 1 1 auto; min-width: 0; }
+.settings-label { display: block; font-size: 1.02rem; font-weight: 600; letter-spacing: -.005em; overflow-wrap: anywhere; }
+.settings-sub { display: block; margin-top: .1rem; font-size: .8rem; color: var(--muted); overflow-wrap: anywhere; }
+.settings-sub.visually-hidden[data-blocked="true"] { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; color: var(--amber); margin-top: .15rem; }
+.settings-chevron { display: grid; place-items: center; flex: none; color: var(--muted); transition: transform .2s var(--ease); }
+
+details.settings-disclosure { border-top: 1px solid var(--line); }
+details.settings-disclosure > summary { cursor: pointer; list-style: none; }
+details.settings-disclosure > summary::-webkit-details-marker { display: none; }
+details.settings-disclosure > summary::marker { content: ''; }
+details.settings-disclosure[open] > summary { border-bottom: 1px solid var(--line); }
+details.settings-disclosure[open] .settings-chevron { transform: rotate(180deg); }
+.settings-body { display: grid; gap: .65rem; padding: 14px 18px 18px; }
+.settings-body p, .settings-body li { font-size: .85rem; line-height: 1.55; color: var(--ink-2); }
+.settings-body p, .settings-body ul { margin: 0; }
+.settings-body ul { display: grid; gap: .35rem; padding-left: 1.1rem; }
+.settings-links { display: flex; flex-wrap: wrap; gap: .3rem .9rem; font-size: .85rem; }
+
+/* The switch matches the reference proportions; its word state is kept for
+   assistive technology but is not repeated beside every thumb. */
+.you .switch { min-height: var(--tap); padding: .25rem 0 .25rem .25rem; margin-left: auto; }
+.switch-track { width: 50px; height: 30px; }
+.switch-thumb { top: 3px; left: 3px; width: 24px; height: 24px; }
+.switch[aria-checked="true"] .switch-thumb { transform: translateX(20px); }
+
+.you-activity { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.activity-card { position: relative; display: grid; gap: 2px; min-width: 0; padding: 10px 12px 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); color: var(--ink); text-decoration: none; transition: border-color .18s var(--ease), transform .18s var(--ease); }
+.activity-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+.activity-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--teal-soft); color: var(--teal); }
+.activity-icon.blue { background: var(--blue-soft); color: var(--blue); }
+.activity-label { margin-top: 6px; font-size: .82rem; font-weight: 600; line-height: 1.35; color: var(--ink-2); overflow-wrap: anywhere; }
+.activity-value { font-size: 1.42rem; font-weight: 800; line-height: 1.05; letter-spacing: -.03em; color: var(--teal); font-variant-numeric: tabular-nums; }
+.activity-go { position: absolute; right: 10px; bottom: 10px; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line-2); border-radius: 50%; background: var(--card); color: var(--muted); }
+
+.you-foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .55rem; margin: .7rem 0 0; font-size: .78rem; color: var(--muted); }
+.you-foot a { font-weight: 650; }
+.you-status { margin: .6rem 0 0; }
+
+@media (max-width: 22rem) {
+  .you-activity { grid-template-columns: 1fr; }
+}
+
+/* The bottom bar in the reference carries slightly larger glyphs and no
+   "pill" behind the current tab; the colour and the label carry the state. */
+.tabbar a { font-size: .72rem; }
+.tab-icon .icon { width: 24px; height: 24px; }
+.tabbar a[aria-current="page"] { background: transparent; }
+
+/* An explicit choice of "reduce motion" behaves like the device setting,
+   not only like a cosmetic class. */
+html[data-motion="reduce"] { scroll-behavior: auto; }
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

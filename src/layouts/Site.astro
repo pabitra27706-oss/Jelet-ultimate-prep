@@ -73,16 +73,24 @@ const secondary: { label: string; href: string }[] = [
     {canonical && <link rel="canonical" href={canonical} />}
     <title>{title} · JELET Ultimate Prep</title>
     <script is:inline>
-      // Set the theme before first paint so a dark-mode learner never sees a flash.
+      // Set the theme and the motion preference before first paint so a
+      // dark-mode learner never sees a flash and a reduced-motion learner
+      // never sees a transition they asked not to have.
       (() => {
+        const device = () => ({
+          theme: (() => { try { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch { return 'light'; } })(),
+          motion: (() => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'full'; } catch { return 'full'; } })(),
+        });
         try {
-          const stored = localStorage.getItem('jelet:theme');
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.dataset.theme = stored === 'dark' || stored === 'light'
-            ? stored
-            : (prefersDark ? 'dark' : 'light');
+          const storedTheme = localStorage.getItem('jelet:theme');
+          const storedMotion = localStorage.getItem('jelet:motion:v1');
+          const fallback = device();
+          document.documentElement.dataset.theme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : fallback.theme;
+          document.documentElement.dataset.motion = storedMotion === 'reduce' || storedMotion === 'full' ? storedMotion : fallback.motion;
         } catch { /* storage blocked: match the device instead */
-          try { document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch { /* default light */ }
+          const fallback = device();
+          document.documentElement.dataset.theme = fallback.theme;
+          document.documentElement.dataset.motion = fallback.motion;
         }
       })();
     </script>
@@ -165,8 +173,10 @@ const secondary: { label: string; href: string }[] = [
     </nav>
     <script>
       import { initTheme } from '../lib/theme';
+      import { initMotion } from '../lib/motion';
 
       initTheme();
+      initMotion();
 
       // Offline support. The worker only caches this site's own files.
       if ('serviceWorker' in navigator) {

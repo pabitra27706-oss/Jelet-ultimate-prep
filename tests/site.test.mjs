@@ -1556,9 +1556,9 @@ test('the shared icons are one consistent, accessible set', async (t) => {
   // Icon-only controls carry their own names.
   assert.equal(await page.getByRole('link', { name: 'Search questions and pages' }).count(), 1);
   assert.equal(await page.getByRole('button', { name: /Switch to (dark|light) theme/ }).count(), 1);
-  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).count(), 1);
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).count(), 1);
   // The switch's state is in aria-checked and in text, not colour alone.
-  const state = await page.getByRole('switch', { name: 'Dark theme' }).evaluate((el) => ({
+  const state = await page.getByRole('switch', { name: 'Dark mode' }).evaluate((el) => ({
     checked: el.getAttribute('aria-checked'),
     text: el.textContent?.trim(),
   }));
@@ -1572,8 +1572,8 @@ test('the You hub is a local study hub, not a sign-in screen', async (t) => {
   assert.match(await page.locator('h1').first().textContent(), /You/);
   assert.match(await page.locator('#privacy-heading').textContent(), /stays on this device/i);
 
-  const body = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
-  assert.match(body, /no account, no sign-in and nothing uploaded/i);
+  const body = (await page.locator('main').textContent()).replace(/\s+/g, ' ');
+  assert.match(body, /no account, no sign-in and nothing uploaded/i, 'the privacy statement is in the page, including the About disclosure');
   assert.doesNotMatch(body, /create an account|forgot password|notification bell|focus timer|live study room|auto-download/i);
   assert.equal(await page.locator('main img, header img').count(), 0, 'no avatar or profile image stands in for the learner');
   assert.equal(await page.locator('[data-notification], .notification-badge, [data-badge]').count(), 0);
@@ -1584,12 +1584,12 @@ test('the You hub is a local study hub, not a sign-in screen', async (t) => {
   assert.equal(await page.locator('[data-you-review]').textContent(), '0');
   assert.equal(await page.locator('[data-you-saved]').textContent(), '0');
   assert.match(await page.locator('[data-you-packs]').textContent(), /Nothing downloaded yet/);
-  assert.equal(await page.locator('[data-you-empty]').isVisible(), true, 'the empty state is offered, not a fabricated number');
+  assert.match(await page.locator('[data-you-saved-note]').textContent(), /Nothing saved yet/, 'the fresh state is stated, not a fabricated number');
   assert.match(await page.locator('[data-you-status]').textContent(), /Reading a page does not count as activity/);
 
   // The management rows reach the existing flows, and nothing downloads on load.
   assert.equal(await page.getByRole('link', { name: /Manage offline packs/ }).getAttribute('href'), '/Jelet-ultimate-prep/offline/');
-  assert.equal(await page.getByRole('link', { name: /Export my study record/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
+  assert.equal(await page.getByRole('link', { name: /Export backup/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
   assert.equal(await page.evaluate(() => localStorage.getItem('jelet:packs:v1')), null, 'opening You downloads nothing');
 });
 
@@ -1618,18 +1618,18 @@ test('the You hub reports the learner\u2019s own local activity and keeps it aft
   assert.equal(await page.locator('[data-you-attempts]').textContent(), '1');
   assert.match(await page.locator('[data-you-attempts-note]').textContent(), /1 submitted/);
   assert.equal(await page.locator('[data-you-review]').textContent(), '82', 'every answerable item missed is queued');
-  assert.equal(await page.locator('[data-you-saved]').textContent(), '2', 'one bookmark and one note');
-  assert.equal(await page.locator('[data-you-empty]').isVisible(), false);
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '1', 'the bookmark count is bookmarks, not notes');
+  assert.match(await page.locator('[data-you-saved-note]').textContent(), /1 bookmark · 1 note/, 'notes are reported beside the count');
 
   await page.reload();
   await page.waitForFunction(() => document.querySelector('[data-you-attempts]')?.textContent === '1');
-  assert.equal(await page.locator('[data-you-saved]').textContent(), '2', 'the hub reads the same store after a reload');
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '1', 'the hub reads the same store after a reload');
 });
 
 test('the You preference and the header control drive one stored theme', async (t) => {
   const page = await context(t);
   await go(page, 'you/');
-  const toggle = page.getByRole('switch', { name: 'Dark theme' });
+  const toggle = page.getByRole('switch', { name: 'Dark mode' });
   assert.equal(await toggle.getAttribute('aria-checked'), 'false');
   assert.equal(await toggle.locator('[data-theme-state]').textContent(), 'Off');
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
@@ -1642,14 +1642,14 @@ test('the You preference and the header control drive one stored theme', async (
   assert.equal(await page.getByRole('button', { name: 'Switch to light theme' }).count(), 1, 'the header shows the same state');
 
   await page.reload();
-  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'), 'true');
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).getAttribute('aria-checked'), 'true');
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
 
   // The header control changes the same preference, and the hub follows it.
   await page.getByRole('button', { name: 'Switch to light theme' }).click();
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
   assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), 'light');
-  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'), 'false');
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).getAttribute('aria-checked'), 'false');
 });
 
 test('blocked storage leaves the You hub usable and honest', async (t) => {
@@ -1666,12 +1666,119 @@ test('blocked storage leaves the You hub usable and honest', async (t) => {
   assert.match(await page.locator('[data-you-status]').textContent(), /nothing will be saved/i);
   assert.equal(await page.locator('[data-you-attempts]').textContent(), '\u2014');
   assert.match(await page.locator('[data-theme-status]').textContent(), /not saving/i, 'the preference says it cannot be saved');
-  assert.equal(await page.locator('[data-you-empty]').isVisible(), false, 'an unavailable store is not reported as an empty one');
+  assert.match(await page.locator('[data-motion-status]').textContent(), /not saving/i, 'the motion preference says the same');
+  assert.equal(await page.locator('[data-motion-status]').isVisible(), true, 'the limitation is shown, not hidden');
+  // localStorage is blocked; the bookmark index (IndexedDB) behaves independently and is
+  // reported for what it is rather than being folded into a fake empty state.
+  assert.match(await page.locator('[data-you-saved-note]').textContent() ?? '', /Nothing saved yet|Bookmarks are unavailable/);
 
   // The theme still works for the page in hand; only the saving is refused.
-  await page.getByRole('switch', { name: 'Dark theme' }).click();
+  await page.getByRole('switch', { name: 'Dark mode' }).click();
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
   assert.match(await page.locator('[data-theme-status]').textContent(), /not saving/i);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 15 — the You screen against 01-settings.png
+ * ------------------------------------------------------------------ */
+
+test('the You screen follows the settings reference: privacy, preferences, activity, destinations', async (t) => {
+  const page = await context(t);
+  await go(page, 'you/');
+
+  // The four groups appear in the reference order.
+  const tops = await page.evaluate(() => {
+    const top = (selector) => document.querySelector(selector)?.getBoundingClientRect().top ?? -1;
+    const headings = [...document.querySelectorAll('.you-heading')];
+    const at = (label) => headings.find((node) => new RegExp(label, 'i').test(node.textContent ?? ''))?.getBoundingClientRect().top ?? -1;
+    return {
+      privacy: top('.you-hero'),
+      preferences: at('Preferences'),
+      activity: at('My activity'),
+      manage: top('[aria-label="Manage your record"]'),
+      bar: top('.tabbar'),
+    };
+  });
+  assert.ok(tops.privacy < tops.preferences, `privacy precedes preferences: ${JSON.stringify(tops)}`);
+  assert.ok(tops.preferences < tops.activity, `preferences precedes activity: ${JSON.stringify(tops)}`);
+  assert.ok(tops.activity < tops.manage, `activity precedes the destination card: ${JSON.stringify(tops)}`);
+
+  // One tinted privacy card with a lock glyph, never an avatar.
+  assert.match(await page.locator('#privacy-heading').textContent(), /stays on this device/i);
+  assert.equal(await page.locator('.you-hero svg.icon').count(), 1);
+  assert.equal(await page.locator('main img, header img').count(), 0, 'no profile image stands in for the learner');
+
+  // Two real preference switches, named and with a word state.
+  const switches = page.locator('.settings-card [role="switch"]');
+  assert.equal(await switches.count(), 2);
+  assert.deepEqual(await switches.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('aria-checked'))), ['false', 'false']);
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).count(), 1);
+  assert.equal(await page.getByRole('switch', { name: 'Reduce motion' }).count(), 1);
+  for (const node of await switches.all()) {
+    const box = await node.boundingBox();
+    assert.ok(box.height >= 44 && box.width >= 44, `a switch meets the touch target: ${JSON.stringify(box)}`);
+  }
+  assert.doesNotMatch(await page.locator('main').innerText(), /auto[- ]download/i, 'the mock-up auto-download toggle was not implemented');
+
+  // Exactly two activity cards showing real zeroes, not the mock-up's 24 and 18.
+  const activity = page.locator('[aria-labelledby="activity-heading"]');
+  assert.equal(await page.locator('.activity-card').count(), 2);
+  assert.equal(await activity.locator('[data-you-saved]').textContent(), '0');
+  assert.equal(await activity.locator('[data-you-attempts]').textContent(), '0');
+  const activityText = await activity.innerText();
+  assert.doesNotMatch(activityText, /Recently Viewed/, 'no history feature is implied');
+  assert.doesNotMatch(activityText, /\b(?:24|18)\b/, 'no sample counts were copied from the concept image');
+
+  // At the reference phone size the whole settings card sits above the tab bar.
+  const framing = await page.evaluate(() => {
+    const manage = document.querySelector('[aria-label="Manage your record"]').getBoundingClientRect();
+    const bar = document.querySelector('.tabbar').getBoundingClientRect();
+    return { bottom: Math.round(manage.bottom), barTop: Math.round(bar.top), viewport: innerHeight };
+  });
+  assert.ok(framing.bottom <= framing.barTop + 1, `the reference screen fits above the tab bar: ${JSON.stringify(framing)}`);
+
+  // Three destination rows: offline packs, backup and about/sources.
+  const manage = page.locator('[aria-label="Manage your record"]');
+  assert.equal(await manage.locator('> .settings-row').count(), 2);
+  assert.equal(await manage.locator('> .settings-disclosure').count(), 1);
+  assert.equal(await manage.getByRole('link', { name: /Manage offline packs/ }).getAttribute('href'), '/Jelet-ultimate-prep/offline/');
+  assert.equal(await manage.getByRole('link', { name: /Export backup/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
+  const about = manage.locator('details[data-about]');
+  assert.equal(await about.locator('summary').innerText(), 'About & sources');
+  assert.equal(await about.locator('.settings-body').isVisible(), false, 'the sources stay collapsed until asked for');
+  await about.locator('summary').click();
+  assert.equal(await about.locator('.settings-body').isVisible(), true);
+  assert.match(await about.locator('.settings-body').innerText(), /not affiliated/i, 'the independent-site statement is real');
+  for (const href of await about.locator('.settings-links a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))) {
+    assert.equal((await fetch(origin + href)).status, 200, `${href} resolves`);
+  }
+});
+
+test('the motion preference follows the device and keeps an explicit choice', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(8000);
+  await page.goto(origin + base + 'you/', { waitUntil: 'load' });
+
+  // The device asks for less motion; the row shows it before any choice.
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'reduce');
+  const toggle = page.getByRole('switch', { name: 'Reduce motion' });
+  assert.equal(await toggle.getAttribute('aria-checked'), 'true');
+  assert.equal(await toggle.locator('[data-motion-state]').textContent(), 'On');
+  assert.match(await page.locator('[data-motion-status]').textContent(), /Following this device/);
+  const duration = await page.evaluate(() => getComputedStyle(document.querySelector('.iconbtn')).transitionDuration);
+  assert.ok(Number.parseFloat(duration) <= 0.001, `a transition is effectively off: ${duration}`);
+
+  // A deliberate "no" is stored and outranks the device preference.
+  await toggle.click();
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'full');
+  assert.equal(await toggle.getAttribute('aria-checked'), 'false');
+  assert.equal(await page.evaluate(() => localStorage.getItem('jelet:motion:v1')), 'full');
+  await page.reload({ waitUntil: 'load' });
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'full');
+  assert.equal(await page.getByRole('switch', { name: 'Reduce motion' }).getAttribute('aria-checked'), 'false');
+  assert.match(await page.locator('[data-motion-status]').textContent(), /Saved in this browser/);
 });
 
 test('the shared tokens keep readable contrast in light and dark', async (t) => {
@@ -1754,13 +1861,13 @@ test('the shell follows the operating-system theme until a choice is stored', as
     await page.goto(origin + base + 'you/', { waitUntil: 'load' });
     assert.equal(await page.locator('html').getAttribute('data-theme'), expected, `the page starts in the ${expected} theme`);
     assert.equal(
-      await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'),
+      await page.getByRole('switch', { name: 'Dark mode' }).getAttribute('aria-checked'),
       String(expected === 'dark'),
       'the preference row shows the theme in use',
     );
     assert.match(await page.locator('[data-theme-status]').textContent(), /Following this device/, 'no choice has been stored yet');
     // A deliberate choice is stored and wins over the system preference.
-    await page.getByRole('switch', { name: 'Dark theme' }).click();
+    await page.getByRole('switch', { name: 'Dark mode' }).click();
     const chosen = expected === 'dark' ? 'light' : 'dark';
     assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), chosen);
     await page.reload({ waitUntil: 'load' });
