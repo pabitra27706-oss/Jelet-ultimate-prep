@@ -189,3 +189,32 @@ than invent a second settings style.
   1280×900 light/dark captures, 320×700, 375×812 and the About-open state,
   produced with the same `scripts/capture-screens.mjs` command documented in
   §8.
+
+## 10. Phase 16 — the Papers screen contract
+
+- **Structure:** `.papers` is a 46 rem centred column; `.papers-title`,
+  `.papers-search` (a real form with `#paper-search`, labelled), `.papers-chips`
+  (a horizontally scrolling row of `.filter-chip` buttons with `aria-pressed`),
+  `.papers-list` of `.paper-card` items, `.papers-empty` and two plain
+  disclosures (`details.papers-more`, `details.papers-about`). The global
+  `details` card treatment is deliberately overridden for those two.
+- **Card:** `.paper-card` is positioned; `.paper-card-body` is the link (grid
+  areas year/title/provider/status/meta/match) with `aria-label={paper.label}`;
+  `.paper-bookmark` is a sibling 44 px button so a link never nests a button.
+  Below 23 rem the card becomes one column.
+- **URL state:** `q`, `year`, `key`, `subject` and `bookmarked` are mirrored
+  with `history.replaceState`/`URLSearchParams`; the page restores them on load.
+  Back from a reader therefore returns to the same filtered list.
+- **Bookmarks:** the toggle writes the existing IndexedDB store through
+  `readWorkspace`, `makeBookmark` and `writeWorkspace` using
+  `itemId = "paper:<paperId>"`; it never touches the resume slot or notes. A
+  blocked store disables the controls and leaves the links working.
+- **Search:** `#papers-search[data-index-url]` fetches `dist/search-index.json`
+  on the first two-character query only, expands the compact entries, and uses
+  the shared `matches()` function with type `question`. Matching question counts
+  are shown per card. While the index loads the list is left unfiltered and the
+  status says so; when the fetch fails (offline, not cached) the page filters on
+  paper identity only and says question search is unavailable.
+- **Statuses:** `StatusBadge` with `tone="official" | "derived" | "neutral"` and
+  the labels **Official key**, **Derived key**, **No published key**. Never
+  “Full/Partial/No Key”, and never colour alone.
