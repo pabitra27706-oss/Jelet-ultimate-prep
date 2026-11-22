@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Site from '../../../layouts/Site.astro';
 import { validateSections } from '../../../progress.ts';
 import { validateContent, type LessonData, type PracticeData } from '../../../content-check.ts';
+import Icon from '../../../components/Icon.astro';
 import { parseTopicReference } from '../../../lib/topics.ts';
 
 export async function getStaticPaths() {
@@ -34,62 +35,130 @@ const practice = (await getCollection('practice')).map((entry) => entry.data) as
 const backlinks = practice.filter((item) => item.primarySectionAnchor === 'independent-practice' && item.topic === data.topic);
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
-const syllabusPage = `${base}notes/${data.subject}/`;
+const sectionCount = data.sections.length;
+const practiceCard = backlinks[0];
+const notesHref = `${base}notes/${data.subject}/#${topic.id}`;
+const learnHref = `${base}learn/`;
+const subjectLabel = data.subject === 'electrical' ? 'Electrical engineering' : topic.subjectName;
 ---
 
 <Site title={data.title} active="learn" description={data.summary}>
-  <nav class="crumb" aria-label="Breadcrumb">
-    <a href={`${base}learn/`}>Learn</a> <span aria-hidden="true">/</span>
-    <a href={syllabusPage}>{topic.subjectName}</a> <span aria-hidden="true">/</span>
-    <span>{data.title}</span>
-  </nav>
-  <div class="page-intro lesson-intro">
-    <p class="eyebrow">LESSON · {data.minutes} MIN · ORIGINAL · REVISION {data.revision}</p>
-    <h1>{data.title}</h1>
-    <p class="lead">{data.summary}</p>
-    <p>{data.objective}</p>
-    {data.prerequisites.length > 0 && (
-      <p class="micro">Before this: {data.prerequisites.join(' · ')}</p>
-    )}
-    <p class="micro" data-origin hidden>From an original practice card · topic filter restored</p>
-    <a class="button" href="#predict">Start with a prediction <span aria-hidden="true">↓</span></a>
-  </div>
-  <div class="lesson-grid">
-    <aside class="toc">
-      <nav aria-label="Lesson sections"><p class="eyebrow">IN THIS LESSON</p><ul>{headings.map(({ slug, text }) => <li><a href={`#${slug}`}>{text}</a></li>)}</ul></nav>
-      <p class="micro" data-save-note aria-live="polite">No account or answers collected.</p>
-      <p class="micro" data-hint-note hidden>Guided hint opened on this browser.</p>
-      <p class="micro" data-attempt-note hidden>The independent check has been opened on this browser.</p>
-    </aside>
-    <article class="lesson-body" aria-label={`${data.title} lesson`}>
-      <Content />
-      {backlinks.length > 0 && <section class="related" aria-labelledby="related-practice">
-        <p class="eyebrow">ORIGINAL PRACTICE CARD</p>
-        <h2 id="related-practice">Take the independent check</h2>
-        {backlinks.map((item) => (
-          <a class="chapter-card" href={`${base}cards/${item.publicId}/?from=lesson&topic=${encodeURIComponent(item.topic)}`}>
-            <span><strong>{item.title}</strong><small>{item.summary}</small></span><span aria-hidden="true">→</span>
-          </a>
-        ))}
-      </section>}
-      <section class="related" aria-labelledby="related-topic">
-        <p class="eyebrow">REVISION</p>
-        <h2 id="related-topic">{topic.subjectName} · {topic.name}</h2>
-        <p class="micro">{topic.detail}</p>
-        <p>
-          <a class="chapter-card" href={`${base}notes/${data.subject}/#${topic.id}`}>
-            <span><strong>The {topic.subjectName} notes</strong><small>Every past question in this topic, with your own results beside them</small></span><span aria-hidden="true">→</span>
-          </a>
-          <a class="chapter-card" href={`${base}mock/?s=${data.subject}&t=${encodeURIComponent(topic.code)}&n=10`}>
-            <span><strong>A mock on this topic</strong><small>Ten questions drawn only from {topic.name}</small></span><span aria-hidden="true">→</span>
-          </a>
+  <div class="lesson-page">
+    <header class="lesson-head">
+      <div class="lesson-head-row">
+        <a class="lesson-back" href={learnHref} aria-label="Back to Learn">
+          <Icon name="arrow-left" size="sm" />
+        </a>
+        <div class="lesson-head-copy">
+          <p class="eyebrow">{subjectLabel}</p>
+          <h1 class="lesson-title">{data.title}</h1>
+        </div>
+        <p class="lesson-pos" aria-hidden="true"><span data-lesson-pos>—</span><small>/ {sectionCount}</small></p>
+      </div>
+      <p class="micro lesson-head-meta">{topic.name} · {data.minutes} min read · Original · Revision {data.revision}</p>
+    </header>
+
+      <div class="lesson-progress">
+        <div
+          class="lesson-bar"
+          role="progressbar"
+          aria-label="Reading position in this lesson"
+          aria-valuemin="0"
+          aria-valuemax={sectionCount}
+          aria-valuenow="0"
+          aria-valuetext="Reading position not saved yet"
+          data-lesson-bar
+        >
+          <span data-lesson-bar-fill style="width:0%"></span>
+        </div>
+        <p class="micro lesson-section-note">
+          <span data-lesson-section>Reading position not saved yet</span>
+          <span class="lesson-minutes">{data.minutes} min</span>
         </p>
-      </section>
-      <p class="source">Syllabus context: the WBJEEB JELET 2026 information bulletin of 18 March 2026. Explanations and practice are original, not Board questions.</p>
-      <a href={base}>← Back to Today</a>
-    </article>
+      </div>
+
+    <div class="lesson-reading">
+      <details class="lesson-toc">
+        <summary>On this page · {sectionCount} sections</summary>
+        <ol>
+          {headings.map(({ slug, text }) => (
+            <li><a href={`#${slug}`}>{text}</a></li>
+          ))}
+        </ol>
+      </details>
+      <p class="micro lesson-notes">
+        <span data-save-note aria-live="polite">No account or answers collected.</span>
+        <span data-hint-note hidden>Guided hint opened on this browser.</span>
+        <span data-attempt-note hidden>The independent check has been opened on this browser.</span>
+      </p>
+
+      <p class="lead lesson-lead">{data.summary}</p>
+      <p class="lesson-objective">{data.objective}</p>
+      {data.prerequisites.length > 0 && (
+        <p class="micro">Before this: {data.prerequisites.join(' · ')}</p>
+      )}
+      <p><a class="lesson-jump" href="#predict">Start with a prediction <span aria-hidden="true">↓</span></a></p>
+      <p class="micro" data-origin hidden>From an original practice card · topic filter restored</p>
+
+      <article class="lesson-body" aria-label={`${data.title} lesson`}>
+        <Content />
+
+        {practiceCard && (
+          <section class="related" aria-labelledby="related-practice">
+            <p class="eyebrow">ORIGINAL PRACTICE CARD</p>
+            <h2 id="related-practice">Take the independent check</h2>
+            <a class="lesson-card-link" href={`${base}cards/${practiceCard.publicId}/?from=lesson&topic=${encodeURIComponent(practiceCard.topic)}`}>
+              <span><strong>{practiceCard.title}</strong><small>{practiceCard.summary}</small></span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </section>
+        )}
+
+        <section class="related" aria-labelledby="related-topic">
+          <p class="eyebrow">REVISION</p>
+          <h2 id="related-topic">{topic.subjectName} · {topic.name}</h2>
+          <p class="micro">{topic.detail}</p>
+          <p>
+            <a class="lesson-card-link" href={notesHref}>
+              <span><strong>The {topic.subjectName} notes</strong><small>Every past question in this topic, with your own results beside them</small></span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </p>
+          <p>
+            <a class="lesson-card-link" href={`${base}mock/?s=${data.subject}&t=${encodeURIComponent(topic.code)}&n=10`}>
+              <span><strong>A mock on this topic</strong><small>Ten questions drawn only from {topic.name}</small></span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </p>
+        </section>
+
+        <p class="source">Syllabus context: the WBJEEB JELET 2026 information bulletin of 18 March 2026. Explanations and practice are original, not Board questions.</p>
+      </article>
+    </div>
+
+    <div class="lesson-cta" aria-label="Practice this lesson">
+      <div class="lesson-cta-inner">
+        {practiceCard ? (
+          <a class="btn lesson-cta-primary" href={`${base}cards/${practiceCard.publicId}/?from=lesson&topic=${encodeURIComponent(practiceCard.topic)}`}>
+            Practise this topic
+          </a>
+        ) : (
+          <p class="lesson-cta-none">No reviewed practice for this topic yet.</p>
+        )}
+        <a class="btn ghost" href={notesHref}>Read the notes</a>
+      </div>
+    </div>
+
+    <p class="lesson-back-today"><a href={base}>← Back to Today</a></p>
   </div>
-  <span hidden data-lesson-id={lesson.id} data-lesson-sections={JSON.stringify(data.sections)} data-practice-topics={JSON.stringify(practice.map((item) => item.topic))}></span>
+
+  <span
+    hidden
+    data-lesson-id={lesson.id}
+    data-lesson-sections={JSON.stringify(data.sections)}
+    data-lesson-headings={JSON.stringify(headings.map(({ slug, text }) => ({ id: slug, text })))}
+    data-practice-topics={JSON.stringify(practice.map((item) => item.topic))}
+  ></span>
   <script>
     import { isSection, readProgress, saveProgress, validHints, type Progress, type Section } from '../../../progress.ts';
 
@@ -97,28 +166,56 @@ const syllabusPage = `${base}notes/${data.subject}/`;
     const lessonId = marker?.dataset.lessonId ?? '';
     const lessonSections = JSON.parse(marker?.dataset.lessonSections ?? '[]') as Section[];
     const practiceTopics = JSON.parse(marker?.dataset.practiceTopics ?? '[]') as string[];
+    const sectionTitles = JSON.parse(marker?.dataset.lessonHeadings ?? '[]') as { id: string; text: string }[];
 
     const { progress: previous, available } = readProgress(lessonId);
     const currentHash = () => location.hash.slice(1);
     const initial = currentHash();
-    const first = lessonSections.includes('predict') ? 'predict' : lessonSections[0];
+    const first = lessonSections[0];
     let progress: Progress = { ...(previous ?? { guidedHints: [], independentRevealed: false }), section: isSection(initial) ? initial : first };
     const note = document.querySelector<HTMLElement>('[data-save-note]');
     const assisted = document.querySelector<HTMLElement>('[data-attempt-note]');
     const hints = document.querySelector<HTMLElement>('[data-hint-note]');
+
+    /* ---- reading position, never mastery ---- */
+    const posNode = document.querySelector<HTMLElement>('[data-lesson-pos]');
+    const sectionNode = document.querySelector<HTMLElement>('[data-lesson-section]');
+    const bar = document.querySelector<HTMLElement>('[data-lesson-bar]');
+    const fill = document.querySelector<HTMLElement>('[data-lesson-bar-fill]');
+    const titleOf = (section: string): string => sectionTitles.find((entry) => entry.id === section)?.text ?? section;
+
+    function paintPosition() {
+      const index = Math.max(0, lessonSections.indexOf(progress.section));
+      const position = index + 1;
+      const name = titleOf(progress.section);
+      if (posNode) posNode.textContent = String(position);
+      if (sectionNode) sectionNode.textContent = `Section ${position} of ${lessonSections.length}: ${name}`;
+      if (fill) fill.style.width = `${Math.round((position / lessonSections.length) * 100)}%`;
+      if (bar) {
+        bar.setAttribute('aria-valuenow', String(position));
+        bar.setAttribute('aria-valuetext', `Section ${position} of ${lessonSections.length}: ${name}`);
+      }
+    }
+
     function indicators() {
       if (assisted) assisted.hidden = !progress.independentRevealed;
       if (hints) hints.hidden = progress.guidedHints.length === 0;
     }
     function persisted() {
+      indicators();
+      paintPosition();
       if (note) {
-        const message = saveProgress(lessonId, progress) ? 'Place saved on this browser.' : 'Could not save progress. Keep this tab open to preserve your place.';
+        const message = !available
+          ? 'Progress cannot be saved on this browser.'
+          : saveProgress(lessonId, progress)
+            ? 'Place saved on this browser.'
+            : 'Could not save progress. Keep this tab open to preserve your place.';
         if (note.textContent !== message) note.textContent = message;
       }
-      indicators();
     }
     if (!available && note) note.textContent = 'Progress cannot be saved on this browser.';
     indicators();
+    paintPosition();
     function saveHash() {
       const hash = currentHash();
       if (isSection(hash)) {
@@ -183,6 +280,28 @@ const syllabusPage = `${base}notes/${data.subject}/`;
         saveScroll();
       }
     });
+
+    /* ---- keep the fixed bars clear of the real navigation ----
+     * The tab bar and the app bar grow with the reader's text size, so their
+     * height is measured rather than assumed from a token. */
+    const dock = document.querySelector<HTMLElement>('.lesson-cta');
+    const tabbar = document.querySelector<HTMLElement>('.tabbar');
+    const appbar = document.querySelector<HTMLElement>('.appbar');
+    function measureBars() {
+      const root = document.documentElement.style;
+      const visible = (node: HTMLElement | null) => (node && getComputedStyle(node).display !== 'none' ? node.getBoundingClientRect().height : 0);
+      root.setProperty('--lesson-dock-bottom', `${visible(tabbar)}px`);
+      root.setProperty('--lesson-dock-h', `${dock?.getBoundingClientRect().height ?? 0}px`);
+      root.setProperty('--lesson-head-top', `${visible(appbar)}px`);
+    }
+    measureBars();
+    window.addEventListener('resize', measureBars);
+    if (dock) new ResizeObserver(measureBars).observe(dock);
+    if (tabbar) new ResizeObserver(measureBars).observe(tabbar);
+
+    // The table of contents closes itself once a section is chosen.
+    const toc = document.querySelector<HTMLDetailsElement>('details.lesson-toc');
+    toc?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { if (toc) toc.open = false; }));
 
     const params = new URL(location.href).searchParams;
     const originNote = document.querySelector<HTMLElement>('[data-origin]');

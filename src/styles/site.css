@@ -1277,3 +1277,77 @@ details.papers-about { margin-top: 1.4rem; }
   .choice-copy strong { font-size: 1rem; }
   .mode-option { padding: .45rem .55rem; font-size: .86rem; }
 }
+
+/* ---- Lesson reading screen (Phase 19) ------------------------------------
+ * A focused reading surface: a compact header with the real reading position,
+ * one bounded prose column, tinted worked-example and hint panels, and a
+ * practice action that is always in reach without covering the prose.
+ */
+.lesson-page { max-width: 44rem; margin: 0 auto; }
+.lesson-head { margin-bottom: 1.1rem; }
+.lesson-head-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .7rem; }
+.lesson-back { display: grid; place-items: center; width: var(--tap); height: var(--tap); border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); text-decoration: none; }
+.lesson-back:hover { background: var(--paper-2); border-color: var(--teal); }
+.lesson-back:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.lesson-head-copy { min-width: 0; }
+.lesson-head-copy .eyebrow { margin: 0 0 .15rem; font-size: .66rem; letter-spacing: .1em; }
+.lesson-title { margin: 0; font-size: clamp(1.55rem, 5.4vw, 2.15rem); line-height: 1.12; letter-spacing: -.02em; }
+.lesson-pos { display: flex; align-items: baseline; gap: .15rem; margin: 0; color: var(--teal); font-weight: 850; white-space: nowrap; }
+.lesson-pos [data-lesson-pos] { font-size: 1.3rem; line-height: 1; }
+.lesson-pos small { color: var(--muted); font-size: .8rem; font-weight: 700; }
+.lesson-head-meta { margin: .45rem 0 .1rem; }
+.lesson-progress { position: sticky; top: var(--lesson-head-top, var(--shell-h)); z-index: 6; margin: .55rem -0.2rem 0; padding: .45rem .2rem .35rem; background: var(--paper); border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.lesson-bar { height: .38rem; overflow: hidden; border-radius: 999px; background: var(--line); }
+.lesson-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--teal); transition: width .25s var(--ease); }
+.lesson-section-note { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; margin: .35rem 0 0; }
+.lesson-section-note [data-lesson-section] { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); font-weight: 700; }
+.lesson-minutes { flex: none; }
+.lesson-reading { margin-bottom: 1.2rem; }
+.lesson-lead { margin: 0 0 .55rem; }
+.lesson-objective { margin: 0 0 .4rem; color: var(--ink-2); }
+.lesson-jump { display: inline-flex; align-items: center; gap: .35rem; min-height: 40px; color: var(--teal); font-size: .9rem; font-weight: 750; text-decoration: none; }
+.lesson-jump:hover { text-decoration: underline; text-underline-offset: .16em; }
+.lesson-page .lesson-body { padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 1.02rem; line-height: 1.74; counter-reset: lesson-section; }
+.lesson-page .lesson-body > h2 { counter-increment: lesson-section; margin: 2.1rem 0 .7rem; padding-top: 1.3rem; border-top: 1px solid var(--line); font-size: 1.32rem; letter-spacing: -.01em; scroll-margin-top: calc(var(--lesson-head-top, var(--shell-h)) + 3.4rem); }
+.lesson-page .lesson-body > h2:first-child { margin-top: .4rem; }
+.lesson-page .lesson-body > h2::before { content: counter(lesson-section) ". "; color: var(--teal); }
+.lesson-page .lesson-body p { margin: 0 0 .95rem; }
+.lesson-page .lesson-body code { padding: .1em .38em; border-radius: 6px; background: var(--paper-2); color: var(--ink); font-size: .92em; }
+.lesson-page .lesson-body pre { padding: .9rem 1rem; overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.lesson-page .lesson-body figure { margin: 1rem 0 1.2rem; }
+.lesson-page .lesson-body figure img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+.lesson-page .lesson-body figcaption { margin-top: .45rem; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+.lesson-page .lesson-body details[data-reveal] { margin: .85rem 0; }
+.lesson-page .lesson-body details[data-reveal="worked"] { padding: .15rem .95rem .6rem; border: 1px solid color-mix(in srgb, var(--teal) 26%, var(--line)); border-radius: 18px; background: color-mix(in srgb, var(--teal) 7%, var(--card)); }
+.lesson-page .lesson-body details[data-reveal="worked"] > summary { display: grid; gap: .1rem; color: var(--teal); }
+.lesson-page .lesson-body details[data-reveal="worked"] > summary::before { content: "Worked example"; display: block; color: var(--teal); font-size: .72rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.lesson-page .lesson-body details[data-reveal^="hint"] { border-left: 3px solid var(--teal); }
+.lesson-page .lesson-body details[data-reveal="independent-check"] { border-left: 3px solid var(--amber); }
+.lesson-page .lesson-body ol, .lesson-page .lesson-body ul { margin: 0 0 .95rem; padding-left: 1.25rem; }
+.lesson-page .lesson-body li { margin: .3rem 0; }
+.lesson-toc { margin: 0 0 1.1rem; padding: .1rem .9rem .5rem; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+.lesson-toc > summary { display: flex; align-items: center; min-height: 46px; cursor: pointer; color: var(--ink-2); font-size: .9rem; font-weight: 750; }
+.lesson-toc ol { margin: .1rem 0 .5rem; padding-left: 1.3rem; }
+.lesson-toc li { margin: .35rem 0; }
+.lesson-toc a { color: var(--ink-2); font-weight: 650; }
+.lesson-notes { display: grid; gap: .1rem; margin: -.55rem 0 1rem; }
+.lesson-notes span[hidden] { display: none; }
+.lesson-page .related { margin-top: 2.2rem; }
+.lesson-card-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin: .5rem 0; padding: .8rem .9rem; border: 1px solid var(--line); border-radius: 16px; background: var(--card); color: var(--ink); text-decoration: none; }
+.lesson-card-link:hover { border-color: var(--teal); background: var(--paper-2); }
+.lesson-card-link strong { display: block; }
+.lesson-card-link small { display: block; margin-top: .15rem; color: var(--muted); font-size: .8rem; }
+.lesson-cta { position: fixed; z-index: var(--z-header); inset: auto 0 var(--lesson-dock-bottom, calc(var(--tabbar-h) + var(--safe-bottom))) 0; margin: 0; padding: .55rem clamp(.9rem, 4vw, 1.4rem); border-top: 1px solid var(--line); background: color-mix(in srgb, var(--card) 96%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 -8px 24px -20px rgba(19, 69, 68, .45); }
+.lesson-cta-inner { display: flex; flex-wrap: wrap; gap: .55rem; max-width: 44rem; margin: 0 auto; }
+.lesson-cta .btn { flex: 1 1 0; min-height: 46px; padding-inline: 1rem; font-size: .9rem; white-space: nowrap; }
+.lesson-cta-primary { flex-grow: 1.6; }
+.lesson-cta-none { flex: 1 1 100%; margin: 0; color: var(--muted); font-size: .88rem; }
+.lesson-back-today { margin: 1.6rem 0 0; }
+/* Room for the practice bar, which is fixed at every width. */
+.lesson-page { padding-bottom: calc(var(--lesson-dock-h, 3.9rem) + var(--lesson-dock-bottom, 0px) + 1.5rem); }
+@media (max-width: 23rem) {
+  .lesson-title { font-size: 1.45rem; }
+  .lesson-pos [data-lesson-pos] { font-size: 1.15rem; }
+  .lesson-cta .btn { padding-inline: .55rem; font-size: .8rem; }
+  .lesson-cta-inner { gap: .4rem; }
+}

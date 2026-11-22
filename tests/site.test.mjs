@@ -1328,6 +1328,131 @@ test('hint and notebook progress survives returning and reload, without showing 
   assert(await closed(page, '[data-reveal="guided-check"]'));
 });
 
+/* ------------------------------------------------------------------ *
+ * Phase 19 — the lesson reading screen
+ * ------------------------------------------------------------------ */
+
+test('the lesson header gives the real reading position, and practice stays in reach', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  assert.equal(await page.locator('h1').textContent(), 'Parallel circuits');
+  assert.equal(await page.getByRole('link', { name: 'Back to Learn' }).getAttribute('href'), `${base}learn/`);
+  assert.match(await page.locator('.lesson-head-meta').textContent(), /DC circuits · 8 min read · Original · Revision 1/);
+
+  // A fresh visit starts at the first section, not at a flattering number.
+  await page.waitForFunction(() => document.querySelector('[data-lesson-pos]')?.textContent === '1');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '1');
+  assert.equal(await page.locator('.lesson-section-note [data-lesson-section]').textContent(), 'Section 1 of 6: Prerequisite');
+  const bar = page.locator('[data-lesson-bar]');
+  assert.equal(await bar.getAttribute('role'), 'progressbar');
+  assert.equal(await bar.getAttribute('aria-valuemax'), '6');
+  assert.equal(await bar.getAttribute('aria-valuenow'), '1');
+  assert.match(await bar.getAttribute('aria-valuetext'), /Section 1 of 6: Prerequisite/);
+  const width = await page.locator('[data-lesson-bar-fill]').evaluate((el) => el.getBoundingClientRect().width);
+  assert(width > 20 && width < 80, `the bar only marks the start of the lesson, got ${width}`);
+  assert(!/mastery|complete|finished/i.test(await page.locator('.lesson-head').textContent()), 'reading position must not read as mastery');
+
+  // The one practice card this lesson actually maps to, and nothing invented.
+  const practise = page.getByRole('link', { name: 'Practise this topic' });
+  assert.equal(await practise.getAttribute('href'), `${base}cards/orig-parallel-independent-v1/?from=lesson&topic=jelet-syllabus%3Aelectrical%3At04`);
+  assert.equal(await page.locator('[aria-labelledby="related-practice"] a').first().getAttribute('href'), `${base}cards/orig-parallel-independent-v1/?from=lesson&topic=jelet-syllabus%3Aelectrical%3At04`);
+  const html = await page.content();
+  assert(!/Listen to Audio|Explain this step/.test(html), 'reference-only controls must not ship');
+
+  // The action bar rests on the tab bar instead of covering it, and the page keeps room for it.
+  const dock = await page.locator('.lesson-cta').boundingBox();
+  const tabbar = await page.locator('.tabbar').boundingBox();
+  assert(dock && tabbar);
+  assert(dock.y + dock.height <= tabbar.y + 1, 'the practice bar overlaps the tab bar');
+  assert(tabbar.y + tabbar.height >= page.viewportSize().height - 1);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(250);
+  const last = await page.locator('.lesson-back-today').boundingBox();
+  const dockAtBottom = await page.locator('.lesson-cta').boundingBox();
+  assert(last.y + last.height <= dockAtBottom.y, 'the last line of the lesson hides under the practice bar');
+});
+
+test('the reading position follows the section opened and resumes on exactly that section', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#independent-practice');
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '5');
+
+  await page.getByText('Check after attempting', { exact: true }).click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.section === 'independent-practice');
+  await page.waitForFunction(() => document.querySelector('[data-attempt-note]')?.hidden === false);
+  assert.equal(await page.locator('[data-attempt-note]').evaluate((el) => el.hidden), false);
+
+  // Coming back through Today's resume link lands on the same section, same place on the bar.
+  await go(page, chapter + '?resume=1#independent-practice');
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '5');
+  assert(!new URL(page.url()).search.includes('resume'), 'the resume parameter is cleaned from the address');
+  // The check itself still starts closed: a position is remembered, an answer is not handed over.
+  assert(await closed(page, '[data-reveal="independent-check"]'));
+  assert(await closed(page, '[data-reveal="hint-one"]'));
+});
+
+test('the lesson is readable and honest when the browser refuses storage', async (t) => {
+  const page = await context(t);
+  await page.addInitScript(() => {
+    const blocked = () => { throw new DOMException('Storage is blocked', 'SecurityError'); };
+    Storage.prototype.getItem = blocked;
+    Storage.prototype.setItem = blocked;
+    Storage.prototype.removeItem = blocked;
+  });
+  await go(page, chapter);
+  assert.equal(await page.locator('h1').textContent(), 'Parallel circuits');
+  assert.equal(await page.locator('[data-save-note]').textContent(), 'Progress cannot be saved on this browser.');
+  await page.getByText('Hint 2 · Choose a relationship', { exact: true }).click();
+  assert(await page.locator('[data-reveal="hint-two"]').evaluate((el) => el.open));
+  assert.equal(await page.locator('[data-save-note]').textContent(), 'Progress cannot be saved on this browser.');
+  assert.match(await page.locator('.lesson-section-note [data-lesson-section]').textContent(), /Section 4 of 6: Guided practice/);
+});
+
+test('the lesson and its practice card point at each other without leaking the answer', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  await page.getByRole('link', { name: 'Practise this topic' }).click();
+  assert(new URL(page.url()).pathname.endsWith(`/cards/orig-parallel-independent-v1/`));
+  await page.getByText('Opened from the lesson · topic filter restored').waitFor();
+  const cardHtml = await page.content();
+  assert(!cardHtml.includes('1.5 A') && !cardHtml.includes('4.5 A'), 'the card leaked the answer');
+
+  await page.getByRole('link', { name: /Learn this concept/ }).click();
+  assert(new URL(page.url()).pathname.endsWith('/learn/parallel-circuits/'));
+  assert.equal(new URL(page.url()).hash, '#independent-practice');
+  await page.getByText('From an original practice card · topic filter restored').waitFor();
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+});
+
+test('the lesson is usable from the keyboard and does not overflow at 320px with 200% text', async (t) => {
+  const page = await context(t, { viewport: { width: 320, height: 700 } });
+  await go(page, chapter);
+  await page.locator('.lesson-back').focus();
+  assert(await page.locator('.lesson-back').evaluate((el) => el === document.activeElement));
+  await Promise.all([page.waitForURL(/\/learn\/$/), page.keyboard.press('Enter')]);
+  assert(new URL(page.url()).pathname.endsWith('/learn/'));
+  await go(page, chapter);
+  const small = await page.locator('.lesson-cta').boundingBox();
+  assert(small.height < 140, `the practice bar takes too much of a small screen: ${small.height}`);
+  await page.locator('.lesson-jump').focus();
+  await Promise.all([page.waitForURL(/#predict$/), page.keyboard.press('Enter')]);
+  assert.equal(new URL(page.url()).hash, '#predict');
+  await page.addStyleTag({ content: ':root { font-size: 200% !important; }' });
+  await page.waitForTimeout(250);
+  const size = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+  assert(size[0] <= size[1] + 1, `page-wide overflow at 320px / 200%: ${size}`);
+  const dock = await page.locator('.lesson-cta').boundingBox();
+  const tabbar = await page.locator('.tabbar').boundingBox();
+  assert(dock.y + dock.height <= tabbar.y + 1, 'the practice bar overlaps the tab bar at 320px / 200% text');
+  assert(await page.getByRole('link', { name: 'Practise this topic' }).isVisible());
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(250);
+  const last = await page.locator('.lesson-back-today').boundingBox();
+  assert(last.y + last.height <= dock.y, 'the last line hides under the practice bar at 200% text');
+});
+
 test('the practice card shows stable identity, provenance and answer status without the answer', async (t) => {
   const page = await context(t);
   assert.equal((await go(page, card)).status(), 200);
