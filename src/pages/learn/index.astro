@@ -38,59 +38,101 @@ const chapters = syllabusSubjects.map((group) => {
   };
 });
 
-const openLessons = lessons.filter((lesson) => lesson.data.status === 'open');
+const topicTotal = chapters.reduce((sum, group) => sum + group.topics.length, 0);
+const withLesson = chapters.reduce((sum, group) => sum + group.topics.filter((topic) => topic.lesson).length, 0);
+const symbols: Record<string, string> = { mathematics: 'π', physics: '∿', chemistry: '⚗', electrical: 'EE' };
 ---
 
 <Site title="Learn" active="learn" description="The JELET Paper I syllabus as a course: every subject, every topic, the lessons that exist and the ones that do not yet.">
-  <div class="page-intro">
-    <p class="eyebrow">PAPER I · LEARN</p>
-    <h1>Learn by topic.</h1>
-    <p class="lead">
-      The whole syllabus, in the order the paper is set: {syllabusSubjects.length} subjects,
-      {chapters.reduce((sum, group) => sum + group.topics.length, 0)} topic groups.
-      {openLessons.length === 1 ? 'One chapter is written so far' : `${openLessons.length} chapters are written so far`} —
-      the rest are marked as missing, because a topic that has no lesson yet should say so rather than look empty.
+  <div class="learn-head">
+    <h1>Learn</h1>
+    <p class="lead">Build your concepts. Ace your future.</p>
+    <p class="micro">
+      Paper I holds {chapters.length} subjects and {topicTotal} topic groups.{' '}
+      {withLesson === 1 ? 'One topic has a written lesson so far' : `${withLesson} topics have a written lesson so far`};{' '}every other topic opens the revision notes and past questions that exist for it.
     </p>
   </div>
 
-  <div class="card-grid" style="margin-bottom:1.6rem">
-    {chapters.map((group) => (
-      <a class="linkrow" href={`${base}notes/${group.subject}/`}>
-        <span>
-          <strong>{group.label}</strong>
-          <small>{group.topics.length} topic groups · {group.topics.filter((topic) => topic.lesson).length} with a lesson</small>
-        </span>
-        <span aria-hidden="true">→</span>
-      </a>
-    ))}
+  <form class="learn-search" role="search" aria-label="Search the syllabus" data-learn-search>
+    <label class="learn-search-field">
+      <span class="visually-hidden">Search topics, chapters or subjects</span>
+      <span class="learn-search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.4"/><path d="m16 16 4 4"/></svg>
+      </span>
+      <input type="search" name="q" placeholder="Search topics or subjects…" autocomplete="off" spellcheck="false" data-learn-query />
+      <button class="learn-search-clear" type="button" data-learn-clear hidden>Clear</button>
+    </label>
+  </form>
+
+  <div class="learn-filters" role="group" aria-label="Show topics">
+    <button class="learn-chip" type="button" data-learn-filter="all" aria-pressed="true">All topics</button>
+    <button class="learn-chip" type="button" data-learn-filter="lesson" aria-pressed="false">With a lesson</button>
+    <button class="learn-chip" type="button" data-learn-filter="notes" aria-pressed="false">Notes only</button>
+  </div>
+
+  <p class="micro learn-status" data-learn-status aria-live="polite">
+    {withLesson} of {topicTotal} topics have a written lesson.
+  </p>
+
+  <div class="learn-empty" data-learn-empty hidden>
+    <p><strong>No topic matches.</strong> Try a subject name, a topic such as “parallel circuits”, or clear the search.</p>
+    <button class="btn ghost small" type="button" data-learn-reset>Show the whole syllabus</button>
+  </div>
+
+  <div class="learn-subjects">
+    {chapters.map((group) => {
+      const available = group.topics.filter((topic) => topic.lesson).length;
+      return (
+        <a class="learn-subject" data-learn-subject data-subject={group.subject} href={`#subject-${group.subject}`} data-search-text={`${group.label} ${group.name} ${group.topics.map((topic) => `${topic.name} ${topic.lesson?.title ?? ''}`).join(' ')}`}>
+          <span class={`learn-subject-icon is-${group.subject}`} aria-hidden="true">{symbols[group.subject] ?? '•'}</span>
+          <span class="learn-subject-copy">
+            <strong>{group.label}</strong>
+            <small>
+              {available === 0
+                ? `No written lesson yet · ${group.topics.length} topics of notes and past questions`
+                : available === 1
+                  ? `1 of ${group.topics.length} topics has a written lesson`
+                  : `${available} of ${group.topics.length} topics have a written lesson`}
+            </small>
+            <span class="learn-subject-meter" role="progressbar" aria-label={`${group.label} written lessons`} aria-valuemin="0" aria-valuemax={group.topics.length} aria-valuenow={available}>
+              <span style={`width:${group.topics.length ? Math.round((available / group.topics.length) * 100) : 0}%`}></span>
+            </span>
+          </span>
+          <span class="learn-subject-arrow" aria-hidden="true">›</span>
+        </a>
+      );
+    })}
   </div>
 
   {chapters.map((group) => (
-    <section class="module" aria-labelledby={`subject-${group.subject}`}>
-      <p class="eyebrow">{group.name}</p>
-      <h2 id={`subject-${group.subject}`}>{group.label}</h2>
-      <p>
-        The revision notes for this subject gather every past question of each topic, with your own results beside
-        them. <a href={`${base}notes/${group.subject}/`}>Open the {group.label} notes →</a>
+    <section class="module learn-module" data-learn-section data-subject={group.subject} data-search-text={`${group.label} ${group.name}`} aria-labelledby={`subject-${group.subject}`}>
+      <div class="learn-module-head">
+        <h2 id={`subject-${group.subject}`}>{group.label}</h2>
+        <a class="micro" href={`${base}notes/${group.subject}/`}>Notes and past questions →</a>
+      </div>
+      <p class="micro learn-module-count">
+        {group.topics.length} topics · {group.topics.filter((topic) => topic.lesson).length} with a written lesson
       </p>
-      <ul class="linklist">
+      <ul class="learn-topics">
         {group.topics.map((topic) => (
-          <li>
+          <li data-learn-topic data-has-lesson={topic.lesson ? 'true' : 'false'} data-search-text={`${topic.name} ${topic.code} ${topic.lesson?.title ?? ''}`}>
             {topic.lesson ? (
-              <a href={`${base}learn/${topic.lesson.id}/`}>
-                <span>
+              <a class="learn-topic" href={`${base}learn/${topic.lesson.id}/`}>
+                <span class="learn-topic-copy">
                   <strong>{topic.name}</strong>
-                  <small>Lesson · {topic.lesson.minutes} min · {topic.lesson.summary}</small>
+                  <small>{topic.lesson.summary}</small>
                 </span>
-                <span aria-hidden="true">→</span>
+                <span class="learn-topic-tag is-lesson">Lesson · {topic.lesson.minutes} min</span>
+                <span class="learn-topic-arrow" aria-hidden="true">›</span>
               </a>
             ) : (
-              <a href={`${base}notes/${group.subject}/#${topic.id}`}>
-                <span>
+              <a class="learn-topic" href={`${base}notes/${group.subject}/#${topic.id}`}>
+                <span class="learn-topic-copy">
                   <strong>{topic.name}</strong>
-                  <small>No lesson yet · open the notes and the past questions for this topic</small>
+                  <small>{topic.detail}</small>
                 </span>
-                <span aria-hidden="true">→</span>
+                <span class="learn-topic-tag">Notes only</span>
+                <span class="learn-topic-arrow" aria-hidden="true">›</span>
               </a>
             )}
           </li>
@@ -105,4 +147,80 @@ const openLessons = lessons.filter((lesson) => lesson.data.status === 'open');
     <p>Original exercises written for this site. Not past exam questions, and never marked as if they were.</p>
     <a class="chapter-card" href={`${base}practice/`}><span><strong>Practice cards</strong><small>Stable IDs · source and answer status · no account</small></span><span aria-hidden="true">→</span></a>
   </section>
+
+  <script>
+    /* Filtering runs on what is already on the page: no request, no index to
+       fetch, and the same list when JavaScript is off. */
+    const form = document.querySelector<HTMLFormElement>('[data-learn-search]');
+    const query = document.querySelector<HTMLInputElement>('[data-learn-query]');
+    const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-learn-filter]')];
+    const readMode = () => chips.find((chip) => chip.getAttribute('aria-pressed') === 'true')?.dataset.learnFilter ?? 'all';
+    const clear = document.querySelector<HTMLButtonElement>('[data-learn-clear]');
+    const status = document.querySelector<HTMLElement>('[data-learn-status]');
+    const empty = document.querySelector<HTMLElement>('[data-learn-empty]');
+    const topics = [...document.querySelectorAll<HTMLElement>('[data-learn-topic]')];
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-learn-section]')];
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-learn-subject]')];
+    const total = topics.length;
+
+    const normalise = (value: string) => value.toLocaleLowerCase().replaceAll('-', ' ');
+
+    function apply() {
+      const raw = query?.value.trim() ?? '';
+      const term = normalise(raw);
+      const mode = readMode();
+      const subjectHit = new Set(
+        cards
+          .filter((card) => term.length > 0 && normalise(card.dataset.searchText ?? '').includes(term))
+          .map((card) => card.dataset.subject ?? ''),
+      );
+      if (clear) clear.hidden = term.length === 0;
+
+      let shown = 0;
+      for (const topic of topics) {
+        const section = topic.closest<HTMLElement>('[data-learn-section]');
+        const subject = section?.dataset.subject ?? '';
+        const matchesText = term.length === 0
+          || subjectHit.has(subject)
+          || normalise(topic.dataset.searchText ?? '').includes(term);
+        const hasLesson = topic.dataset.hasLesson === 'true';
+        const matchesMode = mode === 'all' || (mode === 'lesson' ? hasLesson : !hasLesson);
+        const visible = matchesText && matchesMode;
+        topic.hidden = !visible;
+        if (visible) shown += 1;
+      }
+
+      const visibleSubjects = new Set<string>();
+      for (const section of sections) {
+        const any = [...section.querySelectorAll<HTMLElement>('[data-learn-topic]')].some((topic) => !topic.hidden);
+        section.hidden = !any;
+        if (any) visibleSubjects.add(section.dataset.subject ?? '');
+      }
+      for (const card of cards) card.hidden = !visibleSubjects.has(card.dataset.subject ?? '');
+
+      if (empty) empty.hidden = shown > 0;
+      if (status) {
+        status.textContent = shown === total && term.length === 0 && mode === 'all'
+          ? `${total} topics in the syllabus.`
+          : `${shown} of ${total} topics shown${term ? ` for “${raw}”` : ''}${mode === 'all' ? '' : mode === 'lesson' ? ' with a written lesson' : ' with notes only'}.`;
+      }
+    }
+
+    query?.addEventListener('input', apply);
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        for (const other of chips) other.setAttribute('aria-pressed', String(other === chip));
+        apply();
+      });
+    }
+    clear?.addEventListener('click', () => { if (query) query.value = ''; apply(); query?.focus(); });
+    form?.addEventListener('submit', (event) => { event.preventDefault(); apply(); });
+    document.querySelector('[data-learn-reset]')?.addEventListener('click', () => {
+      if (query) query.value = '';
+      for (const chip of chips) chip.setAttribute('aria-pressed', String(chip.dataset.learnFilter === 'all'));
+      apply();
+      query?.focus();
+    });
+    apply();
+  </script>
 </Site>

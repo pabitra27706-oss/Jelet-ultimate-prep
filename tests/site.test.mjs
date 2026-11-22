@@ -1577,6 +1577,120 @@ test('workspace saves a bookmark, note and resume, then survives reload', async 
 });
 
 /* ------------------------------------------------------------------ *
+ * Phase 20 — Learn catalog
+ * ------------------------------------------------------------------ */
+
+test('the Learn catalog lists the four real subjects with honest lesson counts', async (t) => {
+  const page = await context(t);
+  await go(page, 'learn/');
+  assert.equal(await page.locator('h1').textContent(), 'Learn');
+  assert.match(await page.locator('.learn-head .lead').textContent(), /Build your concepts/);
+  assert.equal(await page.locator('.learn-subject').count(), 4);
+  const electrical = page.locator('.learn-subject[data-subject="electrical"]');
+  assert.match(await electrical.textContent(), /1 of 8 topics has a written lesson/);
+  assert.equal(await electrical.locator('[role="progressbar"]').getAttribute('aria-valuenow'), '1');
+  assert.equal(await electrical.locator('[role="progressbar"]').getAttribute('aria-valuemax'), '8');
+  for (const subject of ['mathematics', 'physics', 'chemistry']) {
+    assert.match(await page.locator(`.learn-subject[data-subject="${subject}"]`).textContent(), /No written lesson yet/);
+  }
+
+  // Every syllabus topic is present once, with its true state.
+  assert.equal(await page.locator('[data-learn-topic]').count(), 42);
+  assert.equal(await page.locator('[data-learn-topic][data-has-lesson="true"]').count(), 1);
+  const lesson = page.locator('[data-learn-topic][data-has-lesson="true"] a');
+  assert.equal(await lesson.getAttribute('href'), `${base}learn/parallel-circuits/`);
+  assert.match(await lesson.textContent(), /Lesson · 8 min/);
+  const notesOnly = page.locator('[data-learn-topic][data-has-lesson="false"] a').first();
+  assert.match(await notesOnly.getAttribute('href'), /^\/Jelet-ultimate-prep\/notes\/[a-z]+\/#[a-z]+-t/);
+  assert.match(await notesOnly.textContent(), /Notes only/);
+
+  const html = await page.content();
+  assert(!/chapters completed|Audio Lesson|Ask AI Tutor/i.test(html), 'no reference-only counts or AI/audio affordances');
+  assert.equal(await page.locator('[data-learn-subject]').first().getAttribute('href'), '#subject-mathematics');
+});
+
+test('Learn search and the lesson filter narrow the catalog and reset honestly', async (t) => {
+  const page = await context(t);
+  await go(page, 'learn/');
+  const query = page.locator('[data-learn-query]');
+  assert.equal(await query.getAttribute('aria-label'), null);
+  assert.equal(await page.getByRole('searchbox', { name: 'Search topics, chapters or subjects' }).count(), 1, 'the search field has a real label');
+  assert.equal(await page.locator('[data-learn-status]').textContent(), '42 topics in the syllabus.');
+
+  await query.fill('parallel circuits');
+  await page.waitForFunction(() => /topics shown for/.test(document.querySelector('[data-learn-status]')?.textContent ?? ''));
+  const shown = await page.locator('[data-learn-topic]:not([hidden])').count();
+  assert(shown > 0 && shown < 42, `search narrows to a few topics, got ${shown}`);
+  assert(await page.locator('[data-learn-topic]:not([hidden]) a').first().isVisible());
+  assert.equal(await page.locator('[data-learn-clear]').isVisible(), true);
+
+  await query.fill('zzzz not a topic');
+  await page.waitForFunction(() => /0 of 42 topics shown/.test(document.querySelector('[data-learn-status]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-learn-empty]').isVisible(), true);
+  assert.equal(await page.locator('[data-learn-topic]:not([hidden])').count(), 0);
+  await page.locator('[data-learn-reset]').click();
+  await page.waitForFunction(() => document.querySelectorAll('[data-learn-topic]:not([hidden])').length === 42);
+  assert.equal(await query.inputValue(), '');
+
+  // The honest filter: one topic actually has a lesson.
+  await page.locator('[data-learn-filter="lesson"]').click();
+  await page.waitForFunction(() => document.querySelectorAll('[data-learn-topic]:not([hidden])').length === 1);
+  assert.equal(await page.locator('[data-learn-filter="lesson"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-learn-filter="all"]').getAttribute('aria-pressed'), 'false');
+  await page.locator('[data-learn-filter="notes"]').click();
+  await page.waitForFunction(() => document.querySelectorAll('[data-learn-topic]:not([hidden])').length === 41);
+  await page.locator('[data-learn-filter="all"]').click();
+
+  // A subject name finds its own ordered section.
+  await query.fill('electrical');
+  await page.waitForFunction(() => !document.querySelector('[data-learn-section][data-subject="electrical"]')?.hidden);
+  assert.equal(await page.locator('[data-learn-subject][data-subject="electrical"]').isVisible(), true);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 21 — Today dashboard
+ * ------------------------------------------------------------------ */
+
+test('the Today first fold is the brand, one real start and three live routes', async (t) => {
+  const page = await context(t);
+  await go(page);
+  assert.match(await page.locator('.today-brand').textContent(), /JELET/);
+  assert.match(await page.locator('.today-tagline').textContent(), /Smarter Study\. Brighter Tomorrow\./);
+  assert.equal(await page.locator('.appbar .brand-text').isVisible(), false, 'the bar does not repeat the in-page lockup');
+
+  const primary = page.locator('.today-primary-action');
+  assert.equal(await primary.getAttribute('href'), `${base}learn/parallel-circuits/`);
+  assert.equal(await page.locator('[data-next-eyebrow]').textContent(), 'Start here');
+  assert.equal(await page.locator('[data-next-label]').textContent(), 'Start the lesson');
+  assert((await primary.boundingBox()).height >= 44);
+  assert.equal(await page.locator('[data-today-meter]').isVisible(), false, 'no meter is drawn before anything is started');
+
+  const html = await page.content();
+  assert(!/AI Doubt|Formula Sheet|Daily Challenge|Ask AI|Focus Timer|25:00/i.test(html), 'the reference AI, formula, challenge and timer are not shipped');
+  assert.equal(await page.locator('.today-action-card').count(), 3);
+  assert.equal(await page.locator('.today-subject-grid .today-subject-card').count(), 4);
+  assert.equal(await page.locator('.today-review-card').count(), 1);
+});
+
+test('a returning reader gets the exact saved place, its meter and a truthful secondary action', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#guided-practice');
+  await page.getByText('Hint 1 · Trace the nodes', { exact: true }).click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.section === 'guided-practice');
+  await go(page);
+  await page.waitForFunction(() => document.querySelector('[data-next-label]')?.textContent === 'Continue your lesson');
+  assert.equal(await page.locator('[data-next-heading]').textContent(), 'Welcome back to your lesson.');
+  assert.equal(await page.locator('[data-next-action]').getAttribute('href'), `${base}learn/parallel-circuits/?resume=1#guided-practice`);
+  assert.equal(await page.locator('[data-today-meter]').isVisible(), true);
+  assert.equal(await page.locator('[data-today-meter] [role="progressbar"]').getAttribute('aria-valuenow'), '4');
+  assert.equal(await page.locator('[data-today-meter] [role="progressbar"]').getAttribute('aria-valuemax'), '6');
+  assert.match(await page.locator('[data-today-meter-label]').textContent(), /Section 4 of 6 read/);
+  // The plan card is the only encouragement, and it leads to the real plan.
+  assert.equal(await page.locator('.today-encouragement').getAttribute('href'), `${base}plan/`);
+  assert(!/streak|guarantee|score prediction/i.test(await page.locator('.today-encouragement').textContent()));
+});
+
+/* ------------------------------------------------------------------ *
  * Layout and accessibility
  * ------------------------------------------------------------------ */
 
@@ -1625,7 +1739,7 @@ test('the site keeps working with the network switched off', async () => {
 
     await ctx.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    assert.match(await page.locator('h1').first().textContent(), /Smarter study/i, 'the shell renders from the cache while offline');
+    assert.match(await page.locator('.today-tagline').textContent(), /Smarter Study/i, 'the shell renders from the cache while offline');
     // Cached navigation must work too, not just the home page.
     await page.goto(origin + base + 'syllabus/', { waitUntil: 'domcontentloaded' });
     assert.match(await page.locator('h1').first().textContent(), /Syllabus/i);

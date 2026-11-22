@@ -1,7 +1,9 @@
 # Phase 19 — Lesson reading screen (evidence record)
 
 - **Phase, status, date, branch/commit, owner/reviewer:** Phase 19, the lesson
-  reading screen. **Built and agent-verified; owner review pending.** First
+  reading screen. **Built, agent-verified and owner-accepted — “Device test
+  pass”, 2026-11-21**; the Android gate below is closed by that owner report.
+  First
   delivered as a visual rebuild (`90f2ea6`); the owner rejected that as
   “only change the ui it need features change”, so commit `b4fc0ec` adds real
   features: a lesson bookmark in the local workspace, recorded sections
@@ -88,7 +90,10 @@
   for this phase). Headless Chromium 153.0.8010.0 at 390×844, 320×700 and
   1280×900, light and dark. `git diff --check` clean.
 
-- **Residual physical gate:** **ANDROID CHECK NEEDED — pending.** Open the
+- **Residual physical gate:** **closed by the owner — “Device test pass”,
+  2026-11-21.** The owner's report covers the phone pass for this screen; no
+  build URL or device detail was recorded, so this is the owner's word and not
+  an independent check. For reference the command is: open the
   built site on the phone with
   `cd ~/Jelet-ultimate-prep && git checkout -- public/data/packs.json && git fetch origin arena/61a4f729-jelet-ultimate-prep && git switch -C phase19 FETCH_HEAD && npm run build && npm run preview`
   and open `/Jelet-ultimate-prep/learn/parallel-circuits/`. Please check the
@@ -119,10 +124,11 @@
   so; no Board question, key or claim is invented. Rollback is
   `git revert b4fc0ec`.
 
-- **Blockers, unresolved risks, next action and decision needed:** the owner's
-  review of the screen and its features; the Android pass above; only one topic
-  has a written lesson, and the page never implies otherwise. Next action: on
-  acceptance, Phase 20 (Learn subjects).
+- **Blockers, unresolved risks, next action and decision needed:** accepted by
+  the owner (“Device test pass”), so Phase 20 and Phase 21 were built in the
+  same working session at the owner's instruction. Only one topic has a written
+  lesson, and the page never implies otherwise. Next action: owner review of
+  Phases 20–21.
 
-- **Roadmap updated by/date:** `docs/ROADMAP.md`, 2026-11-21 (Phase 19 row and
-  next-action entry), same change. Phase 19 is **not** marked accepted.
+- **Roadmap updated by/date:** `docs/ROADMAP.md`, 2026-11-21 (Phase 19 row
+  marked accepted on the owner's device pass), same change.
