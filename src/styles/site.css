@@ -1292,7 +1292,13 @@ details.papers-about { margin-top: 1.4rem; }
 .lesson-head-copy { min-width: 0; }
 .lesson-head-copy .eyebrow { margin: 0 0 .15rem; font-size: .66rem; letter-spacing: .1em; }
 .lesson-title { margin: 0; font-size: clamp(1.55rem, 5.4vw, 2.15rem); line-height: 1.12; letter-spacing: -.02em; }
+.lesson-head-tools { display: grid; justify-items: end; gap: .25rem; }
 .lesson-pos { display: flex; align-items: baseline; gap: .15rem; margin: 0; color: var(--teal); font-weight: 850; white-space: nowrap; }
+.lesson-save { display: grid; place-items: center; width: var(--tap); height: var(--tap); padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink-2); cursor: pointer; transition: background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease); }
+.lesson-save:hover { border-color: var(--teal); color: var(--teal); }
+.lesson-save:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.lesson-save[aria-pressed="true"] { border-color: var(--teal); background: var(--teal); color: var(--button-ink); }
+.lesson-save[disabled] { opacity: .55; cursor: not-allowed; }
 .lesson-pos [data-lesson-pos] { font-size: 1.3rem; line-height: 1; }
 .lesson-pos small { color: var(--muted); font-size: .8rem; font-weight: 700; }
 .lesson-head-meta { margin: .45rem 0 .1rem; }
@@ -1302,6 +1308,11 @@ details.papers-about { margin-top: 1.4rem; }
 .lesson-section-note { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; margin: .35rem 0 0; }
 .lesson-section-note [data-lesson-section] { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); font-weight: 700; }
 .lesson-minutes { flex: none; }
+.lesson-resume { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem .8rem; margin: 0 0 .9rem; padding: .55rem .85rem; border: 1px dashed color-mix(in srgb, var(--teal) 45%, var(--line)); border-radius: 14px; background: color-mix(in srgb, var(--teal) 6%, var(--card)); }
+.lesson-resume p { margin: 0; font-size: .88rem; color: var(--ink-2); }
+.lesson-resume strong { color: var(--ink); }
+.lesson-resume-go { min-height: 40px; padding: 0 .2rem; border: 0; background: none; color: var(--teal); font: inherit; font-weight: 800; cursor: pointer; }
+.lesson-resume-go:hover { text-decoration: underline; text-underline-offset: .16em; }
 .lesson-reading { margin-bottom: 1.2rem; }
 .lesson-lead { margin: 0 0 .55rem; }
 .lesson-objective { margin: 0 0 .4rem; color: var(--ink-2); }
@@ -1321,6 +1332,9 @@ details.papers-about { margin-top: 1.4rem; }
 .lesson-page .lesson-body details[data-reveal="worked"] { padding: .15rem .95rem .6rem; border: 1px solid color-mix(in srgb, var(--teal) 26%, var(--line)); border-radius: 18px; background: color-mix(in srgb, var(--teal) 7%, var(--card)); }
 .lesson-page .lesson-body details[data-reveal="worked"] > summary { display: grid; gap: .1rem; color: var(--teal); }
 .lesson-page .lesson-body details[data-reveal="worked"] > summary::before { content: "Worked example"; display: block; color: var(--teal); font-size: .72rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.lesson-page .lesson-body details[data-explain] { margin: .3rem 0 .45rem; padding: 0; border: 0; border-left: 2px solid color-mix(in srgb, var(--teal) 35%, var(--line)); border-radius: 0; background: transparent; }
+.lesson-page .lesson-body details[data-explain] > summary { display: inline-flex; min-height: 36px; padding: .1rem 0 .1rem .6rem; color: var(--teal); font-size: .82rem; font-weight: 800; }
+.lesson-page .lesson-body details[data-explain] > p { margin: .1rem 0 .45rem; padding-left: .6rem; color: var(--ink-2); font-size: .93rem; }
 .lesson-page .lesson-body details[data-reveal^="hint"] { border-left: 3px solid var(--teal); }
 .lesson-page .lesson-body details[data-reveal="independent-check"] { border-left: 3px solid var(--amber); }
 .lesson-page .lesson-body ol, .lesson-page .lesson-body ul { margin: 0 0 .95rem; padding-left: 1.25rem; }
@@ -1328,8 +1342,12 @@ details.papers-about { margin-top: 1.4rem; }
 .lesson-toc { margin: 0 0 1.1rem; padding: .1rem .9rem .5rem; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
 .lesson-toc > summary { display: flex; align-items: center; min-height: 46px; cursor: pointer; color: var(--ink-2); font-size: .9rem; font-weight: 750; }
 .lesson-toc ol { margin: .1rem 0 .5rem; padding-left: 1.3rem; }
-.lesson-toc li { margin: .35rem 0; }
-.lesson-toc a { color: var(--ink-2); font-weight: 650; }
+.lesson-toc li { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: .35rem 0; }
+.lesson-toc a { flex: 1 1 auto; }
+.lesson-toc a[aria-current="true"] { color: var(--teal); font-weight: 800; }
+.toc-tick { flex: none; color: var(--teal); font-weight: 900; }
+.lesson-toc a { color: var(--ink-2); font-weight: 650; text-decoration: none; }
+.lesson-toc a:hover { text-decoration: underline; text-underline-offset: .16em; }
 .lesson-notes { display: grid; gap: .1rem; margin: -.55rem 0 1rem; }
 .lesson-notes span[hidden] { display: none; }
 .lesson-page .related { margin-top: 2.2rem; }

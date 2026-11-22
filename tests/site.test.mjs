@@ -1351,13 +1351,17 @@ test('the lesson header gives the real reading position, and practice stays in r
   const width = await page.locator('[data-lesson-bar-fill]').evaluate((el) => el.getBoundingClientRect().width);
   assert(width > 20 && width < 80, `the bar only marks the start of the lesson, got ${width}`);
   assert(!/mastery|complete|finished/i.test(await page.locator('.lesson-head').textContent()), 'reading position must not read as mastery');
+  assert.equal(await page.locator('[data-lesson-bookmark]').getAttribute('aria-pressed'), 'false');
+  assert.match(await page.locator('[data-toc-visited]').textContent(), /1 of 6 visited/);
 
   // The one practice card this lesson actually maps to, and nothing invented.
   const practise = page.getByRole('link', { name: 'Practise this topic' });
   assert.equal(await practise.getAttribute('href'), `${base}cards/orig-parallel-independent-v1/?from=lesson&topic=jelet-syllabus%3Aelectrical%3At04`);
   assert.equal(await page.locator('[aria-labelledby="related-practice"] a').first().getAttribute('href'), `${base}cards/orig-parallel-independent-v1/?from=lesson&topic=jelet-syllabus%3Aelectrical%3At04`);
   const html = await page.content();
-  assert(!/Listen to Audio|Explain this step/.test(html), 'reference-only controls must not ship');
+  assert(!/Listen to Audio/.test(html), 'no audio control may ship without an audio file');
+  assert(!/<audio/i.test(html), 'no audio element may ship without an audio file');
+  assert(!/Ask AI|AI analysis|AI-generated/i.test(html), 'no AI control may ship');
 
   // The action bar rests on the tab bar instead of covering it, and the page keeps room for it.
   const dock = await page.locator('.lesson-cta').boundingBox();
@@ -1400,9 +1404,12 @@ test('the lesson is readable and honest when the browser refuses storage', async
     Storage.prototype.getItem = blocked;
     Storage.prototype.setItem = blocked;
     Storage.prototype.removeItem = blocked;
+    IDBFactory.prototype.open = blocked;
   });
   await go(page, chapter);
   assert.equal(await page.locator('h1').textContent(), 'Parallel circuits');
+  assert.equal(await page.locator('[data-lesson-bookmark]').isDisabled(), true);
+  await page.getByText('Bookmarks are unavailable on this browser.').waitFor();
   assert.equal(await page.locator('[data-save-note]').textContent(), 'Progress cannot be saved on this browser.');
   await page.getByText('Hint 2 · Choose a relationship', { exact: true }).click();
   assert(await page.locator('[data-reveal="hint-two"]').evaluate((el) => el.open));
@@ -1451,6 +1458,95 @@ test('the lesson is usable from the keyboard and does not overflow at 320px with
   await page.waitForTimeout(250);
   const last = await page.locator('.lesson-back-today').boundingBox();
   assert(last.y + last.height <= dock.y, 'the last line hides under the practice bar at 200% text');
+});
+
+test('the contents records the sections actually read, not a completion score', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  await page.waitForFunction(() => document.querySelector('[data-toc-visited]')?.textContent?.includes('1 of 6 visited'));
+  await page.locator('.lesson-toc > summary').click();
+  assert.equal(await page.locator('.lesson-toc li[data-section="prerequisite"]').getAttribute('data-visited'), 'true');
+  assert.equal(await page.locator('.lesson-toc li[data-section="prerequisite"] a').getAttribute('aria-current'), 'true');
+  assert.equal(await page.locator('.lesson-toc li[data-section="predict"]').getAttribute('data-visited'), 'false');
+
+  await page.locator('.lesson-toc a[href="#worked-example"]').click();
+  await page.waitForFunction(() => document.querySelector('[data-toc-visited]')?.textContent?.includes('2 of 6 visited'));
+  assert.equal(await page.locator('.lesson-toc li[data-section="worked-example"]').getAttribute('data-visited'), 'true');
+  assert.equal(await page.locator('.lesson-toc li[data-section="worked-example"] a').getAttribute('aria-current'), 'true');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '3');
+
+  // The visit list is stored with the place, so it survives the next visit.
+  const stored = JSON.parse(await page.evaluate(() => localStorage.getItem('jelet:parallel-circuits:v1')));
+  assert.deepEqual(stored.visited, ['prerequisite', 'worked-example']);
+});
+
+test('returning to a lesson offers the saved section, and a fresh reader is not prompted', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#guided-practice');
+  await page.getByText('Hint 1 · Trace the nodes', { exact: true }).click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.section === 'guided-practice');
+  assert.equal(await page.locator('[data-resume-banner]').isVisible(), false, 'a deep link needs no prompt');
+
+  await go(page, chapter);
+  await page.locator('[data-resume-banner]').waitFor();
+  assert.equal(await page.locator('[data-resume-name]').textContent(), 'Guided practice');
+  await page.locator('[data-resume-continue]').click();
+  await page.waitForFunction(() => location.hash === '#guided-practice');
+  assert.equal(await page.locator('[data-resume-banner]').isVisible(), false);
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 4 of 6: Guided practice');
+
+  const fresh = await context(t);
+  await go(fresh, chapter);
+  await fresh.waitForTimeout(300);
+  assert.equal(await fresh.locator('[data-resume-banner]').isVisible(), false, 'a first visit must not invent a place');
+});
+
+test('a lesson can be bookmarked into the local workspace and removed again', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  const save = page.locator('[data-lesson-bookmark]');
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'false');
+  await save.click();
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'true');
+  assert.match(await page.locator('[data-bookmark-note]').textContent(), /Bookmarked in your workspace/);
+
+  await page.reload();
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'true');
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => (document.querySelector('#workspace-list')?.textContent ?? '').includes('Parallel circuits'));
+
+  await go(page, chapter);
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'true');
+  await page.locator('[data-lesson-bookmark]').click();
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'false');
+  assert.match(await page.locator('[data-bookmark-note]').textContent(), /Removed from your workspace/);
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => !(document.querySelector('#workspace-list')?.textContent ?? '').includes('Parallel circuits'));
+});
+
+test('each worked step carries a written explanation, not an AI claim, and opening one keeps the place', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#worked-example');
+  const before = await page.locator('[data-lesson-pos]').textContent();
+  await page.locator('details[data-reveal="worked"] > summary').click();
+  await page.waitForFunction(() => document.querySelector('details[data-explain]')?.open === false);
+  await page.locator('details[data-explain] > summary').first().click();
+  await page.waitForFunction(() => document.querySelector('details[data-explain]')?.open === true);
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), before, 'a written explanation is not a new section');
+  assert.match(await page.locator('details[data-explain] p').first().textContent(), /12 V/);
+  const worked = await page.locator('details[data-reveal="worked"]').textContent();
+  assert.match(worked, /no AI is involved/);
+  assert(!/AI-generated|Ask AI|AI analysis/i.test(worked));
+});
+
+test('a place saved before the visit list existed still restores without inventing history', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  await page.evaluate(() => localStorage.setItem('jelet:parallel-circuits:v1', JSON.stringify({ section: 'independent-practice', guidedHints: ['hint-one'], independentRevealed: false })));
+  await go(page, chapter + '?resume=1#independent-practice');
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+  await page.getByText('Guided hint opened on this browser.').waitFor();
+  assert.equal(await page.locator('[data-toc-visited]').textContent(), ' · 1 of 6 visited');
 });
 
 test('the practice card shows stable identity, provenance and answer status without the answer', async (t) => {

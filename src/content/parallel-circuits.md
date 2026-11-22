@@ -33,10 +33,26 @@ An ideal 12 V source supplies two 6 Ω branches. Imagine opening only the lower 
 
 <details data-reveal="worked">
 <summary>Show worked steps</summary>
+<p class="micro">These steps are written for this site. Each one carries a short explanation — no AI is involved.</p>
 <ol>
-<li><strong>Find the branch voltage.</strong> Both resistors join P and N, so each sees the same 12 V.</li>
-<li><strong>Find each current.</strong> By Ohm’s law, 12 V ÷ 6 Ω = 2 A through each branch.</li>
-<li><strong>Add at the junction.</strong> The source supplies 2 A + 2 A = 4 A. As a check, 12 V ÷ 4 A = 3 Ω, less than either branch.</li>
+<li><strong>Find the branch voltage.</strong> Both resistors join P and N, so each sees the same 12 V.
+<details data-explain="branch-voltage">
+<summary>Explain this step</summary>
+<p>A parallel branch never splits the supply voltage. Both resistors are wired to the same two nodes, P and N, so the potential difference across each one is the same 12 V of the source. Only the current divides.</p>
+</details>
+</li>
+<li><strong>Find each current.</strong> By Ohm’s law, 12 V ÷ 6 Ω = 2 A through each branch.
+<details data-explain="branch-current">
+<summary>Explain this step</summary>
+<p>Once the voltage across a branch is known, that branch is a one-resistor problem: I = V ÷ R = 12 V ÷ 6 Ω = 2 A. While the ideal source holds 12 V, changing the other branch does not change this one.</p>
+</details>
+</li>
+<li><strong>Add at the junction.</strong> The source supplies 2 A + 2 A = 4 A. As a check, 12 V ÷ 4 A = 3 Ω, less than either branch.
+<details data-explain="junction-current">
+<summary>Explain this step</summary>
+<p>Charge is not stored at node P, so everything that arrives from the source must leave through the branches: 2 A + 2 A = 4 A. Feeding the totals back into Ohm’s law gives the equivalent resistance, 12 V ÷ 4 A = 3 Ω, which is smaller than a single 6 Ω branch — the signature of a parallel path.</p>
+</details>
+</li>
 <li><strong>Open the lower branch.</strong> Its current becomes 0 A, but the ideal supply still provides 12 V to the upper branch. Its current stays at 2 A, and total source current drops from 4 A to 2 A.</li>
 </ol>
 <p><strong>Common mistake:</strong> Splitting the voltage into 6 V per branch would give 1 A per branch, even though both ends are fixed 12 V apart. Equal resistance produces equal current here; a junction does not always split current equally.</p>
