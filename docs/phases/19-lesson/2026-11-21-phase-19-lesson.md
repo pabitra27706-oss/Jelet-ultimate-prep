@@ -89,9 +89,10 @@
   has not yet reported a device pass for this phase; nothing here is a physical
   device result.
 
-- **CI run, build size, published URL and browser/device:** pending push — see
-  the CI table in the pull request; local artifact 63 pages, 17.9 MB. Nothing
-  is deployed or merged by this branch.
+- **CI run, build size, published URL and browser/device:** CI `pilot`
+  **pass** on [run 44984031279](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44984031279)
+  (1 m 42 s) for `f90e159`. Local artifact 63 pages, 17.9 MB. Nothing is
+  deployed or merged by this branch; no published URL carries this screen yet.
 
 - **Privacy, accessibility, cost, editorial and rollback checks applicable
   here:** no account, no network request, no analytics, no AI and no audio; the
