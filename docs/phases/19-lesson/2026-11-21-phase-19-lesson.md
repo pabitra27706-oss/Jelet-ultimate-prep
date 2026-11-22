@@ -100,8 +100,10 @@
 
 - **CI run, build size, published URL and browser/device:** CI `pilot`
   **pass** on [run 44984031279](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44984031279)
-  (1 m 42 s) for the visual rebuild; the feature commit `b4fc0ec` is checked by
-  the run recorded in the pull request. Local artifact 63 pages, 17.9 MB.
+  (1 m 42 s) for the visual rebuild, and **pass** on
+  [run 44986655481](https://github.com/pabitra27706-oss/Jelet-ultimate-prep/actions/runs/44986655481)
+  (2 m 01 s) for `e72c1bc`, which carries the feature commit `b4fc0ec`. Local
+  artifact 63 pages, 17.9 MB.
   Nothing is deployed or merged by this branch; no published URL carries this
   screen yet.
 
