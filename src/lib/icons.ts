@@ -30,6 +30,9 @@ export const ICON_NAMES = [
   'user',
   // Navigation and disclosure.
   'search',
+  'bolt',
+  'help',
+  'sliders',
   'bookmark',
   'history',
   'refresh',
@@ -42,9 +45,10 @@ export const ICON_NAMES = [
   'download',
   'upload',
   'info',
-  // Theme.
+  // Preferences.
   'sun',
   'moon',
+  'motion',
   // Meaningful status.
   'check-circle',
   'alert-triangle',
@@ -65,6 +69,9 @@ export const ICONS: Record<IconName, string> = {
   papers: '<path d="M6.2 3.6h7.6l4 4V20.4H6.2z"/><path d="M13.8 3.6v4.2h4M9 12h6M9 15.6h6"/>',
   user: '<circle cx="12" cy="8.2" r="3.6"/><path d="M5 20.2c0-3.3 3.1-5.7 7-5.7s7 2.4 7 5.7"/>',
   search: '<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.6 15.6 4.4 4.4"/>',
+  bolt: '<path d="M13.4 3.2 5.6 13.2h5.2l-.8 7.6 8-10.4h-5.2z"/>',
+  help: '<circle cx="12" cy="12" r="8.2"/><path d="M9.7 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.2 1-1.2 1.9"/><circle cx="12" cy="16.9" r=".9" fill="currentColor" stroke="none"/>',
+  sliders: '<path d="M4 7.6h9.4M18 7.6h2M4 16.4h4.4M13 16.4h7"/><circle cx="15.6" cy="7.6" r="2.2"/><circle cx="10.6" cy="16.4" r="2.2"/>',
   bookmark: '<path d="M6.6 4.2h10.8v16l-5.4-3.9-5.4 3.9z"/>',
   history: '<path d="M4.2 12a7.8 7.8 0 1 0 2.4-5.6"/><path d="M4 4.4v4.2h4.2"/><path d="M12 8.2V12l2.8 1.8"/>',
   refresh: '<path d="M19.6 12a7.6 7.6 0 1 1-2.2-5.4"/><path d="M19.8 4.4v4.2h-4.2"/>',
@@ -78,6 +85,7 @@ export const ICONS: Record<IconName, string> = {
   info: '<circle cx="12" cy="12" r="8.2"/><path d="M12 11.2v5"/><circle cx="12" cy="7.9" r=".9" fill="currentColor" stroke="none"/>',
   sun: '<circle cx="12" cy="12" r="4.1"/><path d="M12 2.6v2.2M12 19.2v2.2M4.6 12H2.4M21.6 12h-2.2M6.7 6.7 5.2 5.2M18.8 18.8l-1.5-1.5M17.3 6.7l1.5-1.5M5.2 18.8l1.5-1.5"/>',
   moon: '<path d="M20.4 13.7A8.5 8.5 0 0 1 10.3 3.6a8.6 8.6 0 1 0 10.1 10.1Z"/>',
+  motion: '<path d="M3.8 9.2h9.4a2.7 2.7 0 1 0-2.7-2.7"/><path d="M3.8 12.4h6.4"/><path d="M3.8 15.6h11.6a2.5 2.5 0 1 1-2.5 2.5"/>',
   'check-circle': '<circle cx="12" cy="12" r="8.2"/><path d="m8.2 12.3 2.7 2.7 4.9-5.1"/>',
   'alert-triangle': '<path d="M12 4.4 3.6 19.4h16.8z"/><path d="M12 9.6v4.2"/><circle cx="12" cy="16.7" r=".9" fill="currentColor" stroke="none"/>',
   lock: '<rect x="4.8" y="10.4" width="14.4" height="9.8" rx="2.4"/><path d="M8.4 10.4V8a3.6 3.6 0 0 1 7.2 0v2.4"/><circle cx="12" cy="15.3" r="1.1" fill="currentColor" stroke="none"/>',

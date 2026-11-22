@@ -169,12 +169,188 @@ test('the paper library lists every paper with its key tier and real counts', as
   await go(page, 'library/');
   const rows = page.locator('[data-paper-row]');
   assert.equal(await rows.count(), 8);
+  await page.locator('details.papers-more > summary').click();
   await page.selectOption('#filter-key', 'official');
   await page.waitForFunction(() => /3 of 8 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
   assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 3);
   await page.selectOption('#filter-key', 'none');
   await page.waitForFunction(() => /4 of 8 papers shown/.test(document.querySelector('#filter-status')?.textContent ?? ''));
   assert.equal(await page.locator('[data-paper-row]:not([hidden])').count(), 4);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 16 — the Papers screen against 02-papers-library.png
+ * ------------------------------------------------------------------ */
+
+test('the Papers screen matches the reference composition without invented sessions', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+
+  // Title, one prominent search field, helper line.
+  assert.equal((await page.locator('h1').first().textContent())?.trim(), 'Papers');
+  const search = page.locator('#paper-search');
+  assert.equal(await search.count(), 1);
+  assert.equal(await search.getAttribute('placeholder'), 'Search inside papers…');
+  assert.equal(await search.getAttribute('type'), 'search');
+  assert.equal(await page.getByLabel('Search inside papers').count(), 1, 'the field has a real label');
+  assert.match(await page.locator('.papers-helper').textContent(), /800 questions/, 'the helper states the real corpus size');
+
+  // All chips are real filters, with a clear selected state.
+  const chips = page.locator('.filter-chip');
+  assert.equal(await chips.count(), 10, 'All + seven real years + Bookmarked');
+  assert.equal(await page.locator('[data-chip-year="all"]').getAttribute('aria-pressed'), 'true');
+  for (const year of ['2025', '2024', '2023', '2022', '2021', '2019', '2018']) {
+    assert.equal(await page.locator(`[data-chip-year="${year}"]`).count(), 1, `${year} is a chip`);
+  }
+  assert.equal(await page.locator('[data-chip-bookmarked]').getAttribute('aria-pressed'), 'false');
+
+  // One card per paper, with the real numbers and a truthful status.
+  const cards = page.locator('[data-paper-card]');
+  assert.equal(await cards.count(), 8);
+  const statuses = await page.locator('[data-paper-card] .status-badge').allInnerTexts();
+  assert.equal(statuses.filter((text) => /Official key/.test(text)).length, 3);
+  assert.equal(statuses.filter((text) => /Derived key/.test(text)).length, 1);
+  assert.equal(statuses.filter((text) => /No published key/.test(text)).length, 4);
+  for (const text of statuses) assert.match(text, /key/i, 'a status is words, not colour');
+
+  const body = await page.locator('.papers').innerText();
+  assert.doesNotMatch(body, /Shift 1|Shift 2|\(Evening\)|\(Morning\)|Late Shift/, 'no fictional sessions were imported');
+  assert.doesNotMatch(body, /Full Key|Partial Key|No Key\b/, 'the mock-up key labels are not claimed');
+  assert.match(body, /100 questions · 82 markable/, 'the real counts are shown');
+  assert.match(body, /15 held/, 'held items are stated');
+  assert.match(body, /3 board-voided/, 'board-voided items are stated');
+
+  // A real bookmark control per card, and the card still links to its reader.
+  assert.equal(await page.locator('[data-bookmark-toggle]').count(), 8);
+  const firstCard = page.locator('[data-paper-card]').first();
+  assert.match(await firstCard.locator('.paper-card-body').getAttribute('href'), /\/library\/jelet-et-p1-2025\/$/);
+  assert.equal(await firstCard.locator('[data-bookmark-toggle]').getAttribute('aria-pressed'), 'false');
+  assert.match(await firstCard.locator('[data-bookmark-toggle]').getAttribute('aria-label'), /Bookmark JELET 2025/);
+
+  // Keyboard: a chip is reachable and its pressed state is exposed.
+  await page.locator('[data-chip-year="2022"]').focus();
+  assert.equal(await page.evaluate(() => document.activeElement?.getAttribute('data-chip-year')), '2022');
+});
+
+test('the accuracy note follows the year options on Papers and leads other screens', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  const order = await page.evaluate(() => {
+    const chips = document.querySelector('.papers-chips');
+    const caution = document.querySelector('[data-content-caution]');
+    const list = document.querySelector('#paper-list');
+    return {
+      count: document.querySelectorAll('[data-content-caution]').length,
+      afterChips: Boolean(chips.compareDocumentPosition(caution) & Node.DOCUMENT_POSITION_FOLLOWING),
+      beforeList: Boolean(caution.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING),
+      firstInMain: document.querySelector('main').firstElementChild?.matches('[data-content-caution]') ?? false,
+    };
+  });
+  assert.equal(order.count, 1, 'the note appears once');
+  assert.equal(order.afterChips, true, 'the note sits below the year options');
+  assert.equal(order.beforeList, true, 'the note sits above the cards');
+  assert.equal(order.firstInMain, false, 'the title and search open the screen');
+
+  await go(page, 'practice/');
+  assert.equal(await page.locator('main > [data-content-caution]').count(), 1, 'other screens keep the note at the top');
+});
+
+test('the year chips, key filter and clear action narrow the real papers', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  const visible = () => page.locator('[data-paper-card]:not([hidden])').count();
+
+  await page.locator('[data-chip-year="2022"]').click();
+  assert.equal(await page.locator('[data-chip-year="2022"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-chip-year="all"]').getAttribute('aria-pressed'), 'false');
+  assert.equal(await visible(), 1);
+  assert.match(await page.locator('#filter-status').textContent(), /1 of 8 papers shown/);
+  assert.match(page.url(), /[?&]year=2022/);
+
+  // The same real filter remains available as a select for a longer list.
+  await page.locator('details.papers-more > summary').click();
+  assert.equal(await page.locator('#filter-year').inputValue(), '2022', 'chip and select stay in step');
+  await page.selectOption('#filter-key', 'official');
+  await page.waitForFunction(() => document.querySelector('[data-papers-empty]')?.hidden === false);
+  assert.equal(await visible(), 0, '2022 has no official key');
+  assert.match(await page.locator('[data-placard], [data-papers-empty]').first().innerText(), /No paper matches/);
+
+  await page.locator('[data-papers-empty] [data-clear-filters]').click();
+  assert.equal(await visible(), 8);
+  assert.equal(await page.locator('[data-chip-year="all"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-papers-empty]').isVisible(), false);
+  assert.equal(await page.locator('[data-clear-filters]').first().isVisible(), false, 'no clear button when nothing is filtered');
+});
+
+test('a card bookmark persists, drives the Bookmarked filter and agrees with You', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  const button = page.locator('[data-paper-card]').first().locator('[data-bookmark-toggle]');
+
+  await button.click();
+  await page.waitForFunction(() => document.querySelector('[data-bookmark-toggle]')?.getAttribute('aria-pressed') === 'true');
+  assert.match(await button.getAttribute('aria-label'), /Remove bookmark: JELET 2025/);
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForFunction(() => document.querySelector('[data-bookmark-toggle]')?.getAttribute('aria-pressed') === 'true');
+  assert.equal(await page.locator('[data-paper-card]').first().locator('[data-bookmark-toggle]').getAttribute('aria-pressed'), 'true', 'the bookmark is stored');
+
+  await page.locator('[data-chip-bookmarked]').click();
+  assert.equal(await page.locator('[data-chip-bookmarked]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 1, 'the filter reads the real store');
+  assert.match(await page.locator('#filter-status').textContent(), /1 of 8 papers shown/);
+
+  await go(page, 'you/');
+  await page.waitForFunction(() => !/Reading this device/.test(document.querySelector('[data-you-saved-note]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '1', 'You counts the same bookmark');
+
+  await go(page, 'library/');
+  await page.locator('[data-paper-card]').first().locator('[data-bookmark-toggle]').click();
+  await page.waitForFunction(() => document.querySelector('[data-bookmark-toggle]')?.getAttribute('aria-pressed') === 'false');
+  await page.locator('[data-chip-bookmarked]').click();
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 0);
+  assert.match(await page.locator('[data-papers-empty]').innerText(), /No bookmarked paper matches yet/);
+});
+
+test('the Papers search reads the real index, counts matches and survives Back', async (t) => {
+  const page = await context(t);
+  await go(page, 'library/');
+  await page.locator('#paper-search').fill('semiconductor');
+  await page.waitForFunction(() => /matching questions?/.test(document.querySelector('#filter-status')?.textContent ?? ''), null, { timeout: 30000 });
+  const status = await page.locator('#filter-status').textContent();
+  assert.match(status, /2 of 8 papers shown · 2 matching questions/, `the index is searched: ${status}`);
+  assert.equal(await page.locator('[data-paper-match]:not([hidden])').first().textContent(), '1 matching question');
+  assert.match(page.url(), /[?&]q=semiconductor/);
+
+  // A query with no match offers a way out.
+  await page.locator('#paper-search').fill('zzzznotacorpusword');
+  await page.waitForFunction(() => document.querySelector('[data-papers-empty]')?.hidden === false);
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 0);
+  await page.locator('[data-papers-empty] [data-clear-filters]').click();
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 8);
+
+  // Back from a reader restores the search, not an empty list.
+  await page.locator('#paper-search').fill('semiconductor');
+  await page.waitForFunction(() => /matching questions?/.test(document.querySelector('#filter-status')?.textContent ?? ''), null, { timeout: 30000 });
+  await page.locator('[data-paper-card]:not([hidden]) .paper-card-body').first().click();
+  await page.waitForURL(/\/library\/jelet-et-p1-/);
+  await page.goBack({ waitUntil: 'load' });
+  await page.waitForFunction(() => /matching questions?/.test(document.querySelector('#filter-status')?.textContent ?? ''), null, { timeout: 30000 });
+  assert.equal(await page.locator('#paper-search').inputValue(), 'semiconductor');
+  assert.equal(await page.locator('[data-paper-card]:not([hidden])').count(), 2);
+});
+
+test('a blocked bookmark store leaves the Papers list usable', async (t) => {
+  const page = await context(t);
+  await page.addInitScript(() => {
+    IDBFactory.prototype.open = function open() { throw new DOMException('Blocked', 'SecurityError'); };
+  });
+  await go(page, 'library/');
+  assert.equal(await page.locator('[data-paper-card]').count(), 8, 'the papers still list');
+  assert.equal(await page.locator('[data-bookmark-toggle]').first().isDisabled(), true);
+  assert.equal(await page.locator('[data-chip-bookmarked]').isDisabled(), true);
+  await page.locator('[data-paper-card]').first().locator('.paper-card-body').click();
+  await page.waitForURL(/\/library\/jelet-et-p1-2025\//);
+  assert.match(await page.locator('h1').first().textContent(), /JELET 2025/i);
 });
 
 test('a paper reader renders typeset maths, the key and the honest hold note', async (t) => {
@@ -477,6 +653,307 @@ test('a composed mock sits, marks with the board rules and lands in the review d
   assert.ok(queue >= 9, 'every unanswered item joins the queue');
   const link = await page.locator('#queue-list a').first().getAttribute('href');
   assert.match(link, /\/library\/jelet-et-p1-20\d\d\/#q\d+$/, 'a queued question links to the paper that holds it');
+});
+
+test('the result screen states its denominator, every outcome and the next actions', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  // Q1 correct (key D), Q2 wrong (key C, mark A), the rest blank.
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('.pane.active [data-jump="next"]').click();
+  await page.waitForFunction(() => document.querySelector('.pane.active')?.dataset.n === '2');
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+
+  // A headline score, a ring whose meaning is stated, and the exact denominator.
+  const hero = page.locator('[data-result-view] .result-hero');
+  assert.equal(await hero.locator('.score-hero b').textContent(), '3.75');
+  assert.match(await hero.textContent(), /of 103 marks/, 'the denominator is the marks this set can award');
+  assert.match(await page.locator('.result-ring').getAttribute('aria-label'), /percent of the markable total/);
+  assert.match(await hero.textContent(), /1 correct/);
+  assert.match(await hero.textContent(), /1 wrong/);
+  assert.match(await hero.textContent(), /80 blank/);
+  assert.match(await hero.textContent(), /3 voided by the board/);
+  assert.match(await page.locator('.result-note').textContent(), /85 questions were in scope/);
+
+  // The outcome chips are words, counted from the attempt.
+  const chips = page.locator('.result-count');
+  assert.equal(await chips.count(), 4, 'correct, wrong, blank and board-awarded');
+  const chipText = (await chips.allTextContents()).join(' | ');
+  for (const label of ['Correct', 'Wrong', 'Blank', 'Board-awarded']) assert.ok(chipText.includes(label), `${label} is spelled out`);
+
+  // One row per question, each with a worded status and a glyph.
+  assert.equal(await page.locator('[data-result-row]').count(), 85);
+  const firstRow = await page.locator('[data-result-row="jelet-et-p1-2025:q1"]').textContent();
+  assert.match(firstRow, /Question 1/);
+  assert.match(firstRow, /Mathematics · 1 mark/);
+  assert.match(firstRow, /Correct/);
+  const voided = await page.locator('[data-result-row="jelet-et-p1-2025:q41"] .pill').textContent();
+  assert.match(voided, /Board-awarded/, 'a board-voided item is named, not guessed');
+
+  // The reference actions, in its order, with the honest retry count.
+  const retry = page.locator('[data-retry-wrong]');
+  assert.equal(await retry.textContent(), 'Retry the 81 wrong or blank', 'every wrong or blank item is offered, and none of the board-awarded ones');
+  const review = page.locator('[data-result-view] .result-actions a.btn.ghost');
+  assert.equal(await review.textContent(), 'Review answers');
+  assert.match(await review.getAttribute('href'), /\/review\/$/);
+  assert.equal(await page.locator('[data-result-view] .result-action-back').count(), 1, 'a way back to Today');
+
+  // The sitting controls step aside, and nothing pretends to be an AI diagnosis.
+  assert.equal(await page.locator('.runner-bar').isVisible(), false, 'the submit bar is done');
+  const text = await page.locator('[data-result-view]').textContent();
+  assert.doesNotMatch(text, /AI |Artificial intelligence|focus on KVL/i);
+  assert.doesNotMatch(text, /60%|6 of 10/, 'the mock numbers are not in our content');
+});
+
+test('a result row opens by keyboard to show the answer, key, marks and paper', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+
+  const row = page.locator('[data-result-row="jelet-et-p1-2025:q1"]');
+  assert.equal(await row.locator('.result-item-body').isVisible(), false, 'rows start closed');
+  await row.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"]')?.open === true);
+  const facts = await row.locator('.result-facts').textContent();
+  assert.match(facts, /Your answerD/, 'the marked option is shown');
+  assert.match(facts, /KeyD/, 'the key letter is shown');
+  assert.match(facts, /\+1 of 1/, 'the mark calculation is shown');
+  assert.match(await row.textContent(), /official board answer key/i, 'the key tier is named');
+  const link = row.locator('.result-item-link');
+  assert.equal(await link.getAttribute('href'), `${base}library/${paper2025}/#subject-mathematics`, 'the row links back to the real paper');
+});
+
+test('a submitted result is recorded: a reload shows the same score without recalculating', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  const first = await page.locator('.score-hero b').textContent();
+
+  await page.reload();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  assert.equal(await page.locator('.score-hero b').textContent(), first, 'the recorded score is shown unchanged');
+  assert.match(await page.locator('[data-result-view] .eyebrow').textContent(), /Recorded result/);
+  assert.match(await page.locator('.result-note').textContent(), /not recalculated/);
+  assert.equal(await page.locator('[data-result-row]').count(), 85, 'every recorded outcome is still listed');
+  assert.equal(await page.locator('.runner-bar').isVisible(), false, 'the paper cannot be re-submitted from here');
+});
+
+test('the result keeps per-question provenance and a truthful gap when the key is not stored', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  const row = page.locator('[data-result-row="jelet-et-p1-2025:q1"]');
+  await row.locator('summary').click();
+  await page.waitForFunction(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"]')?.open === true);
+  const recorded = await page.evaluate(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"] .result-facts')?.textContent ?? '');
+  assert.match(recorded, /Your answerA/, 'the recorded option is read from the stored attempt');
+
+  // Reload: the saved result keeps the outcome but not the key text, and says so.
+  await page.reload();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+  const reloaded = page.locator('[data-result-row="jelet-et-p1-2025:q1"]');
+  await reloaded.locator('summary').click();
+  await page.waitForFunction(() => document.querySelector('[data-result-row="jelet-et-p1-2025:q1"]')?.open === true);
+  const facts = await reloaded.locator('.result-facts').textContent();
+  assert.match(facts, /Your answerA/);
+  assert.match(facts, /no key recorded/, 'the missing key text is admitted, not invented');
+});
+
+test('retrying builds a new attempt from the wrong and blank items and leaves the original alone', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.evaluate(() => { window.confirm = () => true; });
+  await page.locator('.pane.active .opt[data-option="D"]').click();
+  await page.locator('.pane.active [data-jump="next"]').click();
+  await page.waitForFunction(() => document.querySelector('.pane.active')?.dataset.n === '2');
+  await page.locator('.pane.active .opt[data-option="A"]').click();
+  await page.locator('[data-runner-submit]').click();
+  await page.waitForSelector('[data-result-view]', { timeout: 15000 });
+
+  const before = await page.evaluate(() => {
+    const attempt = JSON.parse(localStorage.getItem('jelet:attempts:v1')).attempts[0];
+    return { id: attempt.id, submittedAt: attempt.submittedAt, results: attempt.results.length, answered: attempt.responses['jelet-et-p1-2025:q1'] };
+  });
+
+  await page.locator('[data-retry-wrong]').click();
+  await page.waitForFunction(() => new URLSearchParams(location.search).has('retry'));
+  // The retry page filters its panes while it starts; wait for that, not just
+  // for the URL, so a slow machine cannot read the unfiltered paper.
+  await page.waitForFunction(
+    () => document.querySelectorAll('.pane[data-question]:not([hidden])').length === 81,
+    null,
+    { timeout: 20000 },
+  );
+  await page.waitForFunction(
+    () => JSON.parse(localStorage.getItem('jelet:attempts:v1') ?? '{"attempts":[]}').attempts.some((entry) => /retry-/.test(entry.id)),
+    null,
+    { timeout: 20000 },
+  );
+
+  // The retry loads only the items that were wrong or blank: 81 of 85 here.
+  const visible = await page.evaluate(() => document.querySelectorAll('.pane[data-question]:not([hidden])').length);
+  assert.equal(visible, 81, 'the correct question is not repeated');
+  const retried = await page.evaluate(() => document.querySelectorAll('.pane[data-question]:not([hidden])')[0]?.dataset.n);
+  assert.equal(retried, '2', 'the first repeated question is the one that was wrong');
+
+  // The submitted attempt is untouched, and the retry is its own attempt.
+  const after = await page.evaluate(() => {
+    const attempts = JSON.parse(localStorage.getItem('jelet:attempts:v1')).attempts;
+    const original = attempts.find((entry) => entry.id === 'jelet-et-p1-2025::full');
+    const retry = attempts.find((entry) => /retry-/.test(entry.id));
+    return {
+      count: attempts.length,
+      submittedAt: original?.submittedAt,
+      results: original?.results?.length,
+      answered: original?.responses['jelet-et-p1-2025:q1'],
+      retryId: retry?.id ?? '',
+      retryQuestions: retry?.questionIds?.length ?? 0,
+    };
+  });
+  assert.equal(after.count, 2, 'a retry is a new attempt, not an overwrite');
+  assert.equal(after.submittedAt, before.submittedAt, 'the original submission time is unchanged');
+  assert.equal(after.results, before.results, 'the original result is unchanged');
+  assert.deepEqual(after.answered, before.answered, 'the original answers are unchanged');
+  assert.match(after.retryId, /::full::retry-/);
+  assert.equal(after.retryQuestions, 81, 'the new attempt carries only the eligible questions');
+});
+
+test('an attempt marked submitted without a saved result shows a gap, never a score', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  await page.addInitScript(() => {
+    // An older or damaged record: submitted, but the marked result is missing.
+    const now = Date.now();
+    localStorage.setItem('jelet:attempts:v1', JSON.stringify({
+      schema: 1,
+      attempts: [{
+        id: 'jelet-et-p1-2025::full', paperId: 'jelet-et-p1-2025', paperYear: 2025,
+        paperLabel: 'JELET 2025 · Paper I', title: 'JELET 2025', mode: 'mock',
+        subjectKey: null, subjectLabel: null, questionIds: [], startedAt: now - 60000, updatedAt: now,
+        submittedAt: now - 1000, submissionId: 'sub-legacy', timeSpentSeconds: 60, deadlineAt: null,
+        responses: {}, responseTimes: {}, marked: [], visited: [], assisted: [],
+        limitSeconds: 7200, scopeMarks: 103, scopeQuestions: 85, results: [],
+      }],
+    }));
+  });
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  await page.waitForFunction(() => /no marked result was saved/.test(document.querySelector('[data-runner-results]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-result-view]').count(), 0, 'no score is invented');
+  assert.equal(await page.locator('[data-runner-results] .notice').count(), 1, 'the gap is stated plainly');
+  assert.match(await page.locator('[data-runner-results]').textContent(), /Nothing is invented here/);
+});
+
+test('the practice page explains its held items in complete sentences', async (t) => {
+  const page = await context(t);
+  await go(page, `practice/${paper2025}/`);
+  await page.waitForSelector('[data-runner]');
+  const text = await page.locator('.notice').first().textContent();
+  assert.match(text, /of the 100 questions in 2025/, 'the counts are separated by a space');
+  assert.match(text, /of the 103 marks above/, 'the scope marks are interpolated, not printed as a placeholder');
+  assert.match(text, /answers\.\s+Read the held items/, 'the sentences are separated');
+  assert.doesNotMatch(text, /\{[a-zA-Z]+\}/, 'no template placeholder reaches the page');
+});
+
+test('the Practice chooser offers only real modes, with real destinations', async (t) => {
+  const page = await context(t);
+  await go(page, 'practice/');
+  await page.waitForSelector('[data-mode-switch]');
+
+  assert.equal((await page.locator('h1').first().textContent())?.trim(), 'Practice');
+  const modes = page.locator('[data-mode]');
+  assert.equal(await modes.count(), 2, 'independent and with assistance');
+  assert.equal(await page.locator('[data-mode="independent"]').getAttribute('aria-pressed'), 'true');
+
+  // Five independent cards, each a link with a title, a description and a fact.
+  const cards = page.locator('[data-mode-panel="independent"] .practice-choice');
+  assert.equal(await cards.count(), 5);
+  for (const choice of ['paper', 'drill', 'original', 'mock', 'review']) {
+    const card = page.locator(`[data-choice="${choice}"]`);
+    assert.equal(await card.count(), 1, `${choice} is a single card`);
+    assert.ok((await card.locator('.choice-copy strong').textContent())?.trim().length, `${choice} has a title`);
+    assert.ok((await card.locator('.choice-text').textContent())?.trim().length, `${choice} explains itself`);
+    assert.ok((await card.locator('.choice-meta').textContent())?.trim().length, `${choice} states a real fact`);
+  }
+
+  // Every destination is a page that exists, or an anchor that exists here.
+  const links = await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href') ?? ''));
+  for (const href of links) {
+    if (href.startsWith('#')) {
+      assert.equal(await page.locator(href).count(), 1, `${href} exists on this page`);
+    } else {
+      const response = await page.request.get(origin + href);
+      assert.equal(response.status(), 200, `${href} is a live page`);
+    }
+  }
+
+  // The unsupported modes of the mock are not present.
+  const body = await page.locator('main').innerText();
+  assert.doesNotMatch(body, /Live Study Room|daily challenge|matchmaking|doubt solver/i);
+  assert.doesNotMatch(body, /AI |artificial intelligence/i);
+
+  // The queue card states the real, empty first-run state.
+  assert.match(await page.locator('[data-choice-queue]').textContent(), /Nothing waiting yet/);
+});
+
+test('the independent/assisted switch changes the panel and keeps everything reachable', async (t) => {
+  const page = await context(t);
+  await go(page, 'practice/');
+  await page.waitForSelector('[data-mode-switch]');
+  const independent = page.locator('[data-mode-panel="independent"]');
+  const assisted = page.locator('[data-mode-panel="assisted"]');
+  assert.equal(await independent.isVisible(), true);
+  assert.equal(await assisted.isVisible(), false);
+
+  // Keyboard: focus the second mode and press Enter.
+  await page.locator('[data-mode="assisted"]').focus();
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => document.querySelector('[data-mode="assisted"]')?.getAttribute('aria-pressed') === 'true');
+  assert.equal(await independent.isVisible(), false, 'the independent panel steps aside');
+  assert.equal(await assisted.isVisible(), true);
+  assert.match(await page.locator('[data-mode-note]').textContent(), /only assisted mode/i);
+
+  // The only assisted mode is the notebook quiz, and its card leads there.
+  const quiz = page.locator('[data-choice="quiz"]');
+  assert.equal(await quiz.count(), 1);
+  assert.match(await quiz.textContent(), /assisted/);
+  assert.match(await quiz.getAttribute('href'), /\/quiz\/$/);
+  assert.equal(await assisted.locator('a[href*="quiz/?s="]').count(), 4, 'each subject quiz is linked');
+
+  await page.locator('[data-mode="independent"]').click();
+  assert.equal(await independent.isVisible(), true);
+  assert.equal(await assisted.isVisible(), false);
+  assert.equal(await page.locator('[data-mode="assisted"]').getAttribute('aria-pressed'), 'false');
+});
+
+test('without JavaScript the Practice chooser shows every mode instead of a dead switch', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  await page.goto(origin + base + 'practice/', { waitUntil: 'load' });
+  assert.equal(await page.locator('[data-mode-switch]').isVisible(), false, 'the switch needs JavaScript and is not shown');
+  assert.equal(await page.locator('[data-mode-panel="independent"]').isVisible(), true);
+  assert.equal(await page.locator('[data-mode-panel="assisted"]').isVisible(), true, 'no mode is hidden behind a dead control');
+  assert.equal(await page.locator('.practice-choice').count(), 6, 'every card is present');
 });
 
 test('a mock is a link: the same specification always composes the same paper', async (t) => {
@@ -851,6 +1328,227 @@ test('hint and notebook progress survives returning and reload, without showing 
   assert(await closed(page, '[data-reveal="guided-check"]'));
 });
 
+/* ------------------------------------------------------------------ *
+ * Phase 19 — the lesson reading screen
+ * ------------------------------------------------------------------ */
+
+test('the lesson header gives the real reading position, and practice stays in reach', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  assert.equal(await page.locator('h1').textContent(), 'Parallel circuits');
+  assert.equal(await page.getByRole('link', { name: 'Back to Learn' }).getAttribute('href'), `${base}learn/`);
+  assert.match(await page.locator('.lesson-head-meta').textContent(), /DC circuits · 8 min read · Original · Revision 1/);
+
+  // A fresh visit starts at the first section, not at a flattering number.
+  await page.waitForFunction(() => document.querySelector('[data-lesson-pos]')?.textContent === '1');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '1');
+  assert.equal(await page.locator('.lesson-section-note [data-lesson-section]').textContent(), 'Section 1 of 6: Prerequisite');
+  const bar = page.locator('[data-lesson-bar]');
+  assert.equal(await bar.getAttribute('role'), 'progressbar');
+  assert.equal(await bar.getAttribute('aria-valuemax'), '6');
+  assert.equal(await bar.getAttribute('aria-valuenow'), '1');
+  assert.match(await bar.getAttribute('aria-valuetext'), /Section 1 of 6: Prerequisite/);
+  const width = await page.locator('[data-lesson-bar-fill]').evaluate((el) => el.getBoundingClientRect().width);
+  assert(width > 20 && width < 80, `the bar only marks the start of the lesson, got ${width}`);
+  assert(!/mastery|complete|finished/i.test(await page.locator('.lesson-head').textContent()), 'reading position must not read as mastery');
+  assert.equal(await page.locator('[data-lesson-bookmark]').getAttribute('aria-pressed'), 'false');
+  assert.match(await page.locator('[data-toc-visited]').textContent(), /1 of 6 visited/);
+
+  // The one practice card this lesson actually maps to, and nothing invented.
+  const practise = page.getByRole('link', { name: 'Practise this topic' });
+  assert.equal(await practise.getAttribute('href'), `${base}cards/orig-parallel-independent-v1/?from=lesson&topic=jelet-syllabus%3Aelectrical%3At04`);
+  assert.equal(await page.locator('[aria-labelledby="related-practice"] a').first().getAttribute('href'), `${base}cards/orig-parallel-independent-v1/?from=lesson&topic=jelet-syllabus%3Aelectrical%3At04`);
+  const html = await page.content();
+  assert(!/Listen to Audio/.test(html), 'no audio control may ship without an audio file');
+  assert(!/<audio/i.test(html), 'no audio element may ship without an audio file');
+  assert(!/Ask AI|AI analysis|AI-generated/i.test(html), 'no AI control may ship');
+
+  // The action bar rests on the tab bar instead of covering it, and the page keeps room for it.
+  const dock = await page.locator('.lesson-cta').boundingBox();
+  const tabbar = await page.locator('.tabbar').boundingBox();
+  assert(dock && tabbar);
+  assert(dock.y + dock.height <= tabbar.y + 1, 'the practice bar overlaps the tab bar');
+  assert(tabbar.y + tabbar.height >= page.viewportSize().height - 1);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(250);
+  const last = await page.locator('.lesson-back-today').boundingBox();
+  const dockAtBottom = await page.locator('.lesson-cta').boundingBox();
+  assert(last.y + last.height <= dockAtBottom.y, 'the last line of the lesson hides under the practice bar');
+});
+
+test('the reading position follows the section opened and resumes on exactly that section', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#independent-practice');
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '5');
+
+  await page.getByText('Check after attempting', { exact: true }).click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.section === 'independent-practice');
+  await page.waitForFunction(() => document.querySelector('[data-attempt-note]')?.hidden === false);
+  assert.equal(await page.locator('[data-attempt-note]').evaluate((el) => el.hidden), false);
+
+  // Coming back through Today's resume link lands on the same section, same place on the bar.
+  await go(page, chapter + '?resume=1#independent-practice');
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '5');
+  assert(!new URL(page.url()).search.includes('resume'), 'the resume parameter is cleaned from the address');
+  // The check itself still starts closed: a position is remembered, an answer is not handed over.
+  assert(await closed(page, '[data-reveal="independent-check"]'));
+  assert(await closed(page, '[data-reveal="hint-one"]'));
+});
+
+test('the lesson is readable and honest when the browser refuses storage', async (t) => {
+  const page = await context(t);
+  await page.addInitScript(() => {
+    const blocked = () => { throw new DOMException('Storage is blocked', 'SecurityError'); };
+    Storage.prototype.getItem = blocked;
+    Storage.prototype.setItem = blocked;
+    Storage.prototype.removeItem = blocked;
+    IDBFactory.prototype.open = blocked;
+  });
+  await go(page, chapter);
+  assert.equal(await page.locator('h1').textContent(), 'Parallel circuits');
+  assert.equal(await page.locator('[data-lesson-bookmark]').isDisabled(), true);
+  await page.getByText('Bookmarks are unavailable on this browser.').waitFor();
+  assert.equal(await page.locator('[data-save-note]').textContent(), 'Progress cannot be saved on this browser.');
+  await page.getByText('Hint 2 · Choose a relationship', { exact: true }).click();
+  assert(await page.locator('[data-reveal="hint-two"]').evaluate((el) => el.open));
+  assert.equal(await page.locator('[data-save-note]').textContent(), 'Progress cannot be saved on this browser.');
+  assert.match(await page.locator('.lesson-section-note [data-lesson-section]').textContent(), /Section 4 of 6: Guided practice/);
+});
+
+test('the lesson and its practice card point at each other without leaking the answer', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  await page.getByRole('link', { name: 'Practise this topic' }).click();
+  assert(new URL(page.url()).pathname.endsWith(`/cards/orig-parallel-independent-v1/`));
+  await page.getByText('Opened from the lesson · topic filter restored').waitFor();
+  const cardHtml = await page.content();
+  assert(!cardHtml.includes('1.5 A') && !cardHtml.includes('4.5 A'), 'the card leaked the answer');
+
+  await page.getByRole('link', { name: /Learn this concept/ }).click();
+  assert(new URL(page.url()).pathname.endsWith('/learn/parallel-circuits/'));
+  assert.equal(new URL(page.url()).hash, '#independent-practice');
+  await page.getByText('From an original practice card · topic filter restored').waitFor();
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+});
+
+test('the lesson is usable from the keyboard and does not overflow at 320px with 200% text', async (t) => {
+  const page = await context(t, { viewport: { width: 320, height: 700 } });
+  await go(page, chapter);
+  await page.locator('.lesson-back').focus();
+  assert(await page.locator('.lesson-back').evaluate((el) => el === document.activeElement));
+  await Promise.all([page.waitForURL(/\/learn\/$/), page.keyboard.press('Enter')]);
+  assert(new URL(page.url()).pathname.endsWith('/learn/'));
+  await go(page, chapter);
+  const small = await page.locator('.lesson-cta').boundingBox();
+  assert(small.height < 140, `the practice bar takes too much of a small screen: ${small.height}`);
+  await page.locator('.lesson-jump').focus();
+  await Promise.all([page.waitForURL(/#predict$/), page.keyboard.press('Enter')]);
+  assert.equal(new URL(page.url()).hash, '#predict');
+  await page.addStyleTag({ content: ':root { font-size: 200% !important; }' });
+  await page.waitForTimeout(250);
+  const size = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+  assert(size[0] <= size[1] + 1, `page-wide overflow at 320px / 200%: ${size}`);
+  const dock = await page.locator('.lesson-cta').boundingBox();
+  const tabbar = await page.locator('.tabbar').boundingBox();
+  assert(dock.y + dock.height <= tabbar.y + 1, 'the practice bar overlaps the tab bar at 320px / 200% text');
+  assert(await page.getByRole('link', { name: 'Practise this topic' }).isVisible());
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(250);
+  const last = await page.locator('.lesson-back-today').boundingBox();
+  assert(last.y + last.height <= dock.y, 'the last line hides under the practice bar at 200% text');
+});
+
+test('the contents records the sections actually read, not a completion score', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  await page.waitForFunction(() => document.querySelector('[data-toc-visited]')?.textContent?.includes('1 of 6 visited'));
+  await page.locator('.lesson-toc > summary').click();
+  assert.equal(await page.locator('.lesson-toc li[data-section="prerequisite"]').getAttribute('data-visited'), 'true');
+  assert.equal(await page.locator('.lesson-toc li[data-section="prerequisite"] a').getAttribute('aria-current'), 'true');
+  assert.equal(await page.locator('.lesson-toc li[data-section="predict"]').getAttribute('data-visited'), 'false');
+
+  await page.locator('.lesson-toc a[href="#worked-example"]').click();
+  await page.waitForFunction(() => document.querySelector('[data-toc-visited]')?.textContent?.includes('2 of 6 visited'));
+  assert.equal(await page.locator('.lesson-toc li[data-section="worked-example"]').getAttribute('data-visited'), 'true');
+  assert.equal(await page.locator('.lesson-toc li[data-section="worked-example"] a').getAttribute('aria-current'), 'true');
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), '3');
+
+  // The visit list is stored with the place, so it survives the next visit.
+  const stored = JSON.parse(await page.evaluate(() => localStorage.getItem('jelet:parallel-circuits:v1')));
+  assert.deepEqual(stored.visited, ['prerequisite', 'worked-example']);
+});
+
+test('returning to a lesson offers the saved section, and a fresh reader is not prompted', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#guided-practice');
+  await page.getByText('Hint 1 · Trace the nodes', { exact: true }).click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.section === 'guided-practice');
+  assert.equal(await page.locator('[data-resume-banner]').isVisible(), false, 'a deep link needs no prompt');
+
+  await go(page, chapter);
+  await page.locator('[data-resume-banner]').waitFor();
+  assert.equal(await page.locator('[data-resume-name]').textContent(), 'Guided practice');
+  await page.locator('[data-resume-continue]').click();
+  await page.waitForFunction(() => location.hash === '#guided-practice');
+  assert.equal(await page.locator('[data-resume-banner]').isVisible(), false);
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 4 of 6: Guided practice');
+
+  const fresh = await context(t);
+  await go(fresh, chapter);
+  await fresh.waitForTimeout(300);
+  assert.equal(await fresh.locator('[data-resume-banner]').isVisible(), false, 'a first visit must not invent a place');
+});
+
+test('a lesson can be bookmarked into the local workspace and removed again', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  const save = page.locator('[data-lesson-bookmark]');
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'false');
+  await save.click();
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'true');
+  assert.match(await page.locator('[data-bookmark-note]').textContent(), /Bookmarked in your workspace/);
+
+  await page.reload();
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'true');
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => (document.querySelector('#workspace-list')?.textContent ?? '').includes('Parallel circuits'));
+
+  await go(page, chapter);
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'true');
+  await page.locator('[data-lesson-bookmark]').click();
+  await page.waitForFunction(() => document.querySelector('[data-lesson-bookmark]')?.getAttribute('aria-pressed') === 'false');
+  assert.match(await page.locator('[data-bookmark-note]').textContent(), /Removed from your workspace/);
+  await go(page, 'workspace/');
+  await page.waitForFunction(() => !(document.querySelector('#workspace-list')?.textContent ?? '').includes('Parallel circuits'));
+});
+
+test('each worked step carries a written explanation, not an AI claim, and opening one keeps the place', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#worked-example');
+  const before = await page.locator('[data-lesson-pos]').textContent();
+  await page.locator('details[data-reveal="worked"] > summary').click();
+  await page.waitForFunction(() => document.querySelector('details[data-explain]')?.open === false);
+  await page.locator('details[data-explain] > summary').first().click();
+  await page.waitForFunction(() => document.querySelector('details[data-explain]')?.open === true);
+  assert.equal(await page.locator('[data-lesson-pos]').textContent(), before, 'a written explanation is not a new section');
+  assert.match(await page.locator('details[data-explain] p').first().textContent(), /12 V/);
+  const worked = await page.locator('details[data-reveal="worked"]').textContent();
+  assert.match(worked, /no AI is involved/);
+  assert(!/AI-generated|Ask AI|AI analysis/i.test(worked));
+});
+
+test('a place saved before the visit list existed still restores without inventing history', async (t) => {
+  const page = await context(t);
+  await go(page, chapter);
+  await page.evaluate(() => localStorage.setItem('jelet:parallel-circuits:v1', JSON.stringify({ section: 'independent-practice', guidedHints: ['hint-one'], independentRevealed: false })));
+  await go(page, chapter + '?resume=1#independent-practice');
+  await page.waitForFunction(() => document.querySelector('.lesson-section-note [data-lesson-section]')?.textContent === 'Section 5 of 6: Independent practice');
+  await page.getByText('Guided hint opened on this browser.').waitFor();
+  assert.equal(await page.locator('[data-toc-visited]').textContent(), ' · 1 of 6 visited');
+});
+
 test('the practice card shows stable identity, provenance and answer status without the answer', async (t) => {
   const page = await context(t);
   assert.equal((await go(page, card)).status(), 200);
@@ -876,6 +1574,120 @@ test('workspace saves a bookmark, note and resume, then survives reload', async 
   await page.waitForFunction(() => (document.querySelector('#workspace-list')?.textContent ?? '').includes('Retry the 9 V circuit'));
   await page.reload();
   await page.waitForFunction(() => (document.querySelector('#workspace-list')?.textContent ?? '').includes('Retry the 9 V circuit'));
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 20 — Learn catalog
+ * ------------------------------------------------------------------ */
+
+test('the Learn catalog lists the four real subjects with honest lesson counts', async (t) => {
+  const page = await context(t);
+  await go(page, 'learn/');
+  assert.equal(await page.locator('h1').textContent(), 'Learn');
+  assert.match(await page.locator('.learn-head .lead').textContent(), /Build your concepts/);
+  assert.equal(await page.locator('.learn-subject').count(), 4);
+  const electrical = page.locator('.learn-subject[data-subject="electrical"]');
+  assert.match(await electrical.textContent(), /1 of 8 topics has a written lesson/);
+  assert.equal(await electrical.locator('[role="progressbar"]').getAttribute('aria-valuenow'), '1');
+  assert.equal(await electrical.locator('[role="progressbar"]').getAttribute('aria-valuemax'), '8');
+  for (const subject of ['mathematics', 'physics', 'chemistry']) {
+    assert.match(await page.locator(`.learn-subject[data-subject="${subject}"]`).textContent(), /No written lesson yet/);
+  }
+
+  // Every syllabus topic is present once, with its true state.
+  assert.equal(await page.locator('[data-learn-topic]').count(), 42);
+  assert.equal(await page.locator('[data-learn-topic][data-has-lesson="true"]').count(), 1);
+  const lesson = page.locator('[data-learn-topic][data-has-lesson="true"] a');
+  assert.equal(await lesson.getAttribute('href'), `${base}learn/parallel-circuits/`);
+  assert.match(await lesson.textContent(), /Lesson · 8 min/);
+  const notesOnly = page.locator('[data-learn-topic][data-has-lesson="false"] a').first();
+  assert.match(await notesOnly.getAttribute('href'), /^\/Jelet-ultimate-prep\/notes\/[a-z]+\/#[a-z]+-t/);
+  assert.match(await notesOnly.textContent(), /Notes only/);
+
+  const html = await page.content();
+  assert(!/chapters completed|Audio Lesson|Ask AI Tutor/i.test(html), 'no reference-only counts or AI/audio affordances');
+  assert.equal(await page.locator('[data-learn-subject]').first().getAttribute('href'), '#subject-mathematics');
+});
+
+test('Learn search and the lesson filter narrow the catalog and reset honestly', async (t) => {
+  const page = await context(t);
+  await go(page, 'learn/');
+  const query = page.locator('[data-learn-query]');
+  assert.equal(await query.getAttribute('aria-label'), null);
+  assert.equal(await page.getByRole('searchbox', { name: 'Search topics, chapters or subjects' }).count(), 1, 'the search field has a real label');
+  assert.equal(await page.locator('[data-learn-status]').textContent(), '42 topics in the syllabus.');
+
+  await query.fill('parallel circuits');
+  await page.waitForFunction(() => /topics shown for/.test(document.querySelector('[data-learn-status]')?.textContent ?? ''));
+  const shown = await page.locator('[data-learn-topic]:not([hidden])').count();
+  assert(shown > 0 && shown < 42, `search narrows to a few topics, got ${shown}`);
+  assert(await page.locator('[data-learn-topic]:not([hidden]) a').first().isVisible());
+  assert.equal(await page.locator('[data-learn-clear]').isVisible(), true);
+
+  await query.fill('zzzz not a topic');
+  await page.waitForFunction(() => /0 of 42 topics shown/.test(document.querySelector('[data-learn-status]')?.textContent ?? ''));
+  assert.equal(await page.locator('[data-learn-empty]').isVisible(), true);
+  assert.equal(await page.locator('[data-learn-topic]:not([hidden])').count(), 0);
+  await page.locator('[data-learn-reset]').click();
+  await page.waitForFunction(() => document.querySelectorAll('[data-learn-topic]:not([hidden])').length === 42);
+  assert.equal(await query.inputValue(), '');
+
+  // The honest filter: one topic actually has a lesson.
+  await page.locator('[data-learn-filter="lesson"]').click();
+  await page.waitForFunction(() => document.querySelectorAll('[data-learn-topic]:not([hidden])').length === 1);
+  assert.equal(await page.locator('[data-learn-filter="lesson"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-learn-filter="all"]').getAttribute('aria-pressed'), 'false');
+  await page.locator('[data-learn-filter="notes"]').click();
+  await page.waitForFunction(() => document.querySelectorAll('[data-learn-topic]:not([hidden])').length === 41);
+  await page.locator('[data-learn-filter="all"]').click();
+
+  // A subject name finds its own ordered section.
+  await query.fill('electrical');
+  await page.waitForFunction(() => !document.querySelector('[data-learn-section][data-subject="electrical"]')?.hidden);
+  assert.equal(await page.locator('[data-learn-subject][data-subject="electrical"]').isVisible(), true);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 21 — Today dashboard
+ * ------------------------------------------------------------------ */
+
+test('the Today first fold is the brand, one real start and three live routes', async (t) => {
+  const page = await context(t);
+  await go(page);
+  assert.match(await page.locator('.today-brand').textContent(), /JELET/);
+  assert.match(await page.locator('.today-tagline').textContent(), /Smarter Study\. Brighter Tomorrow\./);
+  assert.equal(await page.locator('.appbar .brand-text').isVisible(), false, 'the bar does not repeat the in-page lockup');
+
+  const primary = page.locator('.today-primary-action');
+  assert.equal(await primary.getAttribute('href'), `${base}learn/parallel-circuits/`);
+  assert.equal(await page.locator('[data-next-eyebrow]').textContent(), 'Start here');
+  assert.equal(await page.locator('[data-next-label]').textContent(), 'Start the lesson');
+  assert((await primary.boundingBox()).height >= 44);
+  assert.equal(await page.locator('[data-today-meter]').isVisible(), false, 'no meter is drawn before anything is started');
+
+  const html = await page.content();
+  assert(!/AI Doubt|Formula Sheet|Daily Challenge|Ask AI|Focus Timer|25:00/i.test(html), 'the reference AI, formula, challenge and timer are not shipped');
+  assert.equal(await page.locator('.today-action-card').count(), 3);
+  assert.equal(await page.locator('.today-subject-grid .today-subject-card').count(), 4);
+  assert.equal(await page.locator('.today-review-card').count(), 1);
+});
+
+test('a returning reader gets the exact saved place, its meter and a truthful secondary action', async (t) => {
+  const page = await context(t);
+  await go(page, chapter + '#guided-practice');
+  await page.getByText('Hint 1 · Trace the nodes', { exact: true }).click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('jelet:parallel-circuits:v1') ?? 'null')?.section === 'guided-practice');
+  await go(page);
+  await page.waitForFunction(() => document.querySelector('[data-next-label]')?.textContent === 'Continue your lesson');
+  assert.equal(await page.locator('[data-next-heading]').textContent(), 'Welcome back to your lesson.');
+  assert.equal(await page.locator('[data-next-action]').getAttribute('href'), `${base}learn/parallel-circuits/?resume=1#guided-practice`);
+  assert.equal(await page.locator('[data-today-meter]').isVisible(), true);
+  assert.equal(await page.locator('[data-today-meter] [role="progressbar"]').getAttribute('aria-valuenow'), '4');
+  assert.equal(await page.locator('[data-today-meter] [role="progressbar"]').getAttribute('aria-valuemax'), '6');
+  assert.match(await page.locator('[data-today-meter-label]').textContent(), /Section 4 of 6 read/);
+  // The plan card is the only encouragement, and it leads to the real plan.
+  assert.equal(await page.locator('.today-encouragement').getAttribute('href'), `${base}plan/`);
+  assert(!/streak|guarantee|score prediction/i.test(await page.locator('.today-encouragement').textContent()));
 });
 
 /* ------------------------------------------------------------------ *
@@ -927,7 +1739,7 @@ test('the site keeps working with the network switched off', async () => {
 
     await ctx.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    assert.match(await page.locator('h1').first().textContent(), /Smarter study/i, 'the shell renders from the cache while offline');
+    assert.match(await page.locator('.today-tagline').textContent(), /Smarter Study/i, 'the shell renders from the cache while offline');
     // Cached navigation must work too, not just the home page.
     await page.goto(origin + base + 'syllabus/', { waitUntil: 'domcontentloaded' });
     assert.match(await page.locator('h1').first().textContent(), /Syllabus/i);
@@ -1556,9 +2368,9 @@ test('the shared icons are one consistent, accessible set', async (t) => {
   // Icon-only controls carry their own names.
   assert.equal(await page.getByRole('link', { name: 'Search questions and pages' }).count(), 1);
   assert.equal(await page.getByRole('button', { name: /Switch to (dark|light) theme/ }).count(), 1);
-  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).count(), 1);
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).count(), 1);
   // The switch's state is in aria-checked and in text, not colour alone.
-  const state = await page.getByRole('switch', { name: 'Dark theme' }).evaluate((el) => ({
+  const state = await page.getByRole('switch', { name: 'Dark mode' }).evaluate((el) => ({
     checked: el.getAttribute('aria-checked'),
     text: el.textContent?.trim(),
   }));
@@ -1572,8 +2384,8 @@ test('the You hub is a local study hub, not a sign-in screen', async (t) => {
   assert.match(await page.locator('h1').first().textContent(), /You/);
   assert.match(await page.locator('#privacy-heading').textContent(), /stays on this device/i);
 
-  const body = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
-  assert.match(body, /no account, no sign-in and nothing uploaded/i);
+  const body = (await page.locator('main').textContent()).replace(/\s+/g, ' ');
+  assert.match(body, /no account, no sign-in and nothing uploaded/i, 'the privacy statement is in the page, including the About disclosure');
   assert.doesNotMatch(body, /create an account|forgot password|notification bell|focus timer|live study room|auto-download/i);
   assert.equal(await page.locator('main img, header img').count(), 0, 'no avatar or profile image stands in for the learner');
   assert.equal(await page.locator('[data-notification], .notification-badge, [data-badge]').count(), 0);
@@ -1584,12 +2396,12 @@ test('the You hub is a local study hub, not a sign-in screen', async (t) => {
   assert.equal(await page.locator('[data-you-review]').textContent(), '0');
   assert.equal(await page.locator('[data-you-saved]').textContent(), '0');
   assert.match(await page.locator('[data-you-packs]').textContent(), /Nothing downloaded yet/);
-  assert.equal(await page.locator('[data-you-empty]').isVisible(), true, 'the empty state is offered, not a fabricated number');
+  assert.match(await page.locator('[data-you-saved-note]').textContent(), /Nothing saved yet/, 'the fresh state is stated, not a fabricated number');
   assert.match(await page.locator('[data-you-status]').textContent(), /Reading a page does not count as activity/);
 
   // The management rows reach the existing flows, and nothing downloads on load.
   assert.equal(await page.getByRole('link', { name: /Manage offline packs/ }).getAttribute('href'), '/Jelet-ultimate-prep/offline/');
-  assert.equal(await page.getByRole('link', { name: /Export my study record/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
+  assert.equal(await page.getByRole('link', { name: /Export backup/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
   assert.equal(await page.evaluate(() => localStorage.getItem('jelet:packs:v1')), null, 'opening You downloads nothing');
 });
 
@@ -1618,18 +2430,18 @@ test('the You hub reports the learner\u2019s own local activity and keeps it aft
   assert.equal(await page.locator('[data-you-attempts]').textContent(), '1');
   assert.match(await page.locator('[data-you-attempts-note]').textContent(), /1 submitted/);
   assert.equal(await page.locator('[data-you-review]').textContent(), '82', 'every answerable item missed is queued');
-  assert.equal(await page.locator('[data-you-saved]').textContent(), '2', 'one bookmark and one note');
-  assert.equal(await page.locator('[data-you-empty]').isVisible(), false);
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '1', 'the bookmark count is bookmarks, not notes');
+  assert.match(await page.locator('[data-you-saved-note]').textContent(), /1 bookmark · 1 note/, 'notes are reported beside the count');
 
   await page.reload();
   await page.waitForFunction(() => document.querySelector('[data-you-attempts]')?.textContent === '1');
-  assert.equal(await page.locator('[data-you-saved]').textContent(), '2', 'the hub reads the same store after a reload');
+  assert.equal(await page.locator('[data-you-saved]').textContent(), '1', 'the hub reads the same store after a reload');
 });
 
 test('the You preference and the header control drive one stored theme', async (t) => {
   const page = await context(t);
   await go(page, 'you/');
-  const toggle = page.getByRole('switch', { name: 'Dark theme' });
+  const toggle = page.getByRole('switch', { name: 'Dark mode' });
   assert.equal(await toggle.getAttribute('aria-checked'), 'false');
   assert.equal(await toggle.locator('[data-theme-state]').textContent(), 'Off');
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
@@ -1642,14 +2454,14 @@ test('the You preference and the header control drive one stored theme', async (
   assert.equal(await page.getByRole('button', { name: 'Switch to light theme' }).count(), 1, 'the header shows the same state');
 
   await page.reload();
-  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'), 'true');
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).getAttribute('aria-checked'), 'true');
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
 
   // The header control changes the same preference, and the hub follows it.
   await page.getByRole('button', { name: 'Switch to light theme' }).click();
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
   assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), 'light');
-  assert.equal(await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'), 'false');
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).getAttribute('aria-checked'), 'false');
 });
 
 test('blocked storage leaves the You hub usable and honest', async (t) => {
@@ -1666,12 +2478,119 @@ test('blocked storage leaves the You hub usable and honest', async (t) => {
   assert.match(await page.locator('[data-you-status]').textContent(), /nothing will be saved/i);
   assert.equal(await page.locator('[data-you-attempts]').textContent(), '\u2014');
   assert.match(await page.locator('[data-theme-status]').textContent(), /not saving/i, 'the preference says it cannot be saved');
-  assert.equal(await page.locator('[data-you-empty]').isVisible(), false, 'an unavailable store is not reported as an empty one');
+  assert.match(await page.locator('[data-motion-status]').textContent(), /not saving/i, 'the motion preference says the same');
+  assert.equal(await page.locator('[data-motion-status]').isVisible(), true, 'the limitation is shown, not hidden');
+  // localStorage is blocked; the bookmark index (IndexedDB) behaves independently and is
+  // reported for what it is rather than being folded into a fake empty state.
+  assert.match(await page.locator('[data-you-saved-note]').textContent() ?? '', /Nothing saved yet|Bookmarks are unavailable/);
 
   // The theme still works for the page in hand; only the saving is refused.
-  await page.getByRole('switch', { name: 'Dark theme' }).click();
+  await page.getByRole('switch', { name: 'Dark mode' }).click();
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
   assert.match(await page.locator('[data-theme-status]').textContent(), /not saving/i);
+});
+
+/* ------------------------------------------------------------------ *
+ * Phase 15 — the You screen against 01-settings.png
+ * ------------------------------------------------------------------ */
+
+test('the You screen follows the settings reference: privacy, preferences, activity, destinations', async (t) => {
+  const page = await context(t);
+  await go(page, 'you/');
+
+  // The four groups appear in the reference order.
+  const tops = await page.evaluate(() => {
+    const top = (selector) => document.querySelector(selector)?.getBoundingClientRect().top ?? -1;
+    const headings = [...document.querySelectorAll('.you-heading')];
+    const at = (label) => headings.find((node) => new RegExp(label, 'i').test(node.textContent ?? ''))?.getBoundingClientRect().top ?? -1;
+    return {
+      privacy: top('.you-hero'),
+      preferences: at('Preferences'),
+      activity: at('My activity'),
+      manage: top('[aria-label="Manage your record"]'),
+      bar: top('.tabbar'),
+    };
+  });
+  assert.ok(tops.privacy < tops.preferences, `privacy precedes preferences: ${JSON.stringify(tops)}`);
+  assert.ok(tops.preferences < tops.activity, `preferences precedes activity: ${JSON.stringify(tops)}`);
+  assert.ok(tops.activity < tops.manage, `activity precedes the destination card: ${JSON.stringify(tops)}`);
+
+  // One tinted privacy card with a lock glyph, never an avatar.
+  assert.match(await page.locator('#privacy-heading').textContent(), /stays on this device/i);
+  assert.equal(await page.locator('.you-hero svg.icon').count(), 1);
+  assert.equal(await page.locator('main img, header img').count(), 0, 'no profile image stands in for the learner');
+
+  // Two real preference switches, named and with a word state.
+  const switches = page.locator('.settings-card [role="switch"]');
+  assert.equal(await switches.count(), 2);
+  assert.deepEqual(await switches.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('aria-checked'))), ['false', 'false']);
+  assert.equal(await page.getByRole('switch', { name: 'Dark mode' }).count(), 1);
+  assert.equal(await page.getByRole('switch', { name: 'Reduce motion' }).count(), 1);
+  for (const node of await switches.all()) {
+    const box = await node.boundingBox();
+    assert.ok(box.height >= 44 && box.width >= 44, `a switch meets the touch target: ${JSON.stringify(box)}`);
+  }
+  assert.doesNotMatch(await page.locator('main').innerText(), /auto[- ]download/i, 'the mock-up auto-download toggle was not implemented');
+
+  // Exactly two activity cards showing real zeroes, not the mock-up's 24 and 18.
+  const activity = page.locator('[aria-labelledby="activity-heading"]');
+  assert.equal(await page.locator('.activity-card').count(), 2);
+  assert.equal(await activity.locator('[data-you-saved]').textContent(), '0');
+  assert.equal(await activity.locator('[data-you-attempts]').textContent(), '0');
+  const activityText = await activity.innerText();
+  assert.doesNotMatch(activityText, /Recently Viewed/, 'no history feature is implied');
+  assert.doesNotMatch(activityText, /\b(?:24|18)\b/, 'no sample counts were copied from the concept image');
+
+  // At the reference phone size the whole settings card sits above the tab bar.
+  const framing = await page.evaluate(() => {
+    const manage = document.querySelector('[aria-label="Manage your record"]').getBoundingClientRect();
+    const bar = document.querySelector('.tabbar').getBoundingClientRect();
+    return { bottom: Math.round(manage.bottom), barTop: Math.round(bar.top), viewport: innerHeight };
+  });
+  assert.ok(framing.bottom <= framing.barTop + 1, `the reference screen fits above the tab bar: ${JSON.stringify(framing)}`);
+
+  // Three destination rows: offline packs, backup and about/sources.
+  const manage = page.locator('[aria-label="Manage your record"]');
+  assert.equal(await manage.locator('> .settings-row').count(), 2);
+  assert.equal(await manage.locator('> .settings-disclosure').count(), 1);
+  assert.equal(await manage.getByRole('link', { name: /Manage offline packs/ }).getAttribute('href'), '/Jelet-ultimate-prep/offline/');
+  assert.equal(await manage.getByRole('link', { name: /Export backup/ }).getAttribute('href'), '/Jelet-ultimate-prep/workspace/#record-backup');
+  const about = manage.locator('details[data-about]');
+  assert.equal(await about.locator('summary').innerText(), 'About & sources');
+  assert.equal(await about.locator('.settings-body').isVisible(), false, 'the sources stay collapsed until asked for');
+  await about.locator('summary').click();
+  assert.equal(await about.locator('.settings-body').isVisible(), true);
+  assert.match(await about.locator('.settings-body').innerText(), /not affiliated/i, 'the independent-site statement is real');
+  for (const href of await about.locator('.settings-links a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))) {
+    assert.equal((await fetch(origin + href)).status, 200, `${href} resolves`);
+  }
+});
+
+test('the motion preference follows the device and keeps an explicit choice', async (t) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(8000);
+  await page.goto(origin + base + 'you/', { waitUntil: 'load' });
+
+  // The device asks for less motion; the row shows it before any choice.
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'reduce');
+  const toggle = page.getByRole('switch', { name: 'Reduce motion' });
+  assert.equal(await toggle.getAttribute('aria-checked'), 'true');
+  assert.equal(await toggle.locator('[data-motion-state]').textContent(), 'On');
+  assert.match(await page.locator('[data-motion-status]').textContent(), /Following this device/);
+  const duration = await page.evaluate(() => getComputedStyle(document.querySelector('.iconbtn')).transitionDuration);
+  assert.ok(Number.parseFloat(duration) <= 0.001, `a transition is effectively off: ${duration}`);
+
+  // A deliberate "no" is stored and outranks the device preference.
+  await toggle.click();
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'full');
+  assert.equal(await toggle.getAttribute('aria-checked'), 'false');
+  assert.equal(await page.evaluate(() => localStorage.getItem('jelet:motion:v1')), 'full');
+  await page.reload({ waitUntil: 'load' });
+  assert.equal(await page.locator('html').getAttribute('data-motion'), 'full');
+  assert.equal(await page.getByRole('switch', { name: 'Reduce motion' }).getAttribute('aria-checked'), 'false');
+  assert.match(await page.locator('[data-motion-status]').textContent(), /Saved in this browser/);
 });
 
 test('the shared tokens keep readable contrast in light and dark', async (t) => {
@@ -1754,13 +2673,13 @@ test('the shell follows the operating-system theme until a choice is stored', as
     await page.goto(origin + base + 'you/', { waitUntil: 'load' });
     assert.equal(await page.locator('html').getAttribute('data-theme'), expected, `the page starts in the ${expected} theme`);
     assert.equal(
-      await page.getByRole('switch', { name: 'Dark theme' }).getAttribute('aria-checked'),
+      await page.getByRole('switch', { name: 'Dark mode' }).getAttribute('aria-checked'),
       String(expected === 'dark'),
       'the preference row shows the theme in use',
     );
     assert.match(await page.locator('[data-theme-status]').textContent(), /Following this device/, 'no choice has been stored yet');
     // A deliberate choice is stored and wins over the system preference.
-    await page.getByRole('switch', { name: 'Dark theme' }).click();
+    await page.getByRole('switch', { name: 'Dark mode' }).click();
     const chosen = expected === 'dark' ? 'light' : 'dark';
     assert.equal(await page.evaluate(() => localStorage.getItem('jelet:theme')), chosen);
     await page.reload({ waitUntil: 'load' });

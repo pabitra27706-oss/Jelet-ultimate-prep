@@ -38,7 +38,26 @@ export function validateSections(lessonId: string, declared: readonly string[]):
   }
 }
 
-export type Progress = { section: Section; guidedHints: string[]; independentRevealed: boolean };
+/**
+ * What one lesson remembers on this device.
+ *
+ * `visited` is the honest record of which sections have been on screen. It is
+ * a reading position, never a mark: a section can be visited and not
+ * understood, and nothing here is ever reported as mastery or completion.
+ */
+export type Progress = {
+  section: Section;
+  guidedHints: string[];
+  independentRevealed: boolean;
+  visited: Section[];
+};
+
+/** Add a section to the visit list, keeping the teaching order. */
+export function recordVisit(progress: Progress, section: Section): Progress {
+  if (progress.visited.includes(section)) return progress;
+  const visited = sections.filter((entry) => progress.visited.includes(entry) || entry === section);
+  return { ...progress, visited: [...visited] };
+}
 
 /** The storage key for one lesson's place. */
 export const progressKey = (lessonId: string): string => `${storagePrefix}${lessonId}:${storageVersion}`;
@@ -60,6 +79,11 @@ export function readProgress(lessonId: string): { progress?: Progress; available
             guidedHints: [...new Set<string>((parsed.guidedHints as unknown[]).filter((hint): hint is string =>
               typeof hint === 'string' && validHints.includes(hint)))],
             independentRevealed: parsed.independentRevealed,
+            // Records written before the visit list existed simply have none;
+            // nothing is invented for them.
+            visited: Array.isArray(parsed.visited)
+              ? sections.filter((entry) => (parsed.visited as unknown[]).includes(entry))
+              : [],
           } };
         }
       } catch { /* Ignore old or damaged data; never interpolate it into a URL. */ }

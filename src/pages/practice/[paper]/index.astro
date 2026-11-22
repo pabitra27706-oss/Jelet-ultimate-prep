@@ -62,12 +62,12 @@ const scopeMarks = questions.reduce((sum, question) => sum + question.marks, 0);
 
   {paper.heldQuestions > 0 && (
     <div class="notice" style="margin-bottom:1rem">
-      <strong>This is a labelled incomplete paper.</strong> {paper.heldQuestions} of the {paper.questionCount}
+      <strong>This is a labelled incomplete paper.</strong> {paper.heldQuestions} of the {paper.questionCount}{' '}
       questions in {paper.year} depend on a diagram or options that the preserved transcription does not reproduce, so
       they cannot be marked. They are excluded from the paper above and from the total — the maximum you can score here
       is {scopeMarks} of the paper's {paper.maxMarks} marks.
-      {paper.boardAwardedQuestions > 0 && ` ${paper.boardAwardedQuestions} more question${paper.boardAwardedQuestions === 1 ? ' was' : 's were'} voided by the board, so its marks go to every candidate; ${paper.boardAwardedMarks} of the {scopeMarks} marks above come from the board's award rather than from your answers.`}
-      Read the held items in the <a href={`${base}library/${paper.id}/`}>full paper view</a>.
+      {paper.boardAwardedQuestions > 0 && ` ${paper.boardAwardedQuestions} more question${paper.boardAwardedQuestions === 1 ? ' was' : 's were'} voided by the board, so those marks go to every candidate; ${paper.boardAwardedMarks} of the ${scopeMarks} marks above come from the board's award rather than from your answers.`}
+      {' '}Read the held items in the <a href={`${base}library/${paper.id}/`}>full paper view</a>.
     </div>
   )}
 

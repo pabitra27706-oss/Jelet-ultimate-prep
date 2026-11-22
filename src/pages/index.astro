@@ -30,32 +30,39 @@ const subjectSymbols: Record<string, string> = {
 };
 ---
 <Site title="Today" active="today" description="Your JELET Paper I dashboard: a timed full mock, subject drills, previous-year papers with board answer keys, and spaced revision built from your own attempts.">
-  <section class="today-hero" aria-labelledby="today-title">
-    <div class="today-hero-copy">
-      <p class="eyebrow">JELET Paper I</p>
-      <h1 id="today-title">Smarter Study. Brighter Tomorrow.</h1>
-      <p class="today-subjects">Independent preparation, one clear step at a time.</p>
+  <header class="today-top">
+    <div class="today-top-copy">
+      <p class="today-brand">JELET <span>Ultimate Prep</span></p>
+      <p class="today-tagline">Smarter Study. Brighter Tomorrow.</p>
     </div>
-    <div class="today-next">
-      <p class="today-next-label"><span aria-hidden="true">✦</span><span data-next-eyebrow>Start here</span></p>
-      <h2 data-next-heading>Parallel circuits</h2>
-      <p data-next-copy>Electrical · Original lesson · 8 min</p>
-      <a class="today-primary-action" data-next-action href={`${base}learn/parallel-circuits/`}><span data-next-label>Start the lesson</span><span aria-hidden="true">↗</span></a>
-      <details class="today-more-options">
-        <summary>More ways to study <span aria-hidden="true">＋</span></summary>
-        <div class="today-quick-links">
-          <a href={`${base}plan/`}>Build today’s plan</a>
-          <a href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
-          <a href={`${base}mock/`}>Build your own mock</a>
-        </div>
-      </details>
-    </div>
+    <a class="today-me" href={`${base}you/`} aria-label="Your settings and record">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8.4" r="3.6"/><path d="M4.8 20c.6-3.6 3.6-5.6 7.2-5.6s6.6 2 7.2 5.6"/></svg>
+    </a>
+  </header>
+
+  <section class="today-feature" aria-labelledby="today-title">
+    <p class="today-feature-eyebrow"><span data-next-eyebrow>Start here</span></p>
+    <h1 id="today-title" data-next-heading>Parallel circuits</h1>
+    <p class="today-feature-copy" data-next-copy>Electrical · Original lesson · 8 min</p>
+    <p class="today-feature-meter" data-today-meter hidden>
+      <span class="today-feature-track" role="progressbar" aria-label="Your place in this lesson" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><span data-today-meter-fill></span></span>
+      <small data-today-meter-label></small>
+    </p>
+    <a class="today-primary-action" data-next-action href={`${base}learn/parallel-circuits/`}><span data-next-label>Start the lesson</span><span aria-hidden="true">→</span></a>
+    <details class="today-more-options">
+      <summary>More ways to study <span aria-hidden="true">＋</span></summary>
+      <div class="today-quick-links">
+        <a href={`${base}plan/`}>Build today’s plan</a>
+        <a href={`${base}practice/${mockPaper.id}/`}>Start the {mockPaper.year} full paper</a>
+        <a href={`${base}mock/`}>Build your own mock</a>
+      </div>
+    </details>
   </section>
 
   <section class="today-actions today-section" aria-labelledby="quick-actions-heading">
     <div class="section-head">
       <h2 id="quick-actions-heading">Quick actions</h2>
-      <span class="micro">Choose the kind of study that fits right now.</span>
+      <a class="micro" href={`${base}practice/`}>See all →</a>
     </div>
     <div class="today-action-grid">
       <a class="today-action-card" href={`${base}learn/`}>
@@ -126,7 +133,7 @@ const subjectSymbols: Record<string, string> = {
       <a class="micro" href={`${base}learn/`}>Browse all lessons →</a>
     </div>
     <p class="micro">
-      Choose a subject to practise questions with a published key. Counts show what is available in the {mockPaper.year} paper.
+      Questions answered on this device, out of the {mockPaper.year} keyed set for each subject.
     </p>
     <div class="today-subject-grid">
       {drills.map((subject) => (
@@ -201,7 +208,7 @@ const subjectSymbols: Record<string, string> = {
     import { readAttempts } from '../lib/attempts';
     import { readQueue } from '../lib/review';
     import { buildStats } from '../lib/stats';
-    import { readProgress, isSection } from '../progress';
+    import { readProgress, isSection, sections } from '../progress';
 
     const marker = document.querySelector<HTMLElement>('[data-scorable-total]');
     // The coverage denominator is the answerable corpus. A board-voided item
@@ -214,6 +221,21 @@ const subjectSymbols: Record<string, string> = {
     const attempts = readAttempts();
     const queue = readQueue();
     const stats = buildStats(attempts, queue, scorableTotal);
+
+    /* One real measure of the current activity, never a score. */
+    const meterWrap = document.querySelector<HTMLElement>('[data-today-meter]');
+    const meterFill = document.querySelector<HTMLElement>('[data-today-meter-fill]');
+    const meterLabel = document.querySelector<HTMLElement>('[data-today-meter-label]');
+    const meterTrack = document.querySelector<HTMLElement>('[data-today-meter] [role="progressbar"]');
+    function paintMeter(now: number, max: number, label: string) {
+      if (!meterWrap || !meterTrack || max <= 0) return;
+      meterWrap.hidden = false;
+      meterTrack.setAttribute('aria-valuemax', String(max));
+      meterTrack.setAttribute('aria-valuenow', String(now));
+      meterTrack.setAttribute('aria-valuetext', label);
+      if (meterFill) meterFill.style.width = `${Math.round((now / max) * 100)}%`;
+      if (meterLabel) meterLabel.textContent = label;
+    }
 
     const set = (key: string, value: string) => {
       const node = document.querySelector(`[data-stat="${key}"]`);
@@ -312,6 +334,7 @@ const subjectSymbols: Record<string, string> = {
         ? `Submitted ${when} · ${answered} of ${total} answered`
         : `In progress · ${answered} of ${total} answered`;
       const paperSlug = resume.paperId.replace('jelet-et-p1-', '');
+      if (total > 0) paintMeter(answered, total, `${answered} of ${total} answered`);
 
       const card = document.createElement('div');
       card.className = 'card-flat';
@@ -349,6 +372,8 @@ const subjectSymbols: Record<string, string> = {
       card.append(row);
       slot.replaceChildren(card);
     } else if (!resume && progress && isSection(progress.section)) {
+      const place = sections.indexOf(progress.section) + 1;
+      paintMeter(place, sections.length, `Section ${place} of ${sections.length} read`);
       const heroAction = document.querySelector<HTMLAnchorElement>('[data-next-action]');
       const heroActionLabel = document.querySelector<HTMLElement>('[data-next-label]');
       const heroHeading = document.querySelector<HTMLElement>('[data-next-heading]');

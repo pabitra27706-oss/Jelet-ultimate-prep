@@ -4,6 +4,11 @@
 
 **Gate:** begin after Phase 17 review. This phase changes the Practice destination/entry surface; question runner controls and result rendering remain separately governed.
 
+**Status (2026-11-21):** built and agent-verified on branch
+`arena/61a4f729-jelet-ultimate-prep` and awaiting the owner's visual review —
+see the [evidence record](2026-11-21-phase-18-practice-choices.md) and
+[screenshots](screenshots/). Phase 19 must not start until this is accepted.
+
 ## Goal
 
 Turn the current practice index into a clear, inviting choice of supported ways to work, inspired by the reference’s large mode cards and independent/assisted selector.

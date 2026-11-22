@@ -10,6 +10,7 @@
  */
 import '../styles/site.css';
 import Icon from '../components/Icon.astro';
+import ContentCaution from '../components/ContentCaution.astro';
 import type { IconName } from '../lib/icons';
 
 const {
@@ -17,6 +18,7 @@ const {
   active = '',
   canonical,
   description = 'Free, independent JELET Paper I preparation: previous-year papers with board answer keys, timed practice, marking rules and spaced revision.',
+  caution = 'top',
 } = Astro.props as {
   title: string;
   active?:
@@ -34,6 +36,12 @@ const {
     | '';
   canonical?: string;
   description?: string;
+  /**
+   * Where the accuracy caution appears. `top` puts it directly under the
+   * header (the default); `inline` leaves it to the page, which renders
+   * `ContentCaution` itself further down.
+   */
+  caution?: 'top' | 'inline';
 };
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
@@ -73,21 +81,29 @@ const secondary: { label: string; href: string }[] = [
     {canonical && <link rel="canonical" href={canonical} />}
     <title>{title} · JELET Ultimate Prep</title>
     <script is:inline>
-      // Set the theme before first paint so a dark-mode learner never sees a flash.
+      // Set the theme and the motion preference before first paint so a
+      // dark-mode learner never sees a flash and a reduced-motion learner
+      // never sees a transition they asked not to have.
       (() => {
+        const device = () => ({
+          theme: (() => { try { return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch { return 'light'; } })(),
+          motion: (() => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduce' : 'full'; } catch { return 'full'; } })(),
+        });
         try {
-          const stored = localStorage.getItem('jelet:theme');
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.dataset.theme = stored === 'dark' || stored === 'light'
-            ? stored
-            : (prefersDark ? 'dark' : 'light');
+          const storedTheme = localStorage.getItem('jelet:theme');
+          const storedMotion = localStorage.getItem('jelet:motion:v1');
+          const fallback = device();
+          document.documentElement.dataset.theme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : fallback.theme;
+          document.documentElement.dataset.motion = storedMotion === 'reduce' || storedMotion === 'full' ? storedMotion : fallback.motion;
         } catch { /* storage blocked: match the device instead */
-          try { document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } catch { /* default light */ }
+          const fallback = device();
+          document.documentElement.dataset.theme = fallback.theme;
+          document.documentElement.dataset.motion = fallback.motion;
         }
       })();
     </script>
   </head>
-  <body>
+  <body data-page={active || 'other'}>
     <a class="skip" href="#main">Skip to content</a>
     <header class="appbar">
       <div class="wrap appbar-inner">
@@ -125,19 +141,7 @@ const secondary: { label: string; href: string }[] = [
       </div>
     </header>
     <main class:list={['wrap', 'main']} id="main" tabindex="-1">
-      {['library', 'practice', 'review'].includes(active) && (
-        <details class="content-caution" aria-label="Question and answer accuracy notice" data-content-caution>
-          <summary>
-            <span class="caution-mark" aria-hidden="true">i</span>
-            <span class="caution-summary"><strong>Accuracy note</strong><small>Some question text and answers have unresolved issues.</small></span>
-            <span class="caution-action">Details <span aria-hidden="true">⌄</span></span>
-          </summary>
-          <div class="content-caution-copy">
-            <p>Known issues include transcription errors, ambiguous wording and disputed answers. Derived answers are not official board keys, and agreement between AI reviews does not guarantee correctness. Official key labels are retained, but a matching label does not verify the transcribed option text.</p>
-            <p>Use scores as practice feedback, not a certified measure of exam readiness. If an item appears inconsistent, consult the original paper and the applicable final board key, where available. Further answer review is paused; this notice does not resolve the issues or change which questions are marked.</p>
-          </div>
-        </details>
-      )}
+      {caution === 'top' && ['library', 'practice', 'review'].includes(active) && <ContentCaution />}
       <slot />
     </main>
     <footer class="site-footer">
@@ -165,8 +169,10 @@ const secondary: { label: string; href: string }[] = [
     </nav>
     <script>
       import { initTheme } from '../lib/theme';
+      import { initMotion } from '../lib/motion';
 
       initTheme();
+      initMotion();
 
       // Offline support. The worker only caches this site's own files.
       if ('serviceWorker' in navigator) {

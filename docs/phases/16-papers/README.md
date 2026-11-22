@@ -4,6 +4,12 @@
 
 **Gate:** start only after Phase 15 is visually reviewed. This phase covers the Papers landing/list only; question-reader layout is changed only where necessary to keep the listing-to-reader journey coherent and must be called out for review.
 
+**Status (2026-11-21):** built, agent-verified and **accepted by the owner**
+(the owner reported the device pass on 2026-11-21/22 and asked for the next
+phase) on branch `arena/61a4f729-jelet-ultimate-prep` — see the
+[evidence record](2026-11-21-phase-16-papers.md) and
+[screenshots](screenshots/). The reader layout was not changed.
+
 ## Goal
 
 Make the real JELET Paper I archive easy to find, filter and open, using the reference’s search field, year chips and clear paper cards without importing its fictional 2023 sessions or “Full/Partial/No Key” claims.

@@ -153,3 +153,126 @@ Each capture is a headless Chromium render of `dist/` at the site's real
 subpath. The script fails on a console/page error or a non-200 response. The
 phone bezel, OS status bar and home indicator are not part of the page, so they
 do not appear.
+
+## 9. Phase 15 — the You screen contract (for Phases 16–21)
+
+Phase 15 refined `/you/` against `01-settings.png` without changing any route,
+store key or export contract. Later screens should reuse this vocabulary rather
+than invent a second settings style.
+
+- **Layout:** `.you` is a 40 rem centred column; `.you-hero` is the tinted
+  privacy card; `.you-heading` labels a group; `.settings-card` groups rows;
+  `.settings-row` is one 62 px full-row link or control; `.settings-icon` is
+  the teal 22 px glyph slot; `.settings-copy`, `.settings-label` and
+  `.settings-sub` hold the text; `.settings-chevron` is decorative. The
+  optional disclosure is `details.settings-disclosure` with `.settings-body`.
+- **Activity:** `.you-activity` is a two-column grid above `22rem` and a single
+  column below it; `.activity-card` is a link with `.activity-icon`,
+  `.activity-label`, `.activity-value` and a decorative `.activity-go`
+  chevron. Never populate `.activity-value` with a sample number.
+- **Motion preference:** `src/lib/motion.ts` mirrors the theme contract. One key
+  `jelet:motion:v1` (`full` | `reduce`); the pre-paint script in `Site.astro`
+  sets `html[data-motion]`; the device's `prefers-reduced-motion` is the
+  default; `[data-motion-toggle]` is the control; `[data-motion-state]` and
+  `[data-motion-status]` are the word state and explanation;
+  `html[data-motion="reduce"]` disables transitions and smooth scrolling.
+  Storage-blocked browsers still get a working switch for the page.
+- **Status text:** `.settings-sub.visually-hidden[data-blocked="true"]` becomes
+  visible when storage is refused, so a limitation is never silent; otherwise
+  the explanation is available to assistive technology through
+  `aria-describedby` without adding a line the reference does not have.
+- **Shell measurement:** the phone tab bar is 24 px icons / 11.5 px labels with
+  no active pill, and `--tabbar-h` is 4.9 rem. Any page that scrolls to the
+  bottom must keep the footer above it (the keyboard/geometry test enforces
+  this).
+- **Screenshots:** `docs/phases/15-you/screenshots/` holds the 390×844 and
+  1280×900 light/dark captures, 320×700, 375×812 and the About-open state,
+  produced with the same `scripts/capture-screens.mjs` command documented in
+  §8.
+
+## 10. Phase 16 — the Papers screen contract
+
+- **Structure:** `.papers` is a 46 rem centred column; `.papers-title`,
+  `.papers-search` (a real form with `#paper-search`, labelled), `.papers-chips`
+  (a horizontally scrolling row of `.filter-chip` buttons with `aria-pressed`),
+  `.papers-list` of `.paper-card` items, `.papers-empty` and two plain
+  disclosures (`details.papers-more`, `details.papers-about`). The global
+  `details` card treatment is deliberately overridden for those two.
+- **Card:** `.paper-card` is positioned; `.paper-card-body` is the link (grid
+  areas year/title/provider/status/meta/match) with `aria-label={paper.label}`;
+  `.paper-bookmark` is a sibling 44 px button so a link never nests a button.
+  Below 23 rem the card becomes one column.
+- **URL state:** `q`, `year`, `key`, `subject` and `bookmarked` are mirrored
+  with `history.replaceState`/`URLSearchParams`; the page restores them on load.
+  Back from a reader therefore returns to the same filtered list.
+- **Bookmarks:** the toggle writes the existing IndexedDB store through
+  `readWorkspace`, `makeBookmark` and `writeWorkspace` using
+  `itemId = "paper:<paperId>"`; it never touches the resume slot or notes. A
+  blocked store disables the controls and leaves the links working.
+- **Search:** `#papers-search[data-index-url]` fetches `dist/search-index.json`
+  on the first two-character query only, expands the compact entries, and uses
+  the shared `matches()` function with type `question`. Matching question counts
+  are shown per card. While the index loads the list is left unfiltered and the
+  status says so; when the fetch fails (offline, not cached) the page filters on
+  paper identity only and says question search is unavailable.
+- **Statuses:** `StatusBadge` with `tone="official" | "derived" | "neutral"` and
+  the labels **Official key**, **Derived key**, **No published key**. Never
+  “Full/Partial/No Key”, and never colour alone.
+- **Accuracy caution:** the disclosure lives in `ContentCaution.astro`. The
+  layout renders it under the header for Practice and Review, and Papers passes
+  `caution="inline"` to render it itself after the chips and before the cards,
+  so the title and search field open the screen.
+
+## 11. Phase 17 — the practice result contract
+
+- **Where it lives:** the result is rendered into `[data-runner-results]` by
+  `renderResults()` in `src/lib/runner.ts` and replaces the question panes.
+  Once a paper is marked, `focusResult()` hides the sitting bar, the navigator
+  and the storage note, and the outcome scrolls into view; the page keeps its
+  route, header and history.
+- **Hero:** `.result-hero` holds a CSS-conic `.result-ring` (clamped 0–100,
+  value in `--result-value`), the exact `<b>` score inside `.score-hero`, the
+  written denominator, and the counts sentence as the **first `.micro`** —
+  existing tests read that node.
+- **Denominator:** `summarise()` runs over items whose status is not
+  `unmarked`; unmarkable questions are counted separately and excluded from
+  the maximum. Nothing is added to the maximum that could not be awarded.
+- **Statuses:** `Correct`, `Partial`, `Wrong`, `Blank`, `Board-awarded`,
+  `Not marked`, each with a glyph and a `.pill`; colour is never the only
+  signal. The old “Voided” wording is gone from the result.
+- **Rows:** `<details class="result-item" data-result-row="…">` keeps the row
+  count and adds a disclosure. The body shows category and marks, marked
+  option, key, `Marks awarded +1 of 1`, the explanation, the key tier and a
+  link to `library/<paper>/<#subject-…>` for the paper that actually holds the
+  question.
+- **Recorded result:** `restoreRecordedResult()` runs when the stored attempt
+  is already submitted. It renders the stored `results` and `responses`
+  without recalculating, keeps the key text out (and says so), and shows a
+  plain gap if the record has no saved result.
+- **Actions:** `[data-retry-wrong]` (a new attempt, `?retry=<attemptId>`, wrong
+  and blank only), a review-desk link, and a quiet back link. The original
+  attempt is never written to again.
+
+## 12. Phase 18 — the Practice chooser contract
+
+- **Structure:** `.practice-choose` holds the title, one sentence, the
+  `.mode-switch` (two `aria-pressed` buttons) and a live note. Two
+  `[data-mode-panel]` blocks follow: `independent` with five
+  `.practice-choice` links and `assisted` with the notebook quiz plus its four
+  subject links.
+- **Cards:** every card is an `<a>` with an icon tile, a bold title, one short
+  description and one **fact** line (real counts, marks or route identity).
+  There is no card for a mode that does not exist, and no promise of mastery or
+  a predicted score.
+- **Switch:** presentation only. `aria-pressed` marks the current mode, the
+  inactive panel is `hidden`, and the note changes to state what assistance
+  means. It never changes how anything is marked.
+- **No-JS:** the switch starts `hidden` in the markup and is revealed by the
+  script; a `<noscript>` rule shows both panels and keeps the dead switch out
+  of sight.
+- **Kept below:** the paper cards (with an `id="mocks"` heading, which an
+  existing ordering test reads), the drills, quiz links, revision notes, queue
+  card, original cards and the read-only years — so no earlier route moved or
+  disappeared.
+- **Icons:** `bolt`, `help` and `sliders` were added to the shared set for the
+  drill, single-question and mock cards; each still has text beside it.
